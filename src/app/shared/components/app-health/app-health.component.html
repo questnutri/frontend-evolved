@@ -1,0 +1,18 @@
+<div class="qn-app-health">
+  <div class="notice">QuestNutri is under development.</div>
+  <div class="microservice-label" style="margin-bottom: 10px;">
+    Microservice Status:
+  </div>
+  <div *ngIf="loading()" class="loading">Checking services...</div>
+  <div *ngIf="!loading()" class="services-list">
+    <div class="service-card" *ngFor="let s of statuses()">
+      <div class="service-status">
+        <span class="status-dot" [class.healthy]="s.healthy" [class.unhealthy]="!s.healthy"></span>
+        <span class="status-label" [class.healthy]="s.healthy" [class.unhealthy]="!s.healthy">
+          {{ s.healthy ? 'Online' : 'Offline' }}
+        </span>
+      </div>
+      <div class="service-name">{{ s.name | titlecase }}</div>
+    </div>
+  </div>
+</div>
