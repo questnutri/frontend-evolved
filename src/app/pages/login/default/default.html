@@ -1,0 +1,41 @@
+<div [style.padding]="'25px 25px 0'" [style.text-align]="'center'">
+    <h2 [style.color]="'white'" [style.font-size]="'22px'" [style.font-weight]="'600'" [style.margin]="'0'">
+        Login</h2>
+</div>
+
+<div [style.flex]="'1'" [style.padding]="'25px'" [style.display]="'flex'" [style.flex-direction]="'column'"
+    [style.justify-content]="'center'" [style.gap]="'20px'">
+
+    <div [style.position]="'relative'">
+        <input pInputText type="email" [(ngModel)]="emailInput" placeholder="E-mail*" [style.width]="'100%'"
+            [style.padding]="'16px 20px'" [style.border]="'none'" [style.border-radius]="'25px'"
+            [style.font-size]="'16px'" [style.background]="'rgba(255,255,255,0.9)'" [style.color]="'#333'"
+            [style.box-sizing]="'border-box'" [style.transition]="'all 0.3s ease'">
+    </div>
+
+    <div [style.position]="'relative'">
+        <p-password [(ngModel)]="passwordInput" placeholder="Senha*" [feedback]="false" [toggleMask]="true"
+            [inputStyle]="{
+                        width: '100%',
+                        padding: '16px 20px',
+                        paddingRight: '50px',
+                        border: 'none',
+                        borderRadius: '25px',
+                        fontSize: '16px',
+                        background: 'rgba(255,255,255,0.9)',
+                        color: '#333',
+                        boxSizing: 'border-box',
+                        transition: 'all 0.3s ease'
+                      }">
+        </p-password>
+    </div>
+
+    <a href="#" [style.color]="'white'" [style.text-decoration]="'none'" [style.font-size]="'14px'"
+        [style.text-align]="'center'" [style.opacity]="'0.9'" [style.transition]="'opacity 0.3s ease'" >Esqueci minha
+        senha</a>
+
+    <p-button label="Login" (onClick)="doLogin()" [style.width]="'100%'" [style.background]="'white'"
+        [style.color]="'#4a90e2'" [style.border]="'none'" [style.padding]="'16px 32px'" [style.border-radius]="'25px'"
+        [style.font-size]="'16px'" [style.font-weight]="'600'" [style.cursor]="'pointer'"
+        [style.transition]="'all 0.3s ease'"></p-button>
+</div>

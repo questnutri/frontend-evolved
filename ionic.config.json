@@ -1,0 +1,7 @@
+{
+  "name": "QuestNutri Mobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

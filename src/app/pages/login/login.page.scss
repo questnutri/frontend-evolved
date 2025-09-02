@@ -1,0 +1,326 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.login-container {
+  min-height: 100vh;
+  background: url('/assets/img/nutri-background.png') center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+  }
+}
+
+.login-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  display: flex;
+  width: 800px;
+  height: 500px;
+  max-width: 90vw;
+  position: relative;
+  z-index: 1;
+}
+
+.logo-section {
+  flex: 1;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: white;
+}
+
+.logo {
+  width: 280px;
+  height: auto;
+  object-fit: contain;
+  max-height: 220px;
+}
+
+.form-section {
+  flex: 1;
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .login-card {
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    min-height: auto;
+    height: auto;
+  }
+
+  .logo-section {
+    padding: 40px 20px 20px;
+  }
+
+  .logo {
+    width: 200px;
+  }
+}
+
+.login-container {
+  min-height: 100vh;
+  background: url('/img/nutri-background.png') center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+  }
+}
+
+.login-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  display: flex;
+  width: 700px;
+  height: 450px;
+  max-width: 90vw;
+  position: relative;
+  z-index: 1;
+}
+
+.logo-section {
+  flex: 1;
+  padding: 30px 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: white;
+}
+
+.logo {
+  width: 220px;
+  height: auto;
+  object-fit: contain;
+  max-height: 180px;
+}
+
+.form-section {
+  flex: 1;
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  max-width: 350px;
+}
+
+.form-header {
+  padding: 25px 25px 0;
+  text-align: center;
+  
+  h2 {
+    color: white;
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
+.form-content {
+  flex: 1;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.input-group {
+  position: relative;
+
+  ::ng-deep {
+    .p-inputtext {
+      width: 100%;
+      padding: 16px 20px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+
+      &::placeholder {
+        color: #666;
+        opacity: 1;
+      }
+
+      &:focus {
+        outline: none;
+        background: white;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+        border: none;
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.95);
+      }
+    }
+
+    .p-password {
+      width: 100%;
+      
+      .p-password-input {
+        width: 100%;
+        padding: 16px 20px;
+        padding-right: 50px;
+        border: none;
+        border-radius: 25px;
+        font-size: 16px;
+        background: rgba(255, 255, 255, 0.9);
+        color: #333;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+
+        &::placeholder {
+          color: #666;
+          opacity: 1;
+        }
+
+        &:focus {
+          outline: none;
+          background: white;
+          box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+          border: none;
+        }
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.95);
+        }
+      }
+
+      .p-password-toggle-icon {
+        color: #666;
+        right: 20px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: #333;
+        }
+      }
+
+      .p-password-panel {
+        display: none !important;
+      }
+    }
+  }
+}
+
+.forgot-password {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  text-align: center;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+}
+
+.login-btn {
+  margin-top: 8px;
+
+  ::ng-deep {
+    .p-button {
+      width: 100%;
+      background: white;
+      color: #4a90e2;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #f8f9fa !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        color: #4a90e2 !important;
+        border: none !important;
+      }
+
+      &:active {
+        transform: translateY(0) !important;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5) !important;
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .login-card {
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    min-height: auto;
+  }
+
+  .logo-section {
+    padding: 40px 20px 20px;
+  }
+
+  .logo {
+    width: 200px;
+  }
+
+  .form-header {
+    padding: 20px 20px 0;
+    
+    h2 {
+      font-size: 20px;
+    }
+  }
+
+  .form-content {
+    padding: 30px 20px 40px;
+  }
+}
