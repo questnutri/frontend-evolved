@@ -1,5 +1,10 @@
-<p
-[ngStyle]="styles()"
->
-  qn-button works!
-</p>
+<div [ngStyle]="divStyle()">
+    <p-button
+        [label]="label()"
+        [ngStyle]="buttonStyle()"
+        fluid
+        [severity]="colorButton()"
+        [disabled]="disabled()"
+        [loading]="loading()"
+    />
+</div>

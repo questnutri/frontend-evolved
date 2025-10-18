@@ -1,14 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, input, model } from '@angular/core';
+import { InputTextModule } from 'primeng/inputtext';
+import { FormsModule } from '@angular/forms';
+import { FloatLabel } from 'primeng/floatlabel';
 
 @Component({
-  selector: 'app-qn-text-input',
-  templateUrl: './qn-text-input.component.html',
-  styleUrls: ['./qn-text-input.component.scss'],
+    selector: 'app-qn-text-input',
+    templateUrl: './qn-text-input.component.html',
+    styleUrls: ['./qn-text-input.component.scss'],
+    imports: [InputTextModule, FormsModule, FloatLabel]
 })
-export class QnTextInputComponent  implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {}
+export class QnTextInputComponent {
+    value = model<string>('')
+    label = input<string>('')
+    placeholder = input<string>('')
+    autocomplete = input<boolean>(false)
+    disabled = input<boolean>(false)
+    labelPosition = input<'over' | 'in' | 'on'>('on')
+    type = input<"text" | "email">('text')
+    fontSize = input<'small' | 'large' | undefined>(undefined)
 
 }

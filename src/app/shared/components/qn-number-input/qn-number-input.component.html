@@ -1,3 +1,13 @@
-<p>
-  qn-number-input works!
-</p>
+<p-float-label [variant]="labelPosition()">
+    <p-inputnumber
+        [(ngModel)]="value"
+        [prefix]="prefix()"
+        [suffix]="suffix()"
+        [disabled]="disabled()"
+        [showClear]="clear()"
+        [size]="fontSize()"
+        
+        fluid
+    />
+    <label>{{ label() }}</label>
+</p-float-label>

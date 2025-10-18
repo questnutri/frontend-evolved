@@ -1,3 +1,18 @@
-<p>
-  qn-text-input works!
-</p>
+<p-floatlabel [variant]="labelPosition()">
+    <label>{{ label() }}</label>
+
+    <input
+        pInputText
+        [type]="type()"
+        [(ngModel)]="value"
+        [autocomplete]="autocomplete()"
+        [size]="fontSize()"
+        fluid
+        [disabled]="disabled()"
+        [placeholder]="placeholder()"
+    />
+
+    <!-- <small id="username-help"
+        >Enter your username to reset your password.</small
+    > -->
+</p-floatlabel>

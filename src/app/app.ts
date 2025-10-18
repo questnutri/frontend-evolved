@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -16,7 +16,8 @@ import { AuthService } from './services/auth/auth.service';
     imports: [
         IonicModule,
         RouterLink,
-        GlobalToastComponent
+        GlobalToastComponent,
+        RouterOutlet
     ],
     providers: [MessageService]
 })

@@ -1,16 +1,56 @@
 import { CommonModule } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
     selector: 'qn-button',
     templateUrl: './qn-button.component.html',
     styleUrls: ['./qn-button.component.scss'],
     imports: [
-        CommonModule
+        CommonModule,
+        ButtonModule
     ],
 })
 export class QnButtonComponent {
-    styles = input<any>({
-        background: "var(--primary-color)"
+
+    label = input.required<string>()
+    colorStyle = input<'blue' | 'gray'>('blue')
+    width = input<string>('100%')
+    widthDiv = input<string>('100%')
+    disabled = input<boolean>(false)
+    loading = input<boolean>(false)
+    icon = input<string>();
+    style = input<{ [klass: string]: any } | undefined>();
+    click = output<Event>();
+
+    colorButton = computed(() => {
+        return this.colorStyle() === 'blue' ? 'primary' : 'secondary'
     })
+
+    buttonStyle = computed(() => {
+        const baseStyle = {
+            width: this.width(),
+            fontWeight: '600',
+            border: 'none',
+            ...this.style(),
+        };
+
+        return baseStyle
+
+    });
+    divStyle = computed(() => {
+        const divStyle = {
+            display: 'flex',
+            justifyContent: 'center',
+            width: this.widthDiv(),
+            ...this.style(),
+        };
+
+        return divStyle
+
+    });
+
+    handleClick(event: Event) {
+        if (!this.disabled()) this.click.emit(event);
+    }
 }
