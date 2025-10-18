@@ -14,7 +14,8 @@ export class QnPasswordInputComponent {
     value = model<string>('')
     showPassword = input<boolean>(false)
     label = input<string>('')
-    labelPosition = input<'over' | 'in' | 'on'>('on')
+    placeholder = input<string>('')
+    labelPosition = input<'over' | 'in' | 'on'>('over')
     disabled = input<boolean>(false)
     fontSize = input<'small' | 'large' | undefined>(undefined)
 }

@@ -12,6 +12,7 @@ import { QnButtonComponent } from 'src/app/shared/components/qn-button/qn-button
 import { QnTextInputComponent } from 'src/app/shared/components/qn-text-input/qn-text-input.component';
 import { navigate } from 'ionicons/icons';
 import { NavController } from '@ionic/angular';
+import { QnTextAreaComponent } from "src/app/shared/components/qn-text-area/qn-text-area.component";
 
 @Component({
     selector: 'app-login-default-page',
@@ -21,9 +22,10 @@ import { NavController } from '@ionic/angular';
         PasswordModule,
         ButtonModule,
         QnPasswordInputComponent,
-        QnNumberInputComponent,
+        // QnNumberInputComponent,
         QnButtonComponent,
-        QnTextInputComponent
+        QnTextInputComponent,
+        QnTextAreaComponent,
     ],
     templateUrl: './default.html',
     styleUrl: './default.scss'

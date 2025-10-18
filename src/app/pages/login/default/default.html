@@ -17,25 +17,10 @@
     [style.justify-content]="'center'"
     [style.gap]="'20px'"
 >
-    <!-- <div [style.position]="'relative'">
-        <input
-            pInputText
-            type="email"
-            [(ngModel)]="emailInput"
-            placeholder="E-mail*"
-            [style.width]="'100%'"
-            [style.padding]="'16px 20px'"
-            [style.border]="'none'"
-            [style.border-radius]="'25px'"
-            [style.font-size]="'16px'"
-            [style.background]="'rgba(255,255,255,0.9)'"
-            [style.color]="'#333'"
-            [style.box-sizing]="'border-box'"
-            [style.transition]="'all 0.3s ease'"
-        />
-    </div> -->
-    <app-qn-text-input type="email" [(value)]="emailInput" labelPosition="in" />
-    <app-qn-password-input labelPosition="in" [(value)]="passwordInput" />
+    <app-qn-text-input type="email" [(value)]="emailInput" label="E-mail" />
+    <app-qn-password-input [(value)]="passwordInput" label="Password" />
+
+    <app-qn-text-area label="Texto"></app-qn-text-area>
 
     <!-- <app-qn-number-input label="Teste" labelPosition="in" /> -->
 

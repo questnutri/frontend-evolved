@@ -12,7 +12,10 @@
         [placeholder]="placeholder()"
     />
 
-    <!-- <small id="username-help"
-        >Enter your username to reset your password.</small
-    > -->
+    @if (showMessageHelp()) {
+
+    <small id="message-help">
+        {{ messageHelp() }}
+    </small>
+    }
 </p-floatlabel>

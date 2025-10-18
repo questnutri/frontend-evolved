@@ -1,3 +1,23 @@
-<p>
-  qn-text-area works!
-</p>
+<p-floatlabel [variant]="labelPosition()">
+    <label>{{ label() }}</label>
+
+    <textarea
+        pTextarea
+        [(ngModel)]="value"
+        [autocomplete]="autocomplete()"
+        [pSize]="fontSize()"
+        fluid
+        [disabled]="disabled()"
+        [placeholder]="placeholder()"
+        rows="5"
+        cols="30"
+        [autoResize]="false"
+    ></textarea>
+
+    @if (showMessageHelp()) {
+
+    <small id="message-help">
+        {{ messageHelp() }}
+    </small>
+    }
+</p-floatlabel>

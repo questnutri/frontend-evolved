@@ -15,8 +15,12 @@ export class QnTextInputComponent {
     placeholder = input<string>('')
     autocomplete = input<boolean>(false)
     disabled = input<boolean>(false)
-    labelPosition = input<'over' | 'in' | 'on'>('on')
+    labelPosition = input<'over' | 'in' | 'on'>('over')
     type = input<"text" | "email">('text')
     fontSize = input<'small' | 'large' | undefined>(undefined)
+    showMessageHelp = input<boolean>(false)
+    messageHelp = input<string>('')
 
 }
+
+
