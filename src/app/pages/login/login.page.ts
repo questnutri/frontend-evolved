@@ -8,16 +8,18 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+import { QnLoading } from "src/app/shared/components/loading/loading.component";
 
 @Component({
     selector: 'app-login',
     imports: [
-        LoginDefaultPage,
-        FormsModule,
-        InputTextModule,
-        PasswordModule,
-        ButtonModule
-    ],
+    LoginDefaultPage,
+    FormsModule,
+    InputTextModule,
+    PasswordModule,
+    ButtonModule,
+    QnLoading
+],
     templateUrl: './login.page.html',
     providers: []
 })

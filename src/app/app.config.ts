@@ -8,6 +8,9 @@ import { IonicRouteStrategy } from '@ionic/angular';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 
+import { provideLottieOptions } from 'ngx-lottie';
+import player from "lottie-web";
+
 export const appConfig: ApplicationConfig = {
     providers: [
         provideBrowserGlobalErrorListeners(),
@@ -21,6 +24,9 @@ export const appConfig: ApplicationConfig = {
             theme: {
                 preset: Aura
             }
+        }),
+        provideLottieOptions({
+            player: () => player
         })
     ]
 };
