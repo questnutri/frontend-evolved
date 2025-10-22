@@ -1,8 +1,7 @@
 <p-floatlabel [variant]="labelPosition()">
-    <label>{{ label() }}</label>
-
     <textarea
         pTextarea
+        style="resize: none"
         [(ngModel)]="value"
         [autocomplete]="autocomplete()"
         [pSize]="fontSize()"
@@ -12,7 +11,11 @@
         rows="5"
         cols="30"
         [autoResize]="false"
+        (mouseenter)="onMouseEnter()"
+        (mouseleave)="onMouseLeave()"
+        [style]="{ width: width(), cursor: cursor() }"
     ></textarea>
+    <label>{{ label() }}</label>
 
     @if (showMessageHelp()) {
 

@@ -2,6 +2,7 @@ import { Component, input, model } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
+import { QnComponent } from '../qn-component/qn-component.abstract';
 
 @Component({
     selector: 'app-qn-text-input',
@@ -9,7 +10,7 @@ import { FloatLabel } from 'primeng/floatlabel';
     styleUrls: ['./qn-text-input.component.scss'],
     imports: [InputTextModule, FormsModule, FloatLabel]
 })
-export class QnTextInputComponent {
+export class QnTextInputComponent extends QnComponent {
     value = model<string>('')
     label = input<string>('')
     placeholder = input<string>('')

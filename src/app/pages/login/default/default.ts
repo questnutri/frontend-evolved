@@ -1,18 +1,14 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from '../../../services/auth/auth.service';
-import { NotificationService } from '../../../services/notification/notification.service';
+import { NavController } from '@ionic/angular';
+import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { ButtonModule } from 'primeng/button';
-import { QnPasswordInputComponent } from 'src/app/shared/components/qn-password-input/qn-password-input.component';
-import { QnNumberInputComponent } from 'src/app/shared/components/qn-number-input/qn-number-input.component';
 import { QnButtonComponent } from 'src/app/shared/components/qn-button/qn-button.component';
+import { QnPasswordInputComponent } from 'src/app/shared/components/qn-password-input/qn-password-input.component';
 import { QnTextInputComponent } from 'src/app/shared/components/qn-text-input/qn-text-input.component';
-import { navigate } from 'ionicons/icons';
-import { NavController } from '@ionic/angular';
-import { QnTextAreaComponent } from "src/app/shared/components/qn-text-area/qn-text-area.component";
+import { AuthService } from '../../../services/auth/auth.service';
+import { NotificationService } from '../../../services/notification/notification.service';
 
 @Component({
     selector: 'app-login-default-page',
@@ -22,10 +18,9 @@ import { QnTextAreaComponent } from "src/app/shared/components/qn-text-area/qn-t
         PasswordModule,
         ButtonModule,
         QnPasswordInputComponent,
-        // QnNumberInputComponent,
         QnButtonComponent,
         QnTextInputComponent,
-        QnTextAreaComponent,
+
     ],
     templateUrl: './default.html',
     styleUrl: './default.scss'
@@ -54,5 +49,4 @@ export class LoginDefaultPage {
             this.router.navigateRoot(res.redirect)
         }
     }
-
 }

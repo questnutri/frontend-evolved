@@ -1,3 +1,13 @@
-<p>
-  qn-drop-down works!
-</p>
+<p-float-label>
+    <p-select
+        [placeholder]="placeholder()"
+        [options]="options()"
+        [(ngModel)]="value"
+        fluid
+        [disabled]="disabled()"
+        (mouseenter)="onMouseEnter()"
+        (mouseleave)="onMouseLeave()"
+        [style]="{ width: width(), cursor: cursor() }"
+    />
+    <label>{{ label() }}</label>
+</p-float-label>

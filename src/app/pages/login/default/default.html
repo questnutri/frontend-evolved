@@ -20,20 +20,12 @@
     <app-qn-text-input type="email" [(value)]="emailInput" label="E-mail" />
     <app-qn-password-input [(value)]="passwordInput" label="Password" />
 
-    <app-qn-text-area label="Texto"></app-qn-text-area>
+    <a href="#" class="forgot-password">Esqueci minha senha</a>
 
-    <!-- <app-qn-number-input label="Teste" labelPosition="in" /> -->
-
-    <a
-        href="#"
-        [style.color]="'white'"
-        [style.text-decoration]="'none'"
-        [style.font-size]="'14px'"
-        [style.text-align]="'center'"
-        [style.opacity]="'0.9'"
-        [style.transition]="'opacity 0.3s ease'"
-        >Esqueci minha senha</a
-    >
-
-    <qn-button label="Login" (click)="doLogin()" />
+    <qn-button
+        label="Login"
+        (click)="doLogin()"
+        width="100%"
+        cursor="pointer"
+    />
 </div>

@@ -2,6 +2,7 @@ import { Component, input, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
 import { TextareaModule } from 'primeng/textarea';
+import { QnComponent } from '../qn-component/qn-component.abstract';
 
 @Component({
     selector: 'app-qn-text-area',
@@ -10,7 +11,7 @@ import { TextareaModule } from 'primeng/textarea';
 
     imports: [TextareaModule, FormsModule, FloatLabel]
 })
-export class QnTextAreaComponent {
+export class QnTextAreaComponent extends QnComponent {
 
     value = model<string>('')
     label = input<string>('')

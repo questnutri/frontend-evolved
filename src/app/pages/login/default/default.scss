@@ -1,0 +1,14 @@
+.forgot-password {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    text-align: center;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+        opacity: 1;
+        text-decoration: underline;
+        transition: all 0.3s ease;
+    }
+}

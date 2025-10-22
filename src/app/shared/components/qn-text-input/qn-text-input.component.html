@@ -10,6 +10,9 @@
         fluid
         [disabled]="disabled()"
         [placeholder]="placeholder()"
+        (mouseenter)="onMouseEnter()"
+        (mouseleave)="onMouseLeave()"
+        [style]="{ width: width(), cursor: cursor() }"
     />
 
     @if (showMessageHelp()) {

@@ -1,13 +1,18 @@
 <p-float-label [variant]="labelPosition()">
     <p-inputnumber
         [(ngModel)]="value"
-        [prefix]="prefix()"
-        [suffix]="suffix()"
+        [prefix]="prefixStandardized()"
+        [suffix]="suffixStandardized()"
         [disabled]="disabled()"
         [showClear]="clear()"
         [size]="fontSize()"
-        
         fluid
+        [minFractionDigits]="minFractionDigitsComputed()"
+        [maxFractionDigits]="maxFractionDigitsComputed()"
+        [useGrouping]="thousendDivisor()"
+        (mouseenter)="onMouseEnter()"
+        (mouseleave)="onMouseLeave()"
+        [style]="{ width: width(), cursor: cursor() }"
     />
     <label>{{ label() }}</label>
 </p-float-label>

@@ -6,5 +6,9 @@
         [severity]="colorButton()"
         [disabled]="disabled()"
         [loading]="loading()"
+        (mouseenter)="onMouseEnter()"
+        (mouseleave)="onMouseLeave()"
+        [style]="{ width: width(), cursor: cursor() }"
+        [raised]="true"
     />
 </div>

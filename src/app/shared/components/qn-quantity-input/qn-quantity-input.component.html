@@ -1,3 +1,19 @@
-<p>
-  qn-quantity-input works!
-</p>
+<p-inputnumber
+    [(ngModel)]="value"
+    [showButtons]="true"
+    buttonLayout="horizontal"
+    spinnerMode="horizontal"
+    [min]="0"
+    [max]="1000"
+    fluid
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+    [style]="{ width: width(), cursor: cursor() }"
+>
+    <ng-template #incrementbuttonicon>
+        <span class="pi pi-plus" style="color: white"></span>
+    </ng-template>
+    <ng-template #decrementbuttonicon>
+        <span class="pi pi-minus"></span>
+    </ng-template>
+</p-inputnumber>

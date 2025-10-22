@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, input, output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
+import { QnComponent } from '../qn-component/qn-component.abstract';
 
 @Component({
     selector: 'qn-button',
@@ -11,11 +12,10 @@ import { ButtonModule } from 'primeng/button';
         ButtonModule
     ],
 })
-export class QnButtonComponent {
+export class QnButtonComponent extends QnComponent {
 
     label = input.required<string>()
     colorStyle = input<'blue' | 'gray'>('blue')
-    width = input<string>('100%')
     widthDiv = input<string>('100%')
     disabled = input<boolean>(false)
     loading = input<boolean>(false)

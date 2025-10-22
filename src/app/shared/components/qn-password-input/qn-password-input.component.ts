@@ -2,6 +2,7 @@ import { Component, input, model, signal } from '@angular/core';
 import { PasswordModule } from 'primeng/password';
 import { FormsModule } from '@angular/forms';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { QnComponent } from '../qn-component/qn-component.abstract';
 
 @Component({
     selector: 'app-qn-password-input',
@@ -9,7 +10,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     styleUrls: ['./qn-password-input.component.scss'],
     imports: [PasswordModule, FormsModule, FloatLabelModule]
 })
-export class QnPasswordInputComponent {
+export class QnPasswordInputComponent extends QnComponent {
 
     value = model<string>('')
     showPassword = input<boolean>(false)
