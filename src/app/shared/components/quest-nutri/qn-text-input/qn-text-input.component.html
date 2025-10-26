@@ -1,0 +1,16 @@
+@if(label()) {
+    <label [for]="id">{{ label() }}</label>
+}
+<input
+    [id]="passId()"
+    pInputText
+    fluid
+    [(ngModel)]="value"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+    [placeholder]="placeholder()"
+    [disabled]="disabled()"
+    
+    [style.width]="width()"
+    [style.cursor]="cursor()"
+/>

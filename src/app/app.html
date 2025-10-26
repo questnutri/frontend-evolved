@@ -1,4 +1,4 @@
-<ion-app>
+<!-- <ion-app>
     <ion-split-pane contentId="main-content">
         <ion-menu contentId="main-content" type="overlay">
             <ion-content>
@@ -15,7 +15,6 @@
                             detail="false"
                             routerLinkActive="selected"
                         >
-                            <!-- <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon> -->
                             <ion-label>{{ p.title }}</ion-label>
                         </ion-item>
                     </ion-menu-toggle>
@@ -27,7 +26,6 @@
 
                     @for (label of labels; track label) {
                     <ion-item lines="none">
-                        <!-- <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon> -->
                         <ion-label>{{ label }}</ion-label>
                     </ion-item>
                     }
@@ -37,8 +35,9 @@
                 </ion-list>
             </ion-content>
         </ion-menu>
-        <!-- <ion-router-outlet id="main-content"></ion-router-outlet> -->
-        <router-outlet></router-outlet>
     </ion-split-pane>
-</ion-app>
+</ion-app> -->
+<!-- <ion-router-outlet id="main-content"></ion-router-outlet> -->
+
 <app-global-toast />
+<router-outlet></router-outlet>

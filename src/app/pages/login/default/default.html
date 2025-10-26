@@ -17,8 +17,16 @@
     [style.justify-content]="'center'"
     [style.gap]="'20px'"
 >
-    <app-qn-text-input type="email" [(value)]="emailInput" label="E-mail" />
-    <app-qn-password-input [(value)]="passwordInput" label="Password" />
+    <qn-text-input 
+        type="email" 
+        [(value)]="emailInput" 
+        qnLabel-white="E-mail"
+        />
+
+    <qn-password-input 
+        [(value)]="passwordInput"
+        qnLabel-white="Senha"
+        />
 
     <a href="#" class="forgot-password">Esqueci minha senha</a>
 

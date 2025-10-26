@@ -17,7 +17,7 @@ import { AuthService } from './services/auth/auth.service';
         IonicModule,
         RouterLink,
         GlobalToastComponent,
-        RouterOutlet
+        RouterOutlet,
     ],
     providers: [MessageService]
 })

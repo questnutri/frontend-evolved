@@ -4,11 +4,15 @@ import { NavController } from '@ionic/angular';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { QnButtonComponent } from 'src/app/shared/components/qn-button/qn-button.component';
-import { QnPasswordInputComponent } from 'src/app/shared/components/qn-password-input/qn-password-input.component';
-import { QnTextInputComponent } from 'src/app/shared/components/qn-text-input/qn-text-input.component';
+import { 
+    QnButtonComponent,
+    QnTextInputComponent,
+} from '@qn/components';
 import { AuthService } from '../../../services/auth/auth.service';
 import { NotificationService } from '../../../services/notification/notification.service';
+import { QnPasswordInputComponent } from 'src/app/shared/components/qn-password-input/qn-password-input.component';
+import { QnLabelDirective } from 'src/app/shared/directives/qn/qn-label/qn-label.directive';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
     selector: 'app-login-default-page',
@@ -20,7 +24,7 @@ import { NotificationService } from '../../../services/notification/notification
         QnPasswordInputComponent,
         QnButtonComponent,
         QnTextInputComponent,
-
+        QnLabelDirective
     ],
     templateUrl: './default.html',
     styleUrl: './default.scss'
@@ -32,6 +36,8 @@ export class LoginDefaultPage {
 
     emailInput = signal<string>('');
     passwordInput = signal<string>('');
+
+    value1 = signal<string>('');
 
     constructor() {
         // effect(() => {

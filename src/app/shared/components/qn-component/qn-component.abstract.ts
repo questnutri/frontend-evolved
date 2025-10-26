@@ -2,7 +2,7 @@ import { Directive, model, OnInit, output } from '@angular/core';
 @Directive({})
 export abstract class QnComponent implements OnInit {
     width = model<string | undefined>();
-    cursor = model<string>('default');
+    cursor = model<string>();
     isHovered = model<boolean>(false);
     onHover = output<void>();
     constructor() { }
@@ -20,4 +20,7 @@ export abstract class QnComponent implements OnInit {
         this.onHover.emit();
     }
 
+    generateRandomId() {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    }
 }

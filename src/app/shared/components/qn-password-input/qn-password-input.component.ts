@@ -5,7 +5,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { QnComponent } from '../qn-component/qn-component.abstract';
 
 @Component({
-    selector: 'app-qn-password-input',
+    selector: 'qn-password-input',
     templateUrl: './qn-password-input.component.html',
     styleUrls: ['./qn-password-input.component.scss'],
     imports: [PasswordModule, FormsModule, FloatLabelModule]

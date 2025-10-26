@@ -14,6 +14,10 @@
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
+    "paths": {
+      "@styles": ["src/app/app.scss"],
+      "@qn/components": ["src/app/shared/components/quest-nutri/index"],
+    },
   "moduleResolution": "nodenext",
     "importHelpers": true,
   "target": "es2022",

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, input, output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { QnComponent } from '../qn-component/qn-component.abstract';
+import { QnComponent } from '../../qn-component/qn-component.abstract';
 
 @Component({
     selector: 'qn-button',
