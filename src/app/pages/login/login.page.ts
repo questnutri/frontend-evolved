@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { QnLoading } from "src/app/shared/components/loading/loading.component";
+import { QnLoadingComponent } from '@qn/components/basic';
 
 @Component({
     selector: 'app-login',
@@ -18,7 +18,7 @@ import { QnLoading } from "src/app/shared/components/loading/loading.component";
     InputTextModule,
     PasswordModule,
     ButtonModule,
-    QnLoading
+    QnLoadingComponent
 ],
     templateUrl: './login.page.html',
     providers: []

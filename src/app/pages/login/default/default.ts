@@ -4,15 +4,21 @@ import { NavController } from '@ionic/angular';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+
 import { 
     QnButtonComponent,
     QnTextInputComponent,
-} from '@qn/components';
-import { AuthService } from '../../../services/auth/auth.service';
-import { NotificationService } from '../../../services/notification/notification.service';
-import { QnPasswordInputComponent } from 'src/app/shared/components/qn-password-input/qn-password-input.component';
-import { QnLabelDirective } from 'src/app/shared/directives/qn/qn-label/qn-label.directive';
-import { FloatLabelModule } from 'primeng/floatlabel';
+    QnPasswordInputComponent
+} from '@qn/components/basic';
+
+import { 
+    AuthService,
+    NotificationService
+} from '@qn/services';
+
+import { 
+    QnLabelDirective
+} from '@qn/directives';
 
 @Component({
     selector: 'app-login-default-page',

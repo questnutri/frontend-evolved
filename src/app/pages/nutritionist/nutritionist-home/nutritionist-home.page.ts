@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { NotificationService } from '../../../services/notification/notification.service';
 import { DeviceService } from '../../../services/device/device.service';
-import { QnTextInputComponent } from '@qn/components';
+import { QnTextInputComponent } from '@qn/components/basic';
 
 @Component({
     selector: 'app-nutritionist-home',

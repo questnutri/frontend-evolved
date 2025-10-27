@@ -16,7 +16,13 @@
     "experimentalDecorators": true,
     "paths": {
       "@styles": ["src/app/app.scss"],
-      "@qn/components": ["src/app/shared/components/quest-nutri/index"],
+      "@qn/components": ["src/app/shared/components/index"],
+      "@qn/components/basic": ["src/app/shared/components/basic/index"],
+      "@qn/components/core": ["src/app/shared/components/core/index"],
+      "@qn/components/abstracts/*": ["src/app/shared/components/abstracts/*"],
+      "@qn/styles": ["src/app/app.scss"],
+      "@qn/services": ["src/app/services"],
+      "@qn/directives": ["src/app/shared/directives"]
     },
   "moduleResolution": "nodenext",
     "importHelpers": true,

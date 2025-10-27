@@ -6,6 +6,7 @@ import { PatientPage } from './pages/patient/patient.page';
 import { NutritionistHomePage } from './pages/nutritionist/nutritionist-home/nutritionist-home.page';
 import { PatientHomePage } from './pages/patient/patient-home/patient-home.page';
 import { App } from './app';
+import { PreviewPage } from './pages/preview.page';
 
 export const routes: Routes = [
     {

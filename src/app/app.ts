@@ -4,9 +4,10 @@ import { IonicModule } from '@ionic/angular';
 import { IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { mail, paperPlane, heart, archive, trash, warning } from "ionicons/icons";
-import { GlobalToastComponent } from "./shared/components/global-toast/global-toast.component";
 import { MessageService } from 'primeng/api';
 import { AuthService } from './services/auth/auth.service';
+
+import { QnGlobalToastComponent, QnLayoutComponent } from '@qn/components/core';
 
 
 @Component({
@@ -14,11 +15,12 @@ import { AuthService } from './services/auth/auth.service';
     templateUrl: 'app.html',
     styleUrl: 'app.scss',
     imports: [
-        IonicModule,
-        RouterLink,
-        GlobalToastComponent,
-        RouterOutlet,
-    ],
+    IonicModule,
+    RouterLink,
+    QnGlobalToastComponent,
+    RouterOutlet,
+    QnLayoutComponent
+],
     providers: [MessageService]
 })
 export class App {
