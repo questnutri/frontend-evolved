@@ -1,22 +1,16 @@
-import { Component, input, model, signal } from '@angular/core';
-import { PasswordModule } from 'primeng/password';
+import { Component, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { QnComponent } from '@qn/components/abstracts/qn-component.abstract';
+import { PasswordModule } from 'primeng/password';
+import { QnTextInputComponent } from '../qn-text-input/qn-text-input.component';
+import { QnDiv } from "../../qn-div/qn-div";
 
 @Component({
     selector: 'qn-password-input',
     templateUrl: './qn-password-input.component.html',
     styleUrls: ['./qn-password-input.component.scss'],
-    imports: [PasswordModule, FormsModule, FloatLabelModule]
+    imports: [PasswordModule, FormsModule, FloatLabelModule, QnDiv]
 })
-export class QnPasswordInputComponent extends QnComponent {
-
-    value = model<string>('')
-    showPassword = input<boolean>(false)
-    label = input<string>('')
-    placeholder = input<string>('')
-    labelPosition = input<'over' | 'in' | 'on'>('over')
-    disabled = input<boolean>(false)
-    fontSize = input<'small' | 'large' | undefined>(undefined)
+export class QnPasswordInputComponent extends QnTextInputComponent {
+    showPassword = input<boolean>(true)
 }

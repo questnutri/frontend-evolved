@@ -1,30 +1,27 @@
-import { Component, computed, input, model } from '@angular/core';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { IftaLabelModule } from 'primeng/iftalabel';
+import { Component, computed, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { QnInput } from '@qn/components/abstracts/qn-input.abstract';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { QnComponent } from '@qn/components/abstracts/qn-component.abstract';
+import { IftaLabelModule } from 'primeng/iftalabel';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { QnDiv } from '@qn/components/basic'
 
 @Component({
-    selector: 'app-qn-number-input',
+    selector: 'qn-number-input',
     templateUrl: './qn-number-input.component.html',
     styleUrls: ['./qn-number-input.component.scss'],
-    imports: [InputNumberModule, FormsModule, FloatLabelModule, IftaLabelModule]
+    imports: [InputNumberModule, FormsModule, FloatLabelModule, IftaLabelModule, QnDiv]
 })
-export class QnNumberInputComponent extends QnComponent {
-    value = model<number>()
-    showPassword = input<boolean>(false)
-    label = input<string>('')
-    labelPosition = input<'over' | 'in' | 'on'>('over')
+export class QnNumberInputComponent extends QnInput<number> {
     mode = input<'decimal' | undefined>(undefined)
     minFractionDigits = input<number>(2)
     maxFractionDigits = input<number>(2)
-    disabled = input<boolean>(false)
     clear = input<boolean>(false)
     thousendDivisor = input<boolean>(true)
-    fontSize = input<'small' | 'large' | undefined>(undefined)
     suffix = input<string | undefined>(undefined)
     prefix = input<string | undefined>(undefined)
+    min = input<number>(0)
+    max = input<number>(100)
 
     minFractionDigitsComputed = computed(() => {
         return this.mode() !== undefined ? this.minFractionDigits() : undefined

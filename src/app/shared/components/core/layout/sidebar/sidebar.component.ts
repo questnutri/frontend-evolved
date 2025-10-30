@@ -1,10 +1,10 @@
 import { Component, inject, input } from "@angular/core";
-import { IonRouterOutlet } from "@ionic/angular/standalone";
-import { IonMenu } from "@ionic/angular/standalone";
+import { IonMenu, IonRouterOutlet, IonFooter, IonHeader, IonContent } from "@ionic/angular/standalone";
+import { QnButtonComponent, QnDiv } from "@qn/components/basic";
+import { DeviceService } from "@qn/services";
 import { MenuItem } from "primeng/api";
 import { MenuModule } from "primeng/menu";
 import { AuthService } from "src/app/services/auth/auth.service";
-
 
 
 @Component({
@@ -12,44 +12,66 @@ import { AuthService } from "src/app/services/auth/auth.service";
     imports: [
         IonRouterOutlet,
         IonMenu,
-        MenuModule
+        MenuModule,
+        QnDiv,
+        QnButtonComponent,
+        IonFooter,
+        IonHeader,
+        IonContent
     ],
     template: `
-        @if(authService.isLogged()) {    
-            <ion-menu side="start" menuId="main-menu" contentId="main-content">
-                <div class="flex flex-col h-full bg-surface-100 dark:bg-surface-900 text-surface-700 dark:text-surface-0">
-                    <div class="p-4 flex items-center justify-between border-b border-surface-200 dark:border-surface-700">
-                        <h2 class="text-lg font-semibold">QuestNutri</h2>
-                        <button pButton icon="pi pi-times" class="p-button-text" (click)="closeMenu()"></button>
-                    </div>
-                    <div class="flex-1 overflow-y-auto">
-                        <p-menu [model]="items()" styleClass="border-none shadow-none bg-transparent"></p-menu>
-                    </div>
-                    <div class="p-4 border-t border-surface-200 dark:border-surface-700">
-                        <button pButton label="Logout" icon="pi pi-sign-out" class="w-full p-button-danger" (click)="logout()"></button>
-                    </div>
-                </div>
+        @if(authService.isLogged()) {
+            <ion-menu side="start" menuId="main-menu" contentId="main-content" class="custom-sidebar">
+                <ion-header class="ion-no-border">
+                    @if(!deviceService.isMobileSize()){
+                        <qn-div flex justifyContent="center" alignItems="center" padding="16px" >
+                            <img src="/img/qn-fit-inversed.png" alt="QuestNutri Logo" width='100px'/>
+                        </qn-div>
+                    }
+                    @if(deviceService.isMobileSize()) {
+                        <qn-div flex-column center padding="16px" color="var(--primary-color)">
+                            <div class="user-avatar">
+                                <img src="/img/default-avatar.png" alt="User Avatar" />
+                            </div>
+                            <span class="user-name">LUCAS</span>
+                        </qn-div>
+                    }
+                </ion-header>
+                <ion-content class="ion-no-border">
+                    <qn-div fill overflow="auto" border='none'>
+                        <p-menu [model]="items()" styleClass="sidebar-menu"></p-menu>
+                    </qn-div>
+                </ion-content>
+                <ion-footer class="ion-no-border">
+                    <qn-div padding="16px" >
+                        <qn-button
+                            label="Logout"
+                            icon="pi pi-sign-out"
+                            (click)="authService.logout()"
+                            styleClass="w-full">
+                        </qn-button>
+                    </qn-div>
+                </ion-footer>
             </ion-menu>
-        
-            <div id="main-content" class="h-full">
+
+            <qn-div id="main-content" fill>
                 <ion-router-outlet></ion-router-outlet>
-            </div>
+            </qn-div>
         }
     `,
+
     styles: `
         @use '../../../../../app.scss';
+
     `
 })
 export class QnSidebarComponent {
     protected readonly authService = inject(AuthService);
+    readonly deviceService = inject(DeviceService);
     items = input.required<MenuItem[]>();
 
     closeMenu() {
         const menu = document.querySelector('ion-menu');
         if (menu) (menu as any).close();
-    }
-
-    logout() {
-        console.log('Logout');
     }
 }

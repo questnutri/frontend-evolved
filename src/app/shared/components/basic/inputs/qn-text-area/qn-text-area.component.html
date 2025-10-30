@@ -1,26 +1,16 @@
-<p-floatlabel [variant]="labelPosition()">
-    <textarea
-        pTextarea
-        style="resize: none"
-        [(ngModel)]="value"
-        [autocomplete]="autocomplete()"
-        [pSize]="fontSize()"
-        fluid
-        [disabled]="disabled()"
-        [placeholder]="placeholder()"
-        rows="5"
-        cols="30"
-        [autoResize]="false"
-        (mouseenter)="onMouseEnter()"
-        (mouseleave)="onMouseLeave()"
-        [style]="{ width: width(), cursor: cursor() }"
-    ></textarea>
-    <label>{{ label() }}</label>
-
-    @if (showMessageHelp()) {
-
-    <small id="message-help">
-        {{ messageHelp() }}
-    </small>
-    }
-</p-floatlabel>
+<textarea
+    pTextarea
+    style="resize: none"
+    [(ngModel)]="value"
+    [autocomplete]="autocomplete()"
+    fluid
+    [disabled]="disabled()"
+    [placeholder]="placeholder()"
+    [rows]="rows()"
+    [cols]="cols()"
+    [autoResize]="false"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+    [style.width]="width()"
+    [style.cursor]="cursor()"
+></textarea>

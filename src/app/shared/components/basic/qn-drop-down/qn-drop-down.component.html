@@ -1,4 +1,4 @@
-<p-float-label>
+<qn-div [style.width]="width()">
     <p-select
         [placeholder]="placeholder()"
         [options]="options()"
@@ -7,7 +7,7 @@
         [disabled]="disabled()"
         (mouseenter)="onMouseEnter()"
         (mouseleave)="onMouseLeave()"
-        [style]="{ width: width(), cursor: cursor() }"
+        [style.width]="width()"
+        [style.cursor]="cursor()"
     />
-    <label>{{ label() }}</label>
-</p-float-label>
+</qn-div>

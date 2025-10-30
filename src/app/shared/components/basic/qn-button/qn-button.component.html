@@ -8,7 +8,8 @@
         [loading]="loading()"
         (mouseenter)="onMouseEnter()"
         (mouseleave)="onMouseLeave()"
-        [style]="{ width: width(), cursor: cursor() }"
+        [style.width]="width()"
+        [style.cursor]="cursor()"
         [raised]="true"
     />
 </div>

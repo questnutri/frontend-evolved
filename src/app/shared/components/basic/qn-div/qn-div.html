@@ -1,4 +1,4 @@
-<div 
+<div
     [style.display]="effectiveDisplay()"
     [style.flex-direction]="effectiveDisplay() === 'flex' ? effectiveFlexDirection() : null"
     [style.gap]="gap()"
@@ -32,6 +32,7 @@
     [style.right]="right()"
     [style.bottom]="bottom()"
     [style.top]="top()"
-    >
+    [style.background]="background()"
+>
     <ng-content></ng-content>
 </div>

@@ -7,6 +7,7 @@ import { NutritionistHomePage } from './pages/nutritionist/nutritionist-home/nut
 import { PatientHomePage } from './pages/patient/patient-home/patient-home.page';
 import { App } from './app';
 import { PreviewPage } from './pages/preview.page';
+import { NutritionistRegisterPage } from './pages/nutritionist/nutritionist-register/nutritionist-register.page';
 
 export const routes: Routes = [
     {
@@ -17,6 +18,10 @@ export const routes: Routes = [
     {
         path: 'login',
         component: LoginPage
+    },
+    {
+        path: 'register',
+        component: NutritionistRegisterPage
     },
     {
         path: 'nutritionist',
@@ -32,7 +37,8 @@ export const routes: Routes = [
                 path: 'home',
                 component: NutritionistHomePage
             }
-        ]
+        ],
+
     },
     {
         path: 'patient',

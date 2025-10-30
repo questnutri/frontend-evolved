@@ -7,3 +7,5 @@ export * from './qn-quantity-input/qn-quantity-input.component';
 export * from './qn-number-input/qn-number-input.component';
 
 export * from './qn-password-input/qn-password-input.component';
+
+export * from './qn-mask-input/qn-mask-input.component';

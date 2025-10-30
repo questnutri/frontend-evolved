@@ -1,18 +1,19 @@
-<p-float-label [variant]="labelPosition()">
+<qn-div [style.width]="width()">
     <p-inputnumber
         [(ngModel)]="value"
         [prefix]="prefixStandardized()"
         [suffix]="suffixStandardized()"
         [disabled]="disabled()"
         [showClear]="clear()"
-        [size]="fontSize()"
         fluid
         [minFractionDigits]="minFractionDigitsComputed()"
         [maxFractionDigits]="maxFractionDigitsComputed()"
         [useGrouping]="thousendDivisor()"
         (mouseenter)="onMouseEnter()"
         (mouseleave)="onMouseLeave()"
-        [style]="{ width: width(), cursor: cursor() }"
+        [style.width]="width()"
+        [style.cursor]="cursor()"
+        [minlength]="min()"
+        [maxlength]="max()"
     />
-    <label>{{ label() }}</label>
-</p-float-label>
+</qn-div>

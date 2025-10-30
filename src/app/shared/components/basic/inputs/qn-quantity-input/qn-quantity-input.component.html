@@ -3,12 +3,13 @@
     [showButtons]="true"
     buttonLayout="horizontal"
     spinnerMode="horizontal"
-    [min]="0"
-    [max]="1000"
+    [min]="min()"
+    [max]="max()"
     fluid
     (mouseenter)="onMouseEnter()"
     (mouseleave)="onMouseLeave()"
-    [style]="{ width: width(), cursor: cursor() }"
+    [style.width]="width()"
+    [style.cursor]="cursor()"
 >
     <ng-template #incrementbuttonicon>
         <span class="pi pi-plus" style="color: white"></span>

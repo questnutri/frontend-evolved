@@ -1,0 +1,286 @@
+<qn-div
+    flex-column
+    justifyContent="start"
+    alignItems="center"
+    padding="3vh 0"
+    maxHeight="100vh"
+    width="100vw"
+    height="100%"
+    background="url(/assets/img/nutri-background.png) center/cover"
+    gap="20px"
+>
+    <qn-div
+        padding="20px"
+        maxWidth="700px"
+        width="700px"
+        height="70px"
+        flex
+        center
+    >
+        <img src="/img/qn-fit-inversed.png" alt="QN Fit Logo" width="100px" />
+    </qn-div>
+
+    <qn-div
+        flex-column
+        justifyContent="start"
+        alignItems="center"
+        padding="30px"
+        maxWidth="700px"
+        width="100%"
+        background="white"
+        border="1px solid white"
+        radius="0.5rem"
+        shadow="0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+        gap="25px"
+        height="550px"
+    >
+        <qn-div width="100%">
+            <p-stepper [(value)]="activeStep">
+                <qn-div
+                    justifyItems="space-around"
+                    width="580px"
+                    paddingLeft="100px"
+                >
+                    <p-step-list>
+                        <p-step [value]="1">
+                            <ng-template
+                                #content
+                                let-activateCallback="activateCallback"
+                                let-value="value"
+                            >
+                                <button
+                                    class="bg-transparent border-0 inline-flex flex-col gap-2"
+                                    (click)="activateCallback()"
+                                    style="
+                                        background: transparent;
+                                        border: none;
+                                        cursor: pointer;
+                                        display: inline-flex;
+                                        flex-direction: column;
+                                        gap: 8px;
+                                        align-items: center;
+                                    "
+                                >
+                                    <span
+                                        style="
+                                            border-radius: 50%;
+                                            border: 2px solid;
+                                            width: 2rem;
+                                            height: 2rem;
+                                            display: inline-flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                        "
+                                        [style.background-color]="value <= activeStep ? 'var(--primary-color)' : 'transparent'"
+                                        [style.color]="value <= activeStep ? 'white' : 'var(--text-color)'"
+                                        [style.border-color]="value <= activeStep ? 'var(--primary-color)' : '#e5e7eb'"
+                                    >
+                                        <i class="pi pi-user"></i>
+                                    </span>
+                                    <span
+                                        style="
+                                            font-size: 0.75rem;
+                                            font-weight: 500;
+                                            text-align: center;
+                                            color: var(--black-color);
+                                        "
+                                        >Configuração da Conta</span
+                                    >
+                                </button>
+                            </ng-template>
+                        </p-step>
+
+                        <p-step [value]="2">
+                            <ng-template
+                                #content
+                                let-activateCallback="activateCallback"
+                                let-value="value"
+                            >
+                                <button
+                                    class="bg-transparent border-0 inline-flex flex-col gap-2"
+                                    (click)="activateCallback()"
+                                    style="
+                                        background: transparent;
+                                        border: none;
+                                        cursor: pointer;
+                                        display: inline-flex;
+                                        flex-direction: column;
+                                        gap: 8px;
+                                        align-items: center;
+                                    "
+                                >
+                                    <span
+                                        style="
+                                            border-radius: 50%;
+                                            border: 2px solid;
+                                            width: 2rem;
+                                            height: 2rem;
+                                            display: inline-flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                        "
+                                        [style.background-color]="value <= activeStep ? 'var(--primary-color)' : 'transparent'"
+                                        [style.color]="value <= activeStep ? 'white' : 'var(--text-color)'"
+                                        [style.border-color]="value <= activeStep ? 'var(--primary-color)' : '#e5e7eb'"
+                                    >
+                                        <i
+                                            class="pi pi-briefcase"
+                                            style="font-size: 1.25rem"
+                                        ></i>
+                                    </span>
+                                    <span
+                                        style="
+                                            font-size: 0.75rem;
+                                            font-weight: 500;
+                                            text-align: center;
+                                            color: var(--black-color);
+                                        "
+                                        >Detalhes Pessoais e Profissionais</span
+                                    >
+                                </button>
+                            </ng-template>
+                        </p-step>
+                    </p-step-list>
+                </qn-div>
+
+                <qn-div flex-column center gap="5px" marginTop="20px">
+                    <h2
+                        [style]="{'font-weight': '600', 'font-size': '1.5rem', 'margin': '0', 'text-align': 'center', 'color': 'var(--black-color)'}"
+                    >
+                        Criar Sua Conta de Nutricionista
+                    </h2>
+                    <span
+                        [style]="{'font-size': '13px', 'color': '#666', 'text-align': 'center'}"
+                    >
+                        @if(activeStep === 1){ Vamos começar com algumas
+                        informações básicas para configurar seu perfil. } @else{
+                        Agora alguns detalhes pessoais e profissionais. }
+                    </span>
+                </qn-div>
+
+                <p-step-panels>
+                    <p-step-panel [value]="1">
+                        <ng-template
+                            #content
+                            let-activateCallback="activateCallback"
+                        >
+                            <qn-div
+                                flex-column
+                                gap="15px"
+                                padding="10px 0"
+                                center
+                                height="230px"
+                            >
+                                <qn-text-input
+                                    qnLabel="Nome"
+                                    width="600px"
+                                    [(value)]="name"
+                                />
+                                <qn-text-input
+                                    type="email"
+                                    qnLabel="E-mail"
+                                    width="600px"
+                                    autocomplete="off"
+                                    [(value)]="email"
+                                />
+                                <qn-password-input
+                                    qnLabel="Senha"
+                                    width="600px"
+                                    [(value)]="password"
+                                />
+                            </qn-div>
+                            <qn-div width="100%" flex center padding="10px 0">
+                                <qn-button
+                                    label="Continuar"
+                                    width="600px"
+                                    (click)="activateCallback(2)"
+                                />
+                            </qn-div>
+                        </ng-template>
+                    </p-step-panel>
+
+                    <p-step-panel [value]="2">
+                        <ng-template
+                            #content
+                            let-activateCallback="activateCallback"
+                        >
+                            <qn-div
+                                flex-column
+                                gap="15px"
+                                padding=" 0"
+                                justifyContent="start"
+                                alignItems="center"
+                                height="230px"
+                            >
+                                <qn-mask-input
+                                    qnLabel="CRN"
+                                    [mask]="'CRN-9/99999'"
+                                    [(value)]="crn"
+                                    [placeholder]="'CRN-9/99999'"
+                                />
+
+                                <qn-mask-input
+                                    qnLabel="Telefone"
+                                    [mask]="'(99) 99999-9999'"
+                                    [(value)]="phone"
+                                    [placeholder]="'(99) 99999-9999'"
+                                />
+                                <qn-div flex width="600px" gap="10px">
+                                    <qn-drop-down
+                                        [options]="optionsDocument"
+                                        [(value)]="selectedDocument"
+                                        qnLabel="Tipo de Documento"
+                                        width="100px"
+                                    />
+
+                                    <qn-mask-input
+                                        qnLabel="Número do Documento"
+                                        [mask]="documentMask()"
+                                        [(value)]="documentNumber"
+                                        [placeholder]="documentMask()"
+                                    />
+                                </qn-div>
+                            </qn-div>
+                            <qn-div
+                                width="100%"
+                                flex
+                                center
+                                padding="10px 0"
+                                gap="10px"
+                            >
+                                <qn-button
+                                    label="Voltar"
+                                    width="150px"
+                                    (click)="activateCallback(1)"
+                                />
+                                <qn-button
+                                    label="Continuar"
+                                    width="150px"
+                                    (click)="finishRegistration()"
+                                />
+                            </qn-div>
+                        </ng-template>
+                    </p-step-panel>
+                </p-step-panels>
+            </p-stepper>
+        </qn-div>
+
+        <qn-div flex center gap="5px">
+            <span [style]="{'font-size': '14px', 'color': '#666'}"
+                >Já tem uma conta?</span
+            >
+            <a
+                href="/login"
+                [style]="{
+                    'color': 'var(--primary-color)',
+                    'font-weight': '600',
+                    'text-decoration': 'underline',
+                    'cursor': 'pointer',
+                    'font-size': '14px'
+                }"
+            >
+                Entrar
+            </a>
+        </qn-div>
+    </qn-div>
+</qn-div>

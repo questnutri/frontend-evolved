@@ -1,26 +1,18 @@
-import { Component, input, model } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FloatLabel } from 'primeng/floatlabel';
+import { QnInput } from '@qn/components/abstracts/qn-input.abstract';
 import { TextareaModule } from 'primeng/textarea';
-import { QnComponent } from '@qn/components/abstracts/qn-component.abstract';
 @Component({
-    selector: 'app-qn-text-area',
+    selector: 'qn-text-area',
     templateUrl: './qn-text-area.component.html',
     styleUrls: ['./qn-text-area.component.scss'],
 
-    imports: [TextareaModule, FormsModule, FloatLabel]
+    imports: [TextareaModule, FormsModule]
 })
-export class QnTextAreaComponent extends QnComponent {
+export class QnTextAreaComponent extends QnInput<string> {
 
-    value = model<string>('')
-    label = input<string>('')
-    placeholder = input<string>('')
     autocomplete = input<boolean>(false)
-    disabled = input<boolean>(false)
-    labelPosition = input<'over' | 'in' | 'on'>('over')
-    type = input<"text" | "email">('text')
-    fontSize = input<'small' | 'large'>('small')
-    showMessageHelp = input<boolean>(false)
-    messageHelp = input<string>('')
+    rows = input<number>(5)
+    cols = input<number>(30)
 
 }

@@ -1,4 +1,5 @@
-@use '../global.scss';
+@use "../global.scss";
+@import "primeicons/primeicons.css";
 
 /* ============================================
    FONTE CUSTOMIZADA
@@ -40,7 +41,7 @@
     --white-color: #fff;
 
     /* Cores Semânticas */
-    --primary-color: var(--blue-color);
+    --primary-color: var(--blue-color-light);
     --primary-color-hover: var(--blue-color-light2);
     --secondary-color: var(--grey-color);
     --secondary-color-hover: var(--grey-color-light);
@@ -48,7 +49,33 @@
     --primary-font-color: var(--black-color);
 
     /* Design System */
-    --border-radius-input: 25px;
+    --border-radius-input: 4px;
+}
+
+/* ============================================
+   DARK MODE (Desabilitado)
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+    * {
+        --blue-color: #0380dc;
+        --blue-color-dark: #035a98;
+        --blue-color-light: #23a3ff;
+        --blue-color-light2: #57b5fb;
+        --blue-color-light3: #6dbaf9;
+        --grey-color: #767777;
+        --grey-color-light: #a4a4a4;
+        --grey-color-dark: #494a4a;
+        --black-color: #000;
+        --white-color: #fff;
+
+        --primary-color: var(--blue-color);
+        --primary-color-hover: var(--blue-color-light2);
+        --secondary-color: var(--grey-color);
+        --secondary-color-hover: var(--grey-color-light);
+
+        --primary-font-color: var(--white-color);
+    }
 }
 
 /* ============================================
@@ -83,10 +110,11 @@
    PRIMENG - INPUT - BASE
    ============================================ */
 * {
+    --p-inputtext-width: 100%;
     // --p-inputtext-background: var(--white-color);
     // --p-inputtext-color: var(--black-color);
     // --p-inputtext-border-radius: var(--border-radius-input);
-    --p-inputtext-focus-border-color: var(--blue-color);
+    --p-inputtext-focus-border-color: var(--grey-color-light);
     // --p-inputtext-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.3),
     //     0 2px 2px 0 rgba(0, 0, 0, 0.21), 0 1px 5px 0 rgba(0, 0, 0, 0.18);
 
@@ -97,32 +125,6 @@
     // --p-inputtext-sm-padding-y: 1rem;
     // --p-inputtext-lg-padding-x: 1rem;
     // --p-inputtext-lg-padding-y: 1rem;
-}
-
-/* ============================================
-   PRIMENG - FLOATLABEL
-   ============================================ */
-* {
-    /* Estado Base */
-    --p-floatlabel-color: var(--primary-font-color);
-    --p-floatlabel-font-weight: 500;
-    --p-floatlabel-position-x: 1rem;
-    --p-floatlabel-position-y: 2rem;
-
-    /* Estado Ativo */
-    --p-floatlabel-active-color: var(--primary-font-color);
-    --p-floatlabel-active-font-weight: 500;
-    --p-floatlabel-active-font-size: 0.9rem;
-    --p-floatlabel-focus-color: var(--primary-font-color);
-
-    /* Variant Over */
-    --p-floatlabel-over-active-background: var(--white-color);
-    --p-floatlabel-over-active-color: var(--black-color);
-    --p-floatlabel-over-border-radius: var(--border-radius-input);
-
-    /* Variant In */
-    --p-floatlabel-on-active-background: var(--white-color);
-    --p-floatlabel-on-active-color: var(--black-color);
 }
 
 /* Variant margin */
@@ -145,6 +147,8 @@
    ============================================ */
 * {
     --p-textarea-border-radius: var(--border-radius-input);
+    --p-textarea-border-color: var(--grey-color-light);
+    --p-textarea-focus-border-color: var(--grey-color-light);
     --p-textarea-padding-x: 1rem;
     --p-textarea-padding-y: 1rem;
     --p-textarea-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.3),
@@ -156,11 +160,8 @@
    ============================================ */
 * {
     --p-inputnumber-border-radius: var(--border-radius-input);
-    --p-inputnumber-input-border-radius: var(--border-radius-input);
-    // --p-inputnumber-button-width: 1rem;
-    --p-inputnumber-button-color: red;
-    --p-inputnumber-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.3),
-        0 2px 2px 0 rgba(0, 0, 0, 0.21), 0 1px 5px 0 rgba(0, 0, 0, 0.18);
+    --p-inputnumber-shadow: 0 1px 1px -2px rgba(0, 0, 0, 0.15),
+        0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 1px 2px 0 rgba(0, 0, 0, 0.09);
     --p-inputnumber-button-background: var(--grey-color-dark);
 
     --p-inputnumber-button-color: var(--white-color);
@@ -168,26 +169,117 @@
     --p-inputnumber-button-border-radius: var(--border-radius-input);
     --p-inputnumber-button-border-color: var(--grey-color-dark);
     --p-inputnumber-button-hover-border-color: var(--grey-color);
-    --p-inputnumber-button-color: var(--white-color);
 }
 /* ============================================
    PRIMENG - DROPDOWN / SELECT
    ============================================ */
 * {
     --p-select-border-radius: var(--border-radius-input);
-    --p-select-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.3),
-        0 2px 2px 0 rgba(0, 0, 0, 0.21), 0 1px 5px 0 rgba(0, 0, 0, 0.18);
+    // --p-select-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.3),
+    //     0 2px 2px 0 rgba(0, 0, 0, 0.21), 0 1px 5px 0 rgba(0, 0, 0, 0.18);
     --p-select-focus-border-color: var(--grey-color-light);
     --p-select-dropdown-width: 0px;
-    --p-select-padding-x: 1rem;
-    --p-select-padding-y: 1rem;
+    --p-select-padding-x: 0.6rem;
+    --p-select-padding-y: 0.6rem;
     --p-select-overlay-border-radius: var(--border-radius-input);
-    --p-select-option-border-radius: 12px;
+    --p-select-option-border-radius: var(--border-radius-input);
     --p-select-option-selected-background: var(--white-color);
     --p-select-option-selected-color: var(--black-color);
     --p-select-option-selected-focus-background: var(--white-color);
     --p-select-option-selected-focus-color: var(--black-color);
     --p-select-list-padding: 0.5rem;
+
+    --p-inputmask-border-radius: var(--border-radius-input);
+}
+
+/* ============================================
+   PRIMENG - MENU
+   ============================================ */
+* {
+    /* Background e Cores Base */
+    --p-menu-background: var(--white-color);
+    --p-menu-color: red;
+    --p-menu-border-color: transparent;
+    --p-menu-border-radius: var(--border-radius-input);
+
+    /* Padding do Container */
+    --p-menu-padding: 0.5rem;
+
+    /* Item Base */
+    --p-menu-item-padding: 0.75rem 1rem;
+    --p-menu-item-border-radius: var(--border-radius-input);
+    --p-menu-item-gap: 0.5rem;
+
+    /* Item Hover */
+    --p-menu-item-focus-background: var(--blue-color-light3);
+    --p-menu-item-focus-border-color: transparent;
+    --p-menu-item-focus-color: var(--black-color);
+
+    /* Item Ativo/Selecionado */
+    --p-menu-item-active-background: var(--primary-color);
+    --p-menu-item-active-color: var(--white-color);
+
+    /* Ícone do Item */
+    --p-menu-item-icon-color: var(--grey-color);
+    --p-menu-item-icon-focus-color: var(--primary-color);
+    --p-menu-item-icon-active-color: var(--white-color);
+
+    /* Label do Item */
+    --p-menu-item-label-color: var(--primary-font-color);
+    --p-menu-item-label-focus-color: var(--primary-color);
+    --p-menu-item-label-active-color: var(--white-color);
+
+    /* Separador */
+    --p-menu-separator-border-color: var(--grey-color-light);
+
+    /* Submenu */
+    --p-menu-submenu-label-padding: 0.75rem 1rem;
+    --p-menu-submenu-label-color: var(--grey-color);
+    --p-menu-submenu-label-font-weight: 600;
+
+    /* Sombra (opcional) */
+    --p-menu-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   PRIMENG - POPOVER
+   ============================================ */
+* {
+    --p-popover-background: var(--white-color);
+    --p-popover-border-color: transparent;
+    --p-popover-border-radius: 8px;
+    --p-popover-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --p-popover-padding: 0;
+}
+
+:host ::ng-deep {
+    .p-popover {
+        margin-top: 8px;
+    }
+
+    .popover-item {
+        transition: background 0.2s ease;
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        span {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--primary-font-color);
+        }
+    }
+
+    .logout-item {
+        &:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        span {
+            color: #ef4444;
+        }
+    }
 }
 
 /**/
@@ -260,8 +352,8 @@
 // }
 
 // /* ============================================
-//    MENU - iOS
-//    ============================================ */
+//     MENU - iOS
+//     ============================================ */
 // ion-menu.ios ion-content {
 //     --padding-bottom: 20px;
 // }
@@ -305,8 +397,8 @@
 // }
 
 // /* ============================================
-//    ELEMENTO - ION-NOTE
-//    ============================================ */
+//     ELEMENTO - ION-NOTE
+//     ============================================ */
 // ion-note {
 //     display: inline-block;
 //     font-size: 16px;
@@ -314,33 +406,8 @@
 // }
 
 // /* ============================================
-//    ELEMENTO - ION-ITEM SELECIONADO
-//    ============================================ */
+//     ELEMENTO - ION-ITEM SELECIONADO
+//     ============================================ */
 // ion-item.selected {
 //     --color: var(--ion-color-primary);
 // }
-
-/* ============================================
-   DARK MODE (Desabilitado)
-   ============================================ */
-/*
-@media (prefers-color-scheme: dark) {
-    * {
-        --blue-color: #dc0303;
-        --blue-color-dark: #980303;
-        --blue-color-light: #ff2323;
-        --blue-color-light2: #fb5757;
-        --blue-color-light3: #f96d6d;
-        --grey-color: #767777;
-        --grey-color-light: #a4a4a4;
-        --grey-color-dark: #494a4a;
-        --black-color: #000;
-        --white-color: #fff;
-
-        --primary-color: var(--blue-color);
-        --primary-color-hover: var(--blue-color-light2);
-        --secondary-color: var(--grey-color);
-        --secondary-color-hover: var(--grey-color-light);
-    }
-}
-*/

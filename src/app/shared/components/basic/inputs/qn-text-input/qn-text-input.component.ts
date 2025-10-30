@@ -1,8 +1,8 @@
 import { Component, input, OnInit } from '@angular/core';
-import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { QnInput } from '@qn/components/abstracts/qn-input.abstract';
-import { FloatLabel, FloatLabelModule } from 'primeng/floatlabel';
+import { InputTextModule } from 'primeng/inputtext';
+import { QnDiv } from "@qn/components/basic";
 
 @Component({
     selector: 'qn-text-input',
@@ -10,7 +10,8 @@ import { FloatLabel, FloatLabelModule } from 'primeng/floatlabel';
     styleUrls: ['./qn-text-input.component.scss'],
     imports: [
         InputTextModule,
-        FormsModule
+        FormsModule,
+        QnDiv
     ]
 })
 export class QnTextInputComponent extends QnInput<string> implements OnInit {

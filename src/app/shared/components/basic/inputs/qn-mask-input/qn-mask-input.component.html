@@ -1,0 +1,16 @@
+<!-- <qn-div [style.width]="width()"> -->
+<p-inputmask
+    [(ngModel)]="value"
+    [mask]="mask()"
+    [disabled]="disabled()"
+    [showClear]="clearIcon()"
+    fluid
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+    [style.width]="width()"
+    [style.cursor]="cursor()"
+    [minlength]="min()"
+    [maxlength]="max()"
+    [placeholder]="placeholder()"
+/>
+<!-- </qn-div> -->

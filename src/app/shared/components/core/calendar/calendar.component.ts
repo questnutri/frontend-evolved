@@ -18,7 +18,7 @@ import { QnDiv } from "@qn/components/basic";
 
       <div class="grid grid-cols-7 text-center font-semibold mb-2">
           </div>
-          
+
           <qn-div grid columns="1fr 1fr 1fr 1fr 1fr 1fr 1fr">
             @for(day of weekDays; track $index) {
             <qn-div width="100px" marginX="10px" alignItems="center">
@@ -29,7 +29,7 @@ import { QnDiv } from "@qn/components/basic";
             <qn-div [color]='isToday(day) ? "red" : "blue"' width="100px" height="100px" margin="10px">
                 {{format(day, 'd')}}
             </qn-div>
-          <!-- <div 
+          <!-- <div
                [class.text-gray-400]="!isCurrentMonth(day)"
                [class.bg-primary]="isToday(day)"
                [class.text-white]="isToday(day)"
@@ -43,8 +43,8 @@ import { QnDiv } from "@qn/components/basic";
     </ion-card>
   </ion-content>
   `,
-    styles: `
-    @use '../../../../../app.scss';`
+    // styles: `
+    // @use '../../../../../app.scss';`
 
 })
 export class QnBigCalendarComponent {

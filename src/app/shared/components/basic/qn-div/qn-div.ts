@@ -18,7 +18,7 @@ export class QnDiv extends QnComponent {
     boxSizing = input<string | null>(null);
     columns = input<string | number | null>(null);
     rows = input<string | number | null>(null);
-
+    background = input<string | null>(null);
     //Size settings
     fillX = input(false, { transform: (value: string | boolean) => value === '' || value === true });
     fillY = input(false, { transform: (value: string | boolean) => value === '' || value === true });

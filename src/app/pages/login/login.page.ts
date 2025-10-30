@@ -1,25 +1,22 @@
 import { Component, effect, inject, signal } from '@angular/core';
-import { LoginDefaultPage } from './default/default';
-import { LoginResetPasswordPage } from './reset-password/reset-password';
-import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth/auth.service';
-import { NotificationService } from '../../services/notification/notification.service';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { QnLoadingComponent } from '@qn/components/basic';
+import { AuthService } from '../../services/auth/auth.service';
+import { NotificationService } from '../../services/notification/notification.service';
+import { LoginDefaultPage } from './default/default';
 
 @Component({
     selector: 'app-login',
     imports: [
-    LoginDefaultPage,
-    FormsModule,
-    InputTextModule,
-    PasswordModule,
-    ButtonModule,
-    QnLoadingComponent
-],
+        LoginDefaultPage,
+        FormsModule,
+        InputTextModule,
+        PasswordModule,
+        ButtonModule,
+    ],
     templateUrl: './login.page.html',
     providers: []
 })
