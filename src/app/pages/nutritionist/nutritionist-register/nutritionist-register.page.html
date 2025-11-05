@@ -1,45 +1,59 @@
-<qn-div
-    flex-column
-    justifyContent="start"
-    alignItems="center"
-    padding="3vh 0"
-    maxHeight="100vh"
-    width="100vw"
-    height="100%"
-    background="url(/assets/img/nutri-background.png) center/cover"
-    gap="20px"
+<div
+    style="
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: clamp(12px, 3vh, 24px) 12px;
+        max-height: 100vh;
+        width: 100vw;
+        min-height: 100vh;
+        background: url(/assets/img/nutri-background.png) center/cover;
+        gap: 10px;
+        box-sizing: border-box;
+    "
 >
-    <qn-div
-        padding="20px"
-        maxWidth="700px"
-        width="700px"
-        height="70px"
-        flex
-        center
+    <!-- Logo Container -->
+    <div
+        style="
+            max-width: 600px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        "
     >
-        <img src="/img/qn-fit-inversed.png" alt="QN Fit Logo" width="100px" />
-    </qn-div>
+        <img
+            src="/img/qn-fit-inversed.png"
+            alt="QN Fit Logo"
+            style="width: 100px; height: 80px; object-fit: contain"
+        />
+    </div>
 
-    <qn-div
-        flex-column
-        justifyContent="start"
-        alignItems="center"
-        padding="30px"
-        maxWidth="700px"
-        width="100%"
-        background="white"
-        border="1px solid white"
-        radius="0.5rem"
-        shadow="0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
-        gap="25px"
-        height="550px"
+    <!-- Main Card Container -->
+    <div
+        style="
+            flex: 1;
+            max-width: 600px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            gap: 10px;
+            box-sizing: border-box;
+            max-height: 570px;
+        "
     >
-        <qn-div width="100%">
+        <!-- Stepper Container -->
+        <div style="width: 100%">
             <p-stepper [(value)]="activeStep">
-                <qn-div
-                    justifyItems="space-around"
-                    width="580px"
-                    paddingLeft="100px"
+                <!-- Step List -->
+                <div
+                    style="max-width: 500px; margin: 0 auto; padding: 5px 16px"
                 >
                     <p-step-list>
                         <p-step [value]="1">
@@ -49,7 +63,6 @@
                                 let-value="value"
                             >
                                 <button
-                                    class="bg-transparent border-0 inline-flex flex-col gap-2"
                                     (click)="activateCallback()"
                                     style="
                                         background: transparent;
@@ -59,30 +72,47 @@
                                         flex-direction: column;
                                         gap: 8px;
                                         align-items: center;
+                                        padding: 4px;
                                     "
                                 >
                                     <span
+                                        [style.background-color]="value <= activeStep() ? 'var(--primary-color)' : 'transparent'"
+                                        [style.color]="value <= activeStep() ? 'white' : 'var(--text-color)'"
+                                        [style.border-color]="value <= activeStep() ? 'var(--primary-color)' : '#e5e7eb'"
                                         style="
                                             border-radius: 50%;
                                             border: 2px solid;
-                                            width: 2rem;
-                                            height: 2rem;
+                                            width: clamp(1.75rem, 5vw, 2rem);
+                                            height: clamp(1.75rem, 5vw, 2rem);
                                             display: inline-flex;
                                             align-items: center;
                                             justify-content: center;
+                                            transition: all 0.3s ease;
                                         "
-                                        [style.background-color]="value <= activeStep ? 'var(--primary-color)' : 'transparent'"
-                                        [style.color]="value <= activeStep ? 'white' : 'var(--text-color)'"
-                                        [style.border-color]="value <= activeStep ? 'var(--primary-color)' : '#e5e7eb'"
                                     >
-                                        <i class="pi pi-user"></i>
+                                        <i
+                                            class="pi pi-user"
+                                            style="
+                                                font-size: clamp(
+                                                    0.875rem,
+                                                    3vw,
+                                                    1rem
+                                                );
+                                            "
+                                        ></i>
                                     </span>
                                     <span
                                         style="
-                                            font-size: 0.75rem;
+                                            font-size: clamp(
+                                                0.625rem,
+                                                2vw,
+                                                0.75rem
+                                            );
                                             font-weight: 500;
                                             text-align: center;
                                             color: var(--black-color);
+                                            max-width: 120px;
+                                            line-height: 1.2;
                                         "
                                         >Configuração da Conta</span
                                     >
@@ -97,7 +127,6 @@
                                 let-value="value"
                             >
                                 <button
-                                    class="bg-transparent border-0 inline-flex flex-col gap-2"
                                     (click)="activateCallback()"
                                     style="
                                         background: transparent;
@@ -107,33 +136,47 @@
                                         flex-direction: column;
                                         gap: 8px;
                                         align-items: center;
+                                        padding: 4px;
                                     "
                                 >
                                     <span
+                                        [style.background-color]="value <= activeStep() ? 'var(--primary-color)' : 'transparent'"
+                                        [style.color]="value <= activeStep() ? 'white' : 'var(--text-color)'"
+                                        [style.border-color]="value <= activeStep() ? 'var(--primary-color)' : '#e5e7eb'"
                                         style="
                                             border-radius: 50%;
                                             border: 2px solid;
-                                            width: 2rem;
-                                            height: 2rem;
+                                            width: clamp(1.75rem, 5vw, 2rem);
+                                            height: clamp(1.75rem, 5vw, 2rem);
                                             display: inline-flex;
                                             align-items: center;
                                             justify-content: center;
+                                            transition: all 0.3s ease;
                                         "
-                                        [style.background-color]="value <= activeStep ? 'var(--primary-color)' : 'transparent'"
-                                        [style.color]="value <= activeStep ? 'white' : 'var(--text-color)'"
-                                        [style.border-color]="value <= activeStep ? 'var(--primary-color)' : '#e5e7eb'"
                                     >
                                         <i
                                             class="pi pi-briefcase"
-                                            style="font-size: 1.25rem"
+                                            style="
+                                                font-size: clamp(
+                                                    0.875rem,
+                                                    3vw,
+                                                    1.25rem
+                                                );
+                                            "
                                         ></i>
                                     </span>
                                     <span
                                         style="
-                                            font-size: 0.75rem;
+                                            font-size: clamp(
+                                                0.625rem,
+                                                2vw,
+                                                0.75rem
+                                            );
                                             font-weight: 500;
                                             text-align: center;
                                             color: var(--black-color);
+                                            max-width: 120px;
+                                            line-height: 1.2;
                                         "
                                         >Detalhes Pessoais e Profissionais</span
                                     >
@@ -141,146 +184,268 @@
                             </ng-template>
                         </p-step>
                     </p-step-list>
-                </qn-div>
+                </div>
 
-                <qn-div flex-column center gap="5px" marginTop="20px">
+                <!-- Title Section -->
+                <div
+                    style="
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 5px;
+                        margin-top: 10px;
+                        padding: 0 5px;
+                        text-align: center;
+                    "
+                >
                     <h2
-                        [style]="{'font-weight': '600', 'font-size': '1.5rem', 'margin': '0', 'text-align': 'center', 'color': 'var(--black-color)'}"
+                        style="
+                            font-weight: 600;
+                            font-size: clamp(1.125rem, 4vw, 1.5rem);
+                            margin: 0;
+                            color: var(--black-color);
+                            line-height: 1.3;
+                        "
                     >
                         Criar Sua Conta de Nutricionista
                     </h2>
                     <span
-                        [style]="{'font-size': '13px', 'color': '#666', 'text-align': 'center'}"
+                        style="
+                            font-size: clamp(0.75rem, 2.5vw, 0.8125rem);
+                            color: #666;
+                            line-height: 1.4;
+                        "
                     >
-                        @if(activeStep === 1){ Vamos começar com algumas
+                        @if(activeStep() === 1){ Vamos começar com algumas
                         informações básicas para configurar seu perfil. } @else{
                         Agora alguns detalhes pessoais e profissionais. }
                     </span>
-                </qn-div>
+                </div>
 
+                <!-- Step Panels -->
                 <p-step-panels>
+                    <!-- Step 1: Account Configuration -->
                     <p-step-panel [value]="1">
                         <ng-template
                             #content
                             let-activateCallback="activateCallback"
                         >
-                            <qn-div
-                                flex-column
-                                gap="15px"
-                                padding="10px 0"
-                                center
-                                height="230px"
+                            <div
+                                style="
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 12px;
+                                    padding: 10px 16px;
+                                    align-items: center;
+                                    min-height: 220px;
+                                    width: 100%;
+                                    box-sizing: border-box;
+                                "
                             >
-                                <qn-text-input
-                                    qnLabel="Nome"
-                                    width="600px"
-                                    [(value)]="name"
-                                />
-                                <qn-text-input
-                                    type="email"
-                                    qnLabel="E-mail"
-                                    width="600px"
-                                    autocomplete="off"
-                                    [(value)]="email"
-                                />
-                                <qn-password-input
-                                    qnLabel="Senha"
-                                    width="600px"
-                                    [(value)]="password"
-                                />
-                            </qn-div>
-                            <qn-div width="100%" flex center padding="10px 0">
-                                <qn-button
-                                    label="Continuar"
-                                    width="600px"
-                                    (click)="activateCallback(2)"
-                                />
-                            </qn-div>
+                                <div
+                                    style="
+                                        display: flex;
+                                        flex-direction: column;
+                                        gap: 12px;
+                                        width: 100%;
+                                        max-width: 600px;
+                                    "
+                                >
+                                    <qn-text-input
+                                        qnLabel="Nome"
+                                        width="100%"
+                                        [(value)]="name"
+                                    />
+                                    <qn-text-input
+                                        type="email"
+                                        qnLabel="E-mail"
+                                        width="100%"
+                                        autocomplete="off"
+                                        [(value)]="email"
+                                    />
+                                    <qn-password-input
+                                        qnLabel="Senha"
+                                        width="100%"
+                                        [(value)]="password"
+                                    />
+                                </div>
+                            </div>
+
+                            <!-- Button Container -->
+                            <div
+                                style="
+                                    width: 100%;
+                                    display: flex;
+                                    justify-content: center;
+                                    padding: 10px 16px 0;
+                                    box-sizing: border-box;
+                                "
+                            >
+                                <div style="width: 100%; max-width: 600px">
+                                    <qn-button
+                                        label="Continuar"
+                                        width="100%"
+                                        (click)="activateCallback(2)"
+                                    />
+                                </div>
+                            </div>
                         </ng-template>
                     </p-step-panel>
 
+                    <!-- Step 2: Personal Details -->
                     <p-step-panel [value]="2">
                         <ng-template
                             #content
                             let-activateCallback="activateCallback"
                         >
-                            <qn-div
-                                flex-column
-                                gap="15px"
-                                padding=" 0"
-                                justifyContent="start"
-                                alignItems="center"
-                                height="230px"
+                            <div
+                                style="
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 7px;
+                                    padding: 0px 16px;
+                                    align-items: center;
+                                    min-height: 230px;
+                                    width: 100%;
+                                    box-sizing: border-box;
+                                "
                             >
-                                <qn-mask-input
-                                    qnLabel="CRN"
-                                    [mask]="'CRN-9/99999'"
-                                    [(value)]="crn"
-                                    [placeholder]="'CRN-9/99999'"
-                                />
+                                <!-- Inputs Container -->
+                                <div
+                                    style="
+                                        display: flex;
+                                        flex-direction: column;
+                                        gap: 5px;
+                                        width: 100%;
+                                        max-width: 600px;
+                                    "
+                                >
+                                    <!-- Document Row - Responsivo -->
+                                    <div
+                                        style="
+                                            display: flex;
+                                            gap: 10px;
+                                            width: 100%;
+                                            flex-wrap: wrap;
+                                        "
+                                    >
+                                        <div
+                                            style="
+                                                flex: 1 1 120px;
+                                                min-width: 120px;
+                                            "
+                                        >
+                                            <qn-drop-down
+                                                [options]="optionsDocument"
+                                                [(value)]="selectedDocument"
+                                                qnLabel="Documento"
+                                                width="100%"
+                                            />
+                                        </div>
 
-                                <qn-mask-input
-                                    qnLabel="Telefone"
-                                    [mask]="'(99) 99999-9999'"
-                                    [(value)]="phone"
-                                    [placeholder]="'(99) 99999-9999'"
-                                />
-                                <qn-div flex width="600px" gap="10px">
-                                    <qn-drop-down
-                                        [options]="optionsDocument"
-                                        [(value)]="selectedDocument"
-                                        qnLabel="Tipo de Documento"
-                                        width="100px"
+                                        <div
+                                            style="
+                                                flex: 2 1 200px;
+                                                min-width: 0;
+                                            "
+                                        >
+                                            <qn-mask-input
+                                                qnLabel="Número do Documento"
+                                                [mask]="documentMask()"
+                                                [(value)]="documentNumber"
+                                                [placeholder]="documentMask()"
+                                                width="100%"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <qn-mask-input
+                                        qnLabel="CRN"
+                                        [mask]="'CRN-9/99999'"
+                                        [(value)]="crn"
+                                        [placeholder]="'CRN - 9/99999'"
+                                        width="100%"
                                     />
 
                                     <qn-mask-input
-                                        qnLabel="Número do Documento"
-                                        [mask]="documentMask()"
-                                        [(value)]="documentNumber"
-                                        [placeholder]="documentMask()"
+                                        qnLabel="Telefone"
+                                        [mask]="'+55 (99) 99999-9999'"
+                                        [(value)]="phone"
+                                        [placeholder]="'+55 (99) 99999-9999'"
+                                        width="100%"
                                     />
-                                </qn-div>
-                            </qn-div>
-                            <qn-div
-                                width="100%"
-                                flex
-                                center
-                                padding="10px 0"
-                                gap="10px"
+                                </div>
+                            </div>
+
+                            <!-- Button Container -->
+                            <div
+                                style="
+                                    width: 100%;
+                                    display: flex;
+                                    justify-content: center;
+                                    padding: 10px 16px 0;
+                                    gap: 10px;
+                                    box-sizing: border-box;
+                                    margin-top: 10px;
+                                "
                             >
-                                <qn-button
-                                    label="Voltar"
-                                    width="150px"
-                                    (click)="activateCallback(1)"
-                                />
-                                <qn-button
-                                    label="Continuar"
-                                    width="150px"
-                                    (click)="finishRegistration()"
-                                />
-                            </qn-div>
+                                <div
+                                    style="
+                                        display: grid;
+                                        grid-template-columns: repeat(2, 1fr);
+                                        gap: 5px;
+                                        width: 100%;
+                                        max-width: 600px;
+                                    "
+                                >
+                                    <qn-button
+                                        label="Voltar"
+                                        width="80%"
+                                        (click)="activateCallback(1)"
+                                    />
+                                    <qn-button
+                                        label="Continuar"
+                                        width="80%"
+                                        (click)="finishRegistration()"
+                                    />
+                                </div>
+                            </div>
                         </ng-template>
                     </p-step-panel>
                 </p-step-panels>
             </p-stepper>
-        </qn-div>
+        </div>
 
-        <qn-div flex center gap="5px">
-            <span [style]="{'font-size': '14px', 'color': '#666'}"
+        <!-- Footer Link -->
+        <div
+            style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 5px;
+                padding: 0 16px;
+                flex-wrap: wrap;
+            "
+        >
+            <span
+                style="
+                    font-size: clamp(0.8125rem, 2.5vw, 0.875rem);
+                    color: #666;
+                "
                 >Já tem uma conta?</span
             >
             <a
                 href="/login"
-                [style]="{
-                    'color': 'var(--primary-color)',
-                    'font-weight': '600',
-                    'text-decoration': 'underline',
-                    'cursor': 'pointer',
-                    'font-size': '14px'
-                }"
+                style="
+                    color: var(--primary-color);
+                    font-weight: 600;
+                    text-decoration: underline;
+                    cursor: pointer;
+                    font-size: clamp(0.8125rem, 2.5vw, 0.875rem);
+                "
             >
                 Entrar
             </a>
-        </qn-div>
-    </qn-div>
-</qn-div>
+        </div>
+    </div>
+</div>

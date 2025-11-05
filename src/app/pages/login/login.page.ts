@@ -1,6 +1,7 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { QnDiv } from "@qn/components/basic";
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
@@ -16,6 +17,7 @@ import { LoginDefaultPage } from './default/default';
         InputTextModule,
         PasswordModule,
         ButtonModule,
+        QnDiv,
     ],
     templateUrl: './login.page.html',
     providers: []

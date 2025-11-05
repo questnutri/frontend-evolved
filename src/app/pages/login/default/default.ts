@@ -5,18 +5,18 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 
-import { 
+import {
     QnButtonComponent,
     QnTextInputComponent,
     QnPasswordInputComponent
 } from '@qn/components/basic';
 
-import { 
+import {
     AuthService,
     NotificationService
 } from '@qn/services';
 
-import { 
+import {
     QnLabelDirective
 } from '@qn/directives';
 
@@ -60,5 +60,9 @@ export class LoginDefaultPage {
             console.log(res.redirect)
             this.router.navigateRoot(res.redirect)
         }
+    }
+
+    forgotPassword() {
+        this.router.navigateRoot('/forgot-password')
     }
 }

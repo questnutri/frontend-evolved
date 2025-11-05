@@ -1,14 +1,15 @@
 .forgot-password {
-    color: white;
     text-decoration: none;
     font-size: 14px;
     text-align: center;
     opacity: 0.9;
     transition: opacity 0.3s ease;
-
+    color: black;
     &:hover {
         opacity: 1;
+        color: var(--primary-color);
         text-decoration: underline;
+        text-decoration-color: var(--primary-color);
         transition: all 0.3s ease;
     }
 }

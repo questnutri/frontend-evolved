@@ -4,6 +4,7 @@
         pInputText
         fluid
         [(ngModel)]="value"
+        [invalid]="invalid()"
         (mouseenter)="onMouseEnter()"
         (mouseleave)="onMouseLeave()"
         [placeholder]="placeholder()"

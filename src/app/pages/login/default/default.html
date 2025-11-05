@@ -1,6 +1,6 @@
-<div [style.padding]="'25px 25px 0'" [style.text-align]="'center'">
+<div [style.padding]="'30px 25px 0'" [style.text-align]="'center'">
     <h2
-        [style.color]="'white'"
+        [style.color]="'black'"
         [style.font-size]="'22px'"
         [style.font-weight]="'600'"
         [style.margin]="'0'"
@@ -15,25 +15,13 @@
     [style.display]="'flex'"
     [style.flex-direction]="'column'"
     [style.justify-content]="'center'"
-    [style.gap]="'20px'"
+    [style.gap]="'15px'"
 >
-    <qn-text-input 
-        type="email" 
-        [(value)]="emailInput" 
-        qnLabel-white="E-mail"
-        />
+    <qn-text-input type="email" [(value)]="emailInput" qnLabel="E-mail" />
 
-    <qn-password-input 
-        [(value)]="passwordInput"
-        qnLabel-white="Senha"
-        />
+    <qn-password-input [(value)]="passwordInput" qnLabel="Senha" />
 
-    <a href="#" class="forgot-password">Esqueci minha senha</a>
+    <a href="/forgot-password" class="forgot-password">Esqueci minha senha</a>
 
-    <qn-button
-        label="Login"
-        (click)="doLogin()"
-        width="100%"
-        cursor="pointer"
-    />
+    <qn-button label="Login" (click)="doLogin()" width="70%" cursor="pointer" />
 </div>

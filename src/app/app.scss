@@ -53,11 +53,12 @@
 }
 
 /* ============================================
-   DARK MODE (Desabilitado)
+   DARK MODE - MANTÉM INPUTS CLAROS
    ============================================ */
 
 @media (prefers-color-scheme: dark) {
     * {
+        /* Cores do tema escuro mantidas */
         --blue-color: #0380dc;
         --blue-color-dark: #035a98;
         --blue-color-light: #23a3ff;
@@ -75,6 +76,54 @@
         --secondary-color-hover: var(--grey-color-light);
 
         --primary-font-color: var(--white-color);
+
+        /* FORÇA INPUTS A SEMPRE TEREM FUNDO BRANCO E TEXTO PRETO */
+        --p-inputtext-background: var(--white-color) !important;
+        --p-inputtext-color: var(--black-color) !important;
+        --p-inputtext-border-color: var(--grey-color-light);
+
+        /* Textarea */
+        --p-textarea-background: var(--white-color) !important;
+        --p-textarea-color: var(--black-color) !important;
+
+        /* InputNumber */
+        --p-inputnumber-background: var(--white-color) !important;
+        --p-inputnumber-color: var(--black-color) !important;
+
+        /* Select/Dropdown */
+        --p-select-background: var(--white-color) !important;
+        --p-select-color: var(--black-color) !important;
+
+        /* InputMask */
+        --p-inputmask-background: var(--white-color) !important;
+        --p-inputmask-color: var(--black-color) !important;
+
+        /* Password */
+        --p-password-input-background: var(--white-color) !important;
+        --p-password-input-color: var(--black-color) !important;
+
+        /* Placeholder sempre visível */
+        --p-inputtext-placeholder-color: var(--grey-color) !important;
+    }
+
+    /* Força estilos diretamente nos elementos */
+    .p-inputtext,
+    .p-textarea,
+    .p-inputnumber-input,
+    .p-select,
+    .p-inputmask,
+    .p-password-input {
+        background: var(--white-color) !important;
+        color: var(--black-color) !important;
+    }
+
+    /* Float Label em dark mode */
+    .p-float-label label {
+        color: var(--grey-color-dark) !important;
+    }
+
+    .p-float-label label.p-float-label-active {
+        color: var(--primary-color) !important;
     }
 }
 
@@ -84,11 +133,11 @@
 * {
     --p-button-primary-background: var(--primary-color);
     --p-button-primary-border-color: var(--primary-color);
-    --p-button-primary-text-color: var(--white-color);
+    --p-button-primary-color: var(--white-color);
 
     --p-button-primary-hover-background: var(--primary-color-hover);
     --p-button-primary-hover-border-color: var(--primary-color-hover);
-    --p-button-primary-hover-text-color: var(--white-color);
+    --p-button-primary-hover-color: var(--white-color);
 }
 
 /* ============================================
@@ -111,20 +160,11 @@
    ============================================ */
 * {
     --p-inputtext-width: 100%;
-    // --p-inputtext-background: var(--white-color);
-    // --p-inputtext-color: var(--black-color);
-    // --p-inputtext-border-radius: var(--border-radius-input);
+    --p-inputtext-background: var(--white-color);
+    --p-inputtext-color: var(--black-color);
+    --p-inputtext-border-radius: var(--border-radius-input);
     --p-inputtext-focus-border-color: var(--grey-color-light);
-    // --p-inputtext-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.3),
-    //     0 2px 2px 0 rgba(0, 0, 0, 0.21), 0 1px 5px 0 rgba(0, 0, 0, 0.18);
-
-    // /* Padding */
-    // --p-inputtext-padding-x: 0.8rem;
-    // --p-inputtext-padding-y: 0.8rem;
-    // --p-inputtext-sm-padding-x: 1rem;
-    // --p-inputtext-sm-padding-y: 1rem;
-    // --p-inputtext-lg-padding-x: 1rem;
-    // --p-inputtext-lg-padding-y: 1rem;
+    --p-inputtext-placeholder-color: var(--grey-color);
 }
 
 /* Variant margin */
@@ -146,6 +186,8 @@
    PRIMENG - TEXTAREA
    ============================================ */
 * {
+    --p-textarea-background: var(--white-color);
+    --p-textarea-color: var(--black-color);
     --p-textarea-border-radius: var(--border-radius-input);
     --p-textarea-border-color: var(--grey-color-light);
     --p-textarea-focus-border-color: var(--grey-color-light);
@@ -159,37 +201,55 @@
    PRIMENG - INPUTNUMBER
    ============================================ */
 * {
+    --p-inputnumber-background: var(--white-color);
+    --p-inputnumber-color: var(--black-color);
     --p-inputnumber-border-radius: var(--border-radius-input);
     --p-inputnumber-shadow: 0 1px 1px -2px rgba(0, 0, 0, 0.15),
         0 1px 1px 0 rgba(0, 0, 0, 0.11), 0 1px 2px 0 rgba(0, 0, 0, 0.09);
     --p-inputnumber-button-background: var(--grey-color-dark);
-
     --p-inputnumber-button-color: var(--white-color);
     --p-inputnumber-button-hover-background: var(--grey-color);
     --p-inputnumber-button-border-radius: var(--border-radius-input);
     --p-inputnumber-button-border-color: var(--grey-color-dark);
     --p-inputnumber-button-hover-border-color: var(--grey-color);
 }
+
 /* ============================================
    PRIMENG - DROPDOWN / SELECT
    ============================================ */
 * {
+    --p-select-background: var(--white-color);
+    --p-select-color: var(--black-color);
     --p-select-border-radius: var(--border-radius-input);
-    // --p-select-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.3),
-    //     0 2px 2px 0 rgba(0, 0, 0, 0.21), 0 1px 5px 0 rgba(0, 0, 0, 0.18);
     --p-select-focus-border-color: var(--grey-color-light);
     --p-select-dropdown-width: 0px;
-    --p-select-padding-x: 0.6rem;
-    --p-select-padding-y: 0.6rem;
+    --p-select-padding-x: 0.5rem;
+    --p-select-padding-y: 0.5rem;
     --p-select-overlay-border-radius: var(--border-radius-input);
+    --p-select-overlay-background: var(--white-color);
     --p-select-option-border-radius: var(--border-radius-input);
     --p-select-option-selected-background: var(--white-color);
     --p-select-option-selected-color: var(--black-color);
+    --p-select-option-color: var(--black-color);
     --p-select-option-selected-focus-background: var(--white-color);
     --p-select-option-selected-focus-color: var(--black-color);
     --p-select-list-padding: 0.5rem;
+    --p-select-list-container-max-height: 250px;
 
+    /* InputMask */
+    --p-inputmask-background: var(--white-color);
+    --p-inputmask-color: var(--black-color);
     --p-inputmask-border-radius: var(--border-radius-input);
+}
+
+/* Força altura da lista de opções do select */
+::ng-deep .p-select-list-container {
+    max-height: 250px !important;
+    overflow-y: auto !important;
+}
+
+::ng-deep .p-select-overlay {
+    max-height: 300px !important;
 }
 
 /* ============================================
@@ -281,133 +341,3 @@
         }
     }
 }
-
-/**/
-
-/* ============================================
-   MENU - MATERIAL DESIGN (MD)
-   ============================================ */
-
-// ion-menu.md ion-content {
-//     --background: var(--ion-item-background, var(--ion-background-color, #fff));
-//     --padding-start: 8px;
-//     --padding-end: 8px;
-//     --padding-top: 20px;
-//     --padding-bottom: 20px;
-// }
-
-// ion-menu.md ion-content {
-//     --background: var(--ion-background-color, #fff);
-// }
-// ion-menu.md ion-list {
-//     padding: 20px 0;
-// }
-
-// ion-menu.md ion-note {
-//     margin-bottom: 30px;
-// }
-
-// ion-menu.md ion-list-header,
-// ion-menu.md ion-note {
-//     padding-left: 10px;
-// }
-
-// ion-menu.md ion-list#inbox-list {
-//     border-bottom: 1px solid var(--ion-background-color-step-150, #d7d8da);
-// }
-
-// ion-menu.md ion-list#inbox-list ion-list-header {
-//     font-size: 22px;
-//     font-weight: 600;
-//     min-height: 20px;
-// }
-
-// ion-menu.md ion-list#labels-list ion-list-header {
-//     font-size: 16px;
-//     margin-bottom: 18px;
-//     color: #757575;
-//     min-height: 26px;
-// }
-
-// ion-menu.md ion-item {
-//     --padding-start: 10px;
-//     --padding-end: 10px;
-//     border-radius: 4px;
-// }
-
-// ion-menu.md ion-item.selected {
-//     --background: rgba(var(--ion-color-primary-rgb), 0.14);
-// }
-
-// ion-menu.md ion-item.selected ion-icon {
-//     color: var(--ion-color-primary);
-// }
-
-// ion-menu.md ion-item ion-icon {
-//     color: #616e7e;
-// }
-
-// ion-menu.md ion-item ion-label {
-//     font-weight: 500;
-// }
-
-// /* ============================================
-//     MENU - iOS
-//     ============================================ */
-// ion-menu.ios ion-content {
-//     --padding-bottom: 20px;
-// }
-
-// ion-menu.ios ion-list {
-//     padding: 20px 0 0 0;
-// }
-
-// ion-menu.ios ion-note {
-//     line-height: 24px;
-//     margin-bottom: 20px;
-// }
-
-// ion-menu.ios ion-item {
-//     --padding-start: 16px;
-//     --padding-end: 16px;
-//     --min-height: 50px;
-// }
-
-// ion-menu.ios ion-item.selected ion-icon {
-//     color: var(--ion-color-primary);
-// }
-
-// ion-menu.ios ion-item ion-icon {
-//     font-size: 24px;
-//     color: #73849a;
-// }
-
-// ion-menu.ios ion-list#labels-list ion-list-header {
-//     margin-bottom: 8px;
-// }
-
-// ion-menu.ios ion-list-header,
-// ion-menu.ios ion-note {
-//     padding-left: 16px;
-//     padding-right: 16px;
-// }
-
-// ion-menu.ios ion-note {
-//     margin-bottom: 8px;
-// }
-
-// /* ============================================
-//     ELEMENTO - ION-NOTE
-//     ============================================ */
-// ion-note {
-//     display: inline-block;
-//     font-size: 16px;
-//     color: var(--ion-color-medium-shade);
-// }
-
-// /* ============================================
-//     ELEMENTO - ION-ITEM SELECIONADO
-//     ============================================ */
-// ion-item.selected {
-//     --color: var(--ion-color-primary);
-// }

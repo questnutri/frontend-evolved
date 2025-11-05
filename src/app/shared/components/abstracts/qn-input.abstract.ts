@@ -7,4 +7,5 @@ export abstract class QnInput<T = string> extends QnComponent {
     placeholder = input<string>('');
     disabled = input<boolean>(false);
     size = input<string>("8px");
+    invalid = input<boolean>(false);
 }
