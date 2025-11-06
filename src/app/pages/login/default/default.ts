@@ -5,11 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 
-import {
-    QnButtonComponent,
-    QnTextInputComponent,
-    QnPasswordInputComponent
-} from '@qn/components/basic';
+import { QnButtonComponent, QnTextInputComponent, QnPasswordInputComponent, QnDiv } from '@qn/components/basic';
 
 import {
     AuthService,
@@ -30,7 +26,8 @@ import {
         QnPasswordInputComponent,
         QnButtonComponent,
         QnTextInputComponent,
-        QnLabelDirective
+        QnLabelDirective,
+        QnDiv
     ],
     templateUrl: './default.html',
     styleUrl: './default.scss'
@@ -56,10 +53,24 @@ export class LoginDefaultPage {
 
     async doLogin() {
         const res = await this.authService.login(this.emailInput(), this.passwordInput());
-        if (res.success && res.redirect) {
-            console.log(res.redirect)
-            this.router.navigateRoot(res.redirect)
+        if ('error' in res) {
+            this.notificationService.add({ severity: 'error', summary: 'Erro ao fazer login', detail: res.message });
+            return;
         }
+
+        if ('firstLogin' in res) {
+            this.router.navigateRoot(`/forgot-password`, {
+                state: {
+                    firstLogin: res.firstLogin,
+                    tokenPassword: res.resetPassword
+                }
+            });
+        }
+
+        if ('role' in res) {
+            this.router.navigateRoot(`/${res.role}/home`)
+        }
+
     }
 
     forgotPassword() {

@@ -1,13 +1,18 @@
 import { UserRole } from "../enum/user/user-role.enum";
 
-export type SuccessLoginResponse = {
+export type AccessTokenResponse = {
     accessToken: string,
     refreshToken: string,
+    id: string,
     role: UserRole
-} | {
-    firstLogin: true,
-    resetToken: string
 }
+
+export type FirstLoginResponse = {
+    firstLogin: true,
+    resetPassword: string
+}
+
+export type SuccessLoginResponse = AccessTokenResponse | FirstLoginResponse
 
 export type ErrorLoginResponse = {
     error: true,

@@ -26,26 +26,18 @@
     </qn-div>
 
     <qn-div
-        background="linear-gradient(135deg, #4a90e2, #357abd)"
+        background="white"
         radius="20px"
         overflow="hidden"
         shadow="0 20px 40px rgba(0,0,0,0.1)"
         flex
-        [style.max-width]="'700px'"
-        [style.width]="'100%'"
-        height="350px"
+        height="400px"
         position="relative"
         [style.z-index]="'1'"
+        center
+        [style.max-width]="'500px'"
+        [style.width]="'100%'"
     >
-        <qn-div
-            background="white"
-            padding="0"
-            flex-column
-            [style.max-width]="'350px'"
-            [style.width]="'100%'"
-            height="100%"
-        >
-            <app-login-default-page />
-        </qn-div>
+        <app-login-default-page />
     </qn-div>
 </qn-div>

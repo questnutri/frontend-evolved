@@ -1,21 +1,23 @@
 import { Component, EventEmitter, inject, output, signal } from '@angular/core';
 import { QnDiv, QnTextInputComponent, QnButtonComponent } from "@qn/components/basic";
-import { NotificationService } from '@qn/services';
+import { AuthService, NotificationService } from '@qn/services';
 import { QnLabelDirective } from "@qn/directives";
 
+
+
 @Component({
-    selector: 'forgot-password-request',
-    templateUrl: './forgot-password-request.component.html',
-    styleUrls: ['./forgot-password-request.component.scss'],
+    selector: 'app-forgot-password',
+    templateUrl: './forgot-password.component.html',
+    styleUrls: ['./forgot-password.component.scss'],
     imports: [QnDiv, QnTextInputComponent, QnButtonComponent, QnLabelDirective],
 })
-export class ForgotPasswordRequestComponent {
+export class ForgotPasswordComponent {
     private readonly notificationService = inject(NotificationService);
-
+    private readonly authService = inject(AuthService)
     email = signal<string>('');
-    nextStep = output<void>();
+    nextStep = output<string | null>();
 
-    sendVerificationCode() {
+    async sendVerificationCode() {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(this.email())) {
             this.notificationService.add({
@@ -25,17 +27,14 @@ export class ForgotPasswordRequestComponent {
             });
             return;
         }
-        if (!this.email().trim()) {
-            // Mostrar mensagem de erro
-            console.log('Email inválido');
-            return;
+        const res = await this.authService.forgotPassword(this.email());
+        if (res.success) {
+            this.nextStep.emit(res.data.resetPassword);
+        } else {
+            console.log('Falha - success é false'); // DEBUG
         }
-        console.log('Código enviado para o email:', this.email());
+        //por enquanto
+        // this.nextStep.emit(null);
 
-        //mudança de step
-        this.nextStep.emit();
-
-        // Chamar API para enviar código
-        // this.apiService.sendResetCode(this.email).subscribe(...)
     }
 }

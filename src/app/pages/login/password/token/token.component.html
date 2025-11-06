@@ -1,5 +1,5 @@
-<qn-div flex-column gap="15px" justifyContent="space-between">
-    <qn-div marginBottom="10px" textAlign="center">
+<qn-div flex-column gap="25px" justifyContent="space-between">
+    <qn-div marginBottom="10px" textAlign="center" paddingTop="5%">
         <p
             [style.font-size]="'14px'"
             [style.color]="'#666'"
@@ -16,14 +16,19 @@
         >
             {{ email() }}
         </p>
-        <qn-text-input
+        <!-- <qn-text-input
             [(value)]="verificationCode"
             qnLabel="Código de Verificação"
             placeholder="000000"
             maxlength="6"
-        />
-    </qn-div>
-    <qn-div textAlign="center">
+        /> -->
+        <qn-div flex center marginTop="20px" marginBottom="20px">
+            <p-inputotp
+                [(ngModel)]="verificationCode"
+                [length]="6"
+                [integerOnly]="true"
+            />
+        </qn-div>
         <span
             [style.font-size]="'13px'"
             [style.color]="'#666'"
@@ -42,15 +47,17 @@
             Reenviar
         </a>
     </qn-div>
+    <!-- <qn-div textAlign="center">
+    </qn-div> -->
 
     <qn-div
         grid
         columns="1fr 1fr"
         rows="1"
+        height="40px"
         alignItems="center"
         justifyContent="center"
         gap="10px"
-        marginTop="10%"
         [style.width]="'100%'"
     >
         <qn-button
@@ -63,6 +70,7 @@
             label="Verificar"
             width="90%"
             cursor="pointer"
+            [disabled]="disableButton()"
             (click)="verify()"
         />
     </qn-div>

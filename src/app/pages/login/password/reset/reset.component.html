@@ -15,22 +15,25 @@
     <qn-password-input [(value)]="confirmPassword" qnLabel="Confirmar Senha" />
     <qn-div
         grid
-        columns="1fr 1fr"
+        columns="repeat(2, minmax(auto, 1fr))"
         gap="10px"
         justifyContent="center"
         marginTop="5px"
     >
+        @if(!firstLogin()) {
         <qn-button
             label="Voltar"
             width="90%"
             cursor="pointer"
             (click)="previous()"
         />
+        }
         <qn-button
-            label="Redefinir Senha"
+            [label]="labelButton()"
             (click)="resetPassword()"
-            width="90%"
+            [width]="firstLogin() ? '70%' : '90%'"
             cursor="pointer"
+            [style.grid-column]="firstLogin() ? '1 / -1' : 'auto'"
         />
     </qn-div>
 </qn-div>

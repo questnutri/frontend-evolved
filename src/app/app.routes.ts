@@ -8,7 +8,7 @@ import { PatientHomePage } from './pages/patient/patient-home/patient-home.page'
 import { App } from './app';
 import { PreviewPage } from './pages/preview.page';
 import { NutritionistRegisterPage } from './pages/nutritionist/nutritionist-register/nutritionist-register.page';
-import { LoginResetPasswordPage } from './pages/login/reset-password/reset-password';
+import { LoginResetPasswordPage } from './pages/login/password/password';
 
 export const routes: Routes = [
     {

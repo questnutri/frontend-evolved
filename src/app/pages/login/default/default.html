@@ -1,27 +1,50 @@
-<div [style.padding]="'30px 25px 0'" [style.text-align]="'center'">
-    <h2
-        [style.color]="'black'"
-        [style.font-size]="'22px'"
-        [style.font-weight]="'600'"
-        [style.margin]="'0'"
-    >
-        Login
-    </h2>
-</div>
-
 <div
-    [style.flex]="'1'"
-    [style.padding]="'25px'"
     [style.display]="'flex'"
     [style.flex-direction]="'column'"
-    [style.justify-content]="'center'"
-    [style.gap]="'15px'"
+    [style.align-items]="'center'"
+    [style.position]="'relative'"
+    [style.gap]="'10px'"
+    [style.width]="'100%'"
+    [style.min-width]="'500px'"
 >
-    <qn-text-input type="email" [(value)]="emailInput" qnLabel="E-mail" />
+    <div
+        [style.padding]="'30px 30px 0'"
+        [style.text-align]="'center'"
+        [style.max-width]="'500px'"
+        [style.width]="'100%'"
+    >
+        <h2
+            [style.color]="'black'"
+            [style.font-size]="'22px'"
+            [style.font-weight]="'600'"
+            [style.margin]="'0'"
+        >
+            Login
+        </h2>
+    </div>
 
-    <qn-password-input [(value)]="passwordInput" qnLabel="Senha" />
+    <div
+        [style.padding]="'40px'"
+        [style.display]="'flex'"
+        [style.flex-direction]="'column'"
+        [style.justify-content]="'center'"
+        [style.gap]="'15px'"
+        [style.max-width]="'500px'"
+        [style.width]="'100%'"
+    >
+        <qn-text-input type="email" [(value)]="emailInput" qnLabel="E-mail" />
 
-    <a href="/forgot-password" class="forgot-password">Esqueci minha senha</a>
+        <qn-password-input [(value)]="passwordInput" qnLabel="Senha" />
 
-    <qn-button label="Login" (click)="doLogin()" width="70%" cursor="pointer" />
+        <a href="/forgot-password" class="forgot-password"
+            >Esqueci minha senha</a
+        >
+
+        <qn-button
+            label="Login"
+            (click)="doLogin()"
+            width="70%"
+            cursor="pointer"
+        />
+    </div>
 </div>
