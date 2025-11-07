@@ -36,6 +36,7 @@
     --blue-color-light3: #6dbaf9;
     --grey-color: #767777;
     --grey-color-light: #a4a4a4;
+    --grey-color-light2: #eeeeee;
     --grey-color-dark: #494a4a;
     --black-color: #000;
     --white-color: #fff;
@@ -47,6 +48,10 @@
     --secondary-color-hover: var(--grey-color-light);
 
     --primary-font-color: var(--black-color);
+    --primary-background-color: var(--white-color);
+    --secondary-background-color: var(--grey-color-light2);
+
+    --primary-border-color: var(--grey-color-light);
 
     /* Design System */
     --border-radius-input: 4px;
@@ -68,6 +73,7 @@
         --grey-color-light: #a4a4a4;
         --grey-color-dark: #494a4a;
         --black-color: #000;
+        --black-color-light: #252525;
         --white-color: #fff;
 
         --primary-color: var(--blue-color);
@@ -76,6 +82,9 @@
         --secondary-color-hover: var(--grey-color-light);
 
         --primary-font-color: var(--white-color);
+        --primary-background-color: var(--black-color);
+        --secondary-background-color: var(--black-color-light);
+        --primary-border-color: var(--grey-color-light);
 
         /* FORÇA INPUTS A SEMPRE TEREM FUNDO BRANCO E TEXTO PRETO */
         --p-inputtext-background: var(--white-color) !important;

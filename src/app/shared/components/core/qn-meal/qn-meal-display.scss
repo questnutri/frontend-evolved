@@ -1,0 +1,298 @@
+.meal-card {
+    background: var(--secondary-background-color);
+    border-radius: 6px;
+    margin-bottom: 16px;
+    max-width: 1000px;
+    // overflow: hidden;
+
+    .meal-header {
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-radius: 6px;
+        transition: background 0.2s ease;
+        border: 1px solid var(--primary-border-color);
+
+        &:hover .expand-btn {
+            background: var(--primary-font-color);
+            .chevron {
+                color: var(--primary-background-color);
+            }
+        }
+    }
+
+    .custom-checkbox {
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        border: 1px solid var(--primary-font-color);
+        border-radius: 4px;
+        background: var(--primary-background-color);
+        cursor: pointer;
+        position: relative;
+        flex-shrink: 0;
+        transition: all 0.2s ease;
+        padding: 0px;
+
+        &.checked,
+        &:checked {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+
+            &::after {
+                content: "✓";
+                color: var(--primary-background-color);
+                font-weight: bold;
+                font-size: 15px;
+                position: absolute;
+                top: 45%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
+
+    .meal-info {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+
+        .meal-name {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-font-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .meal-time {
+            margin: 2px 0 0;
+            font-size: 0.8rem;
+            color: var(--primary-font-color);
+        }
+        @media (max-width: 640px) {
+            flex-direction: row;
+            gap: 10px;
+            justify-content: center;
+            gap: 10px;
+            // padding-right: 8px;
+            align-items: center;
+            .meal-name {
+                font-size: 0.975rem;
+            }
+
+            .meal-time {
+                font-size: 0.775rem;
+            }
+        }
+    }
+
+    .macros-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        flex-shrink: 0;
+
+        .macro {
+            text-align: center;
+
+            .value {
+                margin: 0;
+                font-weight: 600;
+                font-size: 0.9rem;
+                color: var(--primary-font-color);
+            }
+
+            .label {
+                margin: 2px 0 0;
+                font-size: 0.775rem;
+                color: var(--primary-font-color);
+                letter-spacing: 0.05em;
+            }
+        }
+        @media (max-width: 640px) {
+            .value,
+            .label {
+                font-size: 0.6rem;
+            }
+            gap: 0px;
+        }
+    }
+
+    .no-foods {
+        font-weight: 600;
+        color: var(--primary-font-color);
+        font-size: 0.9rem;
+        margin-left: auto;
+        padding-left: 12px;
+    }
+
+    .expand-btn {
+        background: none;
+        border: none;
+        padding: 4px;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: background 0.2s;
+        flex-shrink: 0;
+
+        .chevron {
+            color: var(--primary-font-color);
+            transition: transform 0.2s ease;
+        }
+
+        &.expanded .chevron {
+            transform: rotate(180deg);
+        }
+    }
+
+    .expanded-details {
+        padding: 8px 12px;
+        background: var(--primary-background-color);
+
+        .food-list {
+            border-left: 2px solid var(--primary-color);
+            padding: 12px 16px;
+
+            .food-item {
+                display: flex;
+                justify-content: space-between;
+                padding: 6px 0;
+                font-size: 0.9rem;
+                color: var(--primary-font-color);
+
+                .food-name {
+                    margin: 0;
+                    font-weight: 500;
+                    color: var(--primary-font-color);
+                }
+
+                .food-quantity {
+                    margin: 0;
+                    color: var(--primary-font-color);
+                }
+            }
+        }
+    }
+
+    // === RESPONSIVIDADE PERSONALIZADA ===
+    @media (max-width: 640px) {
+        .meal-header {
+            display: grid;
+            grid-template-columns: minmax(20px, 1fr) minmax(100px, 8fr) minmax(
+                    20px,
+                    1fr
+                );
+            grid-template-rows: auto auto;
+            gap: 12px 16px;
+            padding: 12px;
+            align-items: center;
+        }
+
+        // Coluna 1: Checkbox (alinha no topo da primeira linha)
+        .custom-checkbox {
+            grid-column: 1;
+            grid-row: 1 / 3;
+            align-self: center;
+            justify-self: center;
+            width: 18px;
+            height: 18px;
+
+            &.checked::after,
+            &:checked::after {
+                font-size: 12px;
+            }
+        }
+
+        // Coluna 2: Info + Macros
+        .meal-info {
+            grid-column: 2;
+            grid-row: 1;
+            align-self: center;
+
+            .meal-name {
+                font-size: 0.875rem;
+            }
+
+            .meal-time {
+                font-size: 0.75rem;
+            }
+        }
+
+        .macros-grid {
+            grid-column: 2;
+            grid-row: 2;
+            width: 100%;
+            gap: 8px;
+
+            .macro {
+                .value {
+                    font-size: 0.875rem;
+                }
+                .label {
+                    font-size: 0.7rem;
+                }
+            }
+        }
+
+        // Sem alimentos: ocupa a linha dos macros
+        .no-foods {
+            grid-column: 2;
+            grid-row: 2;
+            width: 100%;
+            text-align: center;
+            padding: 8px 0 0;
+            margin: 0;
+            font-size: 0.875rem;
+        }
+
+        // Coluna 3: Botão expandir (alinha no topo da primeira linha)
+        .expand-btn {
+            grid-column: 3;
+            grid-row: 1 / 3;
+            align-self: center;
+            justify-self: center;
+            margin-left: 0;
+        }
+    }
+
+    @media (max-width: 480px) {
+        margin-bottom: 12px;
+        border-radius: 10px;
+
+        .meal-header {
+            padding: 10px;
+            gap: 6px 10px;
+        }
+
+        .custom-checkbox {
+            width: 18px;
+            height: 18px;
+        }
+
+        .meal-name {
+            font-size: 0.85rem;
+        }
+
+        .meal-time {
+            font-size: 0.7rem;
+        }
+
+        .macro {
+            .value {
+                font-size: 0.8rem;
+            }
+            .label {
+                font-size: 0.65rem;
+            }
+        }
+
+        .no-foods {
+            font-size: 0.8rem;
+        }
+    }
+}

@@ -1,0 +1,82 @@
+<div class="meal-card">
+    <div class="meal-header">
+        <!-- Checkbox -->
+        <input
+            type="checkbox"
+            [(ngModel)]="meal().checked"
+            class="custom-checkbox"
+            [class.checked]="meal().checked"
+        />
+
+        <!-- Info -->
+        <div class="meal-info">
+            <h3 class="meal-name" [title]="meal().name">{{ meal().name }}</h3>
+            <p class="meal-time">{{ formattedTime() }}</p>
+        </div>
+
+        <!-- Macros -->
+        @if (meal().foods.length > 0) {
+        <div class="macros-grid">
+            <div class="macro">
+                <p class="label">kcal</p>
+                <p class="value">{{ totalCalories() | number: '1.0-0' }}</p>
+            </div>
+            <div class="macro">
+                <p class="label">Carbs</p>
+                <p class="value">{{ totalCarbs() | number: '1.0-1' }}g</p>
+            </div>
+            <div class="macro">
+                <p class="label">Protein</p>
+                <p class="value">{{ totalProtein() | number: '1.0-1' }}g</p>
+            </div>
+            <div class="macro">
+                <p class="label">Fat</p>
+                <p class="value">{{ totalFat() | number: '1.0-1' }}g</p>
+            </div>
+        </div>
+        } @else {
+        <div class="no-foods">No foods added</div>
+        }
+
+        <!-- Expand Button -->
+        @if (meal().foods.length > 0) {
+        <button
+            class="expand-btn"
+            (click)="toggleExpanded(meal())"
+            [class.expanded]="meal().expanded"
+        >
+            <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                class="chevron"
+            >
+                <path
+                    d="M5 7.5L10 12.5L15 7.5"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+            </svg>
+        </button>
+        }
+    </div>
+
+    <!-- Expanded Details -->
+    @if (meal().expanded && meal().foods.length > 0) {
+    <div class="expanded-details">
+        <div class="food-list">
+            @for (food of meal().foods; track food.id) { @if (food.isActive) {
+            <div class="food-item">
+                <p class="food-name">{{ food.aliment.name }}</p>
+                <p class="food-quantity">
+                    {{ food.quantity }} × {{ food.portion }}
+                </p>
+            </div>
+            } }
+        </div>
+    </div>
+    }
+</div>
