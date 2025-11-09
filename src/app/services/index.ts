@@ -2,3 +2,6 @@ export * from './notification/notification.service';
 export * from './auth/auth.service';
 export * from './device/device.service';
 export * from './nutritionist/nutritionist.service';
+export * from './layout/layout.service';
+export * from './api/api.service';
+export * from './storage/storage.service';

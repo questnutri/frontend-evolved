@@ -22,7 +22,10 @@
       "@qn/components/abstracts/*": ["src/app/shared/components/abstracts/*"],
       "@qn/styles": ["src/app/app.scss"],
       "@qn/services": ["src/app/services"],
-      "@qn/directives": ["src/app/shared/directives"]
+      "@qn/directives": ["src/app/shared/directives"],
+      "@qn/models": ["src/app/shared/models/index"],
+      "@qn/interfaces": ["src/app/shared/interface/index"],
+      "@qn/types": ["src/app/shared/types/index"],
     },
   "moduleResolution": "nodenext",
     "importHelpers": true,

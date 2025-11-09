@@ -4,25 +4,40 @@ import { NotificationService } from "../notification/notification.service";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
+import { ApiService } from "../api/api.service";
+import { Nutritionist, NutritionistModel } from "src/app/shared/models/nutritionist.model";
 
 @Injectable({
     providedIn: 'root'
 })
 export class NutritionistService {
-
-    private readonly BACKEND_GATEWAY_URL = inject(BACKEND_GATEWAY_URL);
     private readonly notificationService = inject(NotificationService);
     private readonly router = inject(Router);
-    private readonly http = inject(HttpClient);
+    private readonly apiService = inject(ApiService);
 
+    async getMe(): Promise<NutritionistModel | null> {
+        try {
+            const response = await firstValueFrom(
+                this.apiService.authenticated.get<Nutritionist>(`nutritionist/me`)
+            );
+            if("error" in response) {
+                return null;
+            }
+            return NutritionistModel.from(response);
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    }
 
     async registerNutritionist(data: any): Promise<{ success: boolean, redirect: string | null }> {
         try {
             const response = await firstValueFrom(
-                this.http.post<
+                this.apiService.post<
                     { success: boolean, message: string, id: string }
-                >(`${this.BACKEND_GATEWAY_URL}/nutritionist/register`, data)
+                >(`nutritionist/register`, data)
             );
+
             if (!response.success) {
                 return {
                     success: false,

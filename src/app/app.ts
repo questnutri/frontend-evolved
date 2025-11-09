@@ -7,7 +7,7 @@ import { mail, paperPlane, heart, archive, trash, warning } from "ionicons/icons
 import { MessageService } from 'primeng/api';
 import { AuthService } from './services/auth/auth.service';
 
-import { QnGlobalToastComponent, QnLayoutComponent } from '@qn/components/core';
+import { QnGlobalToastComponent } from '@qn/components/core';
 
 
 @Component({
@@ -19,7 +19,6 @@ import { QnGlobalToastComponent, QnLayoutComponent } from '@qn/components/core';
     RouterLink,
     QnGlobalToastComponent,
     RouterOutlet,
-    QnLayoutComponent
 ],
     providers: [MessageService]
 })

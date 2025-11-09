@@ -1,3 +1,5 @@
-<p>nutritionist-home works!</p>
+@if(nutritionist()) {
+    <p>Welcome, {{ nutritionist()!.name }}!</p>
+}
 <button (click)="testToast()">Test Toast</button>
 <!-- <qn-button></qn-button> -->
