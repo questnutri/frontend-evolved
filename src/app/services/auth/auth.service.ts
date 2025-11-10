@@ -1,14 +1,12 @@
-import { computed, effect, inject, Injectable, OnInit, signal } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { BACKEND_GATEWAY_URL } from '../../config/setup.token';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { ApiInteraction } from '@qn/types';
+import { BACKEND_GATEWAY_URL } from '../../config/setup.token';
 import { ApiHttpResponse } from '../../shared/types/api-http-response.type';
 import { AuthPayload, ErrorLoginResponse, SuccessLoginResponse } from '../../shared/types/login-response.type';
 import { NotificationService } from '../notification/notification.service';
-import { ApiInteraction } from '@qn/types';
-import { AUTH_LOCAL_STORAGE_NAMES } from 'src/app/shared/tokens/AUTH_LOCAL_STORAGE_NAMES.token';
-import { UserRole } from 'src/app/shared/enum/user/user-role.enum';
 import { StorageService } from '../storage/storage.service';
 
 interface PaginationReponse<T> {
@@ -35,6 +33,8 @@ export class AuthService {
     private readonly http = inject(HttpClient);
 
     private serviceRoute = 'auth'
+
+    authToken = signal<string | null>(null);
 
     isAuthenticated = computed(() => this.auth() !== null);
 
