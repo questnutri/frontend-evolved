@@ -1,4 +1,5 @@
-import { MealModel } from "./Meal.model";
+import { Calculable } from "../interface/calculable.interface";
+import { MealModel } from "./meal.model";
 
 export interface Diet {
     id: string;
@@ -13,7 +14,7 @@ export interface Diet {
     meals: MealModel[];
 }
 
-export class DietModel implements Diet {
+export class DietModel implements Diet, Calculable {
     id!: string;
     name?: string;
     description?: string;
@@ -28,10 +29,13 @@ export class DietModel implements Diet {
     static from(diet: Diet): DietModel {
         const model = new DietModel();
         Object.assign(model, diet);
+        model.meals = diet.meals.map(meal => MealModel.from(meal));
         return model;
     }
 
-    getHello() {
-        console.log('Hello');
+    getTotal(nutrient: "kcal" | "carb" | "protein" | "fat"): number {
+        return this.meals.reduce((total, meal) => {
+            return total + meal.getTotal(nutrient);
+        }, 0);
     }
 }
