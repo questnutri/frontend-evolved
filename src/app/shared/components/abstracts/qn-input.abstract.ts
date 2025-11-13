@@ -8,4 +8,5 @@ export abstract class QnInput<T = string> extends QnComponent {
     disabled = input<boolean>(false);
     size = input<string>("8px");
     invalid = input<boolean>(false);
+    fill = input<boolean>(false);
 }

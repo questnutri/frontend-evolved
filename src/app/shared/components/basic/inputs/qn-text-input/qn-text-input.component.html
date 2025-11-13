@@ -1,15 +1,13 @@
-<qn-div [style.width]="width()">
-    <input
-        [id]="id"
-        pInputText
-        fluid
-        [(ngModel)]="value"
-        [invalid]="invalid()"
-        (mouseenter)="onMouseEnter()"
-        (mouseleave)="onMouseLeave()"
-        [placeholder]="placeholder()"
-        [disabled]="disabled()"
-        [style.width]="width()"
-        [style.cursor]="cursor()"
-    />
-</qn-div>
+<input
+    [id]="id"
+    pInputText
+    fluid
+    [(ngModel)]="value"
+    [invalid]="invalid()"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+    [placeholder]="placeholder()"
+    [disabled]="disabled()"
+    [style.width]="width()"
+    [style.cursor]="cursor()"
+/>

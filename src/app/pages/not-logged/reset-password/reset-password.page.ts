@@ -7,6 +7,7 @@ import { QnLabelDirective } from "@qn/directives";
 @Component({
     selector: 'app-reset-page',
     templateUrl: './reset-password.page.html',
+    styleUrls: ['./reset-password.page.scss'],
     imports: [QnDiv, QnPasswordInputComponent, QnButtonComponent, QnLabelDirective],
 })
 export class ResetPage {
