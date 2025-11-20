@@ -1,11 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { ApiInteraction } from '@qn/types';
 import { BACKEND_GATEWAY_URL } from '../../config/setup.token';
 import { ApiHttpResponse } from '../../shared/types/api-http-response.type';
-import { AuthPayload, ErrorLoginResponse, SuccessLoginResponse } from '../../shared/types/login-response.type';
+import { AuthPayload, ErrorLoginResponse, SuccessLoginResponse } from '../../shared/types/auth-response.type';
 import { NotificationService } from '../notification/notification.service';
 import { StorageService } from '../storage/storage.service';
 
@@ -39,6 +39,7 @@ export class AuthService {
     isAuthenticated = computed(() => this.auth() !== null);
 
     accessToken = computed(() => this.auth()?.accessToken || null);
+    refreshToken = computed(() => this.auth()?.refreshToken || null);
     userRole = computed(() => this.auth()?.role || null);
     userId = computed(() => this.auth()?.id || null);
 
@@ -46,7 +47,7 @@ export class AuthService {
 
     canReset = computed(() => {
         return this.resetToken() !== null;
-    })
+    });
 
     constructor() {
         this.auth.set(this.storageService.get<AuthPayload>('auth'));
@@ -59,7 +60,6 @@ export class AuthService {
                 this.storageService.remove('auth');
             }
         });
-
     };
 
     async login(email: string, password: string): Promise<SuccessLoginResponse | ErrorLoginResponse> {
@@ -95,6 +95,31 @@ export class AuthService {
             }
         }
 
+    }
+
+    async refresh(): Promise<any> {
+        try {
+            if (this.refreshToken()) {
+                const response = await firstValueFrom(
+                    this.http.post<
+                        ApiHttpResponse<AuthPayload, ErrorLoginResponse>
+                    >(`${this.BACKEND_GATEWAY_URL}/${this.serviceRoute}/refresh`, { refreshToken: this.refreshToken() })
+                );
+
+                if ("error" in response) {
+                    this.auth.set(null);
+                    return false;
+                }
+
+                this.auth.set(response);
+                return true;
+            }
+
+
+        } catch (e: any) {
+            // this.notificationService.add({ severity: 'error', summary: 'Erro', detail: e.error?.message || 'Erro ao conectar com o servidor', life: 3000 });
+            return false;
+        }
     }
 
     async forgotPassword(email: string): Promise<ApiInteraction<ForgotPasswordResponse>> {
@@ -148,6 +173,35 @@ export class AuthService {
                 error: e.error.message,
                 type: e.error.error
             }
+        }
+    }
+
+    async changePassword(currentPassword: string, newPassword: string): Promise<void> {
+        try {
+            let headers = new HttpHeaders();
+            headers = headers.set('Authorization', `Bearer ${this.accessToken()}`)
+
+            const response = await firstValueFrom(
+                this.http.post<ApiHttpResponse<AuthPayload>>(
+                    `${this.BACKEND_GATEWAY_URL}/${this.serviceRoute}/change-password`,
+                    {
+                        currentPassword,
+                        newPassword
+                    },
+                    {
+                        headers
+                    }
+                )
+            );
+            if ("error" in response) {
+                throw new Error(`${response.error}`);
+            }
+            this.auth.set(response);
+            this.notificationService.add({ severity: 'success', summary: 'Sucesso', detail: 'Senha alterada com sucesso', life: 3000 });
+        }
+        catch (e: any) {
+            // console.error(e);
+            this.notificationService.add({ severity: 'error', summary: 'Erro', detail: e.error?.message || 'Erro ao conectar com o servidor', life: 3000 });
         }
     }
 
