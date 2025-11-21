@@ -1,0 +1,114 @@
+.patient-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    overflow-y: hidden;
+    background: var(--secondary-background-color);
+    gap: 1px;
+}
+
+.main-content {
+    display: flex;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.sidebar {
+    background: var(--primary-background-color);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    height: 100vh; // Mude de height: 100%
+
+    position: sticky;
+    top: 0;
+    overflow-y: hidden; // Adicione scroll se necessário
+}
+
+.back-navigation {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    overflow: hidden;
+    .back-icon {
+        font-size: 1.4rem;
+        color: var(--primary-font-color);
+        transition: all 0.25s ease;
+        flex-shrink: 0;
+    }
+    .back-text {
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--primary-font-color);
+        opacity: 0;
+        transform: translateX(-20px);
+        transition:
+            opacity 0.5s ease,
+            transform 0.5s ease;
+        white-space: nowrap;
+    }
+    &:hover {
+        .back-icon {
+            color: var(--primary-color);
+            transform: scale(1.12);
+        }
+        .back-text {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+}
+
+.avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    .name {
+        margin: 0 auto;
+        text-align: center;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--primary-font-color);
+    }
+    .email {
+        margin: 0 auto;
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: 500;
+
+        color: var(--secondary-font-color);
+        opacity: 0.9;
+    }
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.item-list {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.item-list.active,
+.item-list:hover {
+    background: var(--primary-color);
+    color: white;
+}

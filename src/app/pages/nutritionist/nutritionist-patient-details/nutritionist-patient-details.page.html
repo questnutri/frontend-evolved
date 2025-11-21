@@ -1,3 +1,63 @@
-<p>
-  nutritionist-patient-details works!
-</p>
+<div class="patient-layout">
+    <!-- SIDEBAR FIXA -->
+    <div class="sidebar">
+        <div class="back-navigation" (click)="backToPatients()">
+            <i class="pi pi-arrow-left back-icon"></i>
+            <span class="back-text">Voltar aos Pacientes</span>
+        </div>
+
+        <div class="avatar-section">
+            <img
+                src="https://ui-avatars.com/api/?name=Lucas&size=120&background=0380dc&color=fff"
+                alt="Foto de Perfil"
+                class="avatar"
+            />
+            <h4 class="name">Lucas</h4>
+            <h5 class="email">lucas@mail.com</h5>
+        </div>
+
+        <div class="menu-list">
+            <div
+                class="item-list"
+                [class.active]="activeMenuItem() === 'information'"
+                (click)="setActiveMenuItem('information')"
+            >
+                <i class="pi pi-user"></i><span>Informações</span>
+            </div>
+            <div
+                class="item-list"
+                [class.active]="activeMenuItem() === 'diets'"
+                (click)="setActiveMenuItem('diets')"
+            >
+                <i class="pi pi-apple"></i><span>Dietas</span>
+            </div>
+            <div
+                class="item-list"
+                [class.active]="activeMenuItem() === 'health'"
+                (click)="setActiveMenuItem('health')"
+            >
+                <i class="pi pi-heart"></i><span>Dados de Saúde</span>
+            </div>
+            <div
+                class="item-list"
+                [class.active]="activeMenuItem() === 'records'"
+                (click)="setActiveMenuItem('records')"
+            >
+                <i class="pi pi-file"></i><span>Registros</span>
+            </div>
+        </div>
+    </div>
+    <div class="main-content">
+        @if(activeMenuItem() === 'information') {
+        <app-nutritionist-patient-info></app-nutritionist-patient-info>
+        }@else if(activeMenuItem() === 'diets') {
+        <app-nutritionist-patient-diets
+            [diets]="patientDiets()"
+        ></app-nutritionist-patient-diets>
+        }@else if(activeMenuItem() === 'health') {
+        <h1>Health works!</h1>
+        }@else if(activeMenuItem() === 'records') {
+        <h1>Records works!</h1>
+        }
+    </div>
+</div>

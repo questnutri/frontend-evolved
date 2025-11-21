@@ -1,0 +1,57 @@
+.content {
+    padding: 2rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: var(--primary-background-color);
+    height: 100vh; // Mude de height: 100%
+}
+
+.card {
+    background: white;
+    padding: 1rem 2rem;
+    border-radius: 0px;
+
+    &:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+}
+.card-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-font-color);
+    margin-bottom: 1.5rem;
+}
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem 2rem;
+}
+.physical-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1.5rem 2rem;
+}
+.medical-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem 2rem;
+}
+
+@media (max-width: 768px) {
+    .details-grid,
+    .physical-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.label {
+    font-weight: 600;
+    color: var(--primary-font-color);
+}

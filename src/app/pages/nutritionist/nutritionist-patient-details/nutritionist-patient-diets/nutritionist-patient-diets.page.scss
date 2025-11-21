@@ -1,0 +1,118 @@
+.content {
+    padding: 2rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: var(--primary-background-color);
+    height: 100vh;
+}
+
+.card {
+    background: white;
+    padding: 1rem 2rem;
+    border-radius: 0px;
+
+    &:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.card-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-font-color);
+    margin: 0;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: minmax(300px, 1fr);
+    gap: 1.5rem;
+}
+
+.diet-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    gap: 1rem;
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+}
+
+.diet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .diet-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 0;
+        color: var(--primary-font-color);
+    }
+
+    i {
+        cursor: pointer;
+        color: #666;
+        font-size: 1.2rem;
+
+        &:hover {
+            color: var(--primary-font-color);
+        }
+    }
+}
+
+.diet-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #666;
+    font-size: 0.95rem;
+
+    .diet-date {
+        font-weight: 500;
+    }
+
+    .diet-percentage {
+        font-weight: 600;
+        color: var(--primary-color, #4caf50);
+        font-size: 1.1rem;
+    }
+}
+
+.diet-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+
+    .details-button {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .content {
+        padding: 1rem;
+    }
+
+    .card {
+        padding: 1rem;
+    }
+}

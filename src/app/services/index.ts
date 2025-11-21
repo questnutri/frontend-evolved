@@ -6,3 +6,4 @@ export * from './patient/patient.service';
 export * from './layout/layout.service';
 export * from './api/api.service';
 export * from './storage/storage.service';
+export * from './diet/diet.service';
