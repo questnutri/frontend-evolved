@@ -13,9 +13,9 @@ export class QnLabelDirective implements AfterViewInit {
 
     private effectiveLabelValue = computed(() => {
         const whiteValue = this.qnLabelWhite()?.trim();
-        if(whiteValue?.length === 0) {
+        if (whiteValue?.length === 0) {
             const defaultValue = this.qnLabel()?.trim();
-            if(defaultValue?.length === 0) {
+            if (defaultValue?.length === 0) {
                 return ''
             }
             return defaultValue;

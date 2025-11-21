@@ -13,12 +13,12 @@ import { QnDiv } from "../qn-div/qn-div";
 })
 export class QnDropDownComponent extends QnComponent {
 
-    value = model<string | null>(null);
+    value = model<string>();
     placeholder = input<string | undefined>();
     options = input<Array<{ label: string, value: string }>>([]);
     disabled = input<boolean>(false);
 
     valueChange(newValue: string | null) {
-        this.value.set(newValue);
+        this.value.set(newValue || '');
     }
 }

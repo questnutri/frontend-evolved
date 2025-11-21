@@ -1,12 +1,8 @@
-import { Component, input, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject, input, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Meal } from 'src/app/shared/interface/Meal.interface';
-
-export interface MealCardState extends Meal {
-    checked: boolean;
-    expanded: boolean;
-}
+import { DeviceService } from '@qn/services';
+import { MealModel } from 'src/app/shared/models/meal.model';
 
 @Component({
     selector: 'app-meal-display',
@@ -16,64 +12,39 @@ export interface MealCardState extends Meal {
     standalone: true
 })
 export class MealDisplayComponent {
-    meal = input.required<MealCardState>();
+    readonly deviceService = inject(DeviceService);
 
-    // Valores calculados
-    totalCalories = computed(() => {
-        return this.calculateTotal('kcal');
-    });
+    meal = input.required<MealModel>();
+    expanded = signal<boolean>(false);
+    checked = signal<boolean>(false);
+    Number = Number;
+    food_expanded = signal<{ [key: string]: boolean }>({});
 
-    totalCarbs = computed(() => {
-        return this.calculateTotal('carb');
-    });
+    isFoodVisible = (foodId: string) => computed(() => {
+        const isMobile = this.deviceService.isMobileSize();
 
-    totalProtein = computed(() => {
-        return this.calculateTotal('protein');
-    });
+        if (!isMobile) return true;
+        return this.food_expanded()[foodId] ?? false;
+    })
 
-    totalFat = computed(() => {
-        return this.calculateTotal('fat');
-    });
-
-    formattedTime = computed(() => {
-        const hour24 = this.meal().hour;
-        const [hours, minutes] = hour24.split(':');
-        const hour = parseInt(hours);
-        const period = hour >= 12 ? 'PM' : 'AM';
-        const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
-        return `${displayHour}:${minutes} ${period}`;
-    });
-
-    private calculateTotal(nutrient: 'kcal' | 'carb' | 'protein' | 'fat'): number {
-        let total = 0;
-
-        this.meal().foods.forEach(food => {
-            if (!food.isActive) return;
-
-            const portion = food.aliment.portions[food.portion];
-            if (!portion) return;
-
-            const multiplier = parseFloat(food.quantity) || 1;
-            total += this.parseValue(portion[nutrient]) * multiplier;
-        });
-
-        return total;
-    }
-
-    private parseValue(value: string): number {
-        if (!value || value === 'NA' || value === 'Tr' || value === '') {
-            return 0;
-        }
-        return parseFloat(value.replace(',', '.')) || 0;
-    }
-
-    toggleExpanded(meal: MealCardState): void {
-        if (meal.foods.length > 0) {
-            meal.expanded = !meal.expanded;
+    toggleExpanded(): void {
+        if (this.meal().foods.length > 0) {
+            this.expanded.update(value => !value);
         }
     }
 
-    toggleChecked(meal: MealCardState): void {
-        meal.checked = !meal.checked;
+    toggleChecked(): void {
+        console.log('1- Toggling checked state', this.checked());
+
+        this.checked.update(value => !value);
+        console.log('2- Toggling checked state', this.checked());
+    }
+
+    toggleFoodExpanded(foodId: string) {
+        this.food_expanded.update(prev => ({
+            ...prev,
+            [foodId]: !(prev[foodId] ?? false)  // garante que undefined = false
+        }));
+        console.log('Toggled food expanded for', foodId, this.food_expanded());
     }
 }

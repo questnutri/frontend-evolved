@@ -1,0 +1,257 @@
+<div class="profile-wrapper">
+    <div class="patient-layout">
+        <div class="header">
+            <h1 class="title">Configurações de Perfil</h1>
+            <p class="subtitle">
+                Gerencie suas informações pessoais e preferências
+            </p>
+        </div>
+
+        <div class="content-scroll">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Informações Pessoais</h2>
+                    <span
+                        class="icon"
+                        (click)="handleChangePersonalInformationMode()"
+                    >
+                        <i class="pi pi-pencil" style="font-size: 1rem"></i>
+                    </span>
+                </div>
+                <div
+                    class="card-content"
+                    [class.has-actions]="!personalInformation()"
+                >
+                    <div class="form-grid">
+                        <div class="profile-photo-section">
+                            <div class="avatar-container">
+                                <img
+                                    id="avatarImage"
+                                    src="https://ui-avatars.com/api/?name=Usuario&size=150&background=0380dc&color=fff"
+                                    alt="Foto de Perfil"
+                                    class="avatar"
+                                />
+                                <div
+                                    class="avatar-overlay"
+                                    onclick="document.getElementById('photoInput').click()"
+                                >
+                                    <i class="pi pi-camera"></i>
+                                </div>
+                                <input
+                                    type="file"
+                                    id="photoInput"
+                                    accept="image/*"
+                                    onchange="handlePhotoUpload(event)"
+                                />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <qn-text-input
+                                qnLabel="Primeiro Nome"
+                                id="firstName"
+                                [value]="nutritionist()?.name"
+                                [disabled]="personalInformation()"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <qn-text-input
+                                qnLabel="Sobrenome"
+                                id="lastName"
+                                [value]="nutritionist()?.name"
+                                [disabled]="personalInformation()"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <qn-drop-down
+                                [options]="optionsGender"
+                                qnLabel="Gênero"
+                                [disabled]="personalInformation()"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <qn-text-input
+                                qnLabel="E-mail"
+                                id="email"
+                                [value]="nutritionist()?.email"
+                                [disabled]="true"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <qn-mask-input
+                                qnLabel="Telefone"
+                                id="phone"
+                                [value]="nutritionist()?.phone"
+                                [disabled]="personalInformation()"
+                                mask="(99) 99999-9999"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <qn-drop-down
+                                [options]="optionsDocType"
+                                qnLabel="Documento"
+                                [disabled]="personalInformation()"
+                                [value]="nutritionist()?.documentType"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <qn-mask-input
+                                [qnLabel]="`CPF`"
+                                mask="999.999.999-99"
+                                [disabled]="personalInformation()"
+                                [value]="nutritionist()?.documentNumber"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <p-fluid>
+                                <p-datepicker
+                                    [iconDisplay]="'input'"
+                                    [showIcon]="true"
+                                    inputId="icondisplay"
+                                    qnLabel="Data de Aniversário"
+                                    dateFormat="dd/mm/yy"
+                                    placeholder="dd/mm/aa"
+                                    disabled="true"
+                                />
+                            </p-fluid>
+                        </div>
+                    </div>
+                    <!-- Botões agora FORA do grid, em container próprio -->
+                    @if (!personalInformation()) {
+                        <div class="form-actions">
+                            <qn-button
+                                label="Cancelar"
+                                type="outline"
+                                width="130px"
+                                (click)="handleChangePersonalInformationMode()"
+                            />
+                            <qn-button label="Salvar" width="130px" />
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Informações de Endereço</h2>
+                    <span
+                        class="icon"
+                        (click)="handleChangePersonalAddressMode()"
+                    >
+                        <i class="pi pi-map" style="font-size: 1rem"></i>
+                    </span>
+                </div>
+                <div
+                    class="card-content"
+                    [class.has-actions]="!personalAddress()"
+                >
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <qn-text-input
+                                qnLabel="Rua"
+                                id="street"
+                                [disabled]="personalAddress()"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <qn-text-input
+                                qnLabel="Bairro"
+                                id="neighborhood"
+                                [disabled]="personalAddress()"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <qn-mask-input
+                                qnLabel="CEP"
+                                id="zipCode"
+                                mask="99999-999"
+                                [disabled]="personalAddress()"
+                            />
+                        </div>
+                    </div>
+                    <!-- Botões agora FORA do grid, em container próprio -->
+                    @if (!personalAddress()) {
+                        <div class="form-actions">
+                            <qn-button
+                                label="Cancelar"
+                                type="outline"
+                                width="130px"
+                                (click)="handleChangePersonalAddressMode()"
+                            />
+                            <qn-button label="Salvar" width="130px" />
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Alterar Senha</h2>
+                    <span class="icon" (click)="handleChangePasswordMode()">
+                        <i class="pi pi-key" style="font-size: 1rem"></i>
+                    </span>
+                </div>
+                <div
+                    class="card-content"
+                    [class.has-actions]="!changePassword()"
+                >
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <!-- <label for="current-password">Senha Atual</label>
+                            <input type="password" id="current-password" class="input" placeholder="Digite sua senha atual" disabled> -->
+                            <qn-password-input
+                                qnLabel="Senha Atual"
+                                id="current-password"
+                                placeholder="Digite sua senha atual"
+                                [disabled]="changePassword()"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <!-- <label for="new-password">Nova Senha</label> -->
+                            <qn-password-input
+                                qnLabel="Nova Senha"
+                                id="new-password"
+                                placeholder="Digite a nova senha"
+                                [disabled]="changePassword()"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <!-- <label for="confirm-password">Confirmar Nova Senha</label> -->
+                            <qn-password-input
+                                qnLabel="Confirmar Nova Senha"
+                                id="confirm-password"
+                                placeholder="Confirme a nova senha"
+                                [disabled]="changePassword()"
+                            />
+                        </div>
+                    </div>
+
+                    @if (!changePassword()) {
+                        <div class="form-actions" id="passwordActions">
+                            <qn-button
+                                label="Cancelar"
+                                width="120px"
+                                (click)="handleChangePasswordMode()"
+                            />
+                            <qn-button
+                                label="Salvar Senha"
+                                (click)="passwordChange()"
+                                width="120px"
+                            />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+//TODO: AJUSTAR O PADDING DA INFORMACAO, AUMENTAR O GAP ENTRE OS CAMPOS DO FORMULARIO
+//TODO: TODOS OS CAMPOS NA MESMA LINHA, RESPONSIVO PARA MOBILE
+//TODO: ADDRESS, CAMPOS: RUA, NUMERO, COMPLEMENTO, BAIRRO, CIDADE, ESTADO, CEP => FAZER TODOS O RESTO PRIMEIRO

@@ -34,22 +34,26 @@ export class FoodModel implements Food, Calculable {
     }
 
     getTotal(nutrient: 'kcal' | 'carb' | 'protein' | 'fat'): number {
+        // console.log(`[FoodModel] Getting total nutritient for: ${nutrient}`);
         if (this.portion) {
             const foundPortion = this.aliment.getPortion(this.portion);
             if (foundPortion) {
-                const multiplier = parseFloat(this.quantity || '1') || 1;
-                const value = this.parseValue(foundPortion.getNutrientValue(nutrient)) * multiplier;
-                console.log(`Food: ${this.description}, Portion: ${this.portion}, Quantity: ${this.quantity}, Nutrient: ${nutrient}, Value: ${value}`);
-                return value;
+                const multiplier = parseFloat(this.quantity || '1') || 1.0;
+                let nutritientRawValue = foundPortion.getNutrientValue(nutrient);
+                // console.log(`[FoodModel] Portion was found! Trying to get nutrient value...`);
+                // console.log(`[FoodModel] Nutrient raw value: ${nutritientRawValue}, Multiplier: ${multiplier}`);
+                return nutritientRawValue * multiplier;
             }
         }
         return 0;
     }
 
     private parseValue(value: string): number {
+        // console.log(`Parsing value: ${value}`);
         if (!value || value === 'NA' || value === 'Tr' || value === '') {
             return 0;
         }
+        // console.log(`Parsed value: ${value.replace(',', '.')}`);
         return parseFloat(value.replace(',', '.')) || 0;
     }
 

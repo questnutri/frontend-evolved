@@ -1,6 +1,6 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
-import { provideRouter, RouteReuseStrategy, withRouterConfig } from '@angular/router';
+import { provideRouter, RouteReuseStrategy, withComponentInputBinding, withRouterConfig } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { routes } from './app.routes';
 import { provideIonicAngular } from '@ionic/angular/standalone';
@@ -18,7 +18,11 @@ export const appConfig: ApplicationConfig = {
         provideHttpClient(withInterceptorsFromDi()),
         { provide: HTTP_INTERCEPTORS, useClass: AuthRefreshInterceptor, multi: true },
         provideZoneChangeDetection({ eventCoalescing: true }),
-        provideRouter(routes, withRouterConfig({ onSameUrlNavigation: 'reload' }),),
+        provideRouter(
+            routes,
+            withComponentInputBinding(),
+            withRouterConfig({ onSameUrlNavigation: 'reload' }),
+        ),
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         provideIonicAngular(),
         provideAnimationsAsync(),

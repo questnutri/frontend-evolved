@@ -1,9 +1,11 @@
+@use "../../../../app.scss" as *;
 .meal-card {
-    background: var(--secondary-background-color);
     border-radius: 6px;
     margin-bottom: 16px;
-    max-width: 1000px;
+    // max-width: 1000px;
+    width: 100%;
     // overflow: hidden;
+    background: transparent;
 
     .meal-header {
         padding: 16px;
@@ -13,9 +15,10 @@
         border-radius: 6px;
         transition: background 0.2s ease;
         border: 1px solid var(--primary-border-color);
+        background: var(--primary-background-color);
 
         &:hover .expand-btn {
-            background: var(--primary-font-color);
+            background: var(--primary-color);
             .chevron {
                 color: var(--primary-background-color);
             }
@@ -34,6 +37,10 @@
         flex-shrink: 0;
         transition: all 0.2s ease;
         padding: 0px;
+
+        &:hover {
+            border: 2px solid var(--primary-color);
+        }
 
         &.checked,
         &:checked {
@@ -152,28 +159,197 @@
 
     .expanded-details {
         padding: 8px 12px;
-        background: var(--primary-background-color);
-
+        background: transparent;
+        border-radius: 0px 0px 6px 6px;
         .food-list {
             border-left: 2px solid var(--primary-color);
             padding: 12px 16px;
-
             .food-item {
-                display: flex;
-                justify-content: space-between;
-                padding: 6px 0;
+                display: grid;
+                align-items: center;
+                padding: 8px 0;
+                gap: 12px;
                 font-size: 0.9rem;
                 color: var(--primary-font-color);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 
-                .food-name {
-                    margin: 0;
-                    font-weight: 500;
-                    color: var(--primary-font-color);
+                /* Desktop: tudo na mesma linha */
+                grid-template-columns: 1fr auto auto auto;
+                grid-template-areas: "name quantity macros details";
+
+                .food-name-wrapper {
+                    grid-area: name;
+                    .food-name {
+                        margin: 0;
+                        font-weight: 500;
+                        color: var(--primary-font-color);
+                    }
                 }
 
                 .food-quantity {
-                    margin: 0;
-                    color: var(--primary-font-color);
+                    grid-area: quantity;
+                    display: flex;
+                    gap: 12px;
+                    align-items: center;
+                }
+
+                .food-macro-grid {
+                    grid-area: macros;
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 12px;
+                }
+
+                .food-details {
+                    grid-area: details;
+                    display: flex;
+                    justify-content: flex-end;
+                }
+
+                /* Estilo comum dos macros */
+                .food-macro {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 12px 8px;
+                    transition: all 0.2s ease;
+                    position: relative;
+                    overflow: hidden;
+                    text-align: center;
+
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 3px;
+                        background: var(--primary-color);
+                        transform: scaleX(0);
+                        transition: transform 0.2s ease;
+                    }
+
+                    &:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                        border-radius: 6px;
+                        &::before {
+                            transform: scaleX(1);
+                        }
+                    }
+
+                    p {
+                        margin: 0;
+
+                        &:first-child {
+                            font-size: 0.775rem;
+                            color: var(--primary-font-color);
+                            letter-spacing: 0.05em;
+                        }
+
+                        strong {
+                            display: block;
+                            margin-top: 2px;
+                            font-weight: 600;
+                            font-size: 0.9rem;
+                            color: var(--primary-font-color);
+                        }
+                    }
+                }
+
+                /* Quantidade e Porção (sem borda/hover) */
+                .qty,
+                .portion {
+                    padding: 8px 4px;
+                    p:last-child {
+                        font-size: 0.85rem;
+                        opacity: 1;
+                        text-transform: none;
+                        letter-spacing: normal;
+                    }
+                }
+
+                /* Botão expandir */
+                .expand-btn {
+                    display: none;
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    padding: 6px;
+                    border-radius: 50%;
+                    transition: all 0.2s ease;
+
+                    &:hover {
+                        background: rgba(0, 0, 0, 0.05);
+                    }
+
+                    &.expanded .chevron {
+                        transform: rotate(180deg);
+                    }
+
+                    .chevron {
+                        transition: transform 0.2s ease;
+                    }
+                }
+
+                /* ================== MOBILE ================== */
+                @media (max-width: 768px) {
+                    /* Layout mobile: 3 colunas na linha 1, macros abaixo */
+                    grid-template-columns: 1fr auto auto;
+                    grid-template-areas:
+                        "name quantity details"
+                        "macros macros macros";
+                    gap: 6px;
+
+                    /* Esconde macros por padrão (controlado via Angular) */
+                    .food-macro-grid {
+                        margin-top: 8px;
+                        padding-top: 8px;
+                        border-top: 1px solid rgba(0, 0, 0, 0.1);
+                        grid-template-columns: repeat(4, 1fr);
+                        gap: 6px;
+
+                        .food-macro {
+                            border-right: 1px solid var(--primary-color);
+                            padding: 6px 4px;
+
+                            p {
+                                &:first-child {
+                                    font-size: 0.8rem;
+                                    // margin-bottom: 2px;
+                                }
+                                &:last-child {
+                                    font-size: 0.65rem;
+                                    opacity: 0.8;
+                                }
+                            }
+                        }
+                    }
+
+                    /* Mostra o botão */
+                    .expand-btn {
+                        display: flex;
+                    }
+
+                    /* Quantidade e porção: mais compactos */
+                    .food-quantity {
+                        gap: 8px;
+                        .qty,
+                        .portion {
+                            p:last-child {
+                                font-size: 0.8rem;
+                            }
+                        }
+                    }
+                }
+                @media (max-width: 500px) {
+                    /* Layout mobile: 3 colunas na linha 1, macros abaixo */
+                    grid-template-columns: 1fr auto auto;
+                    grid-template-areas:
+                        "name quantity details"
+                        "macros macros macros";
+                    gap: 6px;
                 }
             }
         }
@@ -213,7 +389,6 @@
             grid-column: 2;
             grid-row: 1;
             align-self: center;
-            margin-bottom: 8px;
 
             .meal-name {
                 font-size: 0.975rem;

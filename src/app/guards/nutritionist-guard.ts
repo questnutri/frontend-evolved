@@ -1,13 +1,14 @@
 import { inject } from '@angular/core';
 import { CanMatchFn, Router } from '@angular/router';
 import { AuthService } from '@qn/services';
+import { UserRole } from '@qn/enums';
 
-export const AuthGuard: CanMatchFn = (route, segments) => {
+export const NutritionistGuard: CanMatchFn = (route, segments) => {
     const authService = inject(AuthService);
-    if (authService.isAuthenticated()) {
+
+    if (authService.userRole() === UserRole.NUTRITIONIST) {
         return true;
     }
     const router = inject(Router);
-
-    return router.navigate(['/login']);
+    return router.navigate([authService.userRole(), 'home']);
 }

@@ -10,6 +10,13 @@ import { NotLoggedLayout } from './pages/not-logged/not-logged.page';
 import { LoginPage } from './pages/not-logged/login/login.page';
 import { NutritionistRegisterPage } from './pages/nutritionist/nutritionist-register/nutritionist-register.page';
 import { RealLandingComponent } from './pages/real-landing/real-landing';
+import { NutritionistGuard } from './guards/nutritionist-guard';
+import { NutritionistProfilePage } from './pages/nutritionist/nutritionist-profile/nutritionist-profile.component';
+import { PatientPage } from './pages/patient/patient.page';
+import { PatientHomePage } from './pages/patient/patient-home/patient-home.page';
+import { PatientGuard } from './guards/patient-guard';
+import { NutritionistPatientsPage } from './pages/nutritionist/nutritionist-patients/nutritionist-patients.page';
+import { NutritionistPatientDetailsPage } from './pages/nutritionist/nutritionist-patient-details/nutritionist-patient-details.page';
 
 export const routes: Routes = [
     {
@@ -19,7 +26,7 @@ export const routes: Routes = [
             {
                 path: 'nutritionist',
                 component: NutritionistPage,
-                canMatch: [AuthGuard],
+                canMatch: [AuthGuard, NutritionistGuard],
                 children: [
                     {
                         path: '',
@@ -29,7 +36,40 @@ export const routes: Routes = [
                     {
                         path: 'home',
                         component: NutritionistHomePage
+                    },
+                    {
+                        path: 'profile',
+                        component: NutritionistProfilePage
+                    },
+                    {
+                        path: 'patients',
+                        component: NutritionistPatientsPage
+                    },
+                    {
+                        path: 'patient/:patientId',
+                        component: NutritionistPatientDetailsPage,
                     }
+                ],
+            },
+            {
+                path: 'patient',
+                component: PatientPage,
+                canMatch: [AuthGuard, PatientGuard],
+                children: [
+                    {
+                        path: '',
+                        redirectTo: 'home',
+                        pathMatch: 'full'
+                    },
+                    {
+                        path: 'home',
+                        component: PatientHomePage
+                    }
+                    ,
+                    // {
+                    //     path: 'profile',
+                    //     component: NutritionistProfilePage
+                    // }
                 ],
             },
         ],

@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
 import { ApiInteraction } from '@qn/types';
+import { firstValueFrom } from 'rxjs';
 import { BACKEND_GATEWAY_URL } from '../../config/setup.token';
 import { ApiHttpResponse } from '../../shared/types/api-http-response.type';
 import { AuthPayload, ErrorLoginResponse, SuccessLoginResponse } from '../../shared/types/auth-response.type';
@@ -26,6 +26,7 @@ export class AuthService {
     private readonly BACKEND_GATEWAY_URL = inject(BACKEND_GATEWAY_URL);
     private readonly notificationService = inject(NotificationService);
     private readonly storageService = inject(StorageService);
+
 
     private readonly auth = signal<AuthPayload | null>(null);
 

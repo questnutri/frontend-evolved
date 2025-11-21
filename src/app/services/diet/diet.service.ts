@@ -12,8 +12,16 @@ import { ApiService } from "../api/api.service";
 export class DietService {
     private readonly apiService = inject(ApiService);
 
-    async getDiets() {
-        return [];
+    async getDiets(patientId: string) {
+        try {
+            const response = await firstValueFrom(
+                this.apiService.authenticated.get<Diet[]>(
+                    `/diet/patients/${patientId}`));
+            return DietModel.from(response);
+        } catch (error) {
+            console.error('Error fetching diet by ID:', error);
+            return null;
+        }
     }
 
     async getDietById(dietId: string) {
@@ -21,7 +29,6 @@ export class DietService {
             const response = await firstValueFrom(
                 this.apiService.authenticated.get<Diet>(
                     `/diet/${dietId}`));
-            console.log(response);
             return DietModel.from(response);
         } catch (error) {
             console.error('Error fetching diet by ID:', error);

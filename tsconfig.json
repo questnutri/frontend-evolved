@@ -1,46 +1,46 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "sourceMap": true,
-    "declaration": false,
-    "downlevelIteration": true,
-    "experimentalDecorators": true,
-    "paths": {
-      "@styles": ["src/app/app.scss"],
-      "@qn/components": ["src/app/shared/components/index"],
-      "@qn/components/basic": ["src/app/shared/components/basic/index"],
-      "@qn/components/core": ["src/app/shared/components/core/index"],
-      "@qn/components/abstracts/*": ["src/app/shared/components/abstracts/*"],
-      "@qn/styles": ["src/app/app.scss"],
-      "@qn/services": ["src/app/services"],
-      "@qn/directives": ["src/app/shared/directives"],
-      "@qn/models": ["src/app/shared/models/index"],
-      "@qn/interfaces": ["src/app/shared/interface/index"],
-      "@qn/types": ["src/app/shared/types/index"],
+    "compileOnSave": false,
+    "compilerOptions": {
+        "baseUrl": "./",
+        "outDir": "./dist/out-tsc",
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "sourceMap": true,
+        "declaration": false,
+        "downlevelIteration": true,
+        "experimentalDecorators": true,
+        "paths": {
+            "@styles": ["src/app/app.scss"],
+            "@qn/components": ["src/app/shared/components/index"],
+            "@qn/components/basic": ["src/app/shared/components/basic/index"],
+            "@qn/components/core": ["src/app/shared/components/core/index"],
+            "@qn/components/abstracts/*": [
+                "src/app/shared/components/abstracts/*"
+            ],
+            "@qn/styles": ["src/app/app.scss"],
+            "@qn/services": ["src/app/services"],
+            "@qn/directives": ["src/app/shared/directives"],
+            "@qn/models": ["src/app/shared/models/index"],
+            "@qn/interfaces": ["src/app/shared/interface/index"],
+            "@qn/types": ["src/app/shared/types/index"],
+            "@qn/enums": ["src/app/shared/enum/index"]
+        },
+        "moduleResolution": "nodenext",
+        "importHelpers": true,
+        "target": "es2022",
+        "module": "NodeNext",
+        "lib": ["es2018", "dom"],
+        "useDefineForClassFields": false
     },
-  "moduleResolution": "nodenext",
-    "importHelpers": true,
-  "target": "es2022",
-  "module": "NodeNext",
-    "lib": [
-      "es2018", 
-      "dom"
-    ],
-    "useDefineForClassFields": false
-  },
-  "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false,
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+    "angularCompilerOptions": {
+        "enableI18nLegacyMessageIdFormat": false,
+        "strictInjectionParameters": true,
+        "strictInputAccessModifiers": true,
+        "strictTemplates": true
+    }
 }

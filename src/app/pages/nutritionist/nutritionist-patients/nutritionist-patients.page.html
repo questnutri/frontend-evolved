@@ -1,0 +1,161 @@
+<qn-div
+    class="patients-container"
+    width="100%"
+    height="100%"
+    flex-column
+    background-color="var(--secondary-background-color)"
+    radius="var(--border-radius-input)"
+    overflow="hidden"
+    boxSizing="border-box"
+    gap="10px"
+>
+    <qn-div
+        class="patients-content"
+        background="var(--primary-background-color)"
+        radius="var(--border-radius-input)"
+        flex-column
+        height="100%"
+        padding="2rem"
+        [style.flex]="1"
+    >
+        <qn-div
+            class="patients-header"
+            grid
+            columns="auto auto"
+            justifyContent="space-between"
+            alignItems="center"
+        >
+            <h2>Meus Pacientes</h2>
+            <qn-button label="Novo Paciente" icon="pi pi-user-plus" />
+        </qn-div>
+
+        <qn-div
+            class="search-filter-bar"
+            background="var(--secondary-background-color)"
+            padding="1rem"
+            grid
+            columns="1fr minmax(150px, 20%)"
+            justifyContent="space-between"
+            gap="15px"
+            radius="var(--border-radius-input)"
+            border="1px solid var(--primary-border-color)"
+            alignItems="center"
+        >
+            <qn-text-input
+                placeholder="Procurar paciente por nome, e-mail ou CPF..."
+                icon="pi pi-search"
+                [(value)]="searchTerm"
+            />
+
+            <qn-drop-down
+                [options]="sortOptions"
+                [(value)]="selectedSort"
+                placeholder="Ordenar por"
+            />
+        </qn-div>
+
+        <qn-div class="table-wrapper" width="100%" marginTop="1.5rem">
+            @if(patients().length > 0) {
+            <p-table
+                [value]="patients()"
+                stripedRows
+                [paginator]="true"
+                [rows]="5"
+                [rowsPerPageOptions]="[5, 10, 20, 50]"
+                [loading]="loading()"
+                [globalFilterFields]="['name', 'email', 'documentNumber']"
+                [scrollable]="true"
+                scrollHeight="80vh"
+            >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="name" style="width: 40%">
+                            Nome
+                            <p-sortIcon field="name"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="email" style="width: 35%">
+                            E-mail
+                            <p-sortIcon field="email"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="documentNumber" style="width: 20%">
+                            CPF
+                            <p-sortIcon field="documentNumber"></p-sortIcon>
+                        </th>
+                        <th class="actions-column" style="width: 5%">Ações</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-patient>
+                    <tr>
+                        <td>
+                            <div class="patient-name-cell">
+                                <img
+                                    class="patient-avatar"
+                                    [src]="'https://ui-avatars.com/api/?name=' + patient?.name + '&background=57b5fb&color=fff'"
+                                    alt="Avatar"
+                                    style="
+                                        width: 36px;
+                                        height: 36px;
+                                        border-radius: 50%;
+                                        object-fit: cover;
+                                    "
+                                />
+                                <strong>{{ patient?.name }}</strong>
+                            </div>
+                        </td>
+                        <td>{{ patient.email }}</td>
+                        <td>{{ patient.documentNumber }}</td>
+                        <td class="action-icon">
+                            <i
+                                class="pi pi-eye"
+                                (click)="viewPatient(patient.id)"
+                            ></i>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td
+                            colspan="5"
+                            class="empty-state-cell"
+                            style="
+                                text-align: center;
+                                padding: 3rem;
+                                color: var(--secondary-font-color);
+                            "
+                        >
+                            <i
+                                class="pi pi-users empty-state-icon"
+                                style="
+                                    font-size: 3rem;
+                                    opacity: 0.3;
+                                    margin-bottom: 1rem;
+                                    display: block;
+                                "
+                            ></i>
+                            <p class="empty-state-text">
+                                Nenhum paciente encontrado
+                            </p>
+                            @if (searchTerm()) {
+                            <qn-button
+                                label="Limpar busca"
+                                size="small"
+                                type="outline"
+                            />
+                            }
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            }
+        </qn-div>
+    </qn-div>
+</qn-div>
+
+//TODO: PERFIL DO USUARIO - FIGMA //TODO: INFORMATION => TODOS OS CAMPOS => BMI
+É CALCULADO => COLOCAR DROPDOWN NIVEL DE ATIVIDADE FISICA //TODO: DIETS =>
+MANTER COMO ESTA, SOMENTE RETIRAR O COMPLIANCE E SUBSTITUIR PELOS 3 PONTOS =>
+ABRE UM DROPDOWN PARA EDITAR/DELETAR/ATIVAR //TODO: HEALTH DATA => //TODO:
+LANDING PAGE QUESTNUTRI //TODO: VISUALIZAÇÃO DA DIETA: MANTER ESTILO FIGMA,
+TROCAR O TOTAL KCAL POR BOTAO, DATA COM OPÇAO DE AVANCAR E RETROCEDER A DATA

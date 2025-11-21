@@ -11,14 +11,15 @@ import { LayoutService } from '@qn/services';
     selector: 'app-layout',
     standalone: true,
     imports: [CommonModule, AppTopbar, AppSidebar, RouterModule, AppFooter],
-    template: `<div class="layout-wrapper" [ngClass]="containerClass">
+    styles: [`@use "../../../../app.scss" as *;`],
+    template: `<div class="layout-wrapper" [ngClass]="containerClass" [style.background]="'var(--secondary-background-color)'">
         <app-topbar></app-topbar>
         <app-sidebar></app-sidebar>
         <div class="layout-main-container">
             <div class="layout-main">
                 <router-outlet></router-outlet>
             </div>
-            <app-footer></app-footer>
+            <!-- <app-footer></app-footer> -->
         </div>
         <div class="layout-mask animate-fadein"></div>
     </div> `

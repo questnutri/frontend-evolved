@@ -1,13 +1,32 @@
-<input
-    [id]="id"
-    pInputText
-    fluid
-    [(ngModel)]="value"
-    [invalid]="invalid()"
-    (mouseenter)="onMouseEnter()"
-    (mouseleave)="onMouseLeave()"
-    [placeholder]="placeholder()"
-    [disabled]="disabled()"
-    [style.width]="width()"
-    [style.cursor]="cursor()"
-/>
+@if (icon()) {
+    <p-iconfield>
+        <p-inputicon class="{{ icon() }}" />
+        <input
+            [id]="id"
+            pInputText
+            fluid
+            [(ngModel)]="value"
+            [invalid]="invalid()"
+            (mouseenter)="onMouseEnter()"
+            (mouseleave)="onMouseLeave()"
+            [placeholder]="placeholder()"
+            [disabled]="disabled()"
+            [style.width]="width()"
+            [style.cursor]="cursor()"
+        />
+    </p-iconfield>
+} @else {
+    <input
+        [id]="id"
+        pInputText
+        fluid
+        [(ngModel)]="value"
+        [invalid]="invalid()"
+        (mouseenter)="onMouseEnter()"
+        (mouseleave)="onMouseLeave()"
+        [placeholder]="placeholder()"
+        [disabled]="disabled()"
+        [style.width]="width()"
+        [style.cursor]="cursor()"
+    />
+}

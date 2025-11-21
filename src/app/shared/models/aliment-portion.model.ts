@@ -19,7 +19,13 @@ export class PortionPropertiesModel {
         return model;
     }
 
-    getNutrientValue(nutrient: string): any {
-        return this[nutrient];
+    getNutrientValue(nutrient: string): number {
+        const numericalValue = Number((this[nutrient] as string).replace(',', '.'));
+        // console.log(`[PortionPropertiesModel] Getting nutrient value for: ${nutrient}`);
+        // console.log(`[PortionPropertiesModel] Available keys: ${Object.keys(this).join(', ')}`);
+        // console.log(`[PortionPropertiesModel] Raw value: ${this[nutrient]}`);
+        // console.log(`[PortionPropertiesModel] Parsed numerical value: ${numericalValue}`);
+        if (isNaN(Number(numericalValue))) return 0;
+        return numericalValue;
     }
 }

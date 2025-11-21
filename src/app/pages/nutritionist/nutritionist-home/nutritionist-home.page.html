@@ -1,5 +1,9 @@
-@if(nutritionist()) {
-    <p>Welcome, {{ nutritionist()!.name }}!</p>
+<!-- @if(nutritionist()) {
+<p>Welcome, {{ nutritionist()!.name }}!</p>
 }
-<button (click)="testToast()">Test Toast</button>
+<button (click)="testToast()">Test Toast</button> -->
 <!-- <qn-button></qn-button> -->
+
+@for(meal of diets()?.meals; track meal.id) {
+<app-meal-display [meal]="meal"></app-meal-display>
+}

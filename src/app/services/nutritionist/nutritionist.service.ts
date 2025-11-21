@@ -1,11 +1,8 @@
 import { inject, Injectable } from "@angular/core";
-import { BACKEND_GATEWAY_URL } from '../../config/setup.token';
-import { NotificationService } from "../notification/notification.service";
 import { Router } from "@angular/router";
-import { HttpClient } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
-import { ApiService } from "../api/api.service";
-import { Nutritionist, NutritionistModel } from "src/app/shared/models/nutritionist.model";
+import { Nutritionist, NutritionistModel } from "@qn/models";
+import { NotificationService, ApiService } from "@qn/services";
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +17,7 @@ export class NutritionistService {
             const response = await firstValueFrom(
                 this.apiService.authenticated.get<Nutritionist>(`nutritionist/me`)
             );
-            if("error" in response) {
+            if ("error" in response) {
                 return null;
             }
             return NutritionistModel.from(response);
@@ -58,5 +55,7 @@ export class NutritionistService {
             };
         }
     }
+
+
 
 }

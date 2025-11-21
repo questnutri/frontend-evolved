@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { QnInput } from '@qn/components/abstracts/qn-input.abstract';
 import { InputTextModule } from 'primeng/inputtext';
 import { QnDiv } from "@qn/components/basic";
+import { InputIcon } from 'primeng/inputicon';
+import { IconField } from 'primeng/iconfield';
 
 @Component({
     selector: 'qn-text-input',
@@ -11,10 +13,13 @@ import { QnDiv } from "@qn/components/basic";
     imports: [
         InputTextModule,
         FormsModule,
-        QnDiv
+        QnDiv,
+        InputIcon,
+        IconField
     ]
 })
 export class QnTextInputComponent extends QnInput<string> implements OnInit {
     type = input<"text" | "email">('text');
     override id = this.generateRandomId({ prefix: 'text-input-' });
+    icon = input<string | null>(null);
 }

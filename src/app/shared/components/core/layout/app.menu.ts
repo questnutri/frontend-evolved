@@ -38,10 +38,19 @@ export class AppMenu {
             label: '',
             items: [
                 {
+                    label: 'Patients',
+                    icon: 'pi pi-fw pi-users',
+                    command: () => {
+                        this.router.navigate(['/nutritionist/patients']);
+                    }
+                },
+                {
                     label: 'Profile',
                     icon: 'pi pi-fw pi-user',
-                    routerLink: ['/profile']
-                }
+                    command: () => {
+                        this.router.navigate(['/nutritionist/profile']);
+                    }
+                },
             ]
         };
         this.addMenuOption(mainOption);

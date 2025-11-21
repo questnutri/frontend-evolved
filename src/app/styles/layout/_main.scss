@@ -2,14 +2,22 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    max-height: 100vh; // ADICIONAR: limita a altura máxima
+    overflow: hidden; // ADICIONAR: esconde overflow do container
     justify-content: space-between;
-    padding: 6rem 2rem 0 2rem;
+    padding: 6rem 2rem 2rem 2rem;
     transition: margin-left var(--layout-section-transition-duration);
+
+    @media (max-width: 768px) {
+        padding: 4rem 0.5rem 1rem 0.5rem;
+    }
 }
 
 .layout-main {
     flex: 1 1 auto;
-    padding-bottom: 2rem;
+    overflow-y: auto; // ADICIONAR: permite scroll no conteúdo
+    overflow-x: hidden; // ADICIONAR: esconde scroll horizontal
+    height: 100%; // ADICIONAR: ocupa toda altura disponível
 }
 
 img {

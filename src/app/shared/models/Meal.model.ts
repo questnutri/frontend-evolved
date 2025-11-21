@@ -35,6 +35,9 @@ export class MealModel implements Meal, Calculable {
 
     getTotal(nutrient: "kcal" | "carb" | "protein" | "fat"): number {
         return this.foods.reduce((total, food) => {
+            // console.log(food);
+            // console.log(`[MealModel] Calculating total for food: ${food.aliment?.name}`);
+            // console.log(`[MealModel] Nutrient value for: ${nutrient} is ${food.getTotal(nutrient)}`);
             if (!food.isActive) return total;
             return total + food.getTotal(nutrient);
         }, 0);

@@ -3,15 +3,15 @@
         <!-- Checkbox -->
         <input
             type="checkbox"
-            [(ngModel)]="meal().checked"
             class="custom-checkbox"
-            [class.checked]="meal().checked"
+            [checked]="checked()"
+            (click)="toggleChecked()"
         />
 
         <!-- Info -->
         <div class="meal-info">
             <h3 class="meal-name" [title]="meal().name">{{ meal().name }}</h3>
-            <p class="meal-time">{{ formattedTime() }}</p>
+            <p class="meal-time">{{ meal().hour }}</p>
         </div>
 
         <!-- Macros -->
@@ -19,19 +19,27 @@
         <div class="macros-grid">
             <div class="macro">
                 <p class="label">kcal</p>
-                <p class="value">{{ totalCalories() | number: '1.0-0' }}</p>
+                <p class="value">
+                    {{ meal().getTotal('kcal') | number: '1.0-0' }}
+                </p>
             </div>
             <div class="macro">
                 <p class="label">Carbs</p>
-                <p class="value">{{ totalCarbs() | number: '1.0-1' }}g</p>
+                <p class="value">
+                    {{ meal().getTotal('carb') | number: '1.0-1' }}g
+                </p>
             </div>
             <div class="macro">
                 <p class="label">Protein</p>
-                <p class="value">{{ totalProtein() | number: '1.0-1' }}g</p>
+                <p class="value">
+                    {{ meal().getTotal('protein') | number: '1.0-1' }}g
+                </p>
             </div>
             <div class="macro">
                 <p class="label">Fat</p>
-                <p class="value">{{ totalFat() | number: '1.0-1' }}g</p>
+                <p class="value">
+                    {{ meal().getTotal('fat') | number: '1.0-1' }}g
+                </p>
             </div>
         </div>
         } @else {
@@ -42,8 +50,8 @@
         @if (meal().foods.length > 0) {
         <button
             class="expand-btn"
-            (click)="toggleExpanded(meal())"
-            [class.expanded]="meal().expanded"
+            (click)="toggleExpanded()"
+            [class.expanded]="expanded()"
         >
             <svg
                 width="20"
@@ -65,18 +73,109 @@
     </div>
 
     <!-- Expanded Details -->
-    @if (meal().expanded && meal().foods.length > 0) {
+    @if (expanded() && meal().foods.length > 0) {
     <div class="expanded-details">
         <div class="food-list">
             @for (food of meal().foods; track food.id) { @if (food.isActive) {
             <div class="food-item">
-                <p class="food-name">{{ food.aliment.name }}</p>
-                <p class="food-quantity">
-                    {{ food.quantity }} × {{ food.portion }}
-                </p>
+                <!-- Nome -->
+                <div class="food-name-wrapper">
+                    <p class="food-name">{{ food.aliment.name }}</p>
+                </div>
+
+                <!-- Quantidade + Porção -->
+                <div class="food-quantity">
+                    <div
+                        class="food-macro qty"
+                        [style]="'border: none; background: transparent;'"
+                    >
+                        <p>Quantidade</p>
+                        <p>
+                            <strong
+                                >{{ Number(food.quantity).toFixed(2) }}</strong
+                            >
+                        </p>
+                    </div>
+                    <div
+                        class="food-macro portion"
+                        [style]="'border: none; background: transparent;'"
+                    >
+                        <p>Porção</p>
+                        <p><strong>{{ food.portion }}</strong></p>
+                    </div>
+                </div>
+
+                <!-- Macros (só visíveis em desktop ou quando expandido em mobile) -->
+                <div
+                    class="food-macro-grid"
+                    [style.display]="isFoodVisible(food.id)() ? 'grid' : 'none'"
+                >
+                    <div class="food-macro">
+                        <p>Kcal</p>
+                        <p>
+                            <strong
+                                >{{ Number(food.getTotal('kcal')).toFixed(0)
+                                }}</strong
+                            >
+                        </p>
+                    </div>
+                    <div class="food-macro">
+                        <p>Carbs</p>
+                        <p>
+                            <strong
+                                >{{ Number(food.getTotal('carb')).toFixed(1)
+                                }}g</strong
+                            >
+                        </p>
+                    </div>
+                    <div class="food-macro">
+                        <p>Protein</p>
+                        <p>
+                            <strong
+                                >{{ Number(food.getTotal('protein')).toFixed(1)
+                                }}g</strong
+                            >
+                        </p>
+                    </div>
+                    <div class="food-macro">
+                        <p>Fat</p>
+                        <p>
+                            <strong
+                                >{{ Number(food.getTotal('fat')).toFixed(1)
+                                }}g</strong
+                            >
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Botão expandir (só mobile) -->
+                <div class="food-details">
+                    <button
+                        class="expand-btn"
+                        (click)="toggleFoodExpanded(food.id)"
+                        [class.expanded]="food_expanded()[food.id]"
+                    >
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                            class="chevron"
+                        >
+                            <path
+                                d="M5 7.5L10 12.5L15 7.5"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                    </button>
+                </div>
             </div>
             } }
         </div>
     </div>
+
     }
 </div>

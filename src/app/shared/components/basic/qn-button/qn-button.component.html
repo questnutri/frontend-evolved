@@ -1,15 +1,14 @@
-<div [ngStyle]="divStyle()">
-    <p-button
-        [label]="label()"
-        [ngStyle]="buttonStyle()"
-        fluid
-        [severity]="colorButton()"
-        [disabled]="disabled()"
-        [loading]="loading()"
-        (mouseenter)="onMouseEnter()"
-        (mouseleave)="onMouseLeave()"
-        [style.width]="width()"
-        [style.cursor]="cursor()"
-        [raised]="true"
-    />
-</div>
+<p-button
+    [label]="label()"
+    [ngStyle]="buttonStyle()"
+    fluid
+    [severity]="colorButton()"
+    [disabled]="disabled()"
+    [loading]="loading()"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+    [style.width]="width()"
+    [style.cursor]="cursor()"
+    [raised]="true"
+    [icon]="icon()"
+/>

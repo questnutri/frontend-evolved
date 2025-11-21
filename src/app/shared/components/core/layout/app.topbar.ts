@@ -9,8 +9,9 @@ import { LayoutService } from "@qn/services";
 @Component({
     selector: 'app-topbar',
     standalone: true,
+    styles: [`@use "../../../../app.scss" as *;`],
     imports: [RouterModule, CommonModule, StyleClassModule, AppConfigurator],
-    template: ` <div class="layout-topbar">
+    template: ` <div class="layout-topbar" [style.background]="'var(--primary-background-color)'">
         <div class="layout-topbar-logo-container">
             <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
                 <i class="pi pi-bars"></i>
@@ -42,7 +43,7 @@ import { LayoutService } from "@qn/services";
 export class AppTopbar {
     items!: MenuItem[];
 
-    constructor(public layoutService: LayoutService) {}
+    constructor(public layoutService: LayoutService) { }
 
     toggleDarkMode() {
         this.layoutService.layoutConfig.update((state) => ({ ...state, darkTheme: !state.darkTheme }));
