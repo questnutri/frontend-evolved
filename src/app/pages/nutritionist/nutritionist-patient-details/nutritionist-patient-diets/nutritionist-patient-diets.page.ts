@@ -16,7 +16,6 @@ export class NutritionistPatientDietsPage implements OnInit {
 
     ngOnInit() {
         console.log(this.diets());
-
     }
 
     dateFormat(date: Date | undefined): string {

@@ -5,17 +5,19 @@ import { DietModel, Patient } from '@qn/models';
 import { PatientService, DietService } from '@qn/services';
 import { NutritionistPatientInfoPage } from "./nutritionist-patient-info/nutritionist-patient-info.page";
 import { NutritionistPatientDietsPage } from "./nutritionist-patient-diets/nutritionist-patient-diets.page";
+import { Router, RouterModule } from "@angular/router";
 
 @Component({
     selector: 'nutritionist-patient-details',
     templateUrl: './nutritionist-patient-details.page.html',
     styleUrls: ['./nutritionist-patient-details.page.scss'],
-    imports: [QnDiv, NutritionistPatientInfoPage, NutritionistPatientDietsPage],
+    imports: [QnDiv, NutritionistPatientInfoPage, NutritionistPatientDietsPage, RouterModule],
 })
 export class NutritionistPatientDetailsPage {
     private readonly patientService = inject(PatientService);
     private readonly dietService = inject(DietService);
-    private readonly router = inject(NavController);
+    private readonly navController = inject(NavController);
+    private readonly router = inject(Router);
     patientId = input.required<string>();
     patient = signal<Patient | null>(null);
     patientDiets = signal<DietModel[]>([]);
@@ -39,14 +41,12 @@ export class NutritionistPatientDetailsPage {
     }
 
     backToPatients() {
-        this.router.navigateRoot('/nutritionist/patients');
+        this.navController.navigateRoot('/nutritionist/patients');
     }
 
     setActiveMenuItem(item: string) {
-        if (item === 'diets') {
-            this.loadPatientDiets();
-        }
-
+        const patientId = this.patientId();
+        this.router.navigate(['/nutritionist/patient', patientId, item]);
         this.activeMenuItem.set(item);
     }
 

@@ -1,25 +1,19 @@
 .layout-main-container {
-    display: flex;
-    flex-direction: column;
     min-height: 100vh;
-    max-height: 100vh; // ADICIONAR: limita a altura máxima
-    overflow: hidden; // ADICIONAR: esconde overflow do container
-    justify-content: space-between;
-    padding: 6rem 2rem 2rem 2rem;
+    max-height: 100vh;
     transition: margin-left var(--layout-section-transition-duration);
+    box-sizing: border-box;
+
+    > * {
+        box-sizing: border-box;
+    }
 
     @media (max-width: 768px) {
         padding: 6rem 1rem 1rem 1rem;
     }
 }
 
-.layout-main {
-    flex: 1 1 auto;
-    overflow-y: auto; // ADICIONAR: permite scroll no conteúdo
-    overflow-x: hidden; // ADICIONAR: esconde scroll horizontal
-    height: 100%; // ADICIONAR: ocupa toda altura disponível
-}
-
 img {
     max-width: none !important;
 }
+

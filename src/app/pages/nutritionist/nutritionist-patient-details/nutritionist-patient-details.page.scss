@@ -1,15 +1,10 @@
 .patient-layout {
     display: grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 1fr 3fr;
     overflow-y: hidden;
     background: var(--secondary-background-color);
+    height: 90vh;
     gap: 1px;
-}
-
-.main-content {
-    display: flex;
-    overflow-y: auto;
-    overflow-x: hidden;
 }
 
 .sidebar {

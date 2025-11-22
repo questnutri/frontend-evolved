@@ -20,7 +20,7 @@
             <div
                 class="item-list"
                 [class.active]="activeMenuItem() === 'information'"
-                (click)="setActiveMenuItem('information')"
+                (click)="setActiveMenuItem('info')"
             >
                 <i class="pi pi-user"></i><span>Informações</span>
             </div>
@@ -48,7 +48,8 @@
         </div>
     </div>
     <div class="main-content">
-        @if(activeMenuItem() === 'information') {
+        <router-outlet></router-outlet>
+        <!-- @if(activeMenuItem() === 'information') {
         <app-nutritionist-patient-info></app-nutritionist-patient-info>
         }@else if(activeMenuItem() === 'diets') {
         <app-nutritionist-patient-diets
@@ -58,6 +59,6 @@
         <h1>Health works!</h1>
         }@else if(activeMenuItem() === 'records') {
         <h1>Records works!</h1>
-        }
+        } -->
     </div>
 </div>

@@ -17,6 +17,10 @@ import { PatientHomePage } from './pages/patient/patient-home/patient-home.page'
 import { PatientGuard } from './guards/patient-guard';
 import { NutritionistPatientsPage } from './pages/nutritionist/nutritionist-patients/nutritionist-patients.page';
 import { NutritionistPatientDetailsPage } from './pages/nutritionist/nutritionist-patient-details/nutritionist-patient-details.page';
+import { NutritionistPatientInfoPage } from './pages/nutritionist/nutritionist-patient-details/nutritionist-patient-info/nutritionist-patient-info.page';
+import { NutritionistPatientHealthPage } from './pages/nutritionist/nutritionist-patient-details/nutritionist-patient-health/nutritionist-patient-health.page';
+import { NutritionistPatientDietsPage } from './pages/nutritionist/nutritionist-patient-details/nutritionist-patient-diets/nutritionist-patient-diets.page';
+import { NutritionistPatientRecordsPage } from './pages/nutritionist/nutritionist-patient-details/nutritionist-patient-records/nutritionist-patient-records.page';
 
 export const routes: Routes = [
     {
@@ -25,7 +29,6 @@ export const routes: Routes = [
         children: [
             {
                 path: 'nutritionist',
-                component: NutritionistPage,
                 canMatch: [AuthGuard, NutritionistGuard],
                 children: [
                     {
@@ -48,6 +51,29 @@ export const routes: Routes = [
                     {
                         path: 'patient/:patientId',
                         component: NutritionistPatientDetailsPage,
+                        children: [
+                            {
+                                path: '',
+                                redirectTo: 'info',
+                                pathMatch: 'full'
+                            },
+                            {
+                                path: 'info',
+                                component: NutritionistPatientInfoPage
+                            },
+                            {
+                                path: 'diets',
+                                component: NutritionistPatientDietsPage
+                            },
+                            {
+                                path: 'health',
+                                component: NutritionistPatientHealthPage
+                            },
+                            {
+                                path: 'records',
+                                component: NutritionistPatientRecordsPage
+                            }
+                        ]
                     }
                 ],
             },
