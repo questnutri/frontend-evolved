@@ -8,6 +8,13 @@
  * For more information on global stylesheets, visit the documentation:
  * https://ionicframework.com/docs/layout/global-stylesheets
  */
+@use 'primeicons/primeicons.css';
+
+/* System */
+@import './system/fonts.scss';
+@import './system/colors.scss';
+@import './system/variables.scss';
+@import './system/layout/layout.scss';
 
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";

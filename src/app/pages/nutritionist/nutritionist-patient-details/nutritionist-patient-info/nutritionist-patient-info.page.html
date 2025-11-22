@@ -1,8 +1,14 @@
-<!-- CONTEÚDO SCROLLÁVEL -->
-<div class="content">
-    <div class="card">
+<div
+    [style]="{
+        'overflow-x': 'hidden',
+        'overflow-y': 'auto',
+    }"
+>
+    <div [style]="{
+        'background-color': 'white'
+    }">
         <h2 class="card-name">Informações do Paciente</h2>
-
+    
         <div class="details-grid">
             <div class="detail-item">
                 <p class="label">Nome:</p>
@@ -31,44 +37,43 @@
         </div>
     </div>
     <hr />
+</div>
 
-    <div class="card">
-        <h2 class="card-name">Dados Físicos</h2>
+<div class="bg-white-500">
+    <h2 class="card-name">Dados Físicos</h2>
 
-        <div class="physical-grid">
-            <div class="detail-item">
-                <p class="label">Altura:</p>
-                <p>1,75 m</p>
-            </div>
-            <div class="detail-item">
-                <p class="label">Peso:</p>
-                <p>70 kg</p>
-            </div>
-            <div class="detail-item">
-                <p class="label">IMC:</p>
-                <p>22,9</p>
-            </div>
+    <div class="physical-grid">
+        <div class="detail-item">
+            <p class="label">Altura:</p>
+            <p>1,75 m</p>
+        </div>
+        <div class="detail-item">
+            <p class="label">Peso:</p>
+            <p>70 kg</p>
+        </div>
+        <div class="detail-item">
+            <p class="label">IMC:</p>
+            <p>22,9</p>
         </div>
     </div>
-    <hr />
-    <div class="card">
-        <h2 class="card-name">Informações Médicas</h2>
+</div>
+<hr />
 
-        <div class="medical-grid">
-            <div class="detail-item">
-                <p class="label">Alérgias:</p>
-                <p>Nenhuma</p>
-            </div>
-            <div class="detail-item">
-                <p class="label">Condições Médicas:</p>
-                <p>Nenhuma</p>
-            </div>
-            <div class="detail-item">
-                <p class="label">Notas:</p>
-                <p>Nenhuma</p>
-            </div>
+<div class="bg-white-500">
+    <h2 class="card-name">Informações Médicas</h2>
+
+    <div class="medical-grid">
+        <div class="detail-item">
+            <p class="label">Alérgias:</p>
+            <p>Nenhuma</p>
+        </div>
+        <div class="detail-item">
+            <p class="label">Condições Médicas:</p>
+            <p>Nenhuma</p>
+        </div>
+        <div class="detail-item">
+            <p class="label">Notas:</p>
+            <p>Nenhuma</p>
         </div>
     </div>
-
-    <!-- pode adicionar mais cards abaixo -->
 </div>

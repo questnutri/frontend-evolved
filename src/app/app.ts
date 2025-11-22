@@ -13,13 +13,12 @@ import { QnGlobalToastComponent } from '@qn/components/core';
 @Component({
     selector: 'app-root',
     templateUrl: 'app.html',
-    styleUrl: 'app.scss',
     imports: [
-    IonicModule,
-    RouterLink,
-    QnGlobalToastComponent,
-    RouterOutlet,
-],
+        IonicModule,
+        RouterLink,
+        QnGlobalToastComponent,
+        RouterOutlet,
+    ],
     providers: [MessageService]
 })
 export class App {

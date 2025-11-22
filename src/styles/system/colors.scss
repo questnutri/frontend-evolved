@@ -1,34 +1,10 @@
-@use "../global.scss";
-@import "primeicons/primeicons.css";
-
 /* ============================================
-   FONTE CUSTOMIZADA
-   ============================================ */
-@font-face {
-    font-family: "Montserrat";
-    src: url("../../public/fonts/Montserrat-VariableFont_wght.ttf")
-        format("truetype-variations");
-    font-weight: 100 900;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Montserrat";
-    src: url("../../public/fonts/Montserrat-Italic-VariableFont_wght.ttf")
-        format("truetype-variations");
-    font-weight: 100 900;
-    font-style: italic;
-    font-display: swap;
-}
-
-/* ============================================
-   VARIÁVEIS GLOBAIS
-   ============================================ */
+    GLOBAL VARIABLES
+============================================ */
 * {
     font-family: "Montserrat", sans-serif;
 
-    /* Cores Base */
+    /* Base Colors*/
     --blue-color: #0380dc;
     --blue-color-dark: #035a98;
     --blue-color-light: #23a3ff;
@@ -41,7 +17,6 @@
     --black-color: #000;
     --white-color: #fff;
 
-    /* Cores Semânticas */
     --primary-color: var(--blue-color-light2);
     --primary-color-hover: var(--blue-color);
     --secondary-color: var(--grey-color);
@@ -53,18 +28,14 @@
     --secondary-background-color: var(--grey-color-light2);
 
     --primary-border-color: var(--grey-color-light2);
-
-    /* Design System */
-    --border-radius-input: 6px;
 }
 
 /* ============================================
-   DARK MODE - MANTÉM INPUTS CLAROS
-   ============================================ */
+DARK MODE
+============================================ */
 
 @media (prefers-color-scheme: dark) {
     * {
-        /* Cores do tema escuro mantidas */
         --blue-color: #0380dc;
         --blue-color-dark: #035a98;
         --blue-color-light: #23a3ff;
@@ -88,7 +59,7 @@
         --secondary-background-color: var(--black-color-light);
         --primary-border-color: var(--grey-color-light);
 
-        /* FORÇA INPUTS A SEMPRE TEREM FUNDO BRANCO E TEXTO PRETO */
+        /* FORCE INPUTS TO ALWAYS HAVE WHITE BACKGROUND AND BLACK TEXT */
         --p-inputtext-background: var(--white-color) !important;
         --p-inputtext-color: var(--black-color) !important;
         --p-inputtext-border-color: var(--grey-color-light);
@@ -117,7 +88,7 @@
         --p-inputtext-placeholder-color: var(--grey-color) !important;
     }
 
-    /* Força estilos diretamente nos elementos */
+    /* Force styles directly on elements */
     .p-inputtext,
     .p-textarea,
     .p-inputnumber-input,
@@ -128,7 +99,7 @@
         color: var(--black-color) !important;
     }
 
-    /* Float Label em dark mode */
+    /* Float Label in dark mode */
     .p-float-label label {
         color: var(--grey-color-dark) !important;
     }
@@ -149,8 +120,7 @@
     --p-button-primary-hover-background: var(--primary-color-hover);
     --p-button-primary-hover-border-color: var(--primary-color-hover);
     --p-button-primary-hover-color: var(--white-color);
-    --p-button-padding-y: 0.6rem;
-    --p-button-padding-x: 1rem;
+
 }
 
 /* ============================================
@@ -165,14 +135,12 @@
     --p-button-secondary-hover-border-color: var(--secondary-color-hover);
     --p-button-secondary-hover-color: var(--black-color);
 
-    --p-button-hover-weight: bold;
 }
 
 /* ============================================
    PRIMENG - INPUT - BASE
    ============================================ */
 * {
-    --p-inputtext-width: 100%;
     --p-inputtext-background: var(--white-color);
     --p-inputtext-color: var(--black-color);
     --p-inputtext-border-radius: var(--border-radius-input);
@@ -181,20 +149,9 @@
     --p-inputtext-disabled-background: #ebebeb;
 }
 
-/* Variant margin */
-:host ::ng-deep .p-floatlabel {
-    margin: 10px 0px;
-}
 
-/* Variant small */
-:host ::ng-deep .p-floatlabel small {
-    color: var(--primary-font-color);
-    font-size: 0.75rem;
-    margin-top: 0.25rem;
-    display: block;
-    font-weight: 400;
-    padding: 0 1rem;
-}
+
+
 
 /* ============================================
    PRIMENG - TEXTAREA
@@ -205,11 +162,6 @@
     --p-textarea-border-radius: var(--border-radius-input);
     --p-textarea-border-color: var(--grey-color-light);
     --p-textarea-focus-border-color: var(--grey-color-light);
-    --p-textarea-padding-x: 1rem;
-    --p-textarea-padding-y: 1rem;
-    --p-textarea-shadow:
-        0 3px 1px -2px rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.21),
-        0 1px 5px 0 rgba(0, 0, 0, 0.18);
 }
 
 /* ============================================
@@ -219,9 +171,7 @@
     --p-inputnumber-background: var(--white-color);
     --p-inputnumber-color: var(--black-color);
     --p-inputnumber-border-radius: var(--border-radius-input);
-    --p-inputnumber-shadow:
-        0 1px 1px -2px rgba(0, 0, 0, 0.15), 0 1px 1px 0 rgba(0, 0, 0, 0.11),
-        0 1px 2px 0 rgba(0, 0, 0, 0.09);
+
     --p-inputnumber-button-background: var(--grey-color-dark);
     --p-inputnumber-button-color: var(--white-color);
     --p-inputnumber-button-hover-background: var(--grey-color);
@@ -240,9 +190,7 @@
     --p-select-color: var(--black-color);
     --p-select-border-radius: var(--border-radius-input);
     --p-select-focus-border-color: var(--grey-color-light);
-    --p-select-dropdown-width: 0px;
-    --p-select-padding-x: 0.5rem;
-    --p-select-padding-y: 0.5rem;
+
     --p-select-overlay-border-radius: var(--border-radius-input);
     --p-select-overlay-background: var(--primary-background-color);
     --p-select-option-border-radius: var(--border-radius-input);
@@ -253,9 +201,7 @@
         --secondary-background-color
     );
     --p-select-option-selected-focus-color: var(--black-color);
-    --p-select-list-padding: 0.5rem;
-    --p-select-list-container-max-height: 250px;
-    --p-select-list-container-z-index: 1000;
+
 
     /* InputMask */
     --p-inputmask-background: var(--white-color);
@@ -263,63 +209,49 @@
     --p-inputmask-border-radius: var(--border-radius-input);
 }
 
-/* Força altura da lista de opções do select */
-::ng-deep .p-select-list-container {
-    max-height: 250px !important;
-    overflow-y: auto !important;
-}
 
-::ng-deep .p-select-overlay {
-    max-height: 300px !important;
-}
 
 /* ============================================
    PRIMENG - MENU
    ============================================ */
 * {
-    /* Background e Cores Base */
+    /* Background and Base Colors */
     --p-menu-background: var(--white-color);
     --p-menu-color: red;
     --p-menu-border-color: transparent;
     --p-menu-border-radius: var(--border-radius-input);
 
-    /* Padding do Container */
-    --p-menu-padding: 0.5rem;
+
 
     /* Item Base */
-    --p-menu-item-padding: 0.75rem 1rem;
     --p-menu-item-border-radius: var(--border-radius-input);
-    --p-menu-item-gap: 0.5rem;
+
 
     /* Item Hover */
     --p-menu-item-focus-background: var(--blue-color-light3);
     --p-menu-item-focus-border-color: transparent;
     --p-menu-item-focus-color: var(--black-color);
 
-    /* Item Ativo/Selecionado */
+    /* Item Active/Selected */
     --p-menu-item-active-background: var(--primary-color);
     --p-menu-item-active-color: var(--white-color);
 
-    /* Ícone do Item */
+    /* Item Icon */
     --p-menu-item-icon-color: var(--grey-color);
     --p-menu-item-icon-focus-color: var(--primary-color);
     --p-menu-item-icon-active-color: var(--white-color);
 
-    /* Label do Item */
+    /* Item Label */
     --p-menu-item-label-color: var(--primary-font-color);
     --p-menu-item-label-focus-color: var(--primary-color);
     --p-menu-item-label-active-color: var(--white-color);
 
-    /* Separador */
+    /* Separator */
     --p-menu-separator-border-color: var(--grey-color-light);
 
     /* Submenu */
-    --p-menu-submenu-label-padding: 0.75rem 1rem;
     --p-menu-submenu-label-color: var(--grey-color);
-    --p-menu-submenu-label-font-weight: 600;
 
-    /* Sombra (opcional) */
-    --p-menu-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* ============================================
@@ -328,37 +260,4 @@
 * {
     --p-popover-background: var(--white-color);
     --p-popover-border-color: transparent;
-    --p-popover-border-radius: 8px;
-    --p-popover-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    --p-popover-padding: 0;
-}
-
-:host ::ng-deep {
-    .p-popover {
-        margin-top: 8px;
-    }
-
-    .popover-item {
-        transition: background 0.2s ease;
-
-        &:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        span {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--primary-font-color);
-        }
-    }
-
-    .logout-item {
-        &:hover {
-            background: rgba(239, 68, 68, 0.1);
-        }
-
-        span {
-            color: #ef4444;
-        }
-    }
 }

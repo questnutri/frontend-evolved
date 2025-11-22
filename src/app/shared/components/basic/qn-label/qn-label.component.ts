@@ -9,9 +9,6 @@ import { QnComponent } from "@qn/components/abstracts/qn-component.abstract";
         [style.fontWeight]="weight() || DEFAULT_STYLES.weight"
         [style.cursor]="cursor()"
     >{{ value() }}</span>`,
-    styles: `
-        @use '../../../../app.scss';
-    `
 })
 export class QnLabelComponent extends QnComponent {
     DEFAULT_STYLES = {

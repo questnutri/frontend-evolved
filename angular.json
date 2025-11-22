@@ -32,9 +32,8 @@
                             }
                         ],
                         "styles": [
-                            "src/global.scss",
-                            "src/theme/variables.scss",
-                            "src/app/styles/styles.scss"
+                            "src/styles/global.scss",
+                            "src/styles/tailwind.css"
                         ],
                         "scripts": []
                     },

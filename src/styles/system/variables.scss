@@ -1,0 +1,112 @@
+* {
+    /* Design System */
+    --border-radius-input: 6px;
+
+    /* ============================================
+   PRIMENG - BUTTON - PRIMARY
+   ============================================ */
+    --p-button-padding-y: 0.6rem;
+    --p-button-padding-x: 1rem;
+    --p-button-hover-weight: bold;
+
+    /* ============================================
+   PRIMENG - INPUT - BASE
+   ============================================ */
+    --p-inputtext-width: 100%;
+
+    /* ============================================
+   PRIMENG - TEXTAREA
+   ============================================ */
+    --p-textarea-padding-x: 1rem;
+    --p-textarea-padding-y: 1rem;
+    --p-textarea-shadow:
+        0 3px 1px -2px rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.21),
+        0 1px 5px 0 rgba(0, 0, 0, 0.18);
+
+    /* ============================================
+   PRIMENG - INPUTNUMBER
+   ============================================ */
+    --p-inputnumber-shadow:
+        0 1px 1px -2px rgba(0, 0, 0, 0.15), 0 1px 1px 0 rgba(0, 0, 0, 0.11),
+        0 1px 2px 0 rgba(0, 0, 0, 0.09);
+
+    /* ============================================
+   PRIMENG - DROPDOWN / SELECT
+   ============================================ */
+    --p-select-dropdown-width: 0px;
+    --p-select-padding-x: 0.5rem;
+    --p-select-padding-y: 0.5rem;
+    --p-select-list-padding: 0.5rem;
+    --p-select-list-container-max-height: 250px;
+    --p-select-list-container-z-index: 1000;
+
+    /* Padding of the Container */
+    --p-menu-padding: 0.5rem;
+    --p-menu-item-padding: 0.75rem 1rem;
+    --p-menu-item-gap: 0.5rem;
+    --p-menu-submenu-label-font-weight: 600;
+    --p-menu-submenu-label-padding: 0.75rem 1rem;
+    --p-menu-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    /* ============================================
+   PRIMENG - POPOVER
+   ============================================ */
+    --p-popover-border-radius: 8px;
+    --p-popover-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --p-popover-padding: 0;
+}
+
+/* Variant margin */
+:host ::ng-deep .p-floatlabel {
+    margin: 10px 0px;
+}
+
+/* Variant small */
+:host ::ng-deep .p-floatlabel small {
+    color: var(--primary-font-color);
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    display: block;
+    font-weight: 400;
+    padding: 0 1rem;
+}
+
+/* Force height of the select options list */
+::ng-deep .p-select-list-container {
+    max-height: 250px !important;
+    overflow-y: auto !important;
+}
+
+::ng-deep .p-select-overlay {
+    max-height: 300px !important;
+}
+
+:host ::ng-deep {
+    .p-popover {
+        margin-top: 8px;
+    }
+
+    .popover-item {
+        transition: background 0.2s ease;
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        span {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--primary-font-color);
+        }
+    }
+
+    .logout-item {
+        &:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        span {
+            color: #ef4444;
+        }
+    }
+}

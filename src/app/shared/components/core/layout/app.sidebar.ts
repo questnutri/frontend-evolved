@@ -5,7 +5,7 @@ import { AppMenu } from './app.menu';
     selector: 'app-sidebar',
     standalone: true,
     imports: [AppMenu],
-    styles: [`@use "../../../../app.scss" as *;`],
+    // styles: [`@use "../../../../app.scss" as *;`],
     template: ` <div class="layout-sidebar" [style.background]="'var(--primary-background-color)'">
         <app-menu></app-menu>
     </div>`

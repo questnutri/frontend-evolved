@@ -11,15 +11,20 @@ import { LayoutService } from '@qn/services';
     selector: 'app-layout',
     standalone: true,
     imports: [CommonModule, AppTopbar, AppSidebar, RouterModule, AppFooter],
-    styles: [`@use "../../../../app.scss" as *;`],
     template: `<div class="layout-wrapper" [ngClass]="containerClass" [style.background]="'var(--secondary-background-color)'">
         <app-topbar></app-topbar>
         <app-sidebar></app-sidebar>
+
         <div class="layout-main-container">
-            <div style="height: 90vh; padding: 0 0 2rem 0;box-sizing: border-box;">
+            <div [style]="{
+                'overflow-y': 'hidden',  
+                'width': '100%', 
+                'height': '100%', 
+                'background': 'white',
+                'border-radius': 'var(--content-border-radius)',
+                }">
                 <router-outlet></router-outlet>
             </div>
-            <!-- <app-footer></app-footer> -->
         </div>
         <div class="layout-mask animate-fadein"></div>
     </div> `

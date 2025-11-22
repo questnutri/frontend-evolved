@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth-guard';
-import { NutritionistPage } from './pages/nutritionist/nutritionist.page';
 import { NutritionistHomePage } from './pages/nutritionist/nutritionist-home/nutritionist-home.page';
 import { ForgotPasswordPage } from './pages/not-logged/forgot-password/forgot-password.page';
 import { AppLayout } from '@qn/components/core';
@@ -27,6 +26,11 @@ export const routes: Routes = [
         path: '',
         component: AppLayout,
         children: [
+            {
+                path: '',
+                redirectTo: 'login',
+                pathMatch: 'full'
+            },
             {
                 path: 'nutritionist',
                 canMatch: [AuthGuard, NutritionistGuard],

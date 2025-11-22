@@ -9,7 +9,7 @@ import { LayoutService } from "@qn/services";
 @Component({
     selector: 'app-topbar',
     standalone: true,
-    styles: [`@use "../../../../app.scss" as *;`],
+    // styles: [`@use "../../../../app.scss" as *;`],
     imports: [RouterModule, CommonModule, StyleClassModule, AppConfigurator],
     template: ` <div class="layout-topbar" [style.background]="'var(--primary-background-color)'">
         <div class="layout-topbar-logo-container">

@@ -1,6 +1,5 @@
-<div class="patient-layout">
-    <!-- SIDEBAR FIXA -->
-    <div class="sidebar">
+<div style="display: grid; grid-template-columns: 1fr 5fr;">
+    <div style="height: auto; background: white;">
         <div class="back-navigation" (click)="backToPatients()">
             <i class="pi pi-arrow-left back-icon"></i>
             <span class="back-text">Voltar aos Pacientes</span>
@@ -17,48 +16,23 @@
         </div>
 
         <div class="menu-list">
+            @for(item of patientNavItems; track $index) {
             <div
                 class="item-list"
-                [class.active]="activeMenuItem() === 'information'"
-                (click)="setActiveMenuItem('info')"
+                [routerLink]="[item.route]"
+                [queryParamsHandling]="'preserve'"
+                [routerLinkActive]="'active'"
+                [routerLinkActiveOptions]="{ exact: true }"
+                [relativeTo]="activatedRoute"
             >
-                <i class="pi pi-user"></i><span>Informações</span>
+                <i class="pi" [ngClass]="item.icon"></i
+                ><span>{{item.label}}</span>
             </div>
-            <div
-                class="item-list"
-                [class.active]="activeMenuItem() === 'diets'"
-                (click)="setActiveMenuItem('diets')"
-            >
-                <i class="pi pi-apple"></i><span>Dietas</span>
-            </div>
-            <div
-                class="item-list"
-                [class.active]="activeMenuItem() === 'health'"
-                (click)="setActiveMenuItem('health')"
-            >
-                <i class="pi pi-heart"></i><span>Dados de Saúde</span>
-            </div>
-            <div
-                class="item-list"
-                [class.active]="activeMenuItem() === 'records'"
-                (click)="setActiveMenuItem('records')"
-            >
-                <i class="pi pi-file"></i><span>Registros</span>
-            </div>
+            }
+            
         </div>
     </div>
-    <div class="main-content">
+    <div style="background: blue;">
         <router-outlet></router-outlet>
-        <!-- @if(activeMenuItem() === 'information') {
-        <app-nutritionist-patient-info></app-nutritionist-patient-info>
-        }@else if(activeMenuItem() === 'diets') {
-        <app-nutritionist-patient-diets
-            [diets]="patientDiets()"
-        ></app-nutritionist-patient-diets>
-        }@else if(activeMenuItem() === 'health') {
-        <h1>Health works!</h1>
-        }@else if(activeMenuItem() === 'records') {
-        <h1>Records works!</h1>
-        } -->
     </div>
 </div>

@@ -1,27 +1,27 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
-import { NavController } from '@ionic/angular';
-import { QnDiv } from "@qn/components/basic";
+import { Component, effect, inject, input, signal, ViewEncapsulation } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { DietModel, Patient } from '@qn/models';
-import { PatientService, DietService } from '@qn/services';
-import { NutritionistPatientInfoPage } from "./nutritionist-patient-info/nutritionist-patient-info.page";
-import { NutritionistPatientDietsPage } from "./nutritionist-patient-diets/nutritionist-patient-diets.page";
-import { Router, RouterModule } from "@angular/router";
+import { PatientService } from '@qn/services';
+import { ActivatedRoute, Router, RouterLinkActive, RouterModule } from "@angular/router";
 
 @Component({
     selector: 'nutritionist-patient-details',
     templateUrl: './nutritionist-patient-details.page.html',
     styleUrls: ['./nutritionist-patient-details.page.scss'],
-    imports: [QnDiv, NutritionistPatientInfoPage, NutritionistPatientDietsPage, RouterModule],
+    imports: [
+        RouterModule,
+        RouterLinkActive,
+        CommonModule
+    ],
 })
 export class NutritionistPatientDetailsPage {
     private readonly patientService = inject(PatientService);
-    private readonly dietService = inject(DietService);
-    private readonly navController = inject(NavController);
+    protected readonly activatedRoute = inject(ActivatedRoute);
     private readonly router = inject(Router);
     patientId = input.required<string>();
     patient = signal<Patient | null>(null);
+
     patientDiets = signal<DietModel[]>([]);
-    activeMenuItem = signal<string>('information');
 
     constructor() {
         effect(async () => {
@@ -32,22 +32,31 @@ export class NutritionistPatientDetailsPage {
         })
     }
 
-    async loadPatientDiets() {
-        const id = this.patientId();
-        const dietsData = await this.dietService.getDiets(id);
-        console.log(dietsData);
-
-        this.patientDiets.set(dietsData);
-    }
+    patientNavItems = [
+        {
+            label: 'Informações',
+            icon: 'pi pi-user',
+            route: 'info'
+        },
+        {
+            label: 'Dietas',
+            icon: 'pi pi-apple',
+            route: 'diets'
+        },
+        {
+            label: 'Dados de Saúde',
+            icon: 'pi pi-heart',
+            route: 'health'
+        },
+        {
+            label: 'Registros',
+            icon: 'pi pi-file',
+            route: 'records'
+        }
+    ];
 
     backToPatients() {
-        this.navController.navigateRoot('/nutritionist/patients');
-    }
-
-    setActiveMenuItem(item: string) {
-        const patientId = this.patientId();
-        this.router.navigate(['/nutritionist/patient', patientId, item]);
-        this.activeMenuItem.set(item);
+        this.router.navigate(['/nutritionist/patients']);
     }
 
 }
