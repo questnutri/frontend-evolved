@@ -1,25 +1,25 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth-guard';
-import { NutritionistHomePage } from './pages/nutritionist/nutritionist-home/nutritionist-home.page';
+import { NutritionistHomePage } from './pages/nutritionist/home/home.page';
 import { ForgotPasswordPage } from './pages/not-logged/forgot-password/forgot-password.page';
 import { AppLayout } from '@qn/components/core';
 import { ResetPage } from './pages/not-logged/reset-password/reset-password.page';
 import { ResetGuard } from './guards/reset-guard';
 import { NotLoggedLayout } from './pages/not-logged/not-logged.page';
 import { LoginPage } from './pages/not-logged/login/login.page';
-import { NutritionistRegisterPage } from './pages/nutritionist/nutritionist-register/nutritionist-register.page';
+import { NutritionistRegisterPage } from './pages/not-logged/nutritionist-register/nutritionist-register.page';
 import { RealLandingComponent } from './pages/real-landing/real-landing';
 import { NutritionistGuard } from './guards/nutritionist-guard';
-import { NutritionistProfilePage } from './pages/nutritionist/nutritionist-profile/nutritionist-profile.component';
+import { NutritionistProfilePage } from './pages/nutritionist/profile/profile.component';
 import { PatientPage } from './pages/patient/patient.page';
 import { PatientHomePage } from './pages/patient/patient-home/patient-home.page';
 import { PatientGuard } from './guards/patient-guard';
-import { NutritionistPatientsPage } from './pages/nutritionist/nutritionist-patients/nutritionist-patients.page';
-import { NutritionistPatientDetailsPage } from './pages/nutritionist/nutritionist-patient-details/nutritionist-patient-details.page';
-import { NutritionistPatientInfoPage } from './pages/nutritionist/nutritionist-patient-details/nutritionist-patient-info/nutritionist-patient-info.page';
-import { NutritionistPatientHealthPage } from './pages/nutritionist/nutritionist-patient-details/nutritionist-patient-health/nutritionist-patient-health.page';
-import { NutritionistPatientDietsPage } from './pages/nutritionist/nutritionist-patient-details/nutritionist-patient-diets/nutritionist-patient-diets.page';
-import { NutritionistPatientRecordsPage } from './pages/nutritionist/nutritionist-patient-details/nutritionist-patient-records/nutritionist-patient-records.page';
+import { NutritionistPatientsPage } from './pages/nutritionist/patients-list/patients-list.page';
+import { NutritionistPatientDetailsPage } from './pages/nutritionist/patient-details/patient-details.page';
+import { NutritionistPatientInfoSection } from './pages/nutritionist/patient-details/sections/info/info.section';
+import { NutritionistPatientHealthSection } from './pages/nutritionist/patient-details/sections/health/health.section';
+import { NutritionistPatientDietsSection } from './pages/nutritionist/patient-details/sections/diets/diets.section';
+import { NutritionistPatientRecordsSection } from './pages/nutritionist/patient-details/sections/records/records.section';
 
 export const routes: Routes = [
     {
@@ -63,19 +63,19 @@ export const routes: Routes = [
                             },
                             {
                                 path: 'info',
-                                component: NutritionistPatientInfoPage
+                                component: NutritionistPatientInfoSection
                             },
                             {
                                 path: 'diets',
-                                component: NutritionistPatientDietsPage
+                                component: NutritionistPatientDietsSection
                             },
                             {
                                 path: 'health',
-                                component: NutritionistPatientHealthPage
+                                component: NutritionistPatientHealthSection
                             },
                             {
                                 path: 'records',
-                                component: NutritionistPatientRecordsPage
+                                component: NutritionistPatientRecordsSection
                             }
                         ]
                     }

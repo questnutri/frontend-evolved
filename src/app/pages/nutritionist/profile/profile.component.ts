@@ -14,8 +14,8 @@ interface NewPassword {
 
 @Component({
     selector: 'app-nutritionist-profile',
-    templateUrl: './nutritionist-profile.component.html',
-    styleUrls: ['./nutritionist-profile.component.scss'],
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss'],
     imports: [QnTextInputComponent, QnLabelDirective, QnMaskInputComponent, QnPasswordInputComponent, QnButtonComponent, QnDropDownComponent, DatePickerModule, FluidModule],
 })
 export class NutritionistProfilePage implements OnInit {

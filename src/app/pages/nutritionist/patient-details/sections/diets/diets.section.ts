@@ -5,11 +5,11 @@ import { MealDisplayComponent } from "src/app/shared/components/core/qn-meal/qn-
 
 @Component({
     selector: 'app-nutritionist-patient-diets',
-    templateUrl: './nutritionist-patient-diets.page.html',
-    styleUrls: ['./nutritionist-patient-diets.page.scss'],
+    templateUrl: './diets.section.html',
+    styleUrls: ['./diets.section.scss'],
     imports: [QnButtonComponent, MealDisplayComponent],
 })
-export class NutritionistPatientDietsPage implements OnInit {
+export class NutritionistPatientDietsSection implements OnInit {
 
     diets = input<DietModel[]>();
     constructor() { }

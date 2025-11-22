@@ -13,8 +13,8 @@ import { DietModel } from 'src/app/shared/models/diet.model';
     imports: [
         MealDisplayComponent
     ],
-    templateUrl: './nutritionist-home.page.html',
-    styleUrl: './nutritionist-home.page.scss'
+    templateUrl: './home.page.html',
+    styleUrl: './home.page.scss'
 })
 export class NutritionistHomePage implements OnInit {
     private readonly nutritionistService = inject(NutritionistService);
@@ -28,8 +28,8 @@ export class NutritionistHomePage implements OnInit {
         this.nutritionist.set(
             await this.nutritionistService.getMe()
         );
-        const diet = await this.dietService.getDietById('402e3b50-b38f-465d-b147-1e11ac791f2a');
-        this.diets.set(diet);
+        // const diet = await this.dietService.getDietById('402e3b50-b38f-465d-b147-1e11ac791f2a');
+        // this.diets.set(diet);
         // console.log(diet!.meals[0].foods[0]);
         // console.log(diet!.meals[0].foods[0].getTotal('kcal'));
         // console.log(diet?.getTotal('kcal'));

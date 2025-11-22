@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
         provideRouter(
             routes,
             withComponentInputBinding(),
-            withRouterConfig({ onSameUrlNavigation: 'reload' }),
+            withRouterConfig({ onSameUrlNavigation: 'reload', paramsInheritanceStrategy: 'always' }),
         ),
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         provideIonicAngular(),

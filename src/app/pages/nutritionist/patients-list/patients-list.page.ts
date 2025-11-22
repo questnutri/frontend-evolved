@@ -14,8 +14,8 @@ interface SortOption {
 
 @Component({
     selector: 'nutritionist-patients',
-    templateUrl: './nutritionist-patients.page.html',
-    styleUrls: ['./nutritionist-patients.page.scss'],
+    templateUrl: './patients-list.page.html',
+    styleUrls: ['./patients-list.page.scss'],
     imports: [
         FormsModule,  // ← IMPORTANTE para ngModel funcionar
         QnDiv,
