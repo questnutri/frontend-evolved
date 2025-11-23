@@ -49,7 +49,7 @@
                             <qn-text-input
                                 qnLabel="Primeiro Nome"
                                 id="firstName"
-                                [value]="nutritionist()?.name"
+                                [value]="nutritionist()?.firstName"
                                 [disabled]="personalInformation()"
                             />
                         </div>
@@ -57,7 +57,7 @@
                             <qn-text-input
                                 qnLabel="Sobrenome"
                                 id="lastName"
-                                [value]="nutritionist()?.name"
+                                [value]="nutritionist()?.lastName"
                                 [disabled]="personalInformation()"
                             />
                         </div>
@@ -66,6 +66,7 @@
                             <qn-drop-down
                                 [options]="optionsGender"
                                 qnLabel="Gênero"
+                                [value]="nutritionist()?.gender"
                                 [disabled]="personalInformation()"
                             />
                         </div>
@@ -106,12 +107,20 @@
                             />
                         </div>
                         <div class="form-group">
+                            <qn-mask-input
+                                [qnLabel]="`CRN`"
+                                mask="CRN-9/99999"
+                                [disabled]="personalInformation()"
+                                [value]="nutritionist()?.crn"
+                            />
+                        </div>
+                        <div class="form-group">
                             <p-fluid>
                                 <p-datepicker
                                     [iconDisplay]="'input'"
                                     [showIcon]="true"
                                     inputId="icondisplay"
-                                    qnLabel="Data de Aniversário"
+                                    qnLabel="Data de Nascimento"
                                     dateFormat="dd/mm/yy"
                                     placeholder="dd/mm/aa"
                                     disabled="true"
@@ -133,6 +142,7 @@
                     }
                 </div>
             </div>
+
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">Informações de Endereço</h2>
@@ -143,48 +153,150 @@
                         <i class="pi pi-map" style="font-size: 1rem"></i>
                     </span>
                 </div>
-                <div
-                    class="card-content"
-                    [class.has-actions]="!personalAddress()"
-                >
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <qn-text-input
-                                qnLabel="Rua"
-                                id="street"
-                                [disabled]="personalAddress()"
-                            />
-                        </div>
-                        <div class="form-group">
-                            <qn-text-input
-                                qnLabel="Bairro"
-                                id="neighborhood"
-                                [disabled]="personalAddress()"
-                            />
-                        </div>
+                @if (nutritionist()?.addresses?.length) {
+                    @for (address of nutritionist()?.addresses; track $index) {
+                        <div
+                            class="card-content"
+                            [class.has-actions]="!personalAddress()"
+                        >
+                            <div class="form-grid">
+                                <!-- País -->
+                                <div class="form-group">
+                                    <qn-text-input
+                                        qnLabel="País"
+                                        id="country"
+                                        [disabled]="personalAddress()"
+                                        [value]="address.country"
+                                    />
+                                </div>
 
-                        <div class="form-group">
-                            <qn-mask-input
-                                qnLabel="CEP"
-                                id="zipCode"
-                                mask="99999-999"
-                                [disabled]="personalAddress()"
-                            />
-                        </div>
-                    </div>
-                    <!-- Botões agora FORA do grid, em container próprio -->
-                    @if (!personalAddress()) {
-                        <div class="form-actions">
-                            <qn-button
-                                label="Cancelar"
-                                type="outline"
-                                width="130px"
-                                (click)="handleChangePersonalAddressMode()"
-                            />
-                            <qn-button label="Salvar" width="130px" />
+                                <!-- Nome do Local -->
+                                <div class="form-group">
+                                    <qn-text-input
+                                        qnLabel="Nome do Local"
+                                        id="name"
+                                        [disabled]="personalAddress()"
+                                        [value]="address.name"
+                                        placeholder="Ex: Casa, Escritório, Consultório"
+                                    />
+                                </div>
+
+                                <!-- Rua -->
+                                <div class="form-group">
+                                    <qn-text-input
+                                        qnLabel="Rua"
+                                        id="street"
+                                        [disabled]="personalAddress()"
+                                        [value]="address.street"
+                                    />
+                                </div>
+
+                                <!-- Número -->
+                                <div class="form-group">
+                                    <qn-text-input
+                                        qnLabel="Número"
+                                        id="number"
+                                        [disabled]="personalAddress()"
+                                        [value]="address.number"
+                                    />
+                                </div>
+
+                                <!-- Complemento -->
+                                <div class="form-group">
+                                    <qn-text-input
+                                        qnLabel="Complemento"
+                                        id="complement"
+                                        [disabled]="personalAddress()"
+                                        [value]="address.complement"
+                                        placeholder="Apto, bloco, sala..."
+                                    />
+                                </div>
+
+                                <!-- Bairro -->
+                                <div class="form-group">
+                                    <qn-text-input
+                                        qnLabel="Bairro"
+                                        id="neighborhood"
+                                        [disabled]="personalAddress()"
+                                        [value]="address.neighborhood"
+                                    />
+                                </div>
+
+                                <!-- Cidade -->
+                                <div class="form-group">
+                                    <qn-text-input
+                                        qnLabel="Cidade"
+                                        id="city"
+                                        [disabled]="personalAddress()"
+                                        [value]="address.city"
+                                    />
+                                </div>
+
+                                <!-- Estado -->
+                                <div class="form-group">
+                                    <qn-text-input
+                                        qnLabel="Estado"
+                                        id="state"
+                                        [disabled]="personalAddress()"
+                                        [value]="address.state"
+                                        placeholder="Ex: SP, RJ, MG"
+                                    />
+                                </div>
+
+                                <!-- CEP -->
+                                <div class="form-group">
+                                    <qn-mask-input
+                                        qnLabel="CEP"
+                                        id="zipCode"
+                                        mask="99999-999"
+                                        [disabled]="personalAddress()"
+                                        [value]="address.zipCode"
+                                    />
+                                </div>
+                            </div>
+
+                            <!-- Botões de ação -->
+                            @if (!personalAddress()) {
+                                <div class="form-actions">
+                                    <qn-button
+                                        label="Cancelar"
+                                        type="outline"
+                                        width="130px"
+                                        (click)="
+                                            handleChangePersonalAddressMode()
+                                        "
+                                    />
+                                    <qn-button label="Salvar" width="130px" />
+                                </div>
+                            }
                         </div>
                     }
-                </div>
+                } @else {
+                    <div class="card-content">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">
+                                <i class="pi pi-map"></i>
+                            </div>
+                            <h3 class="empty-state-title">
+                                Nenhum endereço cadastrado
+                            </h3>
+                            <p class="empty-state-description">
+                                Adicione um endereço para facilitar o cadastro
+                                de suas informações profissionais.
+                            </p>
+                            @if (personalAddress()) {
+                                <div class="empty-state-action">
+                                    <qn-button
+                                        label="Adicionar Endereço"
+                                        (click)="
+                                            handleChangePersonalAddressMode()
+                                        "
+                                    />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
             </div>
 
             <div class="card">
@@ -251,7 +363,7 @@
     </div>
 </div>
 
-
-//TODO: AJUSTAR O PADDING DA INFORMACAO, AUMENTAR O GAP ENTRE OS CAMPOS DO FORMULARIO
-//TODO: TODOS OS CAMPOS NA MESMA LINHA, RESPONSIVO PARA MOBILE
-//TODO: ADDRESS, CAMPOS: RUA, NUMERO, COMPLEMENTO, BAIRRO, CIDADE, ESTADO, CEP => FAZER TODOS O RESTO PRIMEIRO
+//TODO: AJUSTAR O PADDING DA INFORMACAO, AUMENTAR O GAP ENTRE OS CAMPOS DO
+FORMULARIO //TODO: TODOS OS CAMPOS NA MESMA LINHA, RESPONSIVO PARA MOBILE
+//TODO: ADDRESS, CAMPOS: RUA, NUMERO, COMPLEMENTO, BAIRRO, CIDADE, ESTADO, CEP
+=> FAZER TODOS O RESTO PRIMEIRO

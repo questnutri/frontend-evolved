@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { QnMaskInputComponent, QnPasswordInputComponent, QnTextInputComponent, QnButtonComponent, QnDropDownComponent } from "@qn/components/basic";
 import { QnLabelDirective } from "@qn/directives";
+import { NutritionistModel } from '@qn/models';
 import { AuthService, NotificationService, NutritionistService } from '@qn/services';
-import { NutritionistModel } from 'src/app/shared/models/nutritionist.model';
 import { DatePickerModule } from 'primeng/datepicker';
 import { FluidModule } from 'primeng/fluid';
 
@@ -32,10 +32,12 @@ export class NutritionistProfilePage implements OnInit {
     personalInformation = signal<boolean>(true);
     personalAddress = signal<boolean>(true);
     changePassword = signal<boolean>(true);
+
     optionsDocType = [
         { label: 'CPF', value: 'cpf' },
         { label: 'CNPJ', value: 'cnpj' },
     ];
+
     optionsGender = [
         { label: 'Masculino', value: 'male' },
         { label: 'Feminino', value: 'female' },
@@ -44,7 +46,7 @@ export class NutritionistProfilePage implements OnInit {
 
     async ngOnInit() {
         this.nutritionist.set(
-            await this.nutritionistService.getMe()
+            await this.nutritionistService.getMe(true, false)
         );
     }
 
@@ -88,5 +90,5 @@ export class NutritionistProfilePage implements OnInit {
         this.changePassword.set(!this.changePassword());
     }
 
-
+    //TODO: MUDAR COR DA TABELA
 }

@@ -25,9 +25,9 @@ export class NutritionistHomePage implements OnInit {
     diets = signal<DietModel | null>(null);
 
     async ngOnInit() {
-        this.nutritionist.set(
-            await this.nutritionistService.getMe()
-        );
+        // this.nutritionist.set(
+        //     await this.nutritionistService.getMe()
+        // );
         // const diet = await this.dietService.getDietById('402e3b50-b38f-465d-b147-1e11ac791f2a');
         // this.diets.set(diet);
         // console.log(diet!.meals[0].foods[0]);

@@ -51,7 +51,7 @@ export class NutritionistPatientsPage {
         effect(async () => {
             const patients = await this.patientService.getAll();
             if (patients) {
-                this.patients.set(patients);
+                this.patients.set(patients.items);
             }
         })
     }

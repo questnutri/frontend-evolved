@@ -1,6 +1,7 @@
 import { ApiService } from './../api/api.service';
 import { inject, Injectable } from "@angular/core";
 import { Patient } from '@qn/models';
+import { ListResponse } from '@qn/types';
 import { firstValueFrom } from "rxjs";
 
 @Injectable({
@@ -9,20 +10,17 @@ import { firstValueFrom } from "rxjs";
 export class PatientService {
     private readonly apiService = inject(ApiService);
 
-    async getAll(): Promise<Patient[]> {
+    async getAll(): Promise<ListResponse<Patient>> {
         try {
             const response = await firstValueFrom(
-                this.apiService.authenticated.get(`nutritionist/patients`)
+                this.apiService.authenticated.get<ListResponse<Patient>>(`/patient/all`)
             );
 
-            console.log(response);
-
-
-            return response as Patient[];
+            return response;
 
         } catch (error) {
             console.log(error);
-            return [];
+            return { items: [], totalItems: 0, totalPages: 0, currentPage: 0, lastPage: false, firstPage: false, exceededLastPage: false, itemsLength: 0, limit: 0 };
         }
     }
 

@@ -1,7 +1,11 @@
+import { Address } from "../interface/address.interface";
+
 export interface Nutritionist {
     id: string;
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
+    gender?: string;
     active?: boolean;
     createdAt?: Date;
     updatedAt?: Date;
@@ -10,12 +14,15 @@ export interface Nutritionist {
     documentType?: string;
     phone?: string;
     role?: string;
+    addresses?: Address[]
 }
 
 export class NutritionistModel implements Nutritionist {
     id!: string;
-    name!: string;
+    firstName!: string;
+    lastName!: string;
     email!: string;
+    gender?: string;
     active?: boolean;
     createdAt?: Date;
     updatedAt?: Date;
@@ -24,6 +31,7 @@ export class NutritionistModel implements Nutritionist {
     documentType?: string;
     phone?: string;
     role?: string;
+    addresses?: Address[]
 
     static from(nutritionist: Nutritionist): NutritionistModel {
         const model = new NutritionistModel();
