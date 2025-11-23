@@ -5,13 +5,15 @@ import { DietService } from '@qn/services';
 import { MealDisplayComponent } from "src/app/shared/components/core/qn-meal/qn-meal-display";
 import { DietStatusPipe } from 'src/app/shared/pipes/diet-status-pipe';
 import { ChipModule } from 'primeng/chip';
+import { Router } from '@angular/router';
 @Component({
     selector: 'app-nutritionist-patient-diets',
     templateUrl: './diets.section.html',
     styleUrls: ['./diets.section.scss'],
-    imports: [QnButtonComponent, MealDisplayComponent, DietStatusPipe, ChipModule],
+    imports: [QnButtonComponent, DietStatusPipe, ChipModule],
 })
-export class NutritionistPatientDietsSection implements OnInit {
+export class NutritionistPatientDietsSection {
+    private readonly router = inject(Router);
     private readonly dietService = inject(DietService);
     patientId = input.required<string>();
 
@@ -28,9 +30,6 @@ export class NutritionistPatientDietsSection implements OnInit {
         })
     }
 
-    ngOnInit() {
-    }
-
     dateFormat(date: Date | undefined): string {
         if (!date) {
             return '';
@@ -43,6 +42,10 @@ export class NutritionistPatientDietsSection implements OnInit {
             month: '2-digit',
             year: 'numeric'
         });
+    }
+
+    doOnSeeDiet(dietId: string) {
+        this.router.navigate(['/nutritionist/patient', this.patientId(), 'diet', dietId]);
     }
 
 }

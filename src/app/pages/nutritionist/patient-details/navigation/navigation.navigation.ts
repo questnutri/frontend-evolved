@@ -2,13 +2,15 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { ActivatedRoute, Router, RouterLinkActive, RouterModule } from '@angular/router';
 import { Patient } from '@qn/models';
+import { BackButtonComponent } from "src/app/shared/components/core/back-button/back-button.component";
 
 @Component({
     imports: [
-        CommonModule,
-        RouterModule,
-        RouterLinkActive
-    ],
+    CommonModule,
+    RouterModule,
+    RouterLinkActive,
+    BackButtonComponent
+],
     selector: 'app-nutritionist-patient-details-navigation',
     templateUrl: './navigation.navigation.html',
     styleUrls: ['./navigation.navigation.scss'],

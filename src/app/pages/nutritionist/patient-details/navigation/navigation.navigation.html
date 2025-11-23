@@ -1,7 +1,12 @@
-<div class="back-navigation" (click)="backToPatients()">
+<!-- <div class="back-navigation" (click)="backToPatients()">
     <i class="pi pi-arrow-left back-icon"></i>
     <span class="back-text">Voltar aos Pacientes</span>
-</div>
+</div> -->
+
+<app-back-button 
+    text="Voltar aos Pacientes"
+    (onClick)="backToPatients()"
+/>
 
 <div class="navigation-avatar-section">
     <img

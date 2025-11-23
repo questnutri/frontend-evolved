@@ -20,6 +20,7 @@ import { NutritionistPatientInfoSection } from './pages/nutritionist/patient-det
 import { NutritionistPatientHealthSection } from './pages/nutritionist/patient-details/sections/health/health.section';
 import { NutritionistPatientDietsSection } from './pages/nutritionist/patient-details/sections/diets/diets.section';
 import { NutritionistPatientRecordsSection } from './pages/nutritionist/patient-details/sections/records/records.section';
+import { PatientDietDetailsPage } from './pages/nutritionist/diet-details/diet-details.component';
 
 export const routes: Routes = [
     {
@@ -54,28 +55,37 @@ export const routes: Routes = [
                     },
                     {
                         path: 'patient/:patientId',
-                        component: NutritionistPatientDetailsPage,
                         children: [
                             {
                                 path: '',
-                                redirectTo: 'info',
-                                pathMatch: 'full'
+                                component: NutritionistPatientDetailsPage,
+                                children: [
+                                    {
+                                        path: '',
+                                        redirectTo: 'info',
+                                        pathMatch: 'full'
+                                    },
+                                    {
+                                        path: 'info',
+                                        component: NutritionistPatientInfoSection
+                                    },
+                                    {
+                                        path: 'diets',
+                                        component: NutritionistPatientDietsSection
+                                    },
+                                    {
+                                        path: 'health',
+                                        component: NutritionistPatientHealthSection
+                                    },
+                                    {
+                                        path: 'records',
+                                        component: NutritionistPatientRecordsSection
+                                    }
+                                ]
                             },
                             {
-                                path: 'info',
-                                component: NutritionistPatientInfoSection
-                            },
-                            {
-                                path: 'diets',
-                                component: NutritionistPatientDietsSection
-                            },
-                            {
-                                path: 'health',
-                                component: NutritionistPatientHealthSection
-                            },
-                            {
-                                path: 'records',
-                                component: NutritionistPatientRecordsSection
+                                path: 'diet/:dietId',
+                                component: PatientDietDetailsPage
                             }
                         ]
                     }
