@@ -1,118 +1,112 @@
-.content {
-    padding: 2rem;
-    overflow-y: auto;
-    overflow-x: hidden;
-    background: var(--primary-background-color);
-    height: 100vh;
+.diets-section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--secondary-background-color);
+    border-radius: var(--border-radius-input);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.diets-section-container {
+    background-color: var(--primary-background-color);
+    border-radius: var(--border-radius-input);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
 }
 
-// .card {
-//     background: white;
-//     padding: 1rem 2rem;
-//     border-radius: 0px;
+.diets-content-scroll {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 2rem;
+    min-height: 0; // Importante para o flex funcionar
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
 
-//     &:last-child {
-//         margin-bottom: 0;
-//         border-bottom: none;
-//     }
-// }
-
-.header {
+.diets-section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
-
-.card-name {
+.diets-section-header-title {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary-font-color);
     margin: 0;
 }
 
-.details-grid {
+.diets-card {
     display: grid;
-    grid-template-columns: minmax(300px, 1fr);
-    gap: 1.5rem;
-}
-
-.diet-card {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    border: 2px solid var(--primary-border-color);
+    border-radius: var(--border-radius-input);
     padding: 1.5rem;
-    gap: 1rem;
-    transition: box-shadow 0.3s ease;
+    gap: 0.5rem;
 
     &:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-color: var(--primary-color);
+        transition: all 0.3s ease-in-out;
     }
 }
 
-.diet-header {
+.diet-card-active {
+    border-color: #28a746; // Verde para ativo
+    background-color: #d4f3db76;
+}
+
+.diet-card-title {
     display: flex;
-    justify-content: space-between;
+    gap: 0.5rem;
     align-items: center;
+    justify-content: flex-start;
+}
 
-    .diet-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin: 0;
-        color: var(--primary-font-color);
-    }
+.diet-chip {
+    font-size: 0.85rem;
+    font-weight: 500;
+    background-color: var(--blue-color);
+    color: var(--white-color);
+}
 
-    i {
-        cursor: pointer;
-        color: #666;
-        font-size: 1.2rem;
+.diet-chip-active {
+    background-color: #28a746 !important; // Verde para ativo
+}
 
-        &:hover {
-            color: var(--primary-font-color);
-        }
+.diet-card-name {
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--primary-font-color);
+    margin: 0;
+}
+
+.diet-card-icon {
+    color: var(--grey-color);
+    justify-self: end;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--primary-color);
     }
 }
 
-.diet-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #666;
-    font-size: 0.95rem;
-
-    .diet-date {
-        font-weight: 500;
-    }
-
-    .diet-percentage {
-        font-weight: 600;
-        color: var(--primary-color, #4caf50);
-        font-size: 1.1rem;
-    }
+.diet-card-date {
+    font-size: 0.9rem;
+    color: var(--grey-color);
+    opacity: 0.9;
 }
 
-.diet-footer {
-    display: flex;
-    justify-content: center;
-    margin-top: 0.5rem;
-
-    .details-button {
-        width: 100%;
-        max-width: 300px;
-    }
-}
-
-@media (max-width: 768px) {
-    .details-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .content {
-        padding: 1rem;
-    }
-
-    .card {
-        padding: 1rem;
-    }
+.view-diet-button {
+    justify-self: center;
+    min-width: 250px;
+    width: 60%;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    background-color: white;
 }

@@ -1,56 +1,88 @@
-// .content {
-//     padding: 2rem;
-//     overflow-y: auto;
-//     overflow-x: hidden;
-//     background: var(--primary-background-color);
-// }
+.info-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--secondary-background-color);
+    border-radius: var(--border-radius-input);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.info-layout {
+    background-color: var(--primary-background-color);
+    border-radius: var(--border-radius-input);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.info-content-scroll {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 2rem;
+    min-height: 0; // Importante para o flex funcionar
+}
 
 .nutri-patient-card {
     background: white;
     padding: 1rem 2rem;
-    border-radius: 0px;
+    border-radius: var(--border-radius-input);
+    // margin-bottom: 1.5rem;
 
     &:last-child {
         margin-bottom: 0;
-        border-bottom: none;
+
+        hr {
+            display: none;
+        }
+    }
+
+    hr {
+        margin-top: 1rem;
+        border: none;
+        border-top: 1px solid var(--primary-border-color);
     }
 }
-// .card-name {
-//     font-size: 1.5rem;
-//     font-weight: 700;
-//     color: var(--primary-font-color);
-//     margin-bottom: 1.5rem;
-// }
-// .details-grid {
-//     display: grid;
-//     grid-template-columns: 1fr 1fr;
-//     gap: 1.5rem 2rem;
-// }
-// .physical-grid {
-//     display: grid;
-//     grid-template-columns: 1fr 1fr 1fr 1fr;
-//     gap: 1.5rem 2rem;
-// }
-// .medical-grid {
-//     display: grid;
-//     grid-template-columns: 1fr;
-//     gap: 1.5rem 2rem;
-// }
 
-// @media (max-width: 768px) {
-//     .details-grid,
-//     .physical-grid {
-//         grid-template-columns: 1fr;
-//     }
-// }
+.info-card-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-font-color);
+    margin-bottom: 1.5rem;
+}
 
-// .detail-item {
-//     display: flex;
-//     flex-direction: column;
-//     gap: 4px;
-// }
+.info-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem 2rem;
+}
 
-// .label {
-//     font-weight: 600;
-//     color: var(--primary-font-color);
-// }
+.detail-item {
+    display: flex;
+    flex-direction: column;
+
+    .label {
+        font-weight: 600;
+        color: var(--secondary-font-color);
+        margin-bottom: 0.25rem;
+    }
+
+    p {
+        margin: 0;
+        color: var(--primary-font-color);
+    }
+}
+
+// Responsive
+@media (max-width: 768px) {
+    .info-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-content-scroll {
+        padding: 1rem;
+    }
+}

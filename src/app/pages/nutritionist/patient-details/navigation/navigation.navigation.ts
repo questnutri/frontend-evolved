@@ -20,6 +20,11 @@ export class NutritionistPatientDetailsNavigation {
 
     patientNavItems = [
         {
+            label: '',
+            icon: 'pi-arrow-left',
+            route: 'patients'
+        },
+        {
             label: 'Informações',
             icon: 'pi-user',
             route: 'info'

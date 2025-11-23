@@ -1,35 +1,43 @@
-<!-- CONTEÚDO SCROLLÁVEL -->
-<div class="content">
-    <div class="card">
-        <div class="header">
-            <h2 class="card-name">Plano De Dietas</h2>
-            <qn-button label="Adicionar Dieta" icon="pi pi-plus" />
-        </div>
+<div class="diets-section">
+    <div class="diets-section-container">
+        <div class="diets-content-scroll">
+            <div class="diets-section-header">
+                <h2 class="diets-section-header-title">Dietas</h2>
+                <qn-button label="Adicionar Dieta" icon="pi pi-plus" />
+            </div>
 
-        <div class="details-grid">
-            @for (diet of diets(); track diet.id) {
-            <div class="diet-card">
-                <div class="diet-header">
-                    <h3 class="diet-title">{{ diet.name }}</h3>
-                    <i class="pi pi-ellipsis-v"></i>
-                </div>
-
-                <div class="diet-info">
-                    <span class="diet-date"
-                        >{{dateFormat(diet.startDate)}} -
-                        {{dateFormat(diet.endDate)}}</span
-                    >
-                    <span class="diet-percentage">85%</span>
-                </div>
-
-                <div class="diet-footer">
-                    <qn-button
-                        label="Ver Detalhes"
-                        class="details-button"
-                        icon="pi pi-calendar"
+            <!-- Check if diets exist -->
+            @if(diets().length > 0) {
+            <!-- Loop through diets and display each one -->
+            @for(diet of diets(); track $index){
+            <div class="diets-card">
+                <div class="diet-card-title">
+                    <h3 class="diet-card-name">{{diet.name}}</h3>
+                    <p-chip
+                        [label]="(diet.status | dietStatus).value"
+                        class="diet-chip"
+                        [style.backgroundColor]="(diet.status | dietStatus).color"
                     />
                 </div>
+                <p class="diet-card-icon"><i class="pi pi-ellipsis-v"></i></p>
+                <span class="diet-card-date"
+                    >{{dateFormat(diet.startDate)}} até
+                    {{dateFormat(diet.endDate)}}</span
+                >
+                <span>85%</span>
+                <qn-button
+                    label="Ver Dieta"
+                    class="view-diet-button"
+                    colorStyle="white"
+                    icon="pi pi-calendar"
+                />
             </div>
+
+            }
+            <!-- If no diets exist -->
+            }@else{
+
+            <div></div>
             }
         </div>
     </div>

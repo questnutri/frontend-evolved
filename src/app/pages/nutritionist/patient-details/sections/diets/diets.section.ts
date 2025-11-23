@@ -1,21 +1,34 @@
-import { Component, computed, input, OnInit } from '@angular/core';
+import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
 import { QnButtonComponent } from "@qn/components/basic";
 import { DietModel } from '@qn/models';
+import { DietService } from '@qn/services';
 import { MealDisplayComponent } from "src/app/shared/components/core/qn-meal/qn-meal-display";
-
+import { DietStatusPipe } from 'src/app/shared/pipes/diet-status-pipe';
+import { ChipModule } from 'primeng/chip';
 @Component({
     selector: 'app-nutritionist-patient-diets',
     templateUrl: './diets.section.html',
     styleUrls: ['./diets.section.scss'],
-    imports: [QnButtonComponent, MealDisplayComponent],
+    imports: [QnButtonComponent, MealDisplayComponent, DietStatusPipe, ChipModule],
 })
 export class NutritionistPatientDietsSection implements OnInit {
+    private readonly dietService = inject(DietService);
+    patientId = input.required<string>();
 
-    diets = input<DietModel[]>();
-    constructor() { }
+
+    diets = signal<DietModel[]>([]);
+    constructor() {
+        effect(async () => {
+            if (this.patientId()) {
+                const patientDiets = await this.dietService.getDiets(this.patientId());
+                this.diets.set(patientDiets);
+                console.log('diets: ', patientDiets);
+
+            }
+        })
+    }
 
     ngOnInit() {
-        console.log(this.diets());
     }
 
     dateFormat(date: Date | undefined): string {

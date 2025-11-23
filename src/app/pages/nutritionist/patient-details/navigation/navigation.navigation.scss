@@ -1,0 +1,419 @@
+/* ===========================================
+   SIDEBAR NAVIGATION COMPONENTS
+   =========================================== */
+
+/* Back Navigation */
+.back-navigation {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 8px 12px;
+    border-radius: var(--border-radius-input);
+    transition: all 0.3s ease;
+    width: fit-content;
+
+    &:hover {
+        background-color: var(--secondary-background-color);
+    }
+
+    .back-icon {
+        font-size: 1.4rem;
+        color: var(--primary-font-color);
+        transition: all 0.25s ease;
+        flex-shrink: 0;
+    }
+
+    .back-text {
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--primary-font-color);
+        opacity: 0;
+        max-width: 0;
+        transform: translateX(-10px);
+        transition:
+            opacity 0.3s ease,
+            max-width 0.3s ease,
+            transform 0.3s ease;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    &:hover {
+        .back-icon {
+            color: var(--primary-color);
+            transform: scale(1.12);
+        }
+
+        .back-text {
+            opacity: 1;
+            max-width: 200px;
+            transform: translateX(0);
+        }
+    }
+}
+
+/* Navigation Avatar Section */
+.navigation-avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
+    padding: 1rem 0;
+
+    .patient-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .name {
+        margin: 0 auto;
+        text-align: center;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--primary-font-color);
+        word-break: break-word;
+    }
+
+    .email {
+        margin: 0 auto;
+        text-align: center;
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--secondary-font-color);
+        opacity: 0.9;
+        word-break: break-word;
+    }
+}
+
+.navigation-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+}
+
+/* Navigation Menu List */
+.navigation-menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.navigation-item-list.back {
+    display: none !important;
+}
+
+.navigation-item-list {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: var(--border-radius-input);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--primary-font-color);
+    font-size: 0.95rem;
+    font-weight: 500;
+
+    i {
+        font-size: 1.2rem;
+        flex-shrink: 0;
+        transition: transform 0.3s ease;
+    }
+
+    span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &:hover {
+        background: var(--secondary-background-color);
+        transform: translateX(4px);
+
+        i {
+            transform: scale(1.1);
+        }
+    }
+
+    &.active {
+        background: var(--primary-color);
+        color: var(--white-color);
+        font-weight: 600;
+
+        &:hover {
+            background: var(--primary-color-hover);
+        }
+    }
+}
+
+/* ===========================================
+   RESPONSIVIDADE - DESKTOP LARGE (1200px+)
+   =========================================== */
+@media (min-width: 1200px) {
+    .navigation-avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .navigation-avatar-section {
+        .name {
+            font-size: 1.4rem;
+        }
+
+        .email {
+            font-size: 1.05rem;
+        }
+    }
+}
+
+/* ===========================================
+   RESPONSIVIDADE - TABLET (768px - 1024px)
+   =========================================== */
+@media (max-width: 1024px) {
+    .navigation-avatar {
+        width: 80px;
+        height: 80px;
+    }
+
+    .navigation-avatar-section {
+        margin-bottom: 24px;
+
+        .name {
+            font-size: 1.2rem;
+        }
+
+        .email {
+            font-size: 0.95rem;
+        }
+    }
+
+    .back-navigation {
+        margin-bottom: 16px;
+
+        .back-icon {
+            font-size: 1.3rem;
+        }
+
+        .back-text {
+            font-size: 0.95rem;
+        }
+    }
+
+    .navigation-item-list {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+
+        i {
+            font-size: 1.1rem;
+        }
+    }
+}
+
+/* ===========================================
+   RESPONSIVIDADE - MOBILE (até 768px)
+   =========================================== */
+@media (max-width: 768px) {
+    /* Back Navigation - Layout horizontal compacto */
+    .back-navigation {
+        margin-bottom: 16px;
+        padding: 8px 10px;
+
+        .back-icon {
+            font-size: 1.2rem;
+        }
+
+        .back-text {
+            font-size: 0.9rem;
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* Avatar Section - Esconder em mobile */
+    .navigation-avatar-section {
+        display: none;
+    }
+
+    /* Menu List - Grid horizontal em mobile */
+    .navigation-menu-list {
+        display: grid;
+        grid-template-columns: auto repeat(4, 1fr);
+        gap: 12px;
+        padding: 0.5rem;
+    }
+    .navigation-item-list.back {
+        display: flex !important;
+        padding: 6px 8px;
+        max-width: 60px;
+
+        i {
+            font-size: 1.3rem;
+        }
+    }
+
+    .navigation-item-list {
+        padding: 10px 12px;
+        font-size: 0.875rem;
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+        gap: 6px;
+
+        i {
+            font-size: 1.3rem;
+        }
+
+        span {
+            white-space: normal;
+            font-size: 0.85rem;
+        }
+
+        &:hover {
+            transform: translateX(0);
+            transform: translateY(-2px);
+        }
+    }
+}
+
+/* ===========================================
+   RESPONSIVIDADE - MOBILE PEQUENO (até 480px)
+   =========================================== */
+@media (max-width: 480px) {
+    /* Back Navigation - Escondido */
+    .back-navigation {
+        display: none;
+    }
+
+    /* Avatar Section - Escondido */
+    .navigation-avatar-section {
+        display: none;
+    }
+
+    /* Item de voltar - Ajustes para telas menores */
+    .navigation-item-list.back {
+        display: flex !important;
+        padding: 6px 8px;
+        max-width: 45px;
+
+        i {
+            font-size: 1.3rem;
+        }
+    }
+
+    /* Menu List - 4 colunas + botão voltar */
+    .navigation-menu-list {
+        grid-template-columns: auto repeat(4, 1fr);
+        gap: 6px;
+    }
+
+    .navigation-item-list {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+
+        i {
+            font-size: 1.2rem;
+        }
+
+        span {
+            font-size: 0.8rem;
+        }
+    }
+}
+
+/* ===========================================
+   RESPONSIVIDADE - MOBILE EXTRA PEQUENO (até 360px)
+   =========================================== */
+@media (max-width: 360px) {
+    .back-navigation {
+        display: none;
+    }
+
+    .navigation-avatar-section {
+        display: none;
+    }
+
+    /* Item de voltar - Menor ainda */
+    .navigation-item-list.back {
+        display: flex !important;
+        padding: 5px;
+        max-width: 42px;
+
+        i {
+            font-size: 1.2rem;
+        }
+    }
+
+    .navigation-menu-list {
+        grid-template-columns: auto repeat(4, 1fr);
+    }
+
+    .navigation-item-list {
+        padding: 6px 8px;
+
+        i {
+            font-size: 1.1rem;
+        }
+
+        span {
+            font-size: 0.75rem;
+        }
+    }
+}
+
+/* ===========================================
+   MELHORIAS DE ACESSIBILIDADE E UX
+   =========================================== */
+
+/* Touch targets maiores em mobile */
+@media (max-width: 768px) {
+    .back-navigation {
+        display: none;
+    }
+
+    .navigation-item-list {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Item de voltar mantém altura mínima para touch */
+    .navigation-item-list.back {
+        min-height: 44px;
+    }
+}
+
+/* Transições suaves */
+.back-navigation,
+.navigation-item-list {
+    transition: all 0.3s ease;
+}
+
+/* Estados de focus para acessibilidade */
+.back-navigation:focus,
+.navigation-item-list:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Previne seleção de texto em elementos clicáveis */
+.back-navigation,
+.navigation-item-list {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}

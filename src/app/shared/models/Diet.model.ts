@@ -11,6 +11,7 @@ export interface Diet {
     updatedAt?: Date;
     startDate?: Date;
     endDate?: Date;
+    status?: string;
     meals: MealModel[];
 }
 
@@ -24,6 +25,7 @@ export class DietModel implements Diet, Calculable {
     updatedAt?: Date;
     startDate?: Date;
     endDate?: Date;
+    status?: string;
     meals: MealModel[] = [];
 
     static from(diet: Diet): DietModel {

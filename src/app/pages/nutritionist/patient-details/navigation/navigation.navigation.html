@@ -3,27 +3,31 @@
     <span class="back-text">Voltar aos Pacientes</span>
 </div>
 
-<div class="avatar-section">
+<div class="navigation-avatar-section">
     <img
         src="https://ui-avatars.com/api/?name=Lucas&size=120&background=0380dc&color=fff"
         alt="Foto de Perfil"
-        class="avatar"
+        class="navigation-avatar"
     />
-    <h4 class="name">{{patient().name}}</h4>
-    <h5 class="email">{{patient().email}}</h5>
+    <div class="patient-info">
+        <h4 class="name">{{patient().name}}</h4>
+        <h5 class="email">{{patient().email}}</h5>
+    </div>
 </div>
 
-<div class="menu-list">
+<div class="navigation-menu-list">
     @for(item of patientNavItems; track $index) {
     <div
-        class="item-list"
+        class="navigation-item-list"
+        [class.back]="$index === 0"
         [routerLink]="[item.route]"
         [queryParamsHandling]="'preserve'"
         [routerLinkActive]="'active'"
         [routerLinkActiveOptions]="{ exact: true }"
         [relativeTo]="activatedRoute"
     >
-        <i class="pi" [ngClass]="item.icon"></i><span>{{item.label}}</span>
+        <i class="pi" [ngClass]="item.icon" [class.back-icon]="$index === 0"></i
+        ><span>{{item.label}}</span>
     </div>
     }
 </div>

@@ -1,12 +1,10 @@
-<div style="display: grid; grid-template-columns: 1fr 5fr;">
-    <div style="height: auto; background: white;">
+<div class="patient-details-layout">
+    <div class="patient-details-sidebar">
         @if(patient()) {
-            <app-nutritionist-patient-details-navigation 
-                [patient]="patient()!"
-            />
+        <app-nutritionist-patient-details-navigation [patient]="patient()!" />
         }
     </div>
-    <div>
+    <div class="patient-details-content">
         <router-outlet></router-outlet>
     </div>
 </div>

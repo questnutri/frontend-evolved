@@ -1,3 +1,33 @@
-<p>
-  nutritionist-patient-health works!
-</p>
+<div class="health-section">
+    <div class="health-section-container">
+        <div class="health-content-scroll">
+            <h2 class="health-section-header-title">Métricas de Saúde</h2>
+            <div class="health-metrics">
+                @for(metrics of healthMetrics; track $index){
+                <div class="health-metric-item">
+                    <p class="health-label-item">{{metrics.label}}:</p>
+                    <p class="health-value-item">{{metrics.value}}</p>
+                    <p class="health-observation-item">
+                        {{metrics.observation}}
+                    </p>
+                </div>
+                }
+            </div>
+            <hr />
+            <h2 class="health-section-header-title">Medições Recentes</h2>
+            <div class="health-recent-measurements">
+                @for(measurement of recentMeasurements; track $index){
+                <div class="health-measurement-item">
+                    <p class="health-measurement-label">
+                        {{measurement.label }}
+                    </p>
+                    <p class="health-measurement-value">
+                        {{measurement.value}}
+                    </p>
+                    <p class="health-measurement-date">{{measurement.date}}</p>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

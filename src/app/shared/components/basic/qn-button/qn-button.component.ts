@@ -15,7 +15,7 @@ import { ButtonModule } from 'primeng/button';
 export class QnButtonComponent extends QnComponent {
 
     label = input.required<string>()
-    colorStyle = input<'blue' | 'gray'>('blue')
+    colorStyle = input<'blue' | 'gray' | 'white'>('blue')
     widthDiv = input<string>('100%')
     disabled = input<boolean>(false)
     loading = input<boolean>(false)
@@ -24,7 +24,9 @@ export class QnButtonComponent extends QnComponent {
     click = output<Event>();
 
     colorButton = computed(() => {
-        return this.colorStyle() === 'blue' ? 'primary' : 'secondary'
+        if (this.colorStyle() === 'blue') return 'primary';
+        if (this.colorStyle() === 'gray') return 'secondary';
+        return 'info';
     })
 
     buttonStyle = computed(() => {

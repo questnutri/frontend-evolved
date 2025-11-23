@@ -1,104 +1,283 @@
-// .patient-layout {
-//     display: grid;
-//     grid-template-columns: 1fr 3fr;
-//     overflow-y: hidden;
-//     background: var(--secondary-background-color);
-//     gap: 1px;
-// }
+/* ===========================================
+   PATIENT DETAILS LAYOUT - CONTAINER PRINCIPAL
+   =========================================== */
 
-// .sidebar {
-//     background: var(--primary-background-color);
-//     padding: 2rem;
-//     display: flex;
-//     flex-direction: column;
-//     gap: 10px;
+.patient-details-layout {
+    display: grid;
+    grid-template-columns: minmax(250px, 1fr) 4fr;
+    gap: 10px;
+    height: 100%;
+    width: 100%;
+}
 
-//     top: 0;
-// }
+/* Sidebar Navigation */
+.patient-details-sidebar {
+    height: auto;
+    background: var(--primary-background-color);
+    padding: 2rem;
+    border-radius: var(--border-radius-input) 0 0 var(--border-radius-input);
+    border-right: 2px solid var(--secondary-background-color);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
 
-// .back-navigation {
-//     display: flex;
-//     align-items: center;
-//     gap: 12px;
-//     margin-bottom: 10px;
-//     cursor: pointer;
-//     overflow: hidden;
-//     .back-icon {
-//         font-size: 1.4rem;
-//         color: var(--primary-font-color);
-//         transition: all 0.25s ease;
-//         flex-shrink: 0;
-//     }
-//     .back-text {
-//         font-size: 1rem;
-//         font-weight: 500;
-//         color: var(--primary-font-color);
-//         opacity: 0;
-//         transform: translateX(-20px);
-//         transition:
-//             opacity 0.5s ease,
-//             transform 0.5s ease;
-//         white-space: nowrap;
-//     }
-//     &:hover {
-//         .back-icon {
-//             color: var(--primary-color);
-//             transform: scale(1.12);
-//         }
-//         .back-text {
-//             opacity: 1;
-//             transform: translateX(0);
-//         }
-//     }
-// }
+/* Main Content Area */
+.patient-details-content {
+    height: 100%;
+    overflow: hidden;
+    background: var(--primary-background-color);
+    border-radius: 0 var(--border-radius-input) var(--border-radius-input) 0;
+}
 
-// .avatar-section {
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-//     gap: 12px;
-//     margin-bottom: 20px;
-//     .name {
-//         margin: 0 auto;
-//         text-align: center;
-//         font-size: 1.4rem;
-//         font-weight: 600;
-//         color: var(--primary-font-color);
-//     }
-//     .email {
-//         margin: 0 auto;
-//         text-align: center;
-//         font-size: 1.1rem;
-//         font-weight: 500;
+/* ===========================================
+   RESPONSIVIDADE - DESKTOP LARGE (1200px+)
+   =========================================== */
+@media (min-width: 1200px) {
+    .patient-details-layout {
+        grid-template-columns: 1fr 2fr;
+    }
 
-//         color: var(--secondary-font-color);
-//         opacity: 0.9;
-//     }
-// }
+    .patient-details-sidebar {
+        padding: 2.5rem;
+    }
+}
 
-// .avatar {
-//     width: 100px;
-//     height: 100px;
-//     border-radius: 50%;
-// }
+/* ===========================================
+   RESPONSIVIDADE - TABLET (768px - 1024px)
+   =========================================== */
+@media (max-width: 1024px) {
+    .patient-details-layout {
+        grid-template-columns: 1fr 2fr;
+        gap: 8px;
+    }
 
-// .menu-list {
-//     display: flex;
-//     flex-direction: column;
-//     gap: 6px;
-// }
+    .patient-details-sidebar {
+        padding: 2rem;
+    }
+}
 
-// .item-list {
-//     display: flex;
-//     align-items: center;
-//     gap: 12px;
-//     padding: 12px 16px;
-//     border-radius: 8px;
-//     cursor: pointer;
-// }
+/* ===========================================
+   RESPONSIVIDADE - MOBILE (até 768px)
+   =========================================== */
+@media (max-width: 768px) {
+    .patient-details-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        gap: 0;
+    }
 
-// .item-list.active,
-// .item-list:hover {
-//     background: var(--primary-color);
-//     color: white;
-// }
+    .patient-details-sidebar {
+        height: auto;
+        padding: 1.5rem;
+        border-radius: var(--border-radius-input) var(--border-radius-input) 0 0;
+        border-right: none;
+        border-bottom: 2px solid var(--secondary-background-color);
+        overflow-y: visible;
+        overflow-x: hidden;
+    }
+
+    .patient-details-content {
+        border-radius: 0 0 var(--border-radius-input) var(--border-radius-input);
+    }
+}
+
+/* ===========================================
+   RESPONSIVIDADE - MOBILE PEQUENO (até 480px)
+   =========================================== */
+@media (max-width: 480px) {
+    .patient-details-sidebar {
+        padding: 1rem;
+    }
+}
+
+/* ===========================================
+   MODO PAISAGEM MOBILE
+   =========================================== */
+@media (max-height: 600px) and (orientation: landscape) {
+    .patient-details-layout {
+        grid-template-columns: 200px 1fr;
+    }
+
+    .patient-details-sidebar {
+        padding: 1rem;
+    }
+}
+
+/* ===========================================
+   VARIANTE COM SIDEBAR COLAPSÁVEL (OPCIONAL)
+   =========================================== */
+
+/* Classe para quando a sidebar está colapsada */
+.patient-details-layout.sidebar-collapsed {
+    grid-template-columns: 60px 1fr;
+
+    .patient-details-sidebar {
+        padding: 1rem 0.5rem;
+    }
+}
+
+/* Toggle button para colapsar sidebar */
+.sidebar-toggle {
+    display: none;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1000;
+    width: 44px;
+    height: 44px;
+    background: var(--primary-color);
+    color: var(--white-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+
+    &:hover {
+        background: var(--primary-color-hover);
+        transform: scale(1.1);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar-toggle {
+        display: flex;
+    }
+
+    /* Sidebar como drawer em mobile */
+    .patient-details-layout.mobile-drawer {
+        grid-template-columns: 1fr;
+        position: relative;
+
+        .patient-details-sidebar {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 80%;
+            max-width: 320px;
+            height: 100%;
+            z-index: 999;
+            border-radius: 0 var(--border-radius-input)
+                var(--border-radius-input) 0;
+            border-right: 2px solid var(--secondary-background-color);
+            border-bottom: none;
+            transition: left 0.3s ease;
+            box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .patient-details-sidebar.open {
+            left: 0;
+        }
+
+        .patient-details-content {
+            grid-column: 1;
+            border-radius: var(--border-radius-input);
+        }
+    }
+
+    /* Overlay para fechar o drawer */
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 998;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+
+        &.active {
+            display: block;
+            opacity: 1;
+        }
+    }
+}
+
+/* ===========================================
+   MELHORIAS DE ACESSIBILIDADE E UX
+   =========================================== */
+
+/* Scroll suave */
+.patient-details-sidebar {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Scrollbar customizada para a sidebar */
+.patient-details-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.patient-details-sidebar::-webkit-scrollbar-track {
+    background: var(--secondary-background-color);
+    border-radius: var(--border-radius-input);
+}
+
+.patient-details-sidebar::-webkit-scrollbar-thumb {
+    background: var(--primary-border-color);
+    border-radius: var(--border-radius-input);
+
+    &:hover {
+        background: var(--primary-color);
+    }
+}
+
+/* Focus states para navegação por teclado */
+.patient-details-sidebar:focus-within {
+    outline: 2px solid var(--primary-color);
+    outline-offset: -2px;
+}
+
+/* Transições suaves */
+.patient-details-layout,
+.patient-details-sidebar,
+.patient-details-content {
+    transition: all 0.3s ease;
+}
+
+/* Previne quebra de layout */
+.patient-details-layout {
+    min-width: 0;
+    min-height: 0;
+}
+
+.patient-details-sidebar,
+.patient-details-content {
+    min-width: 0;
+    min-height: 0;
+}
+
+/* ===========================================
+   ESTADOS DE LOADING E ERRO
+   =========================================== */
+
+.patient-details-sidebar.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-font-color);
+
+    &::after {
+        content: "Carregando...";
+        font-size: 0.875rem;
+    }
+}
+
+.patient-details-sidebar.error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    color: var(--error-color, #e74c3c);
+    text-align: center;
+    padding: 2rem;
+}

@@ -1,0 +1,106 @@
+.health-section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--secondary-background-color);
+    border-radius: var(--border-radius-input);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.health-section-container {
+    background-color: var(--primary-background-color);
+    border-radius: var(--border-radius-input);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.health-content-scroll {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 2rem;
+    min-height: 0; // Importante para o flex funcionar
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.health-section-header-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-font-color);
+    margin: 0;
+}
+
+.health-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(auto, 1fr));
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.health-metric-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 1rem;
+    border: 1px solid var(--primary-border-color);
+    border-radius: 8px;
+
+    &:hover {
+        border-color: var(--primary-font-color);
+        transform: scale(1.025);
+        transition: all 0.5s ease;
+    }
+}
+
+.health-label-item {
+    font-size: 1rem;
+    color: var(--secondary-font-color);
+}
+.health-value-item {
+    font-size: 1rem;
+    color: var(--primary-font-color);
+    font-weight: 500;
+}
+
+.health-observation-item {
+    font-size: 1rem;
+    color: var(--secondary-font-color);
+}
+
+.health-recent-measurements {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+.health-measurement-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    background-color: var(--secondary-background-color);
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--primary-border-color);
+    border-radius: 8px;
+}
+.health-measurement-label {
+    font-size: 1.1rem;
+    color: var(--primary-font-color);
+}
+.health-measurement-value {
+    font-size: 1.1rem;
+    color: var(--primary-font-color);
+    font-weight: 500;
+}
+
+.health-measurement-date {
+    font-size: 1rem;
+    color: var(--primary-font-color);
+    opacity: 0.8;
+}

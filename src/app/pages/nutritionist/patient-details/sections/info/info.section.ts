@@ -32,6 +32,23 @@ export class NutritionistPatientInfoSection {
                 { label: 'Data de Nascimento', value: () => '-' },
                 { label: 'Gênero', value: () => '-' },
             ]
+        },
+        {
+            mainLabel: 'Dados Físicos',
+            details: [
+                { label: 'Altura', value: () => '-' },
+                { label: 'Peso', value: () => '-' },
+                { label: 'IMC', value: () => '-' },
+            ]
+
+        },
+        {
+            mainLabel: 'Informações Médicas',
+            details: [
+                { label: 'Alérgias', value: () => '-' },
+                { label: 'Condições Médicas', value: () => '-' },
+                { label: 'Notas', value: () => '-' },
+            ]
         }
     ]
 

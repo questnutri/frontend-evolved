@@ -52,6 +52,8 @@ DARK MODE
         --primary-color-hover: var(--blue-color);
         --secondary-color: var(--grey-color);
         --secondary-color-hover: var(--grey-color-light);
+        --info-color: var(--white-color);
+        --info-color-hover: var(--grey-color-light);
 
         --primary-font-color: var(--white-color);
         --secondary-font-color: var(--grey-color);
@@ -116,11 +118,11 @@ DARK MODE
     --p-button-primary-background: var(--primary-color);
     --p-button-primary-border-color: var(--primary-color);
     --p-button-primary-color: var(--white-color);
+    --p-button-primary-active-background: var(--primary-color);
 
-    --p-button-primary-hover-background: var(--primary-color-hover);
+    --p-button-outlined-primary-hover-background: var(--primary-color-hover);
     --p-button-primary-hover-border-color: var(--primary-color-hover);
     --p-button-primary-hover-color: var(--white-color);
-
 }
 
 /* ============================================
@@ -130,11 +132,25 @@ DARK MODE
     --p-button-secondary-background: var(--secondary-color);
     --p-button-secondary-border-color: var(--secondary-color);
     --p-button-secondary-color: var(--white-color);
+    --p-button-secondary-active-background: var(--secondary-color);
 
     --p-button-secondary-hover-background: var(--secondary-color-hover);
     --p-button-secondary-hover-border-color: var(--secondary-color-hover);
     --p-button-secondary-hover-color: var(--black-color);
+}
 
+/* ============================================
+   PRIMENG - BUTTON - INFO
+   ============================================ */
+* {
+    --p-button-info-background: var(--info-color);
+    --p-button-info-border-color: var(--grey-color-light);
+    --p-button-info-color: var(--black-color);
+    --p-button-info-active-background: var(--info-color);
+
+    --p-button-info-hover-background: var(--info-color-hover);
+    --p-button-info-hover-border-color: var(--info-color-hover);
+    --p-button-info-hover-color: var(--black-color);
 }
 
 /* ============================================
@@ -148,10 +164,6 @@ DARK MODE
     --p-inputtext-placeholder-color: var(--grey-color);
     --p-inputtext-disabled-background: #ebebeb;
 }
-
-
-
-
 
 /* ============================================
    PRIMENG - TEXTAREA
@@ -202,14 +214,11 @@ DARK MODE
     );
     --p-select-option-selected-focus-color: var(--black-color);
 
-
     /* InputMask */
     --p-inputmask-background: var(--white-color);
     --p-inputmask-color: var(--black-color);
     --p-inputmask-border-radius: var(--border-radius-input);
 }
-
-
 
 /* ============================================
    PRIMENG - MENU
@@ -221,11 +230,8 @@ DARK MODE
     --p-menu-border-color: transparent;
     --p-menu-border-radius: var(--border-radius-input);
 
-
-
     /* Item Base */
     --p-menu-item-border-radius: var(--border-radius-input);
-
 
     /* Item Hover */
     --p-menu-item-focus-background: var(--blue-color-light3);
@@ -251,7 +257,6 @@ DARK MODE
 
     /* Submenu */
     --p-menu-submenu-label-color: var(--grey-color);
-
 }
 
 /* ============================================
