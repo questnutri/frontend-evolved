@@ -11,4 +11,6 @@ export class BackButtonComponent {
     doOnClick() {
         this.onClick.emit();
     }
+
+    //TODO: Must fix button on disappearance on smaller screens
 }

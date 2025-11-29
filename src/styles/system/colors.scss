@@ -27,7 +27,7 @@
     --primary-background-color: var(--white-color);
     --secondary-background-color: var(--grey-color-light2);
 
-    --primary-border-color: var(--grey-color-light2);
+    --primary-border-color: var(--grey-color-dark);
 }
 
 /* ============================================
@@ -112,17 +112,27 @@ DARK MODE
 }
 
 /* ============================================
-   PRIMENG - BUTTON - PRIMARY
+   PRIMENG - BUTTON - PRIMARY (CORREÇÃO DO ACTIVE VERDE)
    ============================================ */
 * {
     --p-button-primary-background: var(--primary-color);
     --p-button-primary-border-color: var(--primary-color);
     --p-button-primary-color: var(--white-color);
-    --p-button-primary-active-background: var(--primary-color);
 
-    --p-button-outlined-primary-hover-background: var(--primary-color-hover);
+    /* <-- ESTAVA FALTANDO ISSO AQUI --> */
+    --p-button-primary-active-background: var(
+        --primary-color-hover
+    ); /* ou var(--primary-color) se preferir igual ao normal */
+    --p-button-primary-active-border-color: var(--primary-color-hover);
+    --p-button-primary-active-color: var(--white-color);
+
+    /* Hover (você já tinha, mas deixo completo) */
+    --p-button-primary-hover-background: var(--primary-color-hover);
     --p-button-primary-hover-border-color: var(--primary-color-hover);
     --p-button-primary-hover-color: var(--white-color);
+
+    /* Outlined (se usar) */
+    --p-button-outlined-primary-hover-background: var(--primary-color-hover);
 }
 
 /* ============================================
@@ -265,4 +275,89 @@ DARK MODE
 * {
     --p-popover-background: var(--white-color);
     --p-popover-border-color: transparent;
+}
+
+/* ============================================
+   PRIMENG - DATATABLE / TABLE
+   ============================================ */
+* {
+    /* Cabeçalho da tabela */
+    --p-datatable-header-background: var(--primary-color);
+    --p-datatable-header-color: var(--white-color);
+    --p-datatable-header-border-color: var(--primary-color);
+
+    /* Linhas pares (zebrado sutil) */
+    --p-datatable-row-even-background: var(--white-color);
+
+    /* Linhas ímpares (zebrado sutil) */
+    --p-datatable-row-odd-background: #f8fbff; /* tom bem claro de azul */
+
+    /* Hover nas linhas */
+    --p-datatable-row-hover-background: var(--blue-color-light3);
+    --p-datatable-row-hover-color: var(--black-color);
+
+    /* Linha selecionada */
+    --p-datatable-row-selected-background: var(--primary-color);
+    --p-datatable-row-selected-color: var(--white-color);
+    --p-datatable-row-selected-hover-background: var(--primary-color-hover);
+
+    /* Bordas gerais da tabela */
+    --p-datatable-border-color: var(--grey-color-light2);
+
+    /* Paginator (parte inferior) */
+    --p-paginator-background: var(--white-color);
+    --p-paginator-border-color: var(--grey-color-light2);
+    --p-paginator-button-hover-background: var(--primary-color);
+    --p-paginator-button-hover-color: var(--white-color);
+
+    /* Checkbox e radio na tabela (se usar seleção) */
+    --p-checkbox-checked-background: var(--primary-color);
+    --p-checkbox-checked-border-color: var(--primary-color);
+    --p-checkbox-checked-hover-background: var(--primary-color-hover);
+
+    /* Filtro nos cabeçalhos */
+    --p-datatable-header-cell-filter-input-background: var(--white-color);
+    --p-datatable-header-cell-filter-input-border-color: var(
+        --grey-color-light
+    );
+}
+
+/* ============================================
+   PRIMENG - CALENDAR / DATEPICKER
+   ============================================ */
+* {
+    /* Fundo do calendário */
+    --p-calendar-background: var(--white-color);
+    --p-calendar-border-color: var(--grey-color-light2);
+
+    /* Cabeçalho (mês/ano) */
+    --p-calendar-header-background: var(--primary-color);
+    --p-calendar-header-color: var(--white-color);
+    --p-calendar-nav-button-hover-background: var(--primary-color-hover);
+
+    /* Dias da semana (Seg, Ter, Qua...) */
+    --p-calendar-column-header-color: var(--grey-color-dark);
+
+    /* Dia normal */
+    --p-calendar-cell-color: var(--black-color);
+    --p-calendar-cell-background: transparent;
+    --p-calendar-cell-border-color: transparent;
+
+    /* Dia hover */
+    --p-calendar-cell-hover-background: var(--blue-color-light3);
+    --p-calendar-cell-hover-color: var(--black-color);
+
+    /* Dia selecionado */
+    --p-calendar-cell-selected-background: var(--primary-color);
+    --p-calendar-cell-selected-color: var(--white-color);
+    --p-calendar-cell-selected-hover-background: var(--primary-color-hover);
+
+    /* Dia atual (hoje) */
+    --p-calendar-cell-today-background: var(--blue-color-light2);
+    --p-calendar-cell-today-color: var(--white-color);
+    --p-calendar-cell-today-border-color: var(--blue-color-light2);
+
+    /* Overlay (popup do calendário) */
+    --p-calendar-overlay-border-radius: 8px;
+    --p-calendar-overlay-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }

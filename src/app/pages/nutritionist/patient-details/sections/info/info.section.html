@@ -4,16 +4,59 @@
         <div class="info-content-scroll">
             @for(info of infoSections; track $index) {
             <div class="nutri-patient-card">
-                <h2 class="info-card-name">{{info.mainLabel}}</h2>
+                <div class="info-card-header">
+                    <h2 class="info-card-name">{{info.mainLabel}}</h2>
+                    @if(info.isPossibleEdit) {
+                    <span (click)="info.functionToCall()">
+                        <i class="pi pi-pencil"></i>
+                    </span>
+                    }
+                </div>
 
-                <div class="info-details-grid">
+                <div [class]="info.class">
                     @for(detail of info.details; track $index) {
                     <div class="detail-item">
+                        @if(detail.fieldEdit && info.editable()) {
+                        @if(detail.inputType === 'text') {
+                        <qn-text-input
+                            [qnLabel]="detail.label"
+                            [qnLabelStyle]="{
+                                        color: 'var(--primary-font-color)'
+                                    }"
+                            [value]="detail.value() === '-' ? '' : detail.value()"
+                        />
+                        }@else if(detail.inputType === 'textarea') {
+                        <qn-text-area
+                            [qnLabel]="detail.label"
+                            [qnLabelStyle]="{
+                                        color: 'var(--primary-font-color)'
+                                    }"
+                            [value]="detail.value() === '-' ? '' : detail.value()"
+                        />
+                        } }@else {
                         <p class="label">{{detail.label}}:</p>
-                        <p>{{detail.value()}}</p>
+                        <p>
+                            {{ detail.label === 'Gênero' ? (detail.value() |
+                            genderTeste) : detail.value() }}
+                        </p>
+                        }
                     </div>
                     }
                 </div>
+                @if(info.isPossibleEdit && info.editable()) {
+                <div class="info-buttons-edit">
+                    <qn-button
+                        label="Cancelar"
+                        [style]="{ minWidth: '200px' }"
+                        (click)="info.functionToCall()"
+                    />
+                    <qn-button
+                        label="Salvar"
+                        severity="primary"
+                        [style]="{ minWidth: '200px' }"
+                    />
+                </div>
+                }
                 <hr />
             </div>
             }

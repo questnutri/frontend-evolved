@@ -48,6 +48,9 @@
                         <div class="form-group">
                             <qn-text-input
                                 qnLabel="Primeiro Nome"
+                                [qnLabelStyle]="{
+                                    color: 'var(--primary-font-color)',
+                                }"
                                 id="firstName"
                                 [value]="nutritionist()?.firstName"
                                 [disabled]="personalInformation()"
@@ -57,6 +60,9 @@
                             <qn-text-input
                                 qnLabel="Sobrenome"
                                 id="lastName"
+                                [qnLabelStyle]="{
+                                    color: 'var(--primary-font-color)',
+                                }"
                                 [value]="nutritionist()?.lastName"
                                 [disabled]="personalInformation()"
                             />
@@ -66,6 +72,9 @@
                             <qn-drop-down
                                 [options]="optionsGender"
                                 qnLabel="Gênero"
+                                [qnLabelStyle]="{
+                                    color: 'var(--primary-font-color)',
+                                }"
                                 [value]="nutritionist()?.gender"
                                 [disabled]="personalInformation()"
                             />
@@ -75,6 +84,9 @@
                             <qn-text-input
                                 qnLabel="E-mail"
                                 id="email"
+                                [qnLabelStyle]="{
+                                    color: 'var(--primary-font-color)',
+                                }"
                                 [value]="nutritionist()?.email"
                                 [disabled]="true"
                             />
@@ -84,6 +96,9 @@
                             <qn-mask-input
                                 qnLabel="Telefone"
                                 id="phone"
+                                [qnLabelStyle]="{
+                                    color: 'var(--primary-font-color)',
+                                }"
                                 [value]="nutritionist()?.phone"
                                 [disabled]="personalInformation()"
                                 mask="(99) 99999-9999"
@@ -93,6 +108,9 @@
                             <qn-drop-down
                                 [options]="optionsDocType"
                                 qnLabel="Documento"
+                                [qnLabelStyle]="{
+                                    color: 'var(--primary-font-color)',
+                                }"
                                 [disabled]="personalInformation()"
                                 [value]="nutritionist()?.documentType"
                             />
@@ -101,6 +119,9 @@
                         <div class="form-group">
                             <qn-mask-input
                                 [qnLabel]="`CPF`"
+                                [qnLabelStyle]="{
+                                    color: 'var(--primary-font-color)',
+                                }"
                                 mask="999.999.999-99"
                                 [disabled]="personalInformation()"
                                 [value]="nutritionist()?.documentNumber"
@@ -109,6 +130,9 @@
                         <div class="form-group">
                             <qn-mask-input
                                 [qnLabel]="`CRN`"
+                                [qnLabelStyle]="{
+                                    color: 'var(--primary-font-color)',
+                                }"
                                 mask="CRN-9/99999"
                                 [disabled]="personalInformation()"
                                 [value]="nutritionist()?.crn"
@@ -124,6 +148,9 @@
                                     dateFormat="dd/mm/yy"
                                     placeholder="dd/mm/aa"
                                     disabled="true"
+                                    [qnLabelStyle]="{
+                                        color: 'var(--primary-font-color)',
+                                    }"
                                 />
                             </p-fluid>
                         </div>
@@ -145,156 +172,196 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">Informações de Endereço</h2>
+                    <h2 class="card-title">Endereços</h2>
                     <span
                         class="icon"
                         (click)="handleChangePersonalAddressMode()"
                     >
-                        <i class="pi pi-map" style="font-size: 1rem"></i>
+                        <i class="pi pi-plus" style="font-size: 1.1rem"></i>
                     </span>
                 </div>
+
                 @if (nutritionist()?.addresses?.length) {
-                    @for (address of nutritionist()?.addresses; track $index) {
-                        <div
-                            class="card-content"
-                            [class.has-actions]="!personalAddress()"
-                        >
-                            <div class="form-grid">
-                                <!-- País -->
-                                <div class="form-group">
+                    <div class="addresses-container">
+                        <!-- Lista de endereços à esquerda (sidebar) -->
+                        <div class="addresses-sidebar">
+                            @for (
+                                address of nutritionist()?.addresses;
+                                track address.id
+                            ) {
+                                <div
+                                    class="address-item"
+                                    [class.selected]="
+                                        addressSelected()?.id === address.id
+                                    "
+                                    [class.main-address]="
+                                        nutritionist()?.mainAddress?.id ===
+                                        address.id
+                                    "
+                                    (click)="
+                                        handleChangeAddressSelected(address.id)
+                                    "
+                                >
+                                    <div class="address-item-content">
+                                        <span class="address-name">{{
+                                            address.name || "Endereço sem nome"
+                                        }}</span>
+                                        <span class="address-info"
+                                            >{{ address.street }},
+                                            {{ address.number }}</span
+                                        >
+                                        @if (address.complement) {
+                                            <span class="address-info">{{
+                                                address.complement
+                                            }}</span>
+                                        }
+                                    </div>
+
+                                    @if (
+                                        nutritionist()?.mainAddress?.id ===
+                                        address.id
+                                    ) {
+                                        <div class="main-badge">
+                                            <i class="pi pi-star-fill"></i>
+                                            Principal
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Formulário do endereço selecionado -->
+                        <div class="address-detail">
+                            <!-- <div class="address-detail-header">
+                                <h3>Editar Endereço</h3>
+                                <div class="address-actions">
+                                    <button
+                                        class="action-btn"
+                                        [disabled]="
+                                            nutritionist()?.mainAddress?.id ===
+                                            addressSelected()?.id
+                                        "
+                                        pTooltip="Tornar principal"
+                                    >
+                                        <i class="pi pi-star"></i>
+                                    </button>
+                                    <button
+                                        class="action-btn danger"
+                                        pTooltip="Excluir endereço"
+                                    >
+                                        <i class="pi pi-trash"></i>
+                                    </button>
+                                </div>
+                            </div> -->
+
+                            <div class="form-grid address-form">
+                                <div class="form-group full">
                                     <qn-text-input
-                                        qnLabel="País"
-                                        id="country"
+                                        qnLabel="Nome do Endereço"
+                                        placeholder="Ex: Consultório Centro, Casa, Clínica Norte"
+                                        [value]="addressSelected()?.name"
                                         [disabled]="personalAddress()"
-                                        [value]="address.country"
                                     />
                                 </div>
 
-                                <!-- Nome do Local -->
-                                <div class="form-group">
-                                    <qn-text-input
-                                        qnLabel="Nome do Local"
-                                        id="name"
-                                        [disabled]="personalAddress()"
-                                        [value]="address.name"
-                                        placeholder="Ex: Casa, Escritório, Consultório"
-                                    />
-                                </div>
-
-                                <!-- Rua -->
-                                <div class="form-group">
-                                    <qn-text-input
-                                        qnLabel="Rua"
-                                        id="street"
-                                        [disabled]="personalAddress()"
-                                        [value]="address.street"
-                                    />
-                                </div>
-
-                                <!-- Número -->
-                                <div class="form-group">
-                                    <qn-text-input
-                                        qnLabel="Número"
-                                        id="number"
-                                        [disabled]="personalAddress()"
-                                        [value]="address.number"
-                                    />
-                                </div>
-
-                                <!-- Complemento -->
-                                <div class="form-group">
-                                    <qn-text-input
-                                        qnLabel="Complemento"
-                                        id="complement"
-                                        [disabled]="personalAddress()"
-                                        [value]="address.complement"
-                                        placeholder="Apto, bloco, sala..."
-                                    />
-                                </div>
-
-                                <!-- Bairro -->
-                                <div class="form-group">
-                                    <qn-text-input
-                                        qnLabel="Bairro"
-                                        id="neighborhood"
-                                        [disabled]="personalAddress()"
-                                        [value]="address.neighborhood"
-                                    />
-                                </div>
-
-                                <!-- Cidade -->
-                                <div class="form-group">
-                                    <qn-text-input
-                                        qnLabel="Cidade"
-                                        id="city"
-                                        [disabled]="personalAddress()"
-                                        [value]="address.city"
-                                    />
-                                </div>
-
-                                <!-- Estado -->
-                                <div class="form-group">
-                                    <qn-text-input
-                                        qnLabel="Estado"
-                                        id="state"
-                                        [disabled]="personalAddress()"
-                                        [value]="address.state"
-                                        placeholder="Ex: SP, RJ, MG"
-                                    />
-                                </div>
-
-                                <!-- CEP -->
                                 <div class="form-group">
                                     <qn-mask-input
                                         qnLabel="CEP"
-                                        id="zipCode"
                                         mask="99999-999"
+                                        [value]="addressSelected()?.zipCode"
                                         [disabled]="personalAddress()"
-                                        [value]="address.zipCode"
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <qn-text-input
+                                        qnLabel="Rua"
+                                        [value]="addressSelected()?.street"
+                                        [disabled]="personalAddress()"
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <qn-text-input
+                                        qnLabel="Número"
+                                        [value]="addressSelected()?.number"
+                                        [disabled]="personalAddress()"
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <qn-text-input
+                                        qnLabel="Complemento"
+                                        placeholder="Apto, sala, bloco..."
+                                        [value]="addressSelected()?.complement"
+                                        [disabled]="personalAddress()"
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <qn-text-input
+                                        qnLabel="Bairro"
+                                        [value]="
+                                            addressSelected()?.neighborhood
+                                        "
+                                        [disabled]="personalAddress()"
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <qn-text-input
+                                        qnLabel="Cidade"
+                                        [value]="addressSelected()?.city"
+                                        [disabled]="personalAddress()"
+                                    />
+                                </div>
+
+                                <div class="form-group small">
+                                    <qn-text-input
+                                        qnLabel="Estado"
+                                        [value]="addressSelected()?.state"
+                                        [disabled]="personalAddress()"
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <qn-text-input
+                                        qnLabel="País"
+                                        [value]="
+                                            addressSelected()?.country ||
+                                            'Brasil'
+                                        "
+                                        [disabled]="true"
                                     />
                                 </div>
                             </div>
 
-                            <!-- Botões de ação -->
                             @if (!personalAddress()) {
                                 <div class="form-actions">
                                     <qn-button
                                         label="Cancelar"
                                         type="outline"
-                                        width="130px"
                                         (click)="
                                             handleChangePersonalAddressMode()
                                         "
                                     />
-                                    <qn-button label="Salvar" width="130px" />
+                                    <qn-button label="Salvar Alterações" />
                                 </div>
                             }
                         </div>
-                    }
+                    </div>
                 } @else {
-                    <div class="card-content">
-                        <div class="empty-state">
-                            <div class="empty-state-icon">
-                                <i class="pi pi-map"></i>
-                            </div>
-                            <h3 class="empty-state-title">
-                                Nenhum endereço cadastrado
-                            </h3>
-                            <p class="empty-state-description">
-                                Adicione um endereço para facilitar o cadastro
-                                de suas informações profissionais.
-                            </p>
-                            @if (personalAddress()) {
-                                <div class="empty-state-action">
-                                    <qn-button
-                                        label="Adicionar Endereço"
-                                        (click)="
-                                            handleChangePersonalAddressMode()
-                                        "
-                                    />
-                                </div>
-                            }
+                    <!-- Estado vazio -->
+                    <div class="empty-state">
+                        <div class="empty-state-icon">
+                            <i class="pi pi-home"></i>
                         </div>
+                        <h3>Nenhum endereço cadastrado</h3>
+                        <p>Adicione seu primeiro endereço para começar</p>
+                        <qn-button
+                            label="Adicionar Endereço"
+                            (click)="handleChangePersonalAddressMode()"
+                        />
                     </div>
                 }
             </div>
@@ -310,35 +377,40 @@
                     class="card-content"
                     [class.has-actions]="!changePassword()"
                 >
-                    <div class="form-grid">
+                    <div class="form-grid password-grid">
                         <div class="form-group full-width">
-                            <!-- <label for="current-password">Senha Atual</label>
-                            <input type="password" id="current-password" class="input" placeholder="Digite sua senha atual" disabled> -->
                             <qn-password-input
                                 qnLabel="Senha Atual"
                                 id="current-password"
                                 placeholder="Digite sua senha atual"
                                 [disabled]="changePassword()"
+                                [qnLabelStyle]="{
+                                    color: 'var(--primary-font-color)',
+                                }"
                             />
                         </div>
 
                         <div class="form-group">
-                            <!-- <label for="new-password">Nova Senha</label> -->
                             <qn-password-input
                                 qnLabel="Nova Senha"
                                 id="new-password"
                                 placeholder="Digite a nova senha"
                                 [disabled]="changePassword()"
+                                [qnLabelStyle]="{
+                                    color: 'var(--primary-font-color)',
+                                }"
                             />
                         </div>
 
                         <div class="form-group">
-                            <!-- <label for="confirm-password">Confirmar Nova Senha</label> -->
                             <qn-password-input
                                 qnLabel="Confirmar Nova Senha"
                                 id="confirm-password"
                                 placeholder="Confirme a nova senha"
                                 [disabled]="changePassword()"
+                                [qnLabelStyle]="{
+                                    color: 'var(--primary-font-color)',
+                                }"
                             />
                         </div>
                     </div>

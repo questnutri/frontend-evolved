@@ -23,6 +23,7 @@ export class AlimentModel implements Aliment {
     }
 
     getPortion(portionName: string): PortionPropertiesModel {
+        // console.log('Getting portion', portionName, this.portions);
         return this.portions[portionName];
     }
 }

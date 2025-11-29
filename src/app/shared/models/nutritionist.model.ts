@@ -14,7 +14,8 @@ export interface Nutritionist {
     documentType?: string;
     phone?: string;
     role?: string;
-    addresses?: Address[]
+    addresses?: Address[];
+    mainAddress?: Address;
 }
 
 export class NutritionistModel implements Nutritionist {
@@ -31,7 +32,8 @@ export class NutritionistModel implements Nutritionist {
     documentType?: string;
     phone?: string;
     role?: string;
-    addresses?: Address[]
+    addresses?: Address[];
+    mainAddress?: Address;
 
     static from(nutritionist: Nutritionist): NutritionistModel {
         const model = new NutritionistModel();

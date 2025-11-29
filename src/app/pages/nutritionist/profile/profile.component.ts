@@ -1,10 +1,11 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { QnMaskInputComponent, QnPasswordInputComponent, QnTextInputComponent, QnButtonComponent, QnDropDownComponent } from "@qn/components/basic";
 import { QnLabelDirective } from "@qn/directives";
 import { NutritionistModel } from '@qn/models';
 import { AuthService, NotificationService, NutritionistService } from '@qn/services';
 import { DatePickerModule } from 'primeng/datepicker';
 import { FluidModule } from 'primeng/fluid';
+import { Address } from 'src/app/shared/interface/address.interface';
 
 interface NewPassword {
     currentPassword: string;
@@ -32,6 +33,8 @@ export class NutritionistProfilePage implements OnInit {
     personalInformation = signal<boolean>(true);
     personalAddress = signal<boolean>(true);
     changePassword = signal<boolean>(true);
+    selectedAddressId = signal<string | undefined>(undefined);
+    addressSelected = signal<Address | null>(null);
 
     optionsDocType = [
         { label: 'CPF', value: 'cpf' },
@@ -44,10 +47,25 @@ export class NutritionistProfilePage implements OnInit {
         { label: 'Outro', value: 'other' },
     ];
 
+    constructor() {
+
+        effect(() => {
+            const addressId = this.selectedAddressId();
+            const selectedAddress = this.nutritionist()?.addresses?.find(
+                address => address.id === addressId
+            ) ?? null;
+
+            this.addressSelected.set(selectedAddress);
+        });
+    }
     async ngOnInit() {
         this.nutritionist.set(
             await this.nutritionistService.getMe(true, false)
         );
+
+        if (this.nutritionist()?.mainAddress) {
+            this.selectedAddressId.set(this.nutritionist()?.mainAddress?.id);
+        }
     }
 
     phoneNumberFormatted() {
@@ -89,6 +107,12 @@ export class NutritionistProfilePage implements OnInit {
     handleChangePasswordMode() {
         this.changePassword.set(!this.changePassword());
     }
+
+
+    handleChangeAddressSelected(addressId: string | undefined) {
+        this.selectedAddressId.set(addressId);
+    }
+
 
     //TODO: MUDAR COR DA TABELA
 }

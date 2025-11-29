@@ -4,8 +4,9 @@
 
 .patient-details-layout {
     display: grid;
-    grid-template-columns: minmax(250px, 1fr) 4fr;
-    gap: 10px;
+    grid-template-columns: minmax(300px, 1fr) 4fr;
+    background-color: var(--secondary-background-color);
+    gap: 5px;
     height: 100%;
     width: 100%;
 }
@@ -29,22 +30,12 @@
     border-radius: 0 var(--border-radius-input) var(--border-radius-input) 0;
 }
 
-/* ===========================================
-   RESPONSIVIDADE - DESKTOP LARGE (1200px+)
-   =========================================== */
 @media (min-width: 1200px) {
-    .patient-details-layout {
-        grid-template-columns: 1fr 2fr;
-    }
-
     .patient-details-sidebar {
-        padding: 2.5rem;
+        padding: 2rem;
     }
 }
 
-/* ===========================================
-   RESPONSIVIDADE - TABLET (768px - 1024px)
-   =========================================== */
 @media (max-width: 1024px) {
     .patient-details-layout {
         grid-template-columns: 1fr 2fr;

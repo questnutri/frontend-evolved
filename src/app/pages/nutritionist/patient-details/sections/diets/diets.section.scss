@@ -16,7 +16,6 @@
     height: 100%;
     overflow: hidden;
 }
-
 .diets-content-scroll {
     flex: 1;
     overflow-y: auto;
@@ -25,14 +24,13 @@
     min-height: 0; // Importante para o flex funcionar
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1.5rem;
 }
 
 .diets-section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
 }
 .diets-section-header-title {
     font-size: 1.5rem;
@@ -40,73 +38,127 @@
     color: var(--primary-font-color);
     margin: 0;
 }
+// Estado vazio – centralizado e bonito
+.empty-diets-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--secondary-font-color);
+    flex: 1;
 
+    .empty-icon {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        opacity: 0.4;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary-font-color);
+        margin: 0 0 0.5rem 0;
+    }
+
+    p {
+        font-size: 1rem;
+        margin: 0 0 2rem 0;
+        max-width: 420px;
+        opacity: 0.8;
+    }
+
+    .empty-state-button {
+        min-width: 280px;
+    }
+}
+
+// Responsividade total
 .diets-card {
     display: grid;
     grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto;
     align-items: center;
     border: 2px solid var(--primary-border-color);
     border-radius: var(--border-radius-input);
     padding: 1.5rem;
-    gap: 0.5rem;
+    gap: 1rem;
 
-    &:hover {
-        border-color: var(--primary-color);
-        transition: all 0.3s ease-in-out;
+    // Título + chip
+    .diet-card-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
-}
 
-.diet-card-active {
-    border-color: #28a746; // Verde para ativo
-    background-color: #d4f3db76;
-}
+    // Ícone de menu
+    .diet-card-icon {
+        justify-self: end;
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: var(--secondary-font-color);
 
-.diet-card-title {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    justify-content: flex-start;
-}
+        &:hover {
+            color: var(--primary-color);
+        }
+    }
 
-.diet-chip {
-    font-size: 0.85rem;
-    font-weight: 500;
-    background-color: var(--blue-color);
-    color: var(--white-color);
-}
+    // Datas
+    .diet-card-date {
+        grid-column: 1 / 2;
+        font-size: 0.9rem;
+        color: var(--grey-color);
+    }
+    .diet-chip {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.6rem;
+        color: var(--primary-font-color);
+        font-weight: 500;
+    }
 
-.diet-chip-active {
-    background-color: #28a746 !important; // Verde para ativo
-}
-
-.diet-card-name {
-    font-size: 1.15rem;
-    font-weight: 500;
-    color: var(--primary-font-color);
-    margin: 0;
-}
-
-.diet-card-icon {
-    color: var(--grey-color);
-    justify-self: end;
-    cursor: pointer;
-
-    &:hover {
+    // Progresso (85%)
+    .diet-card-progress {
+        justify-self: end;
+        font-weight: 600;
         color: var(--primary-color);
     }
+
+    // Botão "Ver Dieta" – sempre embaixo e ocupando toda largura
+    .view-diet-button {
+        grid-column: 1 / -1;
+        justify-self: stretch;
+    }
 }
 
-.diet-card-date {
-    font-size: 0.9rem;
-    color: var(--grey-color);
-    opacity: 0.9;
-}
+// Responsivo para telas pequenas (mobile)
+@media (max-width: 640px) {
+    .diets-content-scroll {
+        padding: 1.5rem;
+    }
 
-.view-diet-button {
-    justify-self: center;
-    min-width: 250px;
-    width: 60%;
-    grid-column-start: 1;
-    grid-column-end: 3;
-    background-color: white;
+    .diets-card {
+        padding: 1.2rem;
+        gap: 0.8rem;
+    }
+
+    .diet-card-name {
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+
+    .empty-diets-state {
+        padding: 2rem 1rem;
+
+        .empty-icon {
+            font-size: 3.5rem;
+        }
+        h3 {
+            font-size: 1.3rem;
+        }
+        .empty-state-button {
+            min-width: 100%;
+        }
+    }
 }

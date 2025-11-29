@@ -4,26 +4,24 @@ import { AlimentModel } from "./aliment.model";
 export interface Food {
     id: string;
     description?: string;
-    isActive?: boolean;
     portion?: string;
     quantity?: string;
     createdAt?: Date;
     updatedAt?: Date;
-    validFrom?: Date;
-    validTo: any;
+    startDate: Date;
+    endDate?: Date | null;
     aliment: AlimentModel;
 }
 
 export class FoodModel implements Food, Calculable {
     id!: string;
     description?: string;
-    isActive?: boolean;
     portion?: string;
     quantity?: string;
     createdAt?: Date;
     updatedAt?: Date;
-    validFrom?: Date;
-    validTo: any;
+    startDate!: Date;
+    endDate?: Date | null;
     aliment!: AlimentModel;
 
     static from(food: Food): FoodModel {

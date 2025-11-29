@@ -1,9 +1,6 @@
-import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { firstValueFrom } from "rxjs";
-import { BACKEND_GATEWAY_URL } from "src/app/config/setup.token";
 import { Diet, DietModel } from "src/app/shared/models/diet.model";
-import { AuthService } from "../auth/auth.service";
 import { ApiService } from "../api/api.service";
 
 @Injectable({
@@ -26,7 +23,6 @@ export class DietService {
         }
     }
 
-
     async getDietById(dietId: string) {
         try {
             const response = await firstValueFrom(
@@ -35,6 +31,21 @@ export class DietService {
             return DietModel.from(response);
         } catch (error) {
             console.error('Error fetching diet by ID:', error);
+            return null;
+        }
+    }
+
+    async getDietPlan(dietId: string, date: Date) {
+        try {
+            const response = await firstValueFrom(
+                this.apiService.authenticated.get<any>(
+                    `/diet/${dietId}/plan?monthlyView=true&date=${date.toISOString().split("T")[0]}`
+                )
+            );
+
+            return response;
+        } catch (error) {
+            console.error('Error fetching diet plan:', error);
             return null;
         }
     }

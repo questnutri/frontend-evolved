@@ -24,6 +24,12 @@ export class QnLabelDirective implements AfterViewInit {
     })
 
     private effectiveLabelColor = computed(() => {
+        const fixStyle = this.qnLabelStyle();
+        if (fixStyle?.color) {
+            console.log('retornando: ', fixStyle);
+
+            return fixStyle.color;
+        }
         const white = this.qnLabelWhite();
         if (white && white.length > 0) {
             return "#fff";

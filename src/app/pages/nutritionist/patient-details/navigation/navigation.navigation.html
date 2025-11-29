@@ -2,11 +2,9 @@
     <i class="pi pi-arrow-left back-icon"></i>
     <span class="back-text">Voltar aos Pacientes</span>
 </div> -->
-
-<app-back-button 
-    text="Voltar aos Pacientes"
-    (onClick)="backToPatients()"
-/>
+<div class="patient-sidebar-back-navigation">
+    <app-back-button text="Voltar aos Pacientes" (onClick)="backToPatients()" />
+</div>
 
 <div class="navigation-avatar-section">
     <img
@@ -15,7 +13,7 @@
         class="navigation-avatar"
     />
     <div class="patient-info">
-        <h4 class="name">{{patient().name}}</h4>
+        <h4 class="name">{{patient().firstName + ' ' + patient().lastName}}</h4>
         <h5 class="email">{{patient().email}}</h5>
     </div>
 </div>

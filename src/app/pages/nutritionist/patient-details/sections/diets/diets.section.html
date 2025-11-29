@@ -6,25 +6,32 @@
                 <qn-button label="Adicionar Dieta" icon="pi pi-plus" />
             </div>
 
-            <!-- Check if diets exist -->
-            @if(diets().length > 0) {
-            <!-- Loop through diets and display each one -->
-            @for(diet of diets(); track $index){
-            <div class="diets-card">
+            <!-- Se tiver dietas -->
+            @if (diets().length > 0) { @for (diet of diets(); track diet.id) {
+            <div
+                class="diets-card"
+                [class.diet-card-active]="diet.status === 'ACTIVE'"
+            >
                 <div class="diet-card-title">
-                    <h3 class="diet-card-name">{{diet.name}}</h3>
+                    <span class="diet-card-name">{{ diet.name }}</span>
                     <p-chip
                         [label]="(diet.status | dietStatus).value"
                         class="diet-chip"
                         [style.backgroundColor]="(diet.status | dietStatus).color"
                     />
                 </div>
-                <p class="diet-card-icon"><i class="pi pi-ellipsis-v"></i></p>
-                <span class="diet-card-date"
-                    >{{dateFormat(diet.startDate)}} até
-                    {{dateFormat(diet.endDate)}}</span
-                >
-                <span>85%</span>
+
+                <p class="diet-card-icon">
+                    <i class="pi pi-ellipsis-v"></i>
+                </p>
+
+                <span class="diet-card-date">
+                    {{ dateFormat(diet.startDate) }} até {{
+                    dateFormat(diet.endDate) }}
+                </span>
+
+                <span class="diet-card-progress">85%</span>
+
                 <qn-button
                     label="Ver Dieta"
                     class="view-diet-button"
@@ -33,12 +40,23 @@
                     (click)="doOnSeeDiet(diet.id)"
                 />
             </div>
+            } }
 
-            }
-            <!-- If no diets exist -->
-            }@else{
-
-            <div></div>
+            <!-- Se NÃO tiver dietas -->
+            @else {
+            <div class="empty-diets-state">
+                <i class="pi pi-file-o empty-icon"></i>
+                <h3>Nenhuma dieta cadastrada</h3>
+                <p>
+                    Clique em "Adicionar Dieta" para criar a primeira dieta do
+                    paciente.
+                </p>
+                <qn-button
+                    label="Adicionar Primeira Dieta"
+                    icon="pi pi-plus"
+                    class="empty-state-button"
+                />
+            </div>
             }
         </div>
     </div>

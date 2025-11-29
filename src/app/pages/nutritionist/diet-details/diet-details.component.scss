@@ -1,0 +1,128 @@
+.diet-details-layout {
+    display: grid;
+    grid-template-columns: minmax(300px, 1fr) 2fr;
+    background-color: var(--secondary-background-color);
+    gap: 5px;
+    height: 100%;
+    width: 100%;
+    grid-template-rows: auto 1fr;
+}
+
+.diet-details-header {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    background-color: var(--primary-background-color);
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+.diet-details-header-diet-infos {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.diet-details-header-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-text-color);
+}
+.diet-details-header-diet-dates {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.diet-details-header-patient-name {
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+    width: fit-content;
+}
+
+.diet-edit-date {
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+/* Sidebar Navigation */
+.diet-details-sidebar {
+    height: auto;
+    background: var(--primary-background-color);
+    padding: 2rem 3rem;
+    border-radius: 0 0 0 var(--border-radius-input);
+    border-right: 2px solid var(--secondary-background-color);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Main Content Area */
+.diet-details-content {
+    height: 100%;
+    overflow: hidden;
+    background: var(--primary-background-color);
+    border-radius: 0 0 var(--border-radius-input) 0;
+    display: flex;
+    flex-direction: column;
+}
+.diet-details-content-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem;
+}
+
+.diet-details-content-header-date {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-text-color);
+    // padding: 1.5rem 2rem 0.5rem 2rem;
+}
+
+.diet-details-content-header-total-kcals {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+.diet-details-content-header-total-kcals-value {
+    font-weight: 500;
+    color: var(--primary-font-color);
+}
+
+.diet-details-content-meals-list {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 2rem;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: var(--secondary-background-color)
+        var(--primary-background-color); /* thumb | track */
+}
+
+/* Chrome, Edge, Safari */
+.diet-details-content-meals-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+.diet-details-content-meals-list::-webkit-scrollbar-track {
+    background: var(--primary-background-color); /* Fundo preto */
+}
+
+.diet-details-content-meals-list::-webkit-scrollbar-thumb {
+    background: var(--secondary-background-color); /* Cor do scroll */
+    border-radius: 4px;
+}
+
+.diet-details-content-meals-list::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}

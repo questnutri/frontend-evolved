@@ -7,3 +7,7 @@ export * from './food.model';
 
 export * from './aliment.model';
 export * from './aliment-portion.model';
+
+
+export * from './diet-plan.model';
+export * from './diet-day-plan.model';

@@ -76,7 +76,8 @@
     @if (expanded() && meal().foods.length > 0) {
     <div class="expanded-details">
         <div class="food-list">
-            @for (food of meal().foods; track food.id) { @if (food.isActive) {
+            @for (food of meal().foods; track food.id) {
+
             <div class="food-item">
                 <!-- Nome -->
                 <div class="food-name-wrapper">
@@ -173,7 +174,7 @@
                     </button>
                 </div>
             </div>
-            } }
+            }
         </div>
     </div>
 
