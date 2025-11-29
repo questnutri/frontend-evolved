@@ -221,12 +221,6 @@
     }
 }
 
-/* Focus states para navegação por teclado */
-.patient-details-sidebar:focus-within {
-    outline: 2px solid var(--primary-color);
-    outline-offset: -2px;
-}
-
 /* Transições suaves */
 .patient-details-layout,
 .patient-details-sidebar,

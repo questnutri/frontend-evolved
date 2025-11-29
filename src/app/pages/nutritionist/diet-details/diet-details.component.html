@@ -31,7 +31,11 @@
             fluid
             [(ngModel)]="date"
             (onMonthChange)="doOnMonthChange($event)"
-        />
+        >
+            <ng-template pTemplate="footer">
+                <p-button (click)="goToToday()">Hoje</p-button>
+            </ng-template>
+        </p-datepicker>
     </div>
     <div class="diet-details-content">
         @if (dietPlan()) {
