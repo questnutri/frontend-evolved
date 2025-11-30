@@ -3,6 +3,13 @@ import { firstValueFrom } from "rxjs";
 import { Diet, DietModel } from "src/app/shared/models/diet.model";
 import { ApiService } from "../api/api.service";
 
+export interface PatchDietDTO {
+    name: string | null;
+    description: string | null;
+    startDate: string | null;
+    endDate: string | null;
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -49,4 +56,21 @@ export class DietService {
             return null;
         }
     }
+
+    async patchDiet(dietId: string, dietData: Partial<PatchDietDTO>): Promise<boolean> {
+        try {
+            const response = await firstValueFrom(
+                this.apiService.authenticated.patch<Diet>(
+                    `/diet/${dietId}`,
+                    dietData
+                )
+            );
+
+            return true;
+        } catch (error) {
+            console.error('Error patching diet:', error);
+            return false;
+        }
+    }
+
 }

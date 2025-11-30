@@ -75,6 +75,7 @@
     <!-- Expanded Details -->
     @if (expanded() && meal().foods.length > 0) {
     <div class="expanded-details">
+        <ng-content select="[repeatConfiguration]"></ng-content>
         <div class="food-list">
             @for (food of meal().foods; track food.id) {
 

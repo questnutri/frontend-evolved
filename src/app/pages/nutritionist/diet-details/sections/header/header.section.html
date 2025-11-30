@@ -1,0 +1,44 @@
+<div class="diet-details-header">
+    <app-back-button text="Voltar aos detalhes" (onClick)="goBackToPatient()" />
+    <div class="diet-details-header-diet-infos">
+        <div class="diet-card-header">
+            <p-chip
+                [label]="(diet().status | dietStatus).value"
+                class="diet-chip"
+                [style.backgroundColor]="
+                        (diet().status | dietStatus).color
+                    "
+            />
+            <span class="diet-details-header-title">{{ diet().name }}</span>
+        </div>
+        <span class="diet-details-header-patient-name"
+            ><strong>Paciente:</strong>{{ patient()?.firstName }} {{
+            patient()?.lastName }}</span
+        >
+    </div>
+    <div class="diet-details-header-diet-dates">
+        <span class="diet-details-header-patient-name"
+            ><strong>Início:</strong>
+            <p-datepicker
+                [ngModel]="startDate()"
+                (ngModelChange)="updateDietDates($event, null)"
+                [showIcon]="true"
+                inputId="icondisplay"
+                [disabled]="disabledDates().disabledStartDate"
+                [maxDate]="maxDateStartPicker()"
+            />
+        </span>
+        <span class="diet-details-header-patient-name"
+            ><strong>Fim:</strong>
+            <p-datepicker
+                [ngModel]="endDate()"
+                (ngModelChange)="updateDietDates(null, $event)"
+                [showIcon]="true"
+                inputId="icondisplay"
+                [disabled]="disabledDates().disabledEndDate"
+                [minDate]="minDateEndPicker()"
+                dateFormat="dd"
+            />
+        </span>
+    </div>
+</div>

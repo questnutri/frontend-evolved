@@ -7,9 +7,9 @@ export interface Diet {
     description?: string;
     patientId: string;
     nutritionistId: string;
-    createdAt?: Date;
-    updatedAt?: Date;
-    startDate?: Date;
+    createdAt: Date;
+    updatedAt: Date;
+    startDate: Date;
     endDate?: Date;
     status?: string;
     meals: MealModel[];
@@ -21,9 +21,9 @@ export class DietModel implements Diet, Calculable {
     description?: string;
     patientId!: string;
     nutritionistId!: string;
-    createdAt?: Date;
-    updatedAt?: Date;
-    startDate?: Date;
+    createdAt!: Date;
+    updatedAt!: Date;
+    startDate!: Date;
     endDate?: Date;
     status?: string;
     meals: MealModel[] = [];

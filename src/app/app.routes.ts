@@ -20,7 +20,7 @@ import { NutritionistPatientInfoSection } from './pages/nutritionist/patient-det
 import { NutritionistPatientHealthSection } from './pages/nutritionist/patient-details/sections/health/health.section';
 import { NutritionistPatientDietsSection } from './pages/nutritionist/patient-details/sections/diets/diets.section';
 import { NutritionistPatientRecordsSection } from './pages/nutritionist/patient-details/sections/records/records.section';
-import { PatientDietDetailsPage } from './pages/nutritionist/diet-details/diet-details.component';
+import { PatientDietDetailsPage } from './pages/nutritionist/diet-details/diet-details.page';
 
 export const routes: Routes = [
     {

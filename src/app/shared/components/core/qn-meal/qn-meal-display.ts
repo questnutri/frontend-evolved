@@ -51,4 +51,5 @@ export class MealDisplayComponent implements OnInit {
         }));
         console.log('Toggled food expanded for', foodId, this.food_expanded());
     }
+
 }

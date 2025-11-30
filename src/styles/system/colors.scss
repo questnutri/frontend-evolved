@@ -360,4 +360,9 @@ DARK MODE
     /* Overlay (popup do calendário) */
     --p-calendar-overlay-border-radius: 8px;
     --p-calendar-overlay-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+
+    --p-datepicker-select-year-hover-background: var(--secondary-color);
+    --p-datepicker-select-month-hover-background: var(--secondary-color);
+    --p-datepicker-select-day-hover-background: var(--secondary-color);
+    --p-datepicker-date-selected-background: var(--primary-color);
 }

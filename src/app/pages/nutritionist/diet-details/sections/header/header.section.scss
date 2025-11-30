@@ -1,0 +1,94 @@
+.diet-details-header {
+    background-color: var(--primary-background-color);
+    padding: 2rem 2rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    @media (max-width: 900px) {
+        padding: 1.5rem 1rem;
+    }
+
+    @media (max-width: 768px) {
+        grid-column-end: 2;
+        grid-template-columns: auto 1fr auto;
+        gap: 15px;
+    }
+}
+
+.diet-details-header-diet-infos {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    align-items: flex-start;
+    gap: 5px;
+
+    @media (max-width: 768px) {
+        gap: 10px;
+    }
+}
+
+.diet-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+    }
+}
+
+.diet-details-header-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-text-color);
+
+    @media (max-width: 768px) {
+        font-size: 1rem;
+    }
+}
+
+.diet-details-header-diet-dates {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+
+    @media (max-width: 900px) {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 5px;
+        width: 100%;
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        width: 100%;
+    }
+}
+
+.diet-details-header-diet-datepicker {
+    min-width: 50px;
+    max-width: 100px;
+    width: 100%;
+}
+
+.diet-details-header-patient-name {
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+    width: fit-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+
+    @media (max-width: 768px) {
+        font-size: 0.85rem;
+        width: 100%;
+    }
+}
