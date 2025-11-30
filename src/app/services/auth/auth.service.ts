@@ -150,15 +150,19 @@ export class AuthService {
         }
     }
 
-    async resetPassword(resetPasswordToken: string | null, newPassword: string): Promise<ApiInteraction<AuthPayload>> {
+    async resetPassword(newPassword: string): Promise<ApiInteraction<AuthPayload>> {
         try {
             const response = await firstValueFrom(
-                this.http.post<ApiHttpResponse<AuthPayload>>(`${this.BACKEND_GATEWAY_URL}/${this.serviceRoute}/reset-password`, { resetPasswordToken, newPassword })
+                this.http.post<ApiHttpResponse<AuthPayload>>(
+                    `${this.BACKEND_GATEWAY_URL}/${this.serviceRoute}/reset-password`
+                    , { newPassword, resetPasswordToken: this.resetToken() })
             );
 
             if ("error" in response) {
                 throw new Error(`${response.error}`);
             }
+
+            console.log(response);
 
             this.resetToken.set(null);
             this.auth.set(response);

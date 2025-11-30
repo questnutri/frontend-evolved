@@ -34,6 +34,7 @@ export class ResetPage {
     }
 
     async resetPassword() {
+        console.log("Resetting password...");
         if (!this.newPassword() || !this.confirmPassword()) {
             this.notificationService.add({
                 severity: 'error',
@@ -54,21 +55,20 @@ export class ResetPage {
             return;
         }
 
-        // Validar requisitos da senha
-        if (this.newPassword().length < 8) {
-            this.notificationService.add({
-                severity: 'error',
-                summary: 'Senha muito curta!',
-                detail: 'A nova senha deve ter pelo menos 8 caracteres.'
-            })
-            return;
-        }
+        // if (this.newPassword().length < 8) {
+        //     this.notificationService.add({
+        //         severity: 'error',
+        //         summary: 'Senha muito curta!',
+        //         detail: 'A nova senha deve ter pelo menos 8 caracteres.'
+        //     })
+        //     return;
+        // }
 
-        const res = await this.authService.resetPassword(this.token(), this.newPassword())
+        const res = await this.authService.resetPassword(this.newPassword())
 
         if (res.success) {
             this.notificationService.add({ severity: 'success', summary: 'Sucesso', detail: 'Senha redefinida com sucesso!', life: 3000 })
-            this.router.navigateRoot(`/${res.data.role}/home`)
+            this.router.navigateRoot(`/login`)
         }
     }
 }

@@ -53,7 +53,7 @@ export class LoginPage {
         }
 
         if ('firstLogin' in res) {
-            this.router.navigateRoot(`/forgot-password`, {
+            this.router.navigateRoot(`/reset-password`, {
                 state: {
                     firstLogin: res.firstLogin,
                     tokenPassword: res.resetPassword

@@ -18,6 +18,7 @@ import { QnGlobalToastComponent } from '@qn/components/core';
         RouterLink,
         QnGlobalToastComponent,
         RouterOutlet,
+        QnGlobalToastComponent
     ],
     providers: [MessageService]
 })

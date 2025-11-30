@@ -27,7 +27,6 @@ export class ForgotPasswordPage implements OnInit {
     firstLogin = signal<boolean>(false);
 
     ngOnInit() {
-        // Recuperar os dados passados via state do NavController
         const state = window.history.state;
 
         if (state && state.firstLogin && state.tokenPassword) {
@@ -39,10 +38,6 @@ export class ForgotPasswordPage implements OnInit {
 
     resendCode(event: Event) {
         event.preventDefault();
-        // Chamar API para reenviar código
-        // this.apiService.sendResetCode(this.email).subscribe(...)
-
-        // Mostrar mensagem de sucesso
     }
 
     verifyCode() {
@@ -52,10 +47,6 @@ export class ForgotPasswordPage implements OnInit {
             // Mostrar mensagem de erro
             return;
         }
-
-        // Chamar API para verificar código
-        // this.apiService.verifyCode(this.email, this.verificationCode).subscribe(...)
-
     }
 
     goToStep(step: number, token: string | null) {
