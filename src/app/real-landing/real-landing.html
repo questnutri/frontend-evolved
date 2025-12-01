@@ -1,0 +1,150 @@
+<!-- Navigation -->
+<nav class="landing-nav">
+  <div class="landing-nav__container">
+    <img src="assets/qn-fit.png" alt="QuestNutri Logo" class="landing-nav__logo">
+    <ul class="landing-nav__menu">
+      <li class="landing-nav__menu-item"><a href="#hero" (click)="scrollToSection($event, 'hero')" class="landing-nav__link">Início</a></li>
+      <li class="landing-nav__menu-item"><a href="#features" (click)="scrollToSection($event, 'features')" class="landing-nav__link">Funcionalidades</a></li>
+      <li class="landing-nav__menu-item"><a href="#highlights" (click)="scrollToSection($event, 'highlights')" class="landing-nav__link">Benefícios</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Wrapper to offset the fixed nav -->
+<div class="landing-page">
+
+  <!-- Hero Section -->
+  <section id="hero" class="landing-hero">
+    <div class="landing-hero__container">
+      <div class="landing-hero__content">
+        <h1 class="landing-hero__title">A Plataforma Completa para <span class="landing-hero__title-highlight">Nutricionistas</span></h1>
+        <p class="landing-hero__description">
+          Gerencie seus pacientes, crie planos alimentares personalizados e acompanhe resultados 
+          com uma experiência gamificada que motiva seus pacientes a seguirem a dieta.
+        </p>
+        <div class="landing-hero__actions">
+          <a class="landing-hero__btn landing-hero__btn--primary">Acesso em breve...</a>
+        </div>
+      </div>
+      <div class="landing-hero__cards">
+        <div class="landing-hero__card landing-hero__card--first">
+          <h3 class="landing-hero__card-title">Gestão de Pacientes</h3>
+        </div>
+        <div class="landing-hero__card landing-hero__card--second">
+          <h3 class="landing-hero__card-title">Planos Alimentares Inteligentes</h3>
+        </div>
+        <div class="landing-hero__card landing-hero__card--third">
+          <h3 class="landing-hero__card-title">Engajamento Gamificado</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="landing-features">
+    <div class="landing-features__header">
+      <h2 class="landing-features__title">Funcionalidades que Transformam sua Prática</h2>
+      <p class="landing-features__subtitle">Ferramentas profissionais para elevar o atendimento aos seus pacientes</p>
+    </div>
+    <div class="landing-features__grid">
+      <div class="landing-features__card">
+        <div class="landing-features__card-icon">👥</div>
+        <h3 class="landing-features__card-title">Gestão de Pacientes</h3>
+        <p class="landing-features__card-description">Organize todos os seus pacientes em um só lugar. Histórico completo, evolução e consultas sempre acessíveis.</p>
+      </div>
+      <div class="landing-features__card">
+        <div class="landing-features__card-icon">🍽️</div>
+        <h3 class="landing-features__card-title">Planos Alimentares</h3>
+        <p class="landing-features__card-description">Crie dietas personalizadas com nossa base de alimentos completa. Calcule macros automaticamente, programe múltiplas dietas ao mesmo tempo.</p>
+      </div>
+      <div class="landing-features__card">
+        <div class="landing-features__card-icon">🎮</div>
+        <h3 class="landing-features__card-title">Gamificação</h3>
+        <p class="landing-features__card-description">Seus pacientes ganham conquistas ao seguirem o plano. Aumente a adesão de seus pacientes!</p>
+      </div>
+      <div class="landing-features__card">
+        <div class="landing-features__card-icon">📊</div>
+        <h3 class="landing-features__card-title">Relatórios Detalhados</h3>
+        <p class="landing-features__card-description">Acompanhe a evolução dos pacientes com gráficos e métricas. Identifique padrões e ajuste estratégias rapidamente.</p>
+      </div>
+      <div class="landing-features__card">
+        <div class="landing-features__card-icon">📱</div>
+        <h3 class="landing-features__card-title">App para Pacientes</h3>
+        <p class="landing-features__card-description">Seus pacientes acessam o plano alimentar, registram refeições, consumo de água, peso, e acompanham o progresso pelo celular.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Highlights Section -->
+  <section id="highlights" class="landing-highlights">
+    <div class="landing-highlights__header">
+      <h2 class="landing-highlights__title">Por que Nutricionistas Escolhem o QuestNutri?</h2>
+    </div>
+    <div class="landing-highlights__content">
+      <div class="landing-highlights__card">
+        <div class="landing-highlights__icon-circle">🏆</div>
+        <h3 class="landing-highlights__subtitle">Aumente a Adesão</h3>
+        <p class="landing-highlights__description">A gamificação transforma o acompanhamento nutricional em uma experiência envolvente. Pacientes motivados seguem o plano por mais tempo.</p>
+      </div>
+      <div class="landing-highlights__card">
+        <div class="landing-highlights__icon-circle">⏱️</div>
+        <h3 class="landing-highlights__subtitle">Economize Tempo</h3>
+        <p class="landing-highlights__description">Automatize tarefas repetitivas e foque no que importa: atender seus pacientes com qualidade e atenção.</p>
+      </div>
+      <div class="landing-highlights__card">
+        <div class="landing-highlights__icon-circle">📈</div>
+        <h3 class="landing-highlights__subtitle">Acompanhe Resultados</h3>
+        <p class="landing-highlights__description">Visualize o progresso de cada paciente com dashboards intuitivos. Tome decisões baseadas em dados concretos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <!-- <section id="pricing" class="landing-pricing">
+    <div class="landing-pricing__header">
+      <h2 class="landing-pricing__title">Plano Único, Acesso Completo</h2>
+      <p class="landing-pricing__subtitle">Sem limitações. Tudo incluso por um preço justo.</p>
+    </div>
+    <div class="landing-pricing__single">
+      <div class="landing-pricing__card landing-pricing__card--single">
+        <h3 class="landing-pricing__card-name">QuestNutri Pro</h3>
+        <p class="landing-pricing__card-price">R$99<span class="landing-pricing__card-period">/mês</span></p>
+        <p class="landing-pricing__card-description">Acesso completo a todas as funcionalidades</p>
+        <ul class="landing-pricing__card-features">
+          <li class="landing-pricing__card-feature">Pacientes ilimitados</li>
+          <li class="landing-pricing__card-feature">Planos alimentares ilimitados</li>
+          <li class="landing-pricing__card-feature">Gamificação completa</li>
+          <li class="landing-pricing__card-feature">App para pacientes</li>
+          <li class="landing-pricing__card-feature">Relatórios detalhados</li>
+          <li class="landing-pricing__card-feature">Suporte prioritário</li>
+        </ul>
+        <button class="landing-pricing__card-btn" routerLink="/register">Começar Teste Grátis</button>
+      </div>
+    </div>
+    <p class="landing-pricing__note">14 dias de teste grátis. Cancele quando quiser.</p>
+  </section> -->
+
+  <!-- Footer -->
+  <footer id="contact" class="landing-footer">
+    <div class="landing-footer__container">
+      <div class="landing-footer__section">
+        <h3 class="landing-footer__section-title">QuestNutri</h3>
+        <p class="landing-footer__section-text">A plataforma completa para nutricionistas que querem oferecer uma experiência diferenciada aos seus pacientes.</p>
+      </div>
+      <div class="landing-footer__section">
+        <h3 class="landing-footer__section-title">Links</h3>
+        <ul class="landing-footer__links">
+          <li class="landing-footer__links-item"><a href="#hero" (click)="scrollToSection($event, 'hero')" class="landing-footer__link">Início</a></li>
+          <li class="landing-footer__links-item"><a href="#features" (click)="scrollToSection($event, 'features')" class="landing-footer__link">Funcionalidades</a></li>
+          <li class="landing-footer__links-item"><a href="#highlights" (click)="scrollToSection($event, 'highlights')" class="landing-footer__link">Benefícios</a></li>
+        </ul>
+      </div>
+      <div class="landing-footer__section">
+        <h3 class="landing-footer__section-title">Contato</h3>
+        <p class="landing-footer__section-text">Email: questnutriapp&#64;gmail.com</p>
+        <p class="landing-footer__section-text">Seg-Sex: 9h às 18h</p>
+      </div>
+    </div>
+    <div class="landing-footer__copyright">&copy; 2025 QuestNutri. Todos os direitos reservados.</div>
+  </footer>
+</div>
