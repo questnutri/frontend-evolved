@@ -26,7 +26,6 @@ export class QnLabelDirective implements AfterViewInit {
     private effectiveLabelColor = computed(() => {
         const fixStyle = this.qnLabelStyle();
         if (fixStyle?.color) {
-            console.log('retornando: ', fixStyle);
 
             return fixStyle.color;
         }
@@ -44,7 +43,6 @@ export class QnLabelDirective implements AfterViewInit {
     ) { }
 
     ngAfterViewInit(): void {
-        console.log(this.qnLabelWhite());
 
         const targetElement = this.el.nativeElement;
         const parent = targetElement.parentNode;

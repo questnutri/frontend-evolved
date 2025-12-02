@@ -8,6 +8,7 @@
                 [style.backgroundColor]="
                         (diet().status | dietStatus).color
                     "
+                [style.color]="'white'"
             />
             <span class="diet-details-header-title">{{ diet().name }}</span>
         </div>
@@ -37,7 +38,6 @@
                 inputId="icondisplay"
                 [disabled]="disabledDates().disabledEndDate"
                 [minDate]="minDateEndPicker()"
-                dateFormat="dd"
             />
         </span>
     </div>

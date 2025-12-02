@@ -3,10 +3,13 @@
         <div class="diets-content-scroll">
             <div class="diets-section-header">
                 <h2 class="diets-section-header-title">Dietas</h2>
-                <qn-button label="Adicionar Dieta" icon="pi pi-plus" />
+                <qn-button
+                    label="Adicionar Dieta"
+                    icon="pi pi-plus"
+                    (click)="showModalNewDiet()"
+                />
             </div>
 
-            <!-- Se tiver dietas -->
             @if (diets().length > 0) { @for (diet of diets(); track diet.id) {
             <div
                 class="diets-card"
@@ -40,10 +43,7 @@
                     (click)="doOnSeeDiet(diet.id)"
                 />
             </div>
-            } }
-
-            <!-- Se NÃO tiver dietas -->
-            @else {
+            } } @else {
             <div class="empty-diets-state">
                 <i class="pi pi-file-o empty-icon"></i>
                 <h3>Nenhuma dieta cadastrada</h3>
@@ -55,9 +55,57 @@
                     label="Adicionar Primeira Dieta"
                     icon="pi pi-plus"
                     class="empty-state-button"
+                    (click)="showModalNewDiet()"
                 />
             </div>
             }
         </div>
     </div>
 </div>
+<p-dialog
+    header="Nova Dieta"
+    [(visible)]="visible"
+    [modal]="true"
+    [closeOnEscape]="true"
+    [dismissableMask]="true"
+    [style]="{ width: '480px', maxWidth: '92vw' }"
+    [contentStyle]="{ padding: '0' }"
+    class="simple-new-diet-dialog"
+    appendTo="body"
+>
+    <!-- Corpo do dialog -->
+    <div class="dialog-content">
+        <qn-text-input
+            qnLabel="Nome da Dieta"
+            placeholder="Ex: Bulking Semanal – João"
+        />
+
+        <qn-text-input
+            qnLabel="Descrição (opcional)"
+            placeholder="Foco em hipertrofia, sem lactose..."
+        />
+
+        <div class="dates-row">
+            <p-date-picker
+                qnLabel="Início"
+                [showIcon]="true"
+                [required]="true"
+            />
+
+            <p-date-picker qnLabel="Fim (opcional)" [showIcon]="true" />
+        </div>
+    </div>
+
+    <!-- Footer com botões -->
+    <ng-template pTemplate="footer">
+        <div class="dialog-footer">
+            <button pButton label="Cancelar" class="p-button-text"></button>
+            <button
+                pButton
+                label="Criar Dieta"
+                icon="pi pi-check"
+                class="p-button-rounded create-btn"
+            ></button>
+        </div>
+    </ng-template>
+</p-dialog>

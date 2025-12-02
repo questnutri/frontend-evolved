@@ -1,0 +1,149 @@
+<div class="section-title" style="padding: 1rem; margin-bottom: 1.25rem">
+    <span>Refeição</span>
+
+    <button (click)="teste()">Salvar</button>
+
+    <button class="close-edit-btn" (click)="closeEditMeal.emit()">
+        <i class="pi pi-times"></i>
+    </button>
+</div>
+
+@if(editMeal()){
+<div class="meal-infos-section">
+    <div class="meal-infos-content">
+        <qn-text-input qnLabel="Nome" [(value)]="editMeal.name" />
+        <p-datepicker
+            inputId="calendar-timeonly"
+            [timeOnly]="true"
+            qnLabel="Hora"
+            style="align-self: flex-end; width: 100%"
+            class="day-picker"
+            [(ngModel)]="hour"
+        />
+    </div>
+
+    <qn-text-input qnLabel="Descrição" />
+
+    <div class="meal-infos-content">
+        <p-datepicker
+            [(ngModel)]="startDate"
+            [showIcon]="true"
+            dateFormat="dd/mm/yy"
+            placeholder="Selecione a data"
+            style="align-self: flex-end; width: 100%"
+            class="day-picker"
+            qnLabel="Data de Início"
+        />
+        <p-datepicker
+            [(ngModel)]="startDate"
+            [showIcon]="true"
+            dateFormat="dd/mm/yy"
+            placeholder="Sem Termino Definido"
+            style="align-self: flex-end; width: 100%"
+            class="day-picker"
+            qnLabel="Data Fim"
+        />
+    </div>
+</div>
+
+<p-divider align="center" type="solid" class="divider-title">
+    <span>Informações</span>
+</p-divider>
+
+<p-accordion [multiple]="true" style="margin-bottom: 1rem">
+    <p-accordion-panel value="0">
+        <p-accordion-header (click)="showRepeatConfiguration()">
+            <div class="header-repeat-configuration">
+                <div
+                    class="header-repeat-configuration-title"
+                    style="border-left: none"
+                >
+                    <span>Configuração de Repetição</span>
+                </div>
+                @if(!showRepeatConfig()){
+                <div class="summary-repeat-configuration">
+                    <span class="text-summary"
+                        >{{ summaryRepeatConfiguration() }}
+                    </span>
+                </div>
+                }
+            </div>
+        </p-accordion-header>
+        <p-accordion-content>
+            <div class="repeat-configuration-content">
+                <div
+                    class="repeat-configuration-content-line1"
+                    [style.grid-template-columns]="valueRepeat() === 'ONCE' ? '1fr' : '1fr 1fr'"
+                >
+                    <p-select
+                        [options]="optionRepeatConfiguration"
+                        [(ngModel)]="valueRepeat"
+                        placeholder="Selecione..."
+                        class="frequency-select"
+                        qnLabel="Repetir"
+                        style="width: 100%"
+                    />
+
+                    @if (valueRepeat() !== 'ONCE') {
+                    <div class="config-row">
+                        <span class="label">{{ textFrequency().value1 }}</span>
+                        <div class="interval-row">
+                            <qn-number-input
+                                [min]="1"
+                                [max]="52"
+                                [(value)]="interval"
+                                class="interval-input"
+                            />
+                            <span class="suffix"
+                                >{{ textFrequency().value2 }}</span
+                            >
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                @if (valueRepeat() === 'WEEKLY') {
+                <div class="weekdays-section">
+                    <span class="label">Dias da semana</span>
+                    <div class="diet-details-days-of-week">
+                        @for (day of weekDays; track i; let i = $index) {
+                        <div
+                            (click)="toggleDayOfWeeks(i)"
+                            [class.active]="selectedDays().includes(i)"
+                            class="day-item"
+                            role="button"
+                            tabindex="0"
+                            [attr.aria-pressed]="selectedDays().includes(i)"
+                        >
+                            {{ day }}
+                        </div>
+                        }
+                    </div>
+                </div>
+                } @if (valueRepeat() === 'MONTHLY') {
+                <div class="weekdays-section">
+                    <span class="label">Dias do mês</span>
+                    <p-date-picker
+                        [(ngModel)]="selectedMonthDates"
+                        class="day-picker"
+                        [numberOfMonths]="1"
+                        [showOtherMonths]="false"
+                        selectionMode="multiple"
+                        [showIcon]="true"
+                        dateFormat="dd"
+                        [minDate]="minViewDate()"
+                        [maxDate]="maxViewDate()"
+                    />
+                </div>
+                }
+                <qn-button
+                    label="Salvar Configuração"
+                    icon="pi pi-check"
+                    class="save-repeat-btn"
+                    (click)="saveRepeatConfiguration()"
+                />
+            </div>
+        </p-accordion-content>
+    </p-accordion-panel>
+</p-accordion>
+}

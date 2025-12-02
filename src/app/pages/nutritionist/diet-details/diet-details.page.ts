@@ -1,32 +1,32 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DietPlanModel, Patient } from '@qn/models';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DietPlanModel, MealModel } from '@qn/models';
 import { DeviceService, DietService, PatientService } from '@qn/services';
 import { ChipModule } from 'primeng/chip';
 import { DatePickerModule } from 'primeng/datepicker';
-import { BackButtonComponent } from "src/app/shared/components/core/back-button/back-button.component";
-import { MealDisplayComponent } from "src/app/shared/components/core/qn-meal/qn-meal-display";
-import { DietStatusPipe } from 'src/app/shared/pipes/diet-status-pipe';
-import { PatientDietDetailsHeaderSection } from "./sections/header/header.section";
-import { ActivatedRoute, Router } from '@angular/router';
-import { QnNumberInputComponent, QnQuantityInputComponent } from "@qn/components/basic";
+import { SelectModule } from 'primeng/select';
 import { TooltipModule } from 'primeng/tooltip';
+import { MealDisplayComponent } from "src/app/shared/components/core/qn-meal/qn-meal-display";
+import { PatientDietDetailsHeaderSection } from "./sections/header/header.section";
+import { MealPanelSection } from "./sections/meal-panel/meal-panel.section";
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-patient-diet-details',
     templateUrl: './diet-details.page.html',
     styleUrls: ['./diet-details.page.scss'],
     imports: [
-        BackButtonComponent,
         DatePickerModule,
         FormsModule,
         MealDisplayComponent,
         ChipModule,
-        DietStatusPipe,
         PatientDietDetailsHeaderSection,
-        QnNumberInputComponent,
-        QnQuantityInputComponent,
-        TooltipModule],
+        TooltipModule,
+        SelectModule,
+        MealPanelSection,
+        CommonModule
+    ],
 })
 export class PatientDietDetailsPage {
     private readonly dietService = inject(DietService);
@@ -49,11 +49,22 @@ export class PatientDietDetailsPage {
     selectedDays = signal<number[]>([]);
     interval = signal<number>(1);
     selectedDates: Date[] = [];
+    valueRepeat = signal<string>('once');
 
     // Novos signals
-    isEditingMeal = signal<boolean>(false);
+    // isEditingMeal = signal<boolean>(false);
     isCalendarVisible = signal<boolean>(true);
-    editingMealIndex = signal<number | null>(null);
+    editingMeal = signal<MealModel | null>(null);
+    optionRepeatConfiguration = [
+        { label: 'Nunca', value: 'once' },
+        { label: 'Diariamente', value: 'daily' },
+        { label: 'Semanalmente', value: 'weekly' },
+        { label: 'Mensalmente', value: 'monthly' },
+    ]
+
+    changeRepeatConfiguration(event: any) {
+        this.valueRepeat.set(event.value);
+    }
 
     constructor() {
         this.activatedRoute.queryParamMap.subscribe(params => {
@@ -172,6 +183,10 @@ export class PatientDietDetailsPage {
             month: 'short',
             year: 'numeric',
         });
+        console.log(formatted
+            .split(" ")
+            .map(p => p.charAt(0).toUpperCase() + p.slice(1))
+            .join(" "))
 
         return formatted
             .split(" ")
@@ -250,25 +265,41 @@ export class PatientDietDetailsPage {
     textFrequency = computed(() => {
         const length = this.selectedDays().length;
 
-        if (length > 0) {
-            return { value1: 'Acontece a cada', value2: 'semanas' };
+        if (this.valueRepeat() === 'daily') {
+            return {
+                value1: 'Repetir a cada',
+                value2: `dia(s)`
+            }
+        } else if (this.valueRepeat() === 'weekly') {
+            return {
+                value1: 'Acontece a cada',
+                value2: `semana(s)`
+            }
+        } else if (this.valueRepeat() === 'monthly') {
+            return {
+                value1: 'Acontece a cada',
+                value2: `mês(es)`
+            }
         } else {
-            return { value1: 'Repetir a cada', value2: 'dias' };
+            return {
+                value1: '',
+                value2: ''
+            }
         }
     });
 
-    // Novos métodos
     toggleCalendar() {
         this.isCalendarVisible.update(v => !v);
     }
 
-    openEditMeal(index: number) {
-        this.isEditingMeal.set(true);
-        this.editingMealIndex.set(index);
+    openEditMeal(meal: MealModel) {
+        // this.isEditingMeal.set(true);
+        this.editingMeal.set(meal);
+        this.isCalendarVisible.set(false);
     }
 
     closeEditMeal() {
-        this.isEditingMeal.set(false);
-        this.editingMealIndex.set(null);
+        // this.isEditingMeal.set(false);
+        this.editingMeal.set(null);
     }
 }

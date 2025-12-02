@@ -1,21 +1,28 @@
-import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
-import { QnButtonComponent } from "@qn/components/basic";
+import { Component, effect, inject, input, signal } from '@angular/core';
+import { Router } from '@angular/router';
+import { QnButtonComponent, QnTextInputComponent } from "@qn/components/basic";
 import { DietModel } from '@qn/models';
 import { DietService } from '@qn/services';
-import { MealDisplayComponent } from "src/app/shared/components/core/qn-meal/qn-meal-display";
-import { DietStatusPipe } from 'src/app/shared/pipes/diet-status-pipe';
 import { ChipModule } from 'primeng/chip';
-import { Router } from '@angular/router';
+import { DialogModule } from 'primeng/dialog';
+import { DietStatusPipe } from 'src/app/shared/pipes/diet-status-pipe';
+import { DatePicker } from "primeng/datepicker";
 @Component({
     selector: 'app-nutritionist-patient-diets',
     templateUrl: './diets.section.html',
     styleUrls: ['./diets.section.scss'],
-    imports: [QnButtonComponent, DietStatusPipe, ChipModule],
+    imports: [QnButtonComponent, DietStatusPipe, ChipModule, DialogModule, QnTextInputComponent, DatePicker],
 })
 export class NutritionistPatientDietsSection {
     private readonly router = inject(Router);
     private readonly dietService = inject(DietService);
     patientId = input.required<string>();
+
+    visible = signal<boolean>(false);
+
+    showModalNewDiet() {
+        this.visible.set(true);
+    }
 
 
     diets = signal<DietModel[]>([]);

@@ -19,7 +19,7 @@ export class DietStatusPipe implements PipeTransform {
         };
 
         const colorMap: Record<string, string> = {
-            'DEFINITION': '#0380dc',
+            'DEFINITION': '#23a3ff',
             'ACTIVE': '#28a746',
         }
 

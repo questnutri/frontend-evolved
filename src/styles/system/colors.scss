@@ -118,11 +118,7 @@ DARK MODE
     --p-button-primary-background: var(--primary-color);
     --p-button-primary-border-color: var(--primary-color);
     --p-button-primary-color: var(--white-color);
-
-    /* <-- ESTAVA FALTANDO ISSO AQUI --> */
-    --p-button-primary-active-background: var(
-        --primary-color-hover
-    ); /* ou var(--primary-color) se preferir igual ao normal */
+    --p-button-primary-active-background: var(--primary-color-hover);
     --p-button-primary-active-border-color: var(--primary-color-hover);
     --p-button-primary-active-color: var(--white-color);
 
@@ -365,4 +361,14 @@ DARK MODE
     --p-datepicker-select-month-hover-background: var(--secondary-color);
     --p-datepicker-select-day-hover-background: var(--secondary-color);
     --p-datepicker-date-selected-background: var(--primary-color);
+}
+:host ::ng-deep .date {
+    --p-datepicker-date-width: 40px !important; // 25px fica muito apertado no mobile
+    --p-datepicker-date-height: 50px;
+    --p-datepicker-date-border-radius: 50%;
+    --p-datepicker-date-padding: 0;
+    --p-datepicker-today-background: #e3f2fd;
+
+    // Opcional: deixar a fonte menor
+    --p-datepicker-date-font-size: 12px;
 }

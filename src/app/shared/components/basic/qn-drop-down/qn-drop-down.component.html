@@ -1,13 +1,11 @@
-<qn-div [style.width]="width()">
-    <p-select
-        [placeholder]="placeholder()"
-        [options]="options()"
-        [(ngModel)]="value"
-        fluid
-        [disabled]="disabled()"
-        (mouseenter)="onMouseEnter()"
-        (mouseleave)="onMouseLeave()"
-        [style.width]="width()"
-        [style.cursor]="cursor()"
-    />
-</qn-div>
+<p-select
+    [placeholder]="placeholder()"
+    [options]="options()"
+    [(ngModel)]="value"
+    fluid
+    [disabled]="disabled()"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+    [style.width]="width()"
+    [style.cursor]="cursor()"
+/>

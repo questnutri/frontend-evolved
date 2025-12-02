@@ -13,6 +13,6 @@ export interface DietDayPlan {
 export interface DietPlan {
     diet: DietModel;
     plan: DietDayPlan[];
-    startDate: Date;
-    endDate?: Date | null;
+    // startDate: Date;
+    // endDate?: Date | null;
 }

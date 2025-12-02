@@ -1,7 +1,7 @@
 <div
     class="diet-details-layout"
     [class.sidebar-collapsed]="!isCalendarVisible()"
-    [class.editing-meal]="isEditingMeal()"
+    [ngClass]="{'editing-meal': editingMeal()}"
 >
     @if(dietPlan()){
     <div class="diet-details-header">
@@ -13,30 +13,29 @@
     </div>
 
     <div class="diet-details-sidebar" [class.collapsed]="!isCalendarVisible()">
-        @if(isCalendarVisible()) {
-        <p-datepicker
-            [inline]="true"
-            fluid
-            [(ngModel)]="date"
-            (onMonthChange)="doOnMonthChange($event)"
-            [selectOtherMonths]="true"
-            [minDate]="dietStartDate()"
-            [maxDate]="dietEndDate()"
-        >
-            <ng-template pTemplate="header" let-api="api">
-                <div class="custom-header">
-                    <i
-                        class="pi pi-calendar header-icon"
-                        style="font-size: 1.4rem"
-                        pTooltip="Ocultar calendário"
-                        showDelay="500"
-                        hideDelay="300"
-                        (click)="toggleCalendar()"
-                    ></i>
-                </div>
-            </ng-template>
-        </p-datepicker>
-        }
+        <div class="calendar-wrapper" [class.hidden]="!isCalendarVisible()">
+            <p-datepicker
+                [inline]="true"
+                [(ngModel)]="date"
+                (onMonthChange)="doOnMonthChange($event)"
+                [selectOtherMonths]="true"
+                [minDate]="dietStartDate()"
+                [maxDate]="dietEndDate()"
+                class="date"
+            >
+                <ng-template pTemplate="header" let-api="api">
+                    <div class="custom-header">
+                        <i
+                            class="pi pi-calendar header-icon"
+                            style="font-size: 1.4rem"
+                            pTooltip="Ocultar calendário"
+                            (click)="toggleCalendar()"
+                        ></i>
+                    </div>
+                </ng-template>
+            </p-datepicker>
+        </div>
+
         <div class="sidebar-collapsed-content">
             <button
                 class="show-calendar-btn"
@@ -50,85 +49,40 @@
         </div>
     </div>
 
-    <div class="diet-details-content">
-        <div class="diet-details-content-header">
-            <span class="diet-details-content-header-date"
-                >{{ dateFormat() }}</span
-            >
-            <div class="diet-details-content-header-total-kcals">
-                <span>Total</span>
-                <span class="diet-details-content-header-total-kcals-value">
-                    {{ totalKcalMealsRelativeDate() }} kcal
-                </span>
+    <div
+        class="diet-details-container"
+        [ngClass]="{'edit-open': editingMeal()}"
+    >
+        <div class="diet-details-content">
+            <div class="diet-details-content-header">
+                <span class="diet-details-content-header-date"
+                    >{{ dateFormat() }}</span
+                >
+                <div class="diet-details-content-header-total-kcals">
+                    <span>Total</span>
+                    <span class="diet-details-content-header-total-kcals-value">
+                        {{ totalKcalMealsRelativeDate() }} kcal
+                    </span>
+                </div>
+            </div>
+            <div class="diet-details-content-meals-list">
+                @if (mealsDietRelativeDate().length > 0) { @for (meal of
+                mealsDietRelativeDate(); track $index) {
+                <app-meal-display
+                    [meal]="meal"
+                    [class.selected]="editingMeal() === meal"
+                    (click)="openEditMeal(meal)"
+                >
+                </app-meal-display>
+                } }
             </div>
         </div>
-        <div class="diet-details-content-meals-list">
-            @if (mealsDietRelativeDate().length > 0) { @for (meal of
-            mealsDietRelativeDate(); track $index) {
-            <app-meal-display
-                [meal]="meal"
-                [class.selected]="editingMealIndex() === $index"
-            >
-                <div
-                    class="expanded-details-repeat-configuration"
-                    repeatConfiguration
-                >
-                    <span class="expanded-details-repeat-configuration-label">
-                        Configuração de Repetição
-                    </span>
-                    <div class="expanded-details-repeat-configuration-content">
-                        <div class="diet-details-days-of-week">
-                            @for (day of weekDays; track i; let i = $index) {
-                            <div
-                                (click)="toggleDay(i)"
-                                [class.active]="selectedDays().includes(i)"
-                                class="day-item"
-                            >
-                                {{ day }}
-                            </div>
-                            }
-                        </div>
-
-                        <div>
-                            <button
-                                (click)="openEditMeal($index)"
-                                style="cursor: pointer"
-                            >
-                                Editar Refeição
-                            </button>
-                        </div>
-
-                        <div class="week-frequency">
-                            <span>{{textFrequency().value1}}:</span>
-                            <qn-number-input
-                                [min]="1"
-                                [max]="52"
-                                [size]="'small'"
-                                inputStyle="width: 10px; background: transparent; text-align: center; border: none; box-shadow: none;"
-                                [(ngModel)]="interval"
-                            />
-                            <span>{{textFrequency().value2}}</span>
-                        </div>
-                    </div>
-                </div>
-            </app-meal-display>
-            } }
-        </div>
-    </div>
-
-    <div class="edit-meal" [class.visible]="isEditingMeal()">
-        @if(isEditingMeal()) {
-        <div class="edit-meal-header">
-            <span class="edit-meal-title">Editar Refeição</span>
-            <button class="close-edit-btn" (click)="closeEditMeal()">
-                <i class="pi pi-times"></i>
-            </button>
-        </div>
-
-        <!-- Aqui você pode adicionar o conteúdo de edição da refeição -->
-        <div class="edit-meal-content">
-            <p>Conteúdo de edição da refeição {{ editingMealIndex() }}</p>
-            <!-- Adicione seus campos de edição aqui -->
+        @if(editingMeal()) {
+        <div class="edit-meal" [ngClass]="{visible: editingMeal()}">
+            <app-meal-panel
+                (closeEditMeal)="closeEditMeal()"
+                [meal]="editingMeal()!"
+            />
         </div>
         }
     </div>
