@@ -22,10 +22,11 @@
             ><strong>Início:</strong>
             <p-datepicker
                 [ngModel]="startDate()"
-                (ngModelChange)="updateDietDates($event, null)"
+                (ngModelChange)="startDate.set($event); onDateChange()"
                 [showIcon]="true"
                 inputId="icondisplay"
                 [disabled]="disabledDates().disabledStartDate"
+                [minDate]="minDateStartPicker()"
                 [maxDate]="maxDateStartPicker()"
             />
         </span>
@@ -33,7 +34,7 @@
             ><strong>Fim:</strong>
             <p-datepicker
                 [ngModel]="endDate()"
-                (ngModelChange)="updateDietDates(null, $event)"
+                (ngModelChange)="endDate.set($event); onDateChange()"
                 [showIcon]="true"
                 inputId="icondisplay"
                 [disabled]="disabledDates().disabledEndDate"

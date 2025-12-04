@@ -31,7 +31,7 @@ import { CommonModule } from '@angular/common';
 export class PatientDietDetailsPage {
     private readonly dietService = inject(DietService);
     private readonly patientService = inject(PatientService);
-    private readonly deviceService = inject(DeviceService);
+    protected readonly deviceService = inject(DeviceService);
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly router = inject(Router);
 
@@ -55,12 +55,6 @@ export class PatientDietDetailsPage {
     // isEditingMeal = signal<boolean>(false);
     isCalendarVisible = signal<boolean>(true);
     editingMeal = signal<MealModel | null>(null);
-    optionRepeatConfiguration = [
-        { label: 'Nunca', value: 'once' },
-        { label: 'Diariamente', value: 'daily' },
-        { label: 'Semanalmente', value: 'weekly' },
-        { label: 'Mensalmente', value: 'monthly' },
-    ]
 
     changeRepeatConfiguration(event: any) {
         this.valueRepeat.set(event.value);
@@ -177,21 +171,23 @@ export class PatientDietDetailsPage {
 
     protected dateFormat = computed(() => {
         const date = this.date();
+
         const formatted = date.toLocaleDateString('pt-BR', {
             weekday: 'long',
             day: '2-digit',
             month: 'short',
             year: 'numeric',
         });
-        console.log(formatted
-            .split(" ")
-            .map(p => p.charAt(0).toUpperCase() + p.slice(1))
-            .join(" "))
 
-        return formatted
-            .split(" ")
-            .map(p => p.charAt(0).toUpperCase() + p.slice(1))
-            .join(" ");
+        const parts = formatted.split(' ');
+
+        const filtered = parts.filter(part => part.toLowerCase() !== 'de');
+
+        const capitalized = filtered.map(part =>
+            part.charAt(0).toUpperCase() + part.slice(1)
+        );
+
+        return capitalized.join(' ');
     });
 
     protected totalKcalMealsRelativeDate = computed(() => {
@@ -263,7 +259,6 @@ export class PatientDietDetailsPage {
     }
 
     textFrequency = computed(() => {
-        const length = this.selectedDays().length;
 
         if (this.valueRepeat() === 'daily') {
             return {
@@ -293,13 +288,11 @@ export class PatientDietDetailsPage {
     }
 
     openEditMeal(meal: MealModel) {
-        // this.isEditingMeal.set(true);
         this.editingMeal.set(meal);
         this.isCalendarVisible.set(false);
     }
 
     closeEditMeal() {
-        // this.isEditingMeal.set(false);
         this.editingMeal.set(null);
     }
 }

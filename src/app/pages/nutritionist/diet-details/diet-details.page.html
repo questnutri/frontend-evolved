@@ -15,13 +15,15 @@
     <div class="diet-details-sidebar" [class.collapsed]="!isCalendarVisible()">
         <div class="calendar-wrapper" [class.hidden]="!isCalendarVisible()">
             <p-datepicker
-                [inline]="true"
+                [inline]="!deviceService.isMobileSize()"
                 [(ngModel)]="date"
                 (onMonthChange)="doOnMonthChange($event)"
                 [selectOtherMonths]="true"
                 [minDate]="dietStartDate()"
                 [maxDate]="dietEndDate()"
                 class="date"
+                [showIcon]="deviceService.isMobileSize()"
+                fluid
             >
                 <ng-template pTemplate="header" let-api="api">
                     <div class="custom-header">

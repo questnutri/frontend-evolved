@@ -1,28 +1,38 @@
 import { Calculable } from "../interface/calculable.interface";
 import { FoodModel } from "./food.model";
 
+export interface RepeatConfiguration {
+    type: 'ONCE' | 'DAILY' | 'WEEKLY' | 'MONTHLY';
+    repeatTarget?: number;      // Usado em DAILY, WEEKLY, MONTHLY
+    daysOfWeek?: number[];      // Usado apenas em WEEKLY
+    daysOfMonth?: number[];     // Usado apenas em MONTHLY
+    targetDate?: string | Date; // Usado apenas em ONCE
+}
+
 export interface Meal {
     id: string;
     name?: string;
     hour?: string;
-    repeatConfiguration?: any;
+    repeatConfiguration?: RepeatConfiguration;
     createdAt?: Date;
     updatedAt?: Date;
     startDate: Date;
     endDate?: Date | null;
     foods: FoodModel[];
+    description?: string;
 }
 
 export class MealModel implements Meal, Calculable {
     id!: string;
     name?: string;
     hour?: string;
-    repeatConfiguration?: any;
+    repeatConfiguration?: RepeatConfiguration;
     createdAt?: Date;
     updatedAt?: Date;
     startDate!: Date;
     endDate?: Date | null;
     foods: FoodModel[] = [];
+    description?: string;
 
     static from(meal: Meal): MealModel {
         const model = new MealModel();

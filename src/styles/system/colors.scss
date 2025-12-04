@@ -323,52 +323,52 @@ DARK MODE
    ============================================ */
 * {
     /* Fundo do calendário */
-    --p-calendar-background: var(--white-color);
-    --p-calendar-border-color: var(--grey-color-light2);
+    // --p-calendar-background: var(--white-color);
+    // --p-calendar-border-color: var(--grey-color-light2);
 
     /* Cabeçalho (mês/ano) */
-    --p-calendar-header-background: var(--primary-color);
-    --p-calendar-header-color: var(--white-color);
-    --p-calendar-nav-button-hover-background: var(--primary-color-hover);
+    // --p-calendar-header-background: var(--primary-color);
+    // --p-calendar-header-color: var(--white-color);
+    // --p-calendar-nav-button-hover-background: var(--primary-color-hover);
 
     /* Dias da semana (Seg, Ter, Qua...) */
-    --p-calendar-column-header-color: var(--grey-color-dark);
+    // --p-calendar-column-header-color: var(--grey-color-dark);
 
-    /* Dia normal */
-    --p-calendar-cell-color: var(--black-color);
-    --p-calendar-cell-background: transparent;
-    --p-calendar-cell-border-color: transparent;
+    // /* Dia normal */
+    // --p-calendar-cell-color: var(--black-color);
+    // --p-calendar-cell-background: transparent;
+    // --p-calendar-cell-border-color: transparent;
 
-    /* Dia hover */
-    --p-calendar-cell-hover-background: var(--blue-color-light3);
-    --p-calendar-cell-hover-color: var(--black-color);
+    // /* Dia hover */
+    // --p-calendar-cell-hover-background: var(--blue-color-light3);
+    // --p-calendar-cell-hover-color: var(--black-color);
 
-    /* Dia selecionado */
-    --p-calendar-cell-selected-background: var(--primary-color);
-    --p-calendar-cell-selected-color: var(--white-color);
-    --p-calendar-cell-selected-hover-background: var(--primary-color-hover);
+    // /* Dia selecionado */
+    // --p-calendar-cell-selected-background: var(--primary-color);
+    // --p-calendar-cell-selected-color: var(--white-color);
+    // --p-calendar-cell-selected-hover-background: var(--primary-color-hover);
 
-    /* Dia atual (hoje) */
-    --p-calendar-cell-today-background: var(--blue-color-light2);
-    --p-calendar-cell-today-color: var(--white-color);
-    --p-calendar-cell-today-border-color: var(--blue-color-light2);
+    // /* Dia atual (hoje) */
+    // --p-calendar-cell-today-background: var(--blue-color-light2);
+    // --p-calendar-cell-today-color: var(--white-color);
+    // --p-calendar-cell-today-border-color: var(--blue-color-light2);
 
-    /* Overlay (popup do calendário) */
-    --p-calendar-overlay-border-radius: 8px;
-    --p-calendar-overlay-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    // /* Overlay (popup do calendário) */
+    // --p-calendar-overlay-border-radius: 8px;
+    // --p-calendar-overlay-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 
-    --p-datepicker-select-year-hover-background: var(--secondary-color);
-    --p-datepicker-select-month-hover-background: var(--secondary-color);
-    --p-datepicker-select-day-hover-background: var(--secondary-color);
-    --p-datepicker-date-selected-background: var(--primary-color);
+    // --p-datepicker-select-year-hover-background: var(--secondary-color);
+    // --p-datepicker-select-month-hover-background: var(--secondary-color);
+    // --p-datepicker-select-day-hover-background: var(--secondary-color);
+    // --p-datepicker-date-selected-background: var(--primary-color);
 }
-:host ::ng-deep .date {
-    --p-datepicker-date-width: 40px !important; // 25px fica muito apertado no mobile
-    --p-datepicker-date-height: 50px;
-    --p-datepicker-date-border-radius: 50%;
-    --p-datepicker-date-padding: 0;
-    --p-datepicker-today-background: #e3f2fd;
+// :host ::ng-deep .date {
+//     --p-datepicker-date-width: 40px !important; // 25px fica muito apertado no mobile
+//     --p-datepicker-date-height: 50px;
+//     --p-datepicker-date-border-radius: 50%;
+//     --p-datepicker-date-padding: 0;
+//     --p-datepicker-today-background: #e3f2fd;
 
-    // Opcional: deixar a fonte menor
-    --p-datepicker-date-font-size: 12px;
-}
+//     // Opcional: deixar a fonte menor
+//     --p-datepicker-date-font-size: 12px;
+// }

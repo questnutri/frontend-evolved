@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, signal, computed, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DeviceService } from '@qn/services';
+import { AuthService, DeviceService } from '@qn/services';
 import { MealModel } from 'src/app/shared/models/meal.model';
 
 @Component({
@@ -13,7 +13,7 @@ import { MealModel } from 'src/app/shared/models/meal.model';
 })
 export class MealDisplayComponent implements OnInit {
     readonly deviceService = inject(DeviceService);
-
+    readonly authService = inject(AuthService);
     meal = input.required<MealModel>();
     expanded = signal<boolean>(false);
     checked = signal<boolean>(false);
@@ -22,6 +22,7 @@ export class MealDisplayComponent implements OnInit {
 
     ngOnInit(): void {
         console.log(this.meal());
+
     }
 
     isFoodVisible = (foodId: string) => computed(() => {

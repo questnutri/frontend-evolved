@@ -1,0 +1,246 @@
+<p-dialog
+    header="Alimentos"
+    [(visible)]="modalAlimentsVisible"
+    [modal]="true"
+    [closeOnEscape]="true"
+    [dismissableMask]="true"
+    class="simple-new-food-dialog"
+    appendTo="body"
+>
+    <div class="aliment-body-table">
+        <div class="dialog-content">
+            <qn-text-input
+                qnLabel-white="Pesquisar Alimento"
+                icon="pi pi-search"
+            />
+            <p-table
+                [value]="aliments()"
+                [tableStyle]="{ 'max-width': '45rem' }"
+                [paginator]="true"
+                [rows]="20"
+                [scrollable]="true"
+                scrollHeight="350px"
+            >
+                <ng-template #header>
+                    <tr>
+                        <th width="5%" pFrozenColumn></th>
+                        <th width="35%">Nome</th>
+                        <th width="15%">Kcal</th>
+                        <th width="15%">Proteína</th>
+                        <th width="15%">Carboidrato</th>
+                        <th width="15%" pFrozenColumn>Gorduras</th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-aliment>
+                    <tr>
+                        <td>
+                            <p-checkbox
+                                [ngModel]="isSelected(aliment)"
+                                (ngModelChange)="
+                                    toggleSelection(aliment, $event)
+                                "
+                                [binary]="true"
+                            />
+                        </td>
+                        <td>{{ aliment.name }}</td>
+                        <td>
+                            {{
+                                getNumericValue(
+                                    aliment.getPortion(
+                                        aliment.availablePortions
+                                    ).kcal
+                                ) | number: "1.0-2"
+                            }}
+                            kcal
+                        </td>
+                        <td>
+                            {{
+                                getNumericValue(
+                                    aliment.getPortion(
+                                        aliment.availablePortions
+                                    ).protein
+                                ) | number: "1.0-2"
+                            }}g
+                        </td>
+                        <td>
+                            {{
+                                getNumericValue(
+                                    aliment.getPortion(
+                                        aliment.availablePortions
+                                    ).carb
+                                ) | number: "1.0-2"
+                            }}g
+                        </td>
+                        <td>
+                            {{
+                                getNumericValue(
+                                    aliment.getPortion(
+                                        aliment.availablePortions
+                                    ).fat
+                                ) | number: "1.0-2"
+                            }}g
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <div class="divider-modal-aliments"></div>
+        <div class="aliment-selected">
+            <p-table
+                [value]="alimentSelected()"
+                [tableStyle]="{ 'min-width': '15rem' }"
+                showGridlines
+            >
+                <ng-template #header>
+                    <tr>
+                        <th colspan="3">Informações Nutricionais</th>
+                    </tr>
+                    <tr>
+                        <th colspan="3"><qn-text-input /></th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-aliment>
+                    <tr>
+                        <td></td>
+                        <td>100g</td>
+                        <td>200g</td>
+                    </tr>
+                    <tr>
+                        <td>Valor energetico (kcal)</td>
+                        <td>
+                            {{
+                                getNumericValue(
+                                    aliment.getPortion(
+                                        aliment.availablePortions
+                                    ).kcal
+                                ) | number: "1.0-2"
+                            }}
+                        </td>
+                        <td>
+                            {{
+                                getNumericValue(
+                                    aliment.getPortion(
+                                        aliment.availablePortions
+                                    ).kcal
+                                ) * 2 | number: "1.0-2"
+                            }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Carboidratos (g)</td>
+                        <td>
+                            {{
+                                getNumericValue(
+                                    aliment.getPortion(
+                                        aliment.availablePortions
+                                    ).carb
+                                ) | number: "1.0-2"
+                            }}
+                        </td>
+                        <td>
+                            {{
+                                getNumericValue(
+                                    aliment.getPortion(
+                                        aliment.availablePortions
+                                    ).carb
+                                ) * 2 | number: "1.0-2"
+                            }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Proteínas (g)</td>
+                        <td>
+                            {{
+                                getNumericValue(
+                                    aliment.getPortion(
+                                        aliment.availablePortions
+                                    ).protein
+                                ) | number: "1.0-2"
+                            }}
+                        </td>
+                        <td>
+                            {{
+                                getNumericValue(
+                                    aliment.getPortion(
+                                        aliment.availablePortions
+                                    ).protein
+                                ) * 2 | number: "1.0-2"
+                            }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Gordura (g)</td>
+                        <td>
+                            {{
+                                getNumericValue(
+                                    aliment.getPortion(
+                                        aliment.availablePortions
+                                    ).fat
+                                ) | number: "1.0-2"
+                            }}
+                        </td>
+                        <td>
+                            {{
+                                getNumericValue(
+                                    aliment.getPortion(
+                                        aliment.availablePortions
+                                    ).fat
+                                ) * 2 | number: "1.0-2"
+                            }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Fibras (g)</td>
+                        <td>
+                            {{
+                                getNumericValue(
+                                    aliment.getPortion(
+                                        aliment.availablePortions
+                                    ).dietaryFiber
+                                ) | number: "1.0-2"
+                            }}
+                        </td>
+                        <td>
+                            {{
+                                getNumericValue(
+                                    aliment.getPortion(
+                                        aliment.availablePortions
+                                    ).dietaryFiber
+                                ) * 2 | number: "1.0-2"
+                            }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sodio (g)</td>
+                        <td>
+                            {{
+                                getNumericValue(
+                                    aliment.getPortion(
+                                        aliment.availablePortions
+                                    ).sodium
+                                ) | number: "1.0-2"
+                            }}
+                        </td>
+                        <td>
+                            {{
+                                getNumericValue(
+                                    aliment.getPortion(
+                                        aliment.availablePortions
+                                    ).sodium
+                                ) * 2 | number: "1.0-2"
+                            }}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="dialog-footer">
+            <qn-button
+                label="Adicionar Selecionados ({{ alimentSelected().length }})"
+                icon="pi pi-check"
+            />
+        </div>
+    </ng-template>
+</p-dialog>

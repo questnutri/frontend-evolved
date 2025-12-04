@@ -68,21 +68,27 @@
     [modal]="true"
     [closeOnEscape]="true"
     [dismissableMask]="true"
-    [style]="{ width: '480px', maxWidth: '92vw' }"
     [contentStyle]="{ padding: '0' }"
     class="simple-new-diet-dialog"
     appendTo="body"
 >
-    <!-- Corpo do dialog -->
     <div class="dialog-content">
         <qn-text-input
             qnLabel="Nome da Dieta"
             placeholder="Ex: Bulking Semanal – João"
+            [qnLabelStyle]="{
+                color: 'var(--primary-font-color)'
+            }"
+            [(value)]="newDiet().name"
         />
 
         <qn-text-input
             qnLabel="Descrição (opcional)"
             placeholder="Foco em hipertrofia, sem lactose..."
+            [qnLabelStyle]="{
+                color: 'var(--primary-font-color)'
+            }"
+            [(value)]="newDiet().description"
         />
 
         <div class="dates-row">
@@ -90,22 +96,30 @@
                 qnLabel="Início"
                 [showIcon]="true"
                 [required]="true"
+                [qnLabelStyle]="{
+                    color: 'var(--primary-font-color)'
+                }"
+                [appendTo]="'body'"
+                [(ngModel)]="datesNewDiet().startDate"
+                fluid
             />
 
-            <p-date-picker qnLabel="Fim (opcional)" [showIcon]="true" />
+            <p-date-picker
+                qnLabel="Fim (opcional)"
+                [showIcon]="true"
+                [appendTo]="'body'"
+                [qnLabelStyle]="{
+                    color: 'var(--primary-font-color)'
+                }"
+                [(ngModel)]="datesNewDiet().endDate"
+                fluid
+            />
         </div>
     </div>
 
-    <!-- Footer com botões -->
     <ng-template pTemplate="footer">
         <div class="dialog-footer">
-            <button pButton label="Cancelar" class="p-button-text"></button>
-            <button
-                pButton
-                label="Criar Dieta"
-                icon="pi pi-check"
-                class="p-button-rounded create-btn"
-            ></button>
+            <qn-button label="Criar dieta" (click)="createDiet()" />
         </div>
     </ng-template>
 </p-dialog>

@@ -1,12 +1,14 @@
 <div class="meal-card">
     <div class="meal-header">
         <!-- Checkbox -->
+        @if(this.authService.userRole() === 'patient'){
         <input
             type="checkbox"
             class="custom-checkbox"
             [checked]="checked()"
             (click)="toggleChecked()"
         />
+        }
 
         <!-- Info -->
         <div class="meal-info">
@@ -74,10 +76,8 @@
 
     <!-- Expanded Details -->
     @if (expanded() && meal().foods.length > 0) {
-    <ng-content select="[repeatConfiguration]"></ng-content>
 
     <div class="expanded-details">
-        <ng-content select="[repeatConfiguration]"></ng-content>
         <div class="food-list">
             @for (food of meal().foods; track food.id) {
 

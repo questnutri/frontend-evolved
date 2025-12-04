@@ -8,6 +8,14 @@ export interface PatchDietDTO {
     description: string | null;
     startDate: string | null;
     endDate: string | null;
+    patientId: string | null;
+}
+export interface CreateDietDTO {
+    name: string;
+    description: string;
+    startDate: string;
+    endDate?: string;
+    patientId: string;
 }
 
 @Injectable({
@@ -73,4 +81,19 @@ export class DietService {
         }
     }
 
+    async createDiet(dietData: CreateDietDTO): Promise<DietModel | null> {
+        try {
+            const response = await firstValueFrom(
+                this.apiService.authenticated.post<Diet>(
+                    `/diet`,
+                    dietData
+                )
+            );
+
+            return DietModel.from(response);
+        } catch (error) {
+            console.error('Error creating diet:', error);
+            return null;
+        }
+    }
 }
