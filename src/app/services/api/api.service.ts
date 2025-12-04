@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { AuthService } from '@qn/services'
+import { AuthService, NotificationService } from '@qn/services'
 import { BACKEND_GATEWAY_URL } from 'src/app/config/setup.token'
 
 enum HttpMethod {
@@ -17,6 +17,7 @@ enum HttpMethod {
 })
 export class ApiService {
     private readonly BACKEND_GATEWAY_URL = inject(BACKEND_GATEWAY_URL)
+    private readonly notificationService = inject(NotificationService);
     private readonly authService = inject(AuthService)
     private readonly http = inject(HttpClient)
     private baseHeaders: HttpHeaders = new HttpHeaders()
@@ -40,6 +41,7 @@ export class ApiService {
     }
 
     post<T>(url: string, body?: any, options: object = {}): Observable<any> {
+        this.notificationService.me();
         return this.request<T>(HttpMethod.POST, url, body, options)
     }
 

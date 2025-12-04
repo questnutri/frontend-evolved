@@ -30,7 +30,7 @@ export class NotificationService implements OnDestroy {
 
     // Polling management
     private pollingSubscription: Subscription | null = null;
-    private readonly POLLING_INTERVAL_MS = 30000; // 30 seconds
+    private readonly POLLING_INTERVAL_MS = 10000; // 10 seconds
     private readonly NOTIFICATION_DISPLAY_DELAY_MS = 1500; // Delay between notifications
     private readonly NOTIFICATION_LIFE_MS = 4000; // How long each notification stays
 
@@ -69,94 +69,24 @@ export class NotificationService implements OnDestroy {
         this.notificationSubject.next(message);
     }
 
-
-    private queueNotification(id: string, options: ToastMessageOptions) {
-        // Skip if already displayed
-        if (this.displayedNotificationIds.has(id)) {
-            return;
-        }
-
-        // Skip if already in queue
-        if (this.notificationQueue.some(n => n.id === id)) {
-            return;
-        }
-
-        this.notificationQueue.push({
-            id,
-            options,
-            timestamp: Date.now()
-        });
-
-        this.pendingCount.set(this.notificationQueue.length);
-        this.processQueue();
-    }
-
-
-    private async processQueue() {
-        if (this.isProcessingQueue || this.notificationQueue.length === 0) {
-            return;
-        }
-
-        this.isProcessingQueue = true;
-
-        while (this.notificationQueue.length > 0) {
-            const notification = this.notificationQueue.shift()!;
-            this.pendingCount.set(this.notificationQueue.length);
-
-            // Mark as displayed
-            this.displayedNotificationIds.add(notification.id);
-
-            // Display the notification
-            this.add(notification.options);
-
-            // Wait before showing the next one
-            // (notification life + delay between notifications)
-            const waitTime = (notification.options.life || this.NOTIFICATION_LIFE_MS) + this.NOTIFICATION_DISPLAY_DELAY_MS;
-            await this.delay(waitTime);
-        }
-
-        this.isProcessingQueue = false;
-    }
-
-
     async me() {
+        const headers = new HttpHeaders();
         const token = this.storageService.get<AuthPayload>('auth')?.accessToken;
-        if (!token) return;
-
-        try {
-            const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        if (token) {
+            headers.set('Authorization', `Bearer ${token}`);
             const fullUrl = `${this.BACKEND_GATEWAY_URL}/notification/me`;
             const notifications = await firstValueFrom(this.http.get<any[]>(fullUrl, { headers }));
-
-            if (notifications && notifications.length > 0) {
-                for (const notification of notifications) {
-                    const notificationId = notification.id || notification._id || `${notification.title}-${Date.now()}`;
-                    const { title, message, icon } = notification.i18n['pt-BR'];
-
-                    this.queueNotification(notificationId, {
-                        key: 'achievement',
-                        data: { title, message, icon },
-                        life: this.NOTIFICATION_LIFE_MS
-                    });
-                }
+            if (notifications.length > 0) {
+                const notification = notifications[0].i18n['pt-BR'];
+                console.log('Notification received:', notification);
+                this.add({
+                    key: 'achievement',
+                    data: { title: notification?.title || '', message: notification.message, icon: notification.icon },
+                    life: 3000
+                })
             }
-        } catch (error) {
-            console.error('Failed to fetch notifications:', error);
         }
+
     }
 
-
-    clearDisplayedHistory() {
-        this.displayedNotificationIds.clear();
-    }
-
-
-    clearQueue() {
-        this.notificationQueue = [];
-        this.pendingCount.set(0);
-    }
-
-    private delay(ms: number): Promise<void> {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
 }

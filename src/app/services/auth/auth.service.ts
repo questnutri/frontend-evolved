@@ -64,14 +64,12 @@ export class AuthService {
                 this.storageService.remove('auth');
             }
         });
-        
-effect(() => {
+
+        effect(() => {
             if (this.isAuthenticated()) {
                 this.notificationService.startPolling();
             } else {
                 this.notificationService.stopPolling();
-                this.notificationService.clearQueue();
-                this.notificationService.clearDisplayedHistory();
             }
         });
     };
