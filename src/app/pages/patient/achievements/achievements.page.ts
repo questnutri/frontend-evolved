@@ -8,7 +8,6 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { FormsModule } from '@angular/forms';
 import { GameService } from 'src/app/services/game/game.service';
 import { GameTrackModel } from 'src/app/shared/models/track.model';
-import { BackButtonComponent } from "src/app/shared/components/core/back-button/back-button.component";
 
 const RARITY_ORDER: Record<string, number> = {
     'COMMON': 4,
@@ -35,7 +34,7 @@ export interface AchievementWithProgress {
     selector: 'app-achievements',
     templateUrl: './achievements.page.html',
     styleUrls: ['./achievements.page.scss'],
-    imports: [AchievementCardComponent, CommonModule, MultiSelectModule, DatePickerModule, FormsModule, BackButtonComponent],
+    imports: [AchievementCardComponent, CommonModule, MultiSelectModule, DatePickerModule, FormsModule],
 })
 export class AchievementsPage implements OnInit {
     private readonly achievementService = inject(AchievementService);
