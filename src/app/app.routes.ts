@@ -11,7 +11,6 @@ import { NutritionistRegisterPage } from './pages/not-logged/nutritionist-regist
 import { RealLandingComponent } from './pages/real-landing/real-landing';
 import { NutritionistGuard } from './guards/nutritionist-guard';
 import { NutritionistProfilePage } from './pages/nutritionist/profile/profile.component';
-import { PatientPage } from './pages/patient/patient.page';
 import { PatientHomePage } from './pages/patient/patient-home/patient-home.page';
 import { PatientGuard } from './guards/patient-guard';
 import { NutritionistPatientsPage } from './pages/nutritionist/patients-list/patients-list.page';
@@ -21,6 +20,7 @@ import { NutritionistPatientHealthSection } from './pages/nutritionist/patient-d
 import { NutritionistPatientDietsSection } from './pages/nutritionist/patient-details/sections/diets/diets.section';
 import { NutritionistPatientRecordsSection } from './pages/nutritionist/patient-details/sections/records/records.section';
 import { PatientDietDetailsPage } from './pages/nutritionist/diet-details/diet-details.page';
+import { AchievementsPage } from './pages/patient/achievements/achievements.page';
 
 export const routes: Routes = [
     {
@@ -93,7 +93,6 @@ export const routes: Routes = [
             },
             {
                 path: 'patient',
-                component: PatientPage,
                 canMatch: [AuthGuard, PatientGuard],
                 children: [
                     {
@@ -104,6 +103,10 @@ export const routes: Routes = [
                     {
                         path: 'home',
                         component: PatientHomePage
+                    },
+                    {
+                        path: 'achievements',
+                        component: AchievementsPage
                     }
                     ,
                     // {

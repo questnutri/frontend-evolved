@@ -3,16 +3,13 @@ import { NotificationService } from '@qn/services';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from "primeng/toast";
 import { DeviceService } from 'src/app/services/device/device.service';
+import { Button } from "primeng/button";
 
 @Component({
     selector: 'qn-global-toast',
-    imports: [ToastModule],
-    template: `
-    <p-toast [style.width]="deviceService.isMobileSize() ? '90vw' : '400px'"
-    [position]="deviceService.isMobileSize() ? 'bottom-right' : 'top-right'">
-</p-toast>
-    `,
-    styles: ``,
+    imports: [ToastModule, Button],
+    templateUrl: `./global-toast.component.html`,
+    styleUrls: ['./global-toast.component.scss'],
     providers: [MessageService]
 })
 export class QnGlobalToastComponent {
@@ -23,7 +20,7 @@ export class QnGlobalToastComponent {
     constructor() {
         this.notificationService.notifications$.subscribe(message => {
             if (message) {
-                this.messageService.add({...message});
+                this.messageService.add({ ...message });
             }
         });
     }

@@ -1,177 +1,153 @@
 <!-- Navigation -->
-<nav style="position:fixed;top:0;width:100%;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);z-index:1000;">
-  <div style="max-width:1200px;margin:0 auto;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;">
-    <img src="logo/qn-fit.png" alt="QuestNutri Logo" style="height:60px;">
-    <ul style="display:flex;list-style:none;gap:2rem;align-items:center;margin:0;padding:0;">
-      <li><a href="#hero" style="text-decoration:none;color:#1f2937;font-weight:500;">Início</a></li>
-      <li><a href="#features" style="text-decoration:none;color:#1f2937;font-weight:500;">Funcionalidades</a></li>
-      <li><a href="#highlights" style="text-decoration:none;color:#1f2937;font-weight:500;">Benefícios</a></li>
-      <li><a href="#pricing" style="text-decoration:none;color:#1f2937;font-weight:500;">Planos</a></li>
-      <li><a href="#contact" style="text-decoration:none;color:#fff;background:#4f46e5;padding:0.5rem 1.5rem;border-radius:8px;">Comece Agora</a></li>
+<nav class="landing-nav">
+  <div class="landing-nav__container">
+    <img src="logo/qn-fit.png" alt="QuestNutri Logo" class="landing-nav__logo">
+    <ul class="landing-nav__menu">
+      <li class="landing-nav__menu-item"><a href="#hero" (click)="scrollToSection($event, 'hero')" class="landing-nav__link">Início</a></li>
+      <li class="landing-nav__menu-item"><a href="#features" (click)="scrollToSection($event, 'features')" class="landing-nav__link">Funcionalidades</a></li>
+      <li class="landing-nav__menu-item"><a href="#highlights" (click)="scrollToSection($event, 'highlights')" class="landing-nav__link">Benefícios</a></li>
+      <li class="landing-nav__menu-item"><a href="#pricing" (click)="scrollToSection($event, 'pricing')" class="landing-nav__link">Plano</a></li>
     </ul>
   </div>
 </nav>
 
 <!-- Wrapper to offset the fixed nav -->
-<div style="height: 100%; overflow-y: auto;">
+<div class="landing-page">
 
   <!-- Hero Section -->
-  <section id="hero" style="min-height:100vh;display:flex;align-items:center;background:linear-gradient(135deg,var(--primary-color) 0%,var(--primary-color-hover) 100%);color:#fff;position:relative;overflow:hidden;padding:4rem 2rem;">
-    <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
-      <div>
-        <h1 style="font-size:3.5rem;font-weight:800;line-height:1.1;margin-bottom:1.5rem;">Transforme sua <span style="background:linear-gradient(45deg,#06d6a0,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Jornada Nutricional</span></h1>
-        <p style="font-size:1.25rem;margin-bottom:2rem;opacity:0.9;">
-          QuestNutri conecta ciência, tecnologia e motivação para criar mudanças duradouras de estilo de vida
-          através de nutrição personalizada e experiências gamificadas de bem-estar.
+  <section id="hero" class="landing-hero">
+    <div class="landing-hero__container">
+      <div class="landing-hero__content">
+        <h1 class="landing-hero__title">A Plataforma Completa para <span class="landing-hero__title-highlight">Nutricionistas</span></h1>
+        <p class="landing-hero__description">
+          Gerencie seus pacientes, crie planos alimentares personalizados e acompanhe resultados 
+          com uma experiência gamificada que motiva seus pacientes a seguirem a dieta.
         </p>
-        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-          <button style="padding:0.75rem 2rem;border-radius:8px;font-weight:600;border:none;cursor:pointer;background:#ffffff;color:var(--primary-color);">Comece sua Jornada</button>
-          <button style="padding:0.75rem 2rem;border-radius:8px;font-weight:600;border:2px solid white;cursor:pointer;background:transparent;color:white;">Ver Demonstração</button>
+        <div class="landing-hero__actions">
+          <a routerLink="/login" class="landing-hero__btn landing-hero__btn--primary">Acessar Plataforma</a>
+          <button class="landing-hero__btn landing-hero__btn--secondary" (click)="scrollToSection($event, 'pricing')">Teste por 14 dias grátis</button>
         </div>
       </div>
-      <div style="position:relative;">
-        <div style="background:#fff;color:#1f2937;padding:1.5rem;border-radius:12px;box-shadow:0 20px 25px -5px rgba(0,0,0,0.1);margin-bottom:1rem;animation:float1 3s ease-in-out infinite;">
-          <h3 style="margin-top:0.5rem;font-size:1rem;">Planos Personalizados</h3>
+      <div class="landing-hero__cards">
+        <div class="landing-hero__card landing-hero__card--first">
+          <h3 class="landing-hero__card-title">Gestão de Pacientes</h3>
         </div>
-        <div style="background:#fff;color:#1f2937;padding:1.5rem;border-radius:12px;box-shadow:0 20px 25px -5px rgba(0,0,0,0.1);margin-bottom:1rem;margin-left:2rem;animation:float2 3s ease-in-out infinite 1s;">
-          <h3 style="margin-top:0.5rem;font-size:1rem;">Acompanhamento em Tempo Real</h3>
+        <div class="landing-hero__card landing-hero__card--second">
+          <h3 class="landing-hero__card-title">Planos Alimentares Inteligentes</h3>
         </div>
-        <div style="background:#fff;color:#1f2937;padding:1.5rem;border-radius:12px;box-shadow:0 20px 25px -5px rgba(0,0,0,0.1);margin-bottom:1rem;margin-left:4rem;animation:float3 3s ease-in-out infinite 2s;">
-          <h3 style="margin-top:0.5rem;font-size:1rem;">Experiência Gamificada</h3>
+        <div class="landing-hero__card landing-hero__card--third">
+          <h3 class="landing-hero__card-title">Engajamento Gamificado</h3>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Features Section -->
-  <section id="features" style="padding:6rem 2rem;background:#fff;">
-    <div style="text-align:center;margin-bottom:3rem;">
-      <h2 style="font-size:2.5rem;font-weight:700;margin-bottom:1rem;color:#1f2937;">Funcionalidades Poderosas para sua Saúde</h2>
-      <p style="font-size:1.25rem;color:#6b7280;">Tudo que você precisa para ter sucesso na sua jornada nutricional</p>
+  <section id="features" class="landing-features">
+    <div class="landing-features__header">
+      <h2 class="landing-features__title">Funcionalidades que Transformam sua Prática</h2>
+      <p class="landing-features__subtitle">Ferramentas profissionais para elevar o atendimento aos seus pacientes</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;">
-      <div style="text-align:center;padding:2rem;border-radius:12px;transition:transform 0.3s ease;box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-        <div style="font-size:3rem;margin-bottom:1rem;">👨‍⚕️</div>
-        <h3 style="font-size:1.5rem;margin-bottom:1rem;color:#1f2937;">Ambiente Profissional</h3>
-        <p style="color:#6b7280;line-height:1.6;">Kit completo para nutricionistas gerenciarem pacientes, criarem dietas personalizadas e acompanharem o progresso com insights visuais.</p>
+    <div class="landing-features__grid">
+      <div class="landing-features__card">
+        <div class="landing-features__card-icon">👥</div>
+        <h3 class="landing-features__card-title">Gestão de Pacientes</h3>
+        <p class="landing-features__card-description">Organize todos os seus pacientes em um só lugar. Histórico completo, evolução e consultas sempre acessíveis.</p>
       </div>
-      <div style="text-align:center;padding:2rem;border-radius:12px;transition:transform 0.3s ease;box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-        <div style="font-size:3rem;margin-bottom:1rem;">📱</div>
-        <h3 style="font-size:1.5rem;margin-bottom:1rem;color:#1f2937;">Companheiro Pessoal</h3>
-        <p style="color:#6b7280;line-height:1.6;">Experiência móvel intuitiva para pacientes acompanharem refeições, progresso e celebrarem conquistas.</p>
+      <div class="landing-features__card">
+        <div class="landing-features__card-icon">🍽️</div>
+        <h3 class="landing-features__card-title">Planos Alimentares</h3>
+        <p class="landing-features__card-description">Crie dietas personalizadas com nossa base de alimentos completa. Calcule macros automaticamente, programe múltiplas dietas ao mesmo tempo.</p>
       </div>
-      <div style="text-align:center;padding:2rem;border-radius:12px;transition:transform 0.3s ease;box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-        <div style="font-size:3rem;margin-bottom:1rem;">🎯</div>
-        <h3 style="font-size:1.5rem;margin-bottom:1rem;color:#1f2937;">Análises Inteligentes</h3>
-        <p style="color:#6b7280;line-height:1.6;">Ferramentas avançadas de análise e relatórios oferecem insights práticos para melhores decisões.</p>
+      <div class="landing-features__card">
+        <div class="landing-features__card-icon">🎮</div>
+        <h3 class="landing-features__card-title">Gamificação</h3>
+        <p class="landing-features__card-description">Seus pacientes ganham conquistas ao seguirem o plano. Aumente a adesão de seus pacientes!</p>
       </div>
-      <div style="text-align:center;padding:2rem;border-radius:12px;transition:transform 0.3s ease;box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-        <div style="font-size:3rem;margin-bottom:1rem;">🔗</div>
-        <h3 style="font-size:1.5rem;margin-bottom:1rem;color:#1f2937;">Integração Fácil</h3>
-        <p style="color:#6b7280;line-height:1.6;">Conecte-se com seus aplicativos e dispositivos de saúde para acompanhamento completo do bem-estar.</p>
+      <div class="landing-features__card">
+        <div class="landing-features__card-icon">📊</div>
+        <h3 class="landing-features__card-title">Relatórios Detalhados</h3>
+        <p class="landing-features__card-description">Acompanhe a evolução dos pacientes com gráficos e métricas. Identifique padrões e ajuste estratégias rapidamente.</p>
+      </div>
+      <div class="landing-features__card">
+        <div class="landing-features__card-icon">📱</div>
+        <h3 class="landing-features__card-title">App para Pacientes</h3>
+        <p class="landing-features__card-description">Seus pacientes acessam o plano alimentar, registram refeições, consumo de água, peso, e acompanham o progresso pelo celular.</p>
       </div>
     </div>
   </section>
 
   <!-- Highlights Section -->
-  <section id="highlights" style="padding:6rem 2rem;background:#f9fafb;">
-    <div style="text-align:center;margin-bottom:3rem;">
-      <h2 style="font-size:2.5rem;font-weight:700;color:#1f2937;">Por que escolher QuestNutri?</h2>
+  <section id="highlights" class="landing-highlights">
+    <div class="landing-highlights__header">
+      <h2 class="landing-highlights__title">Por que Nutricionistas Escolhem o QuestNutri?</h2>
     </div>
-    <div style="display:flex;flex-direction:column;gap:4rem;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
-        <div>
-          <h3 style="font-size:2rem;margin-bottom:1rem;color:#1f2937;">Dietas Personalizadas</h3>
-          <p style="font-size:1.125rem;color:#6b7280;margin-bottom:1.5rem;">Planejamento de refeições com IA que se adapta às suas necessidades nutricionais, preferências e objetivos de saúde.</p>
-          <ul style="list-style:none;padding:0;">
-            <li style="display:flex;align-items:center;margin-bottom:0.5rem;"><span style="color:#06d6a0;font-weight:bold;margin-right:0.5rem;">✓</span>Cálculo personalizado de macros</li>
-            <li style="display:flex;align-items:center;margin-bottom:0.5rem;"><span style="color:#06d6a0;font-weight:bold;margin-right:0.5rem;">✓</span>Suporte a restrições alimentares</li>
-            <li style="display:flex;align-items:center;margin-bottom:0.5rem;"><span style="color:#06d6a0;font-weight:bold;margin-right:0.5rem;">✓</span>Ajustes dinâmicos nas refeições</li>
-          </ul>
-        </div>
-        <div style="display:flex;justify-content:center;align-items:center;">
-          <div style="font-size:6rem;background:#fff;width:150px;height:150px;border-radius:50%;display:flex;justify-content:center;align-items:center;box-shadow:0 20px 25px -5px rgba(0,0,0,0.1);">🍽️</div>
-        </div>
+    <div class="landing-highlights__content">
+      <div class="landing-highlights__card">
+        <div class="landing-highlights__icon-circle">🏆</div>
+        <h3 class="landing-highlights__subtitle">Aumente a Adesão</h3>
+        <p class="landing-highlights__description">A gamificação transforma o acompanhamento nutricional em uma experiência envolvente. Pacientes motivados seguem o plano por mais tempo.</p>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
-        <div style="order:2;">
-          <h3 style="font-size:2rem;margin-bottom:1rem;color:#1f2937;">Monitoramento em Tempo Real</h3>
-          <p style="font-size:1.125rem;color:#6b7280;margin-bottom:1.5rem;">Acompanhe seu progresso facilmente com análises inteligentes e insights visuais que mantêm sua motivação.</p>
-          <ul style="list-style:none;padding:0;">
-            <li style="display:flex;align-items:center;margin-bottom:0.5rem;"><span style="color:#06d6a0;font-weight:bold;margin-right:0.5rem;">✓</span>Acompanhamento diário das refeições</li>
-            <li style="display:flex;align-items:center;margin-bottom:0.5rem;"><span style="color:#06d6a0;font-weight:bold;margin-right:0.5rem;">✓</span>Gráficos de progresso</li>
-            <li style="display:flex;align-items:center;margin-bottom:0.5rem;"><span style="color:#06d6a0;font-weight:bold;margin-right:0.5rem;">✓</span>Lembretes e alertas de metas</li>
-          </ul>
-        </div>
-        <div style="display:flex;justify-content:center;align-items:center;order:1;">
-          <div style="font-size:6rem;background:#fff;width:150px;height:150px;border-radius:50%;display:flex;justify-content:center;align-items:center;box-shadow:0 20px 25px -5px rgba(0,0,0,0.1);">📊</div>
-        </div>
+      <div class="landing-highlights__card">
+        <div class="landing-highlights__icon-circle">⏱️</div>
+        <h3 class="landing-highlights__subtitle">Economize Tempo</h3>
+        <p class="landing-highlights__description">Automatize tarefas repetitivas e foque no que importa: atender seus pacientes com qualidade e atenção.</p>
+      </div>
+      <div class="landing-highlights__card">
+        <div class="landing-highlights__icon-circle">📈</div>
+        <h3 class="landing-highlights__subtitle">Acompanhe Resultados</h3>
+        <p class="landing-highlights__description">Visualize o progresso de cada paciente com dashboards intuitivos. Tome decisões baseadas em dados concretos.</p>
       </div>
     </div>
   </section>
 
   <!-- Pricing Section -->
-  <section id="pricing" style="padding:6rem 2rem;background:#fff;">
-    <div style="text-align:center;margin-bottom:3rem;">
-      <h2 style="font-size:2.5rem;font-weight:700;color:#1f2937;">Planos</h2>
-      <p style="font-size:1.25rem;color:#6b7280;">Escolha o plano que combina com seu estilo de vida</p>
+  <section id="pricing" class="landing-pricing">
+    <div class="landing-pricing__header">
+      <h2 class="landing-pricing__title">Plano Único, Acesso Completo</h2>
+      <p class="landing-pricing__subtitle">Sem limitações. Tudo incluso por um preço justo.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;">
-      <div style="border:2px solid #e5e7eb;border-radius:12px;padding:2rem;text-align:center;">
-        <h3 style="font-size:1.5rem;margin-bottom:1rem;color:#1f2937;">Básico</h3>
-        <p style="font-size:2rem;font-weight:700;margin-bottom:1rem;color:#4f46e5;">R$9/mês</p>
-        <ul style="list-style:none;padding:0;margin-bottom:1rem;">
-          <li>Plano alimentar personalizado</li>
-          <li>Análises básicas</li>
-          <li>Acompanhamento pelo celular</li>
+    <div class="landing-pricing__single">
+      <div class="landing-pricing__card landing-pricing__card--single">
+        <h3 class="landing-pricing__card-name">QuestNutri Pro</h3>
+        <p class="landing-pricing__card-price">R$99<span class="landing-pricing__card-period">/mês</span></p>
+        <p class="landing-pricing__card-description">Acesso completo a todas as funcionalidades</p>
+        <ul class="landing-pricing__card-features">
+          <li class="landing-pricing__card-feature">Pacientes ilimitados</li>
+          <li class="landing-pricing__card-feature">Planos alimentares ilimitados</li>
+          <li class="landing-pricing__card-feature">Gamificação completa</li>
+          <li class="landing-pricing__card-feature">App para pacientes</li>
+          <li class="landing-pricing__card-feature">Relatórios detalhados</li>
+          <li class="landing-pricing__card-feature">Suporte prioritário</li>
         </ul>
-        <button style="padding:0.75rem 2rem;border-radius:8px;font-weight:600;border:none;cursor:pointer;background:#4f46e5;color:#fff;">Selecionar</button>
-      </div>
-      <div style="border:2px solid #e5e7eb;border-radius:12px;padding:2rem;text-align:center;">
-        <h3 style="font-size:1.5rem;margin-bottom:1rem;color:#1f2937;">Pro</h3>
-        <p style="font-size:2rem;font-weight:700;margin-bottom:1rem;color:#4f46e5;">R$19/mês</p>
-        <ul style="list-style:none;padding:0;margin-bottom:1rem;">
-          <li>Análises avançadas</li>
-          <li>Acompanhamento gamificado</li>
-          <li>Integração com dispositivos</li>
-        </ul>
-        <button style="padding:0.75rem 2rem;border-radius:8px;font-weight:600;border:none;cursor:pointer;background:#4f46e5;color:#fff;">Selecionar</button>
-      </div>
-      <div style="border:2px solid #e5e7eb;border-radius:12px;padding:2rem;text-align:center;">
-        <h3 style="font-size:1.5rem;margin-bottom:1rem;color:#1f2937;">Empresarial</h3>
-        <p style="font-size:2rem;font-weight:700;margin-bottom:1rem;color:#4f46e5;">Personalizado</p>
-        <ul style="list-style:none;padding:0;margin-bottom:1rem;">
-          <li>Gestão de equipes</li>
-          <li>Relatórios personalizados</li>
-          <li>Suporte dedicado</li>
-        </ul>
-        <button style="padding:0.75rem 2rem;border-radius:8px;font-weight:600;border:none;cursor:pointer;background:#4f46e5;color:#fff;">Fale Conosco</button>
+        <button class="landing-pricing__card-btn" routerLink="/register">Começar Teste Grátis</button>
       </div>
     </div>
+    <p class="landing-pricing__note">14 dias de teste grátis. Cancele quando quiser.</p>
   </section>
 
   <!-- Footer -->
-  <footer id="contact" style="background:#1f2937;color:#fff;padding:4rem 2rem;">
-    <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem;">
-      <div>
-        <h3 style="font-size:1.5rem;margin-bottom:1rem;">QuestNutri</h3>
-        <p>Ajudando você a alcançar seus objetivos nutricionais com planos personalizados e acompanhamento em tempo real.</p>
+  <footer id="contact" class="landing-footer">
+    <div class="landing-footer__container">
+      <div class="landing-footer__section">
+        <h3 class="landing-footer__section-title">QuestNutri</h3>
+        <p class="landing-footer__section-text">A plataforma completa para nutricionistas que querem oferecer uma experiência diferenciada aos seus pacientes.</p>
       </div>
-      <div>
-        <h3 style="font-size:1.5rem;margin-bottom:1rem;">Links</h3>
-        <ul style="list-style:none;padding:0;">
-          <li><a href="#hero" style="color:#fff;text-decoration:none;">Início</a></li>
-          <li><a href="#features" style="color:#fff;text-decoration:none;">Funcionalidades</a></li>
-          <li><a href="#highlights" style="color:#fff;text-decoration:none;">Benefícios</a></li>
-          <li><a href="#pricing" style="color:#fff;text-decoration:none;">Planos</a></li>
+      <div class="landing-footer__section">
+        <h3 class="landing-footer__section-title">Links</h3>
+        <ul class="landing-footer__links">
+          <li class="landing-footer__links-item"><a href="#hero" (click)="scrollToSection($event, 'hero')" class="landing-footer__link">Início</a></li>
+          <li class="landing-footer__links-item"><a href="#features" (click)="scrollToSection($event, 'features')" class="landing-footer__link">Funcionalidades</a></li>
+          <li class="landing-footer__links-item"><a href="#highlights" (click)="scrollToSection($event, 'highlights')" class="landing-footer__link">Benefícios</a></li>
+          <li class="landing-footer__links-item"><a href="#pricing" (click)="scrollToSection($event, 'pricing')" class="landing-footer__link">Plano</a></li>
         </ul>
       </div>
-      <div>
-        <h3 style="font-size:1.5rem;margin-bottom:1rem;">Contato</h3>
-        <p>Email: support@questnutri.com</p>
-        <p>Telefone: +55 11 2345-6789</p>
+      <div class="landing-footer__section">
+        <h3 class="landing-footer__section-title">Contato</h3>
+        <p class="landing-footer__section-text">Email: questnutriapp&#64;gmail.com</p>
+        <p class="landing-footer__section-text">Seg-Sex: 9h às 18h</p>
       </div>
     </div>
-    <div style="text-align:center;margin-top:2rem;color:#9ca3af;">&copy; 2025 QuestNutri. Todos os direitos reservados.</div>
+    <div class="landing-footer__copyright">&copy; 2025 QuestNutri. Todos os direitos reservados.</div>
   </footer>
 </div>

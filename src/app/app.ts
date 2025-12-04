@@ -15,7 +15,6 @@ import { QnGlobalToastComponent } from '@qn/components/core';
     templateUrl: 'app.html',
     imports: [
         IonicModule,
-        RouterLink,
         QnGlobalToastComponent,
         RouterOutlet,
         QnGlobalToastComponent

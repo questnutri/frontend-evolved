@@ -1,0 +1,91 @@
+<div 
+    class="achievement-card rounded-xl border shadow-sm p-6 text-center bg-white transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+    [class.unlocked]="unlocked()"
+    [class.locked]="!unlocked()"
+    [attr.data-rarity]="achievement().rarity"
+>
+    <!-- Rarity Badge -->
+    <div 
+        class="absolute top-3 right-3 px-2 py-1 rounded-full text-xs font-semibold"
+        [ngClass]="rarityBadgeClass()"
+    >
+        {{ rarityLabel() }}
+    </div>
+
+    <!-- Icon Container -->
+    <div class="icon-wrapper mb-4">
+        <div
+            class="w-20 h-20 rounded-full mx-auto flex items-center justify-center shadow-lg transition-transform duration-300"
+            [ngClass]="iconBgClass()"
+        >
+            <i 
+                class="pi pi-star text-4xl transition-colors duration-300"
+                [ngClass]="{
+                    'text-white': unlocked(),
+                    'text-gray-500': !unlocked()
+                }"
+            ></i>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <h3 
+        class="mb-2 text-lg font-semibold transition-colors duration-300"
+        [ngClass]="{
+            'text-gray-900': unlocked(),
+            'text-gray-500': !unlocked()
+        }"
+    >
+        {{ name() }}
+    </h3>
+
+    <p 
+        class="mb-4 text-sm leading-relaxed transition-colors duration-300"
+        [ngClass]="{
+            'text-gray-600': unlocked(),
+            'text-gray-400': !unlocked()
+        }"
+    >
+        {{ description() }}
+    </p>
+
+    <!-- Progress Section (only for locked achievements with track) -->
+    @if(!unlocked() && trackType()) {
+    <div class="mb-4">
+        <div class="flex justify-between items-center text-xs text-gray-500 mb-1">
+            <span>{{ trackTypeLabel() }}</span>
+            <span>{{ currentValue() }} / {{ targetValue() }}</span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+            <div 
+                class="h-full rounded-full transition-all duration-300"
+                [ngClass]="progressBarClass()"
+                [style.width.%]="progressPercentage()"
+            ></div>
+        </div>
+    </div>
+    }
+
+    <!-- Status Badge -->
+    <div class="flex flex-col items-center gap-2">
+        <div
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-300"
+            [ngClass]="{
+                'bg-green-100 text-green-700': unlocked(),
+                'bg-gray-100 text-gray-500': !unlocked()
+            }"
+        >
+            @if(unlocked()) {
+                <i class="pi pi-check-circle text-xs"></i>
+                <span>Desbloqueado</span>
+            } @else {
+                <i class="pi pi-lock text-xs"></i>
+                <span>Bloqueado</span>
+            }
+        </div>
+        
+        @if(unlocked() && unlockedDate()) {
+            <span class="text-xs text-gray-400">{{ unlockedDate() }}</span>
+        }
+    </div>
+</div>

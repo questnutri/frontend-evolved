@@ -1,6 +1,6 @@
 import { ApiService } from './../api/api.service';
 import { inject, Injectable } from "@angular/core";
-import { Patient } from '@qn/models';
+import { Patient, PatientModel } from '@qn/models';
 import { ListResponse } from '@qn/types';
 import { firstValueFrom } from "rxjs";
 
@@ -33,6 +33,18 @@ export class PatientService {
         } catch (error) {
             console.log(error);
             return null;
+        }
+    }
+
+    async getMe(): Promise<PatientModel> {
+        try {
+            const response = await firstValueFrom(
+                this.apiService.authenticated.get<PatientModel>(`patient/me`)
+            );
+            return PatientModel.from(response);
+        } catch (error) {
+            console.log(error);
+            throw error;
         }
     }
 }

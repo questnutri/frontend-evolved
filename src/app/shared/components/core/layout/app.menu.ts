@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { AppMenuitem } from './app.menuitem';
 import { AuthService } from '@qn/services';
+import { UserRole } from '@qn/enums';
 
 @Component({
     selector: 'app-menu',
@@ -34,25 +35,49 @@ export class AppMenu {
     }
 
     buildMenu() {
-        const mainOption = {
-            label: '',
-            items: [
-                {
-                    label: 'Patients',
-                    icon: 'pi pi-fw pi-users',
-                    command: () => {
-                        this.router.navigate(['/nutritionist/patients']);
+        let mainOption = {};
+        if (this.authService.userRole() === UserRole.NUTRITIONIST) {
+            mainOption = {
+                label: '',
+                items: [
+                    {
+                        label: 'Perfil',
+                        icon: 'pi pi-fw pi-user',
+                        command: () => {
+                            this.router.navigate(['/nutritionist/profile']);
+                        }
+                    },
+                    {
+                        label: 'Seus pacientes',
+                        icon: 'pi pi-fw pi-users',
+                        command: () => {
+                            this.router.navigate(['/nutritionist/patients']);
+                        }
+                    },
+                ]
+            };
+        } else {
+            mainOption = {
+                label: '',
+                items: [
+                    {
+                        label: 'Home',
+                        icon: 'pi pi-fw pi-home',
+                        command: () => {
+                            this.router.navigate(['/patient/home']);
+                        }
+                    },
+                    {
+                        label: 'Suas conquistas',
+                        icon: 'pi pi-fw pi-trophy',
+                        command: () => {
+                            this.router.navigate(['/patient/achievements']);
+                        }
                     }
-                },
-                {
-                    label: 'Profile',
-                    icon: 'pi pi-fw pi-user',
-                    command: () => {
-                        this.router.navigate(['/nutritionist/profile']);
-                    }
-                },
-            ]
-        };
+                ]
+            }
+        }
+
         this.addMenuOption(mainOption);
         this.addLogoutOption();
     }
