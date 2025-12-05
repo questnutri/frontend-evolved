@@ -147,6 +147,11 @@
                 color: #EF4444;
             }
         }
+        
+        &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
     }
     
     .input-panel {
@@ -157,21 +162,11 @@
         border-radius: 1rem;
         animation: slideDown 0.3s ease-out;
         
-        .input-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            
-            @media (max-width: 480px) {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .input-field {
+        .input-field-single {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            margin-bottom: 1rem;
             
             label {
                 font-size: 0.875rem;

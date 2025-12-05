@@ -26,7 +26,11 @@
             alignItems="center"
         >
             <h2>Meus Pacientes</h2>
-            <qn-button label="Novo Paciente" icon="pi pi-user-plus" />
+            <qn-button 
+                label="Novo Paciente" 
+                icon="pi pi-user-plus" 
+                (click)="openNewPatientDialog()"
+            />
         </qn-div>
 
         <qn-div
@@ -100,10 +104,7 @@
                                         object-fit: cover;
                                     "
                                 />
-                                <strong
-                                    >{{ patient?.firstName }} {{
-                                    patient?.lastName }}</strong
-                                >
+                                <strong>{{ patient?.firstName }} {{ patient?.lastName }}</strong>
                             </div>
                         </td>
                         <td>{{ patient.email }}</td>
@@ -156,9 +157,173 @@
     </qn-div>
 </qn-div>
 
-//TODO: PERFIL DO USUARIO - FIGMA //TODO: INFORMATION => TODOS OS CAMPOS => BMI
-É CALCULADO => COLOCAR DROPDOWN NIVEL DE ATIVIDADE FISICA //TODO: DIETS =>
-MANTER COMO ESTA, SOMENTE RETIRAR O COMPLIANCE E SUBSTITUIR PELOS 3 PONTOS =>
-ABRE UM DROPDOWN PARA EDITAR/DELETAR/ATIVAR //TODO: HEALTH DATA => //TODO:
-LANDING PAGE QUESTNUTRI //TODO: VISUALIZAÇÃO DA DIETA: MANTER ESTILO FIGMA,
-TROCAR O TOTAL KCAL POR BOTAO, DATA COM OPÇAO DE AVANCAR E RETROCEDER A DATA
+<!-- New Patient Dialog -->
+<p-dialog
+    header="Novo Paciente"
+    [(visible)]="showNewPatientDialog"
+    [modal]="true"
+    [closable]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '600px', maxWidth: '95vw' }"
+    styleClass="new-patient-dialog"
+    (onHide)="closeNewPatientDialog()"
+>
+    <div class="dialog-content">
+        <!-- Section: Informações Básicas -->
+        <div class="form-section">
+            <h4 class="section-title">
+                <i class="pi pi-user"></i>
+                Informações Básicas
+            </h4>
+            
+            <div class="form-row">
+                <div class="form-field">
+                    <qn-text-input
+                        qnLabel="Nome *"
+                        [value]="newPatient().firstName"
+                        (valueChange)="updateFormField('firstName', $event ?? '')"
+                        placeholder="Digite o nome"
+                        width="100%"
+                    />
+                </div>
+                <div class="form-field">
+                    <qn-text-input
+                        qnLabel="Sobrenome *"
+                        [value]="newPatient().lastName"
+                        (valueChange)="updateFormField('lastName', $event ?? '')"
+                        placeholder="Digite o sobrenome"
+                        width="100%"
+                    />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <qn-text-input
+                        qnLabel="E-mail *"
+                        type="email"
+                        [value]="newPatient().email"
+                        (valueChange)="updateFormField('email', $event ?? '')"
+                        placeholder="email@exemplo.com"
+                        width="100%"
+                    />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <qn-mask-input
+                        qnLabel="CPF *"
+                        [mask]="'999.999.999-99'"
+                        [value]="newPatient().documentNumber"
+                        (valueChange)="updateFormField('documentNumber', $event ?? '')"
+                        placeholder="000.000.000-00"
+                        width="100%"
+                    />
+                </div>
+                <div class="form-field">
+                    <qn-mask-input
+                        qnLabel="Telefone"
+                        [mask]="'+55 (99) 99999-9999'"
+                        [value]="newPatient().phone ?? ''"
+                        (valueChange)="updateFormField('phone', $event ?? '')"
+                        placeholder="+55 (99) 99999-9999"
+                        width="100%"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Dados Pessoais -->
+        <div class="form-section">
+            <h4 class="section-title">
+                <i class="pi pi-id-card"></i>
+                Dados Pessoais
+            </h4>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label class="field-label">Data de Nascimento</label>
+                    <p-datepicker
+                        [ngModel]="newPatient().dateOfBirth"
+                        (ngModelChange)="updateFormField('dateOfBirth', $event)"
+                        dateFormat="dd/mm/yy"
+                        [maxDate]="today"
+                        [showIcon]="true"
+                        placeholder="Selecione a data"
+                        styleClass="w-full"
+                        appendTo="body"
+                    />
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Gênero</label>
+                    <p-select
+                        [options]="genderOptions"
+                        [ngModel]="newPatient().gender"
+                        (ngModelChange)="updateFormField('gender', $event)"
+                        optionLabel="label"
+                        optionValue="value"
+                        placeholder="Selecione o gênero"
+                        styleClass="w-full"
+                        appendTo="body"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Dados Físicos -->
+        <div class="form-section">
+            <h4 class="section-title">
+                <i class="pi pi-heart"></i>
+                Dados Físicos
+            </h4>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label class="field-label">Altura (cm)</label>
+                    <p-inputNumber
+                        [ngModel]="newPatient().heightInCm"
+                        (ngModelChange)="updateFormField('heightInCm', $event)"
+                        [min]="50"
+                        [max]="250"
+                        placeholder="Ex: 170"
+                        styleClass="w-full"
+                        [showButtons]="false"
+                    />
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Nível de Atividade</label>
+                    <p-select
+                        [options]="activityLevelOptions"
+                        [ngModel]="newPatient().levelOfActivity"
+                        (ngModelChange)="updateFormField('levelOfActivity', $event)"
+                        optionLabel="label"
+                        optionValue="value"
+                        placeholder="Selecione o nível"
+                        styleClass="w-full"
+                        appendTo="body"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="dialog-footer">
+            <qn-button
+                label="Cancelar"
+                type="outline"
+                (click)="closeNewPatientDialog()"
+                [disabled]="saving()"
+            />
+            <qn-button
+                label="Criar Paciente"
+                icon="pi pi-check"
+                (click)="saveNewPatient()"
+                [disabled]="saving()"
+                [loading]="saving()"
+            />
+        </div>
+    </ng-template>
+</p-dialog>

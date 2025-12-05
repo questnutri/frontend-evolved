@@ -12,3 +12,4 @@ export * from './aliment/aliment.service';
 export * from './food/food.service';
 export * from './water/water.service';
 export * from './meal/meal.service';
+export * from './meal-record';

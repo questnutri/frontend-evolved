@@ -109,7 +109,7 @@ export class NotificationService implements OnDestroy {
         const token = this.storageService.get<AuthPayload>('auth')?.accessToken;
         if (token) {
             const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-            const fullUrl = `${this.BACKEND_GATEWAY_URL}/notification/me/all`;
+            const fullUrl = `${this.BACKEND_GATEWAY_URL}/notification/me`;
             try {
                 const notifications = await firstValueFrom(this.http.get<any[]>(fullUrl, { headers }));
                 return notifications;

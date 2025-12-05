@@ -430,7 +430,7 @@ export class AppTopbar implements OnInit {
 
     // Add computed signal for logo source
     logoSrc = computed(() => {
-        return this.layoutService.theme() == 'dark' ? 'logo/qn-dark-fit.svg' : 'logo/qn-fit.png';
+        return this.layoutService.theme() == 'dark' ? 'logo/qn-fit.png' : 'logo/qn-fit.png';
     });
 
     items!: MenuItem[];

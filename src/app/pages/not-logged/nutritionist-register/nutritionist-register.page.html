@@ -45,7 +45,7 @@
                 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             gap: 10px;
             box-sizing: border-box;
-            max-height: 570px;
+            max-height: 620px;
         "
     >
         <!-- Stepper Container -->
@@ -251,11 +251,30 @@
                                         max-width: 600px;
                                     "
                                 >
-                                    <qn-text-input
-                                        qnLabel="Nome"
-                                        width="100%"
-                                        [(value)]="name"
-                                    />
+                                    <!-- Name Row -->
+                                    <div
+                                        style="
+                                            display: flex;
+                                            gap: 10px;
+                                            width: 100%;
+                                            flex-wrap: wrap;
+                                        "
+                                    >
+                                        <div style="flex: 1 1 150px; min-width: 150px;">
+                                            <qn-text-input
+                                                qnLabel="Nome"
+                                                width="100%"
+                                                [(value)]="firstName"
+                                            />
+                                        </div>
+                                        <div style="flex: 1 1 150px; min-width: 150px;">
+                                            <qn-text-input
+                                                qnLabel="Sobrenome"
+                                                width="100%"
+                                                [(value)]="lastName"
+                                            />
+                                        </div>
+                                    </div>
                                     <qn-text-input
                                         type="email"
                                         qnLabel="E-mail"
@@ -305,7 +324,7 @@
                                     gap: 7px;
                                     padding: 0px 16px;
                                     align-items: center;
-                                    min-height: 230px;
+                                    min-height: 280px;
                                     width: 100%;
                                     box-sizing: border-box;
                                 "
@@ -320,7 +339,7 @@
                                         max-width: 600px;
                                     "
                                 >
-                                    <!-- Document Row - Responsivo -->
+                                    <!-- Document Row -->
                                     <div
                                         style="
                                             display: flex;
@@ -329,12 +348,7 @@
                                             flex-wrap: wrap;
                                         "
                                     >
-                                        <div
-                                            style="
-                                                flex: 1 1 120px;
-                                                min-width: 120px;
-                                            "
-                                        >
+                                        <div style="flex: 1 1 120px; min-width: 120px;">
                                             <qn-drop-down
                                                 [options]="optionsDocument"
                                                 [(value)]="selectedDocument"
@@ -343,12 +357,7 @@
                                             />
                                         </div>
 
-                                        <div
-                                            style="
-                                                flex: 2 1 200px;
-                                                min-width: 0;
-                                            "
-                                        >
+                                        <div style="flex: 2 1 200px; min-width: 0;">
                                             <qn-mask-input
                                                 qnLabel="Número do Documento"
                                                 [mask]="documentMask()"
@@ -363,7 +372,7 @@
                                         qnLabel="CRN"
                                         [mask]="'CRN-9/99999'"
                                         [(value)]="crn"
-                                        [placeholder]="'CRN - 9/99999'"
+                                        [placeholder]="'CRN-9/99999'"
                                         width="100%"
                                     />
 
@@ -373,6 +382,15 @@
                                         [(value)]="phone"
                                         [placeholder]="'+55 (99) 99999-9999'"
                                         width="100%"
+                                    />
+
+                                    <!-- Gender (Optional) -->
+                                    <qn-drop-down
+                                        [options]="optionsGender"
+                                        [(value)]="selectedGender"
+                                        qnLabel="Gênero (opcional)"
+                                        width="100%"
+                                        placeholder="Selecione seu gênero"
                                     />
                                 </div>
                             </div>
@@ -404,7 +422,7 @@
                                         (click)="activateCallback(1)"
                                     />
                                     <qn-button
-                                        label="Continuar"
+                                        label="Finalizar Cadastro"
                                         width="80%"
                                         (click)="finishRegistration()"
                                     />

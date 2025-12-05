@@ -673,3 +673,251 @@
 ::ng-deep .p-datatable .p-datatable-tbody > tr.p-row-odd:hover {
     background-color: var(--secondary-background-color);
 }
+
+/* ===========================================
+   NEW PATIENT DIALOG
+   =========================================== */
+::ng-deep .new-patient-dialog {
+    &.p-dialog {
+        border: none !important;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+    }
+    
+    .p-dialog-header {
+        background: var(--primary-color);
+        color: white;
+        border-radius: var(--border-radius-input) var(--border-radius-input) 0 0;
+        padding: 1.25rem 1.5rem;
+        border: none !important;
+        
+        .p-dialog-title {
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+        
+        .p-dialog-header-icons {
+            .p-dialog-header-close {
+                color: white;
+                
+                &:hover {
+                    background: rgba(255, 255, 255, 0.1);
+                }
+            }
+        }
+    }
+    
+    .p-dialog-content {
+        padding: 0;
+        overflow: visible !important;
+        border: none !important;
+    }
+    
+    .p-dialog-footer {
+        border-top: 1px solid var(--primary-border-color);
+        padding: 1rem 1.5rem;
+        background: var(--secondary-background-color);
+        border-radius: 0 0 var(--border-radius-input) var(--border-radius-input);
+    }
+}
+
+.dialog-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-height: 60vh;
+    overflow-y: auto;
+    overflow-x: visible;
+}
+
+.form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin: 0;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--primary-border-color);
+        
+        i {
+            font-size: 1rem;
+        }
+    }
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    align-items: end;
+    
+    @media (max-width: 500px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    
+    .field-label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--primary-font-color);
+        line-height: 1.2;
+        min-height: 1.05rem;
+    }
+}
+
+.dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+/* PrimeNG Input Customization for Dialog */
+::ng-deep .new-patient-dialog {
+    .p-inputnumber,
+    .p-datepicker,
+    .p-select {
+        width: 100%;
+    }
+    
+    .p-inputnumber-input,
+    .p-datepicker-input,
+    .p-select-label {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--primary-border-color);
+        border-radius: var(--border-radius-input);
+        font-size: 0.875rem;
+        transition: all 0.2s ease;
+        height: 46px;
+        box-sizing: border-box;
+    }
+    
+    .p-select {
+        height: 46px;
+        
+        .p-select-label {
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            border: none;
+            height: 100%;
+        }
+        
+        .p-select-dropdown {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+    }
+    
+    .p-inputnumber-input:focus,
+    .p-datepicker-input:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px rgba(87, 181, 251, 0.2);
+    }
+    
+    .p-datepicker-trigger {
+        background: var(--secondary-background-color);
+        border: 1px solid var(--primary-border-color);
+        border-left: none;
+        color: var(--secondary-font-color);
+        height: 46px;
+        
+        &:hover {
+            background: var(--primary-border-color);
+        }
+    }
+    
+    .p-datepicker-input-icon-container {
+        height: 46px;
+        
+        .p-datepicker-input {
+            height: 46px;
+        }
+    }
+}
+
+/* Scrollbar for dialog content */
+.dialog-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dialog-content::-webkit-scrollbar-track {
+    background: var(--secondary-background-color);
+    border-radius: 3px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+    background: var(--primary-border-color);
+    border-radius: 3px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+/* Dialog Responsive */
+@media (max-width: 768px) {
+    ::ng-deep .new-patient-dialog {
+        &.p-dialog {
+            width: 95vw !important;
+            margin: 0.5rem;
+        }
+        
+        .p-dialog-header {
+            padding: 1rem;
+            
+            .p-dialog-title {
+                font-size: 1.125rem;
+            }
+        }
+        
+        .p-dialog-footer {
+            padding: 0.75rem 1rem;
+        }
+    }
+    
+    .dialog-content {
+        padding: 1rem;
+        gap: 1.25rem;
+    }
+    
+    .form-section .section-title {
+        font-size: 0.9375rem;
+    }
+    
+    .dialog-footer {
+        flex-direction: column-reverse;
+        
+        qn-button {
+            width: 100%;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .dialog-content {
+        padding: 0.75rem;
+        max-height: 50vh;
+    }
+    
+    .form-row {
+        gap: 0.75rem;
+    }
+    
+    .form-field .field-label {
+        font-size: 0.8125rem;
+    }
+}

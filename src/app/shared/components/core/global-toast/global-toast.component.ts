@@ -3,11 +3,10 @@ import { NotificationService } from '@qn/services';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from "primeng/toast";
 import { DeviceService } from 'src/app/services/device/device.service';
-import { Button } from "primeng/button";
 
 @Component({
     selector: 'qn-global-toast',
-    imports: [ToastModule, Button],
+    imports: [ToastModule],
     templateUrl: `./global-toast.component.html`,
     styleUrls: ['./global-toast.component.scss'],
     providers: [MessageService]

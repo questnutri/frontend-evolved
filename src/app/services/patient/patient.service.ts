@@ -4,6 +4,19 @@ import { Patient, PatientModel } from '@qn/models';
 import { ListResponse } from '@qn/types';
 import { firstValueFrom } from "rxjs";
 
+interface CreatePatientPayload {
+    firstName: string;
+    lastName: string;
+    email: string;
+    documentNumber: string;
+    dateOfBirth?: string;
+    phone?: string;
+    gender?: string;
+    heightInCm?: string;
+    levelOfActivity?: string;
+}
+
+
 @Injectable({
     providedIn: 'root'
 })
@@ -46,5 +59,12 @@ export class PatientService {
             console.log(error);
             throw error;
         }
+    }
+
+    async create(payload: CreatePatientPayload): Promise<Patient> {
+        const response = await firstValueFrom(
+            this.apiService.authenticated.post<Patient>('/patient/register', payload)
+        );
+        return response;
     }
 }

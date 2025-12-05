@@ -18,7 +18,9 @@ export class AlimentModel implements Aliment {
     static from(aliment: Aliment): AlimentModel {
         const model = new AlimentModel();
         Object.assign(model, aliment);
-        model.portions = PortionsModel.from(aliment.portions);
+        if(aliment && aliment.portions) {
+            model.portions = PortionsModel.from(aliment.portions);
+        }
         return model;
     }
 

@@ -1,3 +1,757 @@
-<p>
-  nutritionist-patient-records works!
-</p>
+<div style="overflow-y: auto; height: 100%; padding: 30px">
+    <div class="records-container">
+        <!-- Insights Section -->
+        <section class="records-section insights-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <i class="pi pi-lightbulb"></i>
+                    <h2>Insights e Análises</h2>
+                </div>
+            </div>
+
+            <div class="insights-grid">
+                <!-- Meal Insight -->
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <i class="pi pi-calendar-plus"></i>
+                        <h4>Aderência à Dieta</h4>
+                    </div>
+                    <div class="insight-content">
+                        @if (mealStats().totalExpected === 0) {
+                        <p class="insight-text neutral">
+                            <i class="pi pi-info-circle"></i>
+                            Nenhuma refeição programada no período.
+                        </p>
+                        } @else if (mealStats().totalCompletionRate >= 80) {
+                        <p class="insight-text positive">
+                            <i class="pi pi-check-circle"></i>
+                            Excelente! O paciente está completando
+                            <strong
+                                >{{ mealStats().totalCompletionRate }}%</strong
+                            >
+                            das refeições programadas.
+                        </p>
+                        } @else if (mealStats().totalCompletionRate >= 50) {
+                        <p class="insight-text warning">
+                            <i class="pi pi-exclamation-triangle"></i>
+                            O paciente está completando
+                            <strong
+                                >{{ mealStats().totalCompletionRate }}%</strong
+                            >
+                            das refeições. Incentive maior aderência.
+                        </p>
+                        } @else {
+                        <p class="insight-text negative">
+                            <i class="pi pi-times-circle"></i>
+                            Atenção! Apenas
+                            <strong
+                                >{{ mealStats().totalCompletionRate }}%</strong
+                            >
+                            das refeições estão sendo concluídas.
+                        </p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Weight Insight -->
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <i class="pi pi-chart-line"></i>
+                        <h4>Evolução do Peso</h4>
+                    </div>
+                    <div class="insight-content">
+                        @if (weightStats().totalChange !== null) { @if
+                        (weightStats().changeDirection === 'down') {
+                        <p class="insight-text positive">
+                            <i class="pi pi-check-circle"></i>
+                            O paciente perdeu
+                            <strong
+                                >{{
+                                formatWeight(Math.abs(weightStats().totalChange!))
+                                }} kg</strong
+                            >
+                            desde o início do acompanhamento.
+                        </p>
+                        } @else if (weightStats().changeDirection === 'up') {
+                        <p class="insight-text warning">
+                            <i class="pi pi-exclamation-triangle"></i>
+                            O paciente ganhou
+                            <strong
+                                >{{ formatWeight(weightStats().totalChange!) }}
+                                kg</strong
+                            >
+                            desde o início do acompanhamento.
+                        </p>
+                        } @else {
+                        <p class="insight-text neutral">
+                            <i class="pi pi-minus-circle"></i>
+                            O peso do paciente permanece estável.
+                        </p>
+                        } } @else {
+                        <p class="insight-text neutral">
+                            <i class="pi pi-info-circle"></i>
+                            Dados insuficientes para análise.
+                        </p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Water Insight -->
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <i class="pi pi-sun"></i>
+                        <h4>Hidratação</h4>
+                    </div>
+                    <div class="insight-content">
+                        @if (waterStats().averagePercentage >= 80) {
+                        <p class="insight-text positive">
+                            <i class="pi pi-check-circle"></i>
+                            Excelente! O paciente está atingindo
+                            <strong
+                                >{{ waterStats().averagePercentage.toFixed(0)
+                                }}%</strong
+                            >
+                            da meta de água em média.
+                        </p>
+                        } @else if (waterStats().averagePercentage >= 50) {
+                        <p class="insight-text warning">
+                            <i class="pi pi-exclamation-triangle"></i>
+                            O paciente está atingindo
+                            <strong
+                                >{{ waterStats().averagePercentage.toFixed(0)
+                                }}%</strong
+                            >
+                            da meta. Incentive maior consumo de água.
+                        </p>
+                        } @else {
+                        <p class="insight-text negative">
+                            <i class="pi pi-times-circle"></i>
+                            Atenção! O paciente está consumindo apenas
+                            <strong
+                                >{{ waterStats().averagePercentage.toFixed(0)
+                                }}%</strong
+                            >
+                            da meta diária de água.
+                        </p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Consistency Insight -->
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <i class="pi pi-calendar"></i>
+                        <h4>Consistência</h4>
+                    </div>
+                    <div class="insight-content">
+                        @if (isNewPatient()) { @if (waterStats().completedDays
+                        === waterStats().totalDaysTracked) {
+                        <p class="insight-text positive">
+                            <i class="pi pi-check-circle"></i>
+                            Excelente início! O paciente atingiu a meta em todos
+                            os
+                            <strong>{{ waterStats().totalDaysTracked }}</strong>
+                            dias desde que começou.
+                        </p>
+                        } @else if (waterStats().completedDays >=
+                        waterStats().totalDaysTracked * 0.7) {
+                        <p class="insight-text positive">
+                            <i class="pi pi-check-circle"></i>
+                            Bom começo! Meta atingida em
+                            <strong>{{ getDaysTrackedText() }}</strong> desde o
+                            início.
+                        </p>
+                        } @else if (waterStats().completedDays >=
+                        waterStats().totalDaysTracked * 0.4) {
+                        <p class="insight-text warning">
+                            <i class="pi pi-exclamation-triangle"></i>
+                            Consistência moderada. Meta atingida em
+                            <strong>{{ getDaysTrackedText() }}</strong> desde o
+                            início.
+                        </p>
+                        } @else {
+                        <p class="insight-text negative">
+                            <i class="pi pi-times-circle"></i>
+                            Atenção! Meta atingida em apenas
+                            <strong>{{ getDaysTrackedText() }}</strong> desde o
+                            início.
+                        </p>
+                        } } @else { @if (waterStats().completedDays >= 5) {
+                        <p class="insight-text positive">
+                            <i class="pi pi-check-circle"></i>
+                            Ótima consistência! O paciente atingiu a meta em
+                            <strong>{{ waterStats().completedDays }}</strong> de
+                            7 dias esta semana.
+                        </p>
+                        } @else if (waterStats().completedDays >= 3) {
+                        <p class="insight-text warning">
+                            <i class="pi pi-exclamation-triangle"></i>
+                            Consistência moderada. Meta atingida em
+                            <strong>{{ waterStats().completedDays }}</strong> de
+                            7 dias.
+                        </p>
+                        } @else {
+                        <p class="insight-text negative">
+                            <i class="pi pi-times-circle"></i>
+                            Baixa consistência. Meta atingida em apenas
+                            <strong>{{ waterStats().completedDays }}</strong> de
+                            7 dias.
+                        </p>
+                        } }
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Meal/Diet Section - TOP -->
+        <section class="records-section meals-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <i class="pi pi-calendar-plus"></i>
+                    <h2>Acompanhamento de Refeições</h2>
+                </div>
+            </div>
+
+            <!-- Meal Stats Cards -->
+            <div class="stats-grid meals">
+                <div class="stat-card highlight meals">
+                    <div class="stat-icon meal-today">
+                        <i class="pi pi-check-square"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Hoje</span>
+                        <span class="stat-value">
+                            {{ mealStats().todayCompleted }}
+                            <small>/ {{ mealStats().todayExpected }}</small>
+                        </span>
+                    </div>
+                    <div class="stat-progress">
+                        <div class="progress-bar">
+                            <div
+                                class="progress-fill"
+                                [style.width.%]="mealStats().todayCompletionRate"
+                                [style.background]="getMealColor(mealStats().todayCompletionRate)"
+                            ></div>
+                        </div>
+                        <span class="progress-text"
+                            >{{ mealStats().todayCompletionRate }}%
+                            concluído</span
+                        >
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon week-meals">
+                        <i class="pi pi-calendar"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Esta Semana</span>
+                        <span class="stat-value">
+                            {{ mealStats().weekCompleted }}
+                            <small>/ {{ mealStats().weekExpected }}</small>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon week-rate">
+                        <i class="pi pi-percentage"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Taxa Semanal</span>
+                        <span class="stat-value"
+                            >{{ mealStats().weekCompletionRate }}
+                            <small>%</small></span
+                        >
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon streak">
+                        <i class="pi pi-bolt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Sequência</span>
+                        <span class="stat-value"
+                            >{{ mealStats().streakDays }}
+                            <small>dias</small></span
+                        >
+                    </div>
+                    @if (mealStats().streakDays >= 3) {
+                    <div class="stat-badge streak-badge">
+                        <i class="pi pi-star-fill"></i>
+                        <span>Ótimo!</span>
+                    </div>
+                    }
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon total-rate">
+                        <i class="pi pi-chart-pie"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Taxa Total (30 dias)</span>
+                        <span class="stat-value"
+                            >{{ mealStats().totalCompletionRate }}
+                            <small>%</small></span
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <!-- Meal Week Chart -->
+            <div class="chart-container">
+                <h3>Refeições da Semana</h3>
+                @if (loadingMeals()) {
+                <div class="loading-state">
+                    <i class="pi pi-spin pi-spinner"></i>
+                    <span>Carregando dados...</span>
+                </div>
+                } @else if (weekMealData().length === 0) {
+                <div class="empty-state">
+                    <i class="pi pi-calendar"></i>
+                    <span>Nenhum registro de refeições encontrado</span>
+                </div>
+                } @else {
+                <div class="chart-wrapper">
+                    <p-chart
+                        type="bar"
+                        [data]="mealWeekChartData()"
+                        [options]="mealWeekBarOptions"
+                        height="250px"
+                    />
+                </div>
+                }
+            </div>
+
+            <!-- Meal Month Trend Chart -->
+            <div class="chart-container">
+                <h3>Tendência de Conclusão (30 dias)</h3>
+                @if (loadingMeals()) {
+                <div class="loading-state">
+                    <i class="pi pi-spin pi-spinner"></i>
+                    <span>Carregando dados...</span>
+                </div>
+                } @else if (monthMealData().length === 0) {
+                <div class="empty-state">
+                    <i class="pi pi-chart-line"></i>
+                    <span>Nenhum registro encontrado</span>
+                </div>
+                } @else {
+                <div class="chart-wrapper">
+                    <p-chart
+                        type="line"
+                        [data]="mealMonthChartData()"
+                        [options]="mealTrendChartOptions"
+                        height="280px"
+                    />
+                </div>
+                }
+            </div>
+
+            <!-- Meal Week Details -->
+            <div class="week-details">
+                <h3>Detalhes da Semana</h3>
+                <div class="week-grid">
+                    @for (day of weekMealData(); track day.dayName) {
+                    <div
+                        class="week-day-card meals"
+                        [class.completed]="day.completionRate === 100"
+                        [class.no-meals]="day.expectedMeals === 0"
+                    >
+                        <div class="day-header">
+                            <span class="day-name">{{ day.dayName }}</span>
+                            <span
+                                class="day-percentage"
+                                [style.color]="getMealColor(day.completionRate)"
+                            >
+                                {{ day.completionRate }}%
+                            </span>
+                        </div>
+                        <div class="day-progress">
+                            <div
+                                class="progress-ring"
+                                [style.background]="getMealProgressRingStyle(day.completionRate)"
+                            >
+                                <div class="progress-inner">
+                                    <i class="pi pi-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="day-values">
+                            <span class="intake"
+                                >{{ day.completedMeals }}/{{ day.expectedMeals
+                                }}</span
+                            >
+                            <span class="goal">refeições</span>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Best Day Info -->
+            @if (mealStats().bestDay) {
+            <div class="best-day-info">
+                <i class="pi pi-trophy"></i>
+                <span>
+                    Melhor dia:
+                    <strong>{{ formatDate(mealStats().bestDay!.date) }}</strong>
+                    com <strong>{{ mealStats().bestDay!.rate }}%</strong> de
+                    conclusão
+                </span>
+            </div>
+            }
+        </section>
+
+        <!-- Water Section -->
+        <section class="records-section water-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <i class="pi pi-tint"></i>
+                    <h2>Consumo de Água</h2>
+                </div>
+            </div>
+
+            <!-- Water Stats Cards -->
+            <div class="stats-grid water">
+                <div class="stat-card highlight water">
+                    <div class="stat-icon water-icon">
+                        <i class="pi pi-tint"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Hoje</span>
+                        <span class="stat-value"
+                            >{{ formatWaterMl(waterStats().todayIntake) }}</span
+                        >
+                    </div>
+                    <div class="stat-progress">
+                        <div class="progress-bar">
+                            <div
+                                class="progress-fill"
+                                [style.width.%]="getTodayWaterPercentage()"
+                                [style.background]="getWaterColor(getTodayWaterPercentage())"
+                            ></div>
+                        </div>
+                        <span class="progress-text"
+                            >{{ getTodayWaterPercentage().toFixed(0) }}% da
+                            meta</span
+                        >
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon week-avg">
+                        <i class="pi pi-chart-bar"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Média Semanal</span>
+                        <span class="stat-value"
+                            >{{ formatWaterMl(waterStats().weekAverage) }}</span
+                        >
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon week-total">
+                        <i class="pi pi-database"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Total Semana</span>
+                        <span class="stat-value">
+                            {{ (waterStats().weekTotal / 1000).toFixed(1) }}
+                            <small>L</small>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon completed">
+                        <i class="pi pi-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Dias Completos</span>
+                        <span class="stat-value">
+                            {{ waterStats().completedDays }}
+                            <small
+                                >/ {{ waterStats().totalDaysTracked < 7 ?
+                                waterStats().totalDaysTracked : 7 }}</small
+                            >
+                        </span>
+                    </div>
+                    @if (isNewPatient()) {
+                    <div class="stat-badge new-patient">
+                        <i class="pi pi-info-circle"></i>
+                        <span>Novo</span>
+                    </div>
+                    }
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon percentage">
+                        <i class="pi pi-percentage"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Média de Conclusão</span>
+                        <span class="stat-value">
+                            {{ waterStats().averagePercentage.toFixed(0) }}
+                            <small>%</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Water Week Chart -->
+            <div class="chart-container">
+                <h3>Consumo Semanal</h3>
+                @if (loadingWater()) {
+                <div class="loading-state">
+                    <i class="pi pi-spin pi-spinner"></i>
+                    <span>Carregando dados...</span>
+                </div>
+                } @else if (weekWaterData().length === 0) {
+                <div class="empty-state">
+                    <i class="pi pi-tint"></i>
+                    <span>Nenhum registro de água encontrado</span>
+                </div>
+                } @else {
+                <div class="chart-wrapper">
+                    <p-chart
+                        type="bar"
+                        [data]="waterWeekChartData()"
+                        [options]="waterWeekBarOptions"
+                        height="250px"
+                    />
+                </div>
+                }
+            </div>
+
+            <!-- Water Month Trend Chart -->
+            <div class="chart-container">
+                <h3>Tendência Mensal (30 dias)</h3>
+                @if (loadingWater()) {
+                <div class="loading-state">
+                    <i class="pi pi-spin pi-spinner"></i>
+                    <span>Carregando dados...</span>
+                </div>
+                } @else if (monthWaterData().length === 0) {
+                <div class="empty-state">
+                    <i class="pi pi-chart-line"></i>
+                    <span>Nenhum registro encontrado</span>
+                </div>
+                } @else {
+                <div class="chart-wrapper">
+                    <p-chart
+                        type="line"
+                        [data]="waterMonthChartData()"
+                        [options]="waterChartOptions"
+                        height="280px"
+                    />
+                </div>
+                }
+            </div>
+
+            <!-- Water Week Details -->
+            <div class="week-details">
+                <h3>Detalhes da Semana</h3>
+                <div class="week-grid">
+                    @for (day of weekWaterData(); track day.dayName) {
+                    <div
+                        class="week-day-card"
+                        [class.completed]="day.percentage >= 100"
+                    >
+                        <div class="day-header">
+                            <span class="day-name">{{ day.dayName }}</span>
+                            <span
+                                class="day-percentage"
+                                [style.color]="getWaterColor(day.percentage)"
+                            >
+                                {{ day.percentage }}%
+                            </span>
+                        </div>
+                        <div class="day-progress">
+                            <div
+                                class="progress-ring"
+                                [style.background]="getProgressRingStyle(day.percentage)"
+                            >
+                                <div class="progress-inner">
+                                    <i class="pi pi-tint"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="day-values">
+                            <span class="intake"
+                                >{{ formatWaterMl(day.intake) }}</span
+                            >
+                            <span class="goal"
+                                >Meta: {{ formatWaterMl(day.goal) }}</span
+                            >
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </section>
+
+        <!-- Weight Section -->
+        <section class="records-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <i class="pi pi-chart-line"></i>
+                    <h2>Controle de Peso</h2>
+                </div>
+                <p-selectButton
+                    [options]="weightRangeOptions"
+                    [(ngModel)]="selectedWeightRange"
+                    optionLabel="label"
+                    optionValue="value"
+                    styleClass="range-selector"
+                />
+            </div>
+
+            <!-- Weight Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card highlight">
+                    <div class="stat-icon weight">
+                        <i class="pi pi-user"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Peso Atual</span>
+                        <span class="stat-value">
+                            {{ formatWeight(weightStats().current) }}
+                            <small>kg</small>
+                        </span>
+                    </div>
+                    @if (weightStats().totalChange !== null) {
+                    <div
+                        class="stat-badge"
+                        [ngClass]="getChangeClass(weightStats().changeDirection)"
+                    >
+                        <i
+                            [ngClass]="getChangeIcon(weightStats().changeDirection)"
+                        ></i>
+                        <span>
+                            {{ weightStats().totalChange! > 0 ? '+' : '' }}{{
+                            formatWeight(weightStats().totalChange!) }} kg
+                        </span>
+                    </div>
+                    }
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon initial">
+                        <i class="pi pi-flag"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Peso Inicial</span>
+                        <span class="stat-value">
+                            {{ formatWeight(weightStats().initial) }}
+                            <small>kg</small>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon lowest">
+                        <i class="pi pi-arrow-down"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Menor Peso</span>
+                        <span class="stat-value">
+                            {{ formatWeight(weightStats().lowest) }}
+                            <small>kg</small>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon highest">
+                        <i class="pi pi-arrow-up"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Maior Peso</span>
+                        <span class="stat-value">
+                            {{ formatWeight(weightStats().highest) }}
+                            <small>kg</small>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon average">
+                        <i class="pi pi-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">Peso Médio</span>
+                        <span class="stat-value">
+                            {{ formatWeight(weightStats().average) }}
+                            <small>kg</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weight Chart -->
+            <div class="chart-container">
+                <h3>Evolução do Peso</h3>
+                @if (loadingWeight()) {
+                <div class="loading-state">
+                    <i class="pi pi-spin pi-spinner"></i>
+                    <span>Carregando dados...</span>
+                </div>
+                } @else if (weights().length === 0) {
+                <div class="empty-state">
+                    <i class="pi pi-chart-line"></i>
+                    <span>Nenhum registro de peso encontrado</span>
+                </div>
+                } @else {
+                <div class="chart-wrapper">
+                    <p-chart
+                        type="line"
+                        [data]="weightChartData()"
+                        [options]="weightChartOptions"
+                        height="300px"
+                    />
+                </div>
+                }
+            </div>
+
+            <!-- Weight History -->
+            <div class="history-container">
+                <h3>Histórico Recente</h3>
+                @if (recentWeights().length > 0) {
+                <div class="history-list">
+                    @for (weight of recentWeights(); track weight.id; let i =
+                    $index) {
+                    <div class="history-item" [class.first]="i === 0">
+                        <div class="history-date">
+                            <span class="date"
+                                >{{ formatDate(weight.createdAt) }}</span
+                            >
+                        </div>
+                        <div class="history-value">
+                            <span class="weight"
+                                >{{ weight.valueInKg }} kg</span
+                            >
+                            @if (i < recentWeights().length - 1) {
+                            <span
+                                class="diff"
+                                [class.positive]="getWeightDiff(i) > 0"
+                                [class.negative]="getWeightDiff(i) < 0"
+                            >
+                                {{ getWeightDiff(i) > 0 ? '+' : '' }}{{
+                                getWeightDiff(i).toFixed(1) }} kg
+                            </span>
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+                } @else {
+                <div class="empty-state small">
+                    <span>Nenhum registro disponível</span>
+                </div>
+                }
+            </div>
+        </section>
+    </div>
+</div>

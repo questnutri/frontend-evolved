@@ -14,6 +14,22 @@ interface DocumentOption {
     value: string;
 }
 
+interface GenderOption {
+    label: string;
+    value: string;
+}
+
+enum Gender {
+    MALE = 'MALE',
+    FEMALE = 'FEMALE',
+    OTHER = 'OTHER'
+}
+
+enum DocumentType {
+    CPF = 'CPF',
+    CNPJ = 'CNPJ'
+}
+
 @Component({
     selector: 'nutritionist-register',
     templateUrl: './nutritionist-register.page.html',
@@ -41,33 +57,37 @@ export class NutritionistRegisterPage {
 
     activeStep = signal<number>(1);
 
-    name = signal<string>('');
+    // Step 1 - Account Configuration
+    firstName = signal<string>('');
+    lastName = signal<string>('');
     email = signal<string>('');
     password = signal<string>('');
 
+    // Step 2 - Personal and Professional Details
     crn = signal<string | undefined>(undefined);
     phone = signal<string | undefined>(undefined);
-    selectedDocument = signal<string>('cpf');
+    selectedDocument = signal<string>(DocumentType.CPF);
     documentNumber = signal<string | undefined>(undefined);
+    selectedGender = signal<string | undefined>(undefined);
 
     optionsDocument: DocumentOption[] = [
-        {
-            label: "CPF",
-            value: 'cpf'
-        },
-        {
-            label: "CNPJ",
-            value: 'cnpj'
-        }
+        { label: "CPF", value: 'cpf' },
+        { label: "CNPJ", value: 'cnpj' }
+    ];
+
+    optionsGender: GenderOption[] = [
+        { label: "Masculino", value: Gender.MALE },
+        { label: "Feminino", value: Gender.FEMALE },
+        { label: "Outro", value: Gender.OTHER }
     ];
 
     documentMask = computed(() => {
-        return this.selectedDocument() === 'cpf' ? '999.999.999-99' : '99.999.999/9999-99';
-    })
+        return this.selectedDocument() === DocumentType.CPF ? '999.999.999-99' : '99.999.999/9999-99';
+    });
 
     onDocumentChange(event: DocumentOption): void {
         this.selectedDocument.set(event.value);
-        this.documentNumber.set(undefined); // Limpa o número do documento ao trocar o tipo
+        this.documentNumber.set(undefined);
     }
 
     goToStep2(activateCallback: (step: number) => void): void {
@@ -80,17 +100,20 @@ export class NutritionistRegisterPage {
 
     async finishRegistration(): Promise<void> {
         const registrationData = {
-            name: this.name(),
+            firstName: this.firstName(),
+            lastName: this.lastName(),
             email: this.email(),
             password: this.password(),
             crn: this.crn(),
             phone: this.phone(),
-            documentType: this.selectedDocument(),
-            documentNumber: this.documentNumber()
+            documentType: this.selectedDocument() as DocumentType,
+            documentNumber: this.documentNumber(),
+            gender: this.selectedGender() as Gender | undefined
         };
 
         const fieldNames: Record<string, string> = {
-            name: 'Nome',
+            firstName: 'Nome',
+            lastName: 'Sobrenome',
             email: 'E-mail',
             password: 'Senha',
             crn: 'CRN',
@@ -99,9 +122,15 @@ export class NutritionistRegisterPage {
             documentNumber: 'Número do Documento'
         };
 
-        const emptyFields = Object.entries(registrationData)
-            .filter(([_, value]) => !value || value.toString().trim() === '')
-            .map(([key]) => fieldNames[key] || key);
+        // Required fields (gender is optional per DTO)
+        const requiredFields = ['firstName', 'lastName', 'email', 'password', 'crn', 'phone', 'documentType', 'documentNumber'];
+        
+        const emptyFields = requiredFields
+            .filter(key => {
+                const value = registrationData[key as keyof typeof registrationData];
+                return !value || value.toString().trim() === '';
+            })
+            .map(key => fieldNames[key] || key);
 
         if (emptyFields.length > 0) {
             const fieldsList = emptyFields.join(', ');
@@ -110,7 +139,7 @@ export class NutritionistRegisterPage {
                 summary: 'Campos obrigatórios',
                 detail: `Preencha os seguintes campos: ${fieldsList}.`
             });
-            if (emptyFields.includes('E-mail') || emptyFields.includes('Nome') || emptyFields.includes('Senha')) {
+            if (emptyFields.includes('E-mail') || emptyFields.includes('Nome') || emptyFields.includes('Sobrenome') || emptyFields.includes('Senha')) {
                 this.activeStep.set(1);
             }
             return;
@@ -133,6 +162,4 @@ export class NutritionistRegisterPage {
             this.router.navigateRoot(res.redirect);
         }
     }
-
-
 }

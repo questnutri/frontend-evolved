@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -7,18 +7,8 @@ import { ChartModule } from 'primeng/chart';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
-import { DatePickerModule } from 'primeng/datepicker';
-
-interface WeightRecord {
-    id: string;
-    valueInKg: string;
-    createdAt: string;
-    patientId: string;
-    registeredBy?: {
-        role: string;
-        userId: string;
-    };
-}
+import { WeightService } from 'src/app/services/weight/weight.service';
+import { WeightRecord } from 'src/app/shared/interface/weight.interface';
 
 @Component({
     selector: 'app-weight-register',
@@ -28,7 +18,6 @@ interface WeightRecord {
         FormsModule,
         ButtonModule,
         InputNumberModule,
-        DatePickerModule,
         ChartModule,
         SelectButtonModule,
         ConfirmDialogModule,
@@ -38,13 +27,15 @@ interface WeightRecord {
     providers: [ConfirmationService],
 })
 export class WeightPage implements OnInit {
+    private readonly weightService = inject(WeightService);
+    private readonly confirmationService = inject(ConfirmationService);
+
     weights = signal<WeightRecord[]>([]);
     showInputPanel = signal(false);
     editingId: string | null = null;
     weightValue: number | null = null;
-    selectedDate: Date = new Date();
-    today = new Date();
-    loading = false;
+    loading = signal(false);
+    saving = signal(false);
     selectedTimeRange = '1month';
     activeTab = signal<'history' | 'chart'>('chart');
 
@@ -82,41 +73,20 @@ export class WeightPage implements OnInit {
         },
     };
 
-    constructor(private confirmationService: ConfirmationService) { }
-
     ngOnInit() {
         this.loadWeights();
     }
 
-    loadWeights() {
-        this.loading = true;
-        setTimeout(() => {
-            const mockData = this.generateMockData();
-            this.weights.set(mockData);
-            this.loading = false;
-        }, 500);
-    }
-
-    generateMockData(): WeightRecord[] {
-        const data: WeightRecord[] = [];
-        const today = new Date();
-
-        for (let i = 0; i < 365; i += 3) {
-            const date = new Date(today);
-            date.setDate(date.getDate() - i);
-
-            const baseWeight = 72;
-            const variation = Math.sin(i / 30) * 2 + (Math.random() - 0.5) * 1;
-
-            data.push({
-                id: `weight-${i}`,
-                valueInKg: (baseWeight + variation).toFixed(1),
-                createdAt: date.toISOString(),
-                patientId: 'f44d17e5-e425-41ae-ab15-78289e2e23f3',
-            });
+    async loadWeights() {
+        this.loading.set(true);
+        try {
+            const response = await this.weightService.getAll();
+            this.weights.set(response.items);
+        } catch (error) {
+            console.error('Failed to load weights:', error);
+        } finally {
+            this.loading.set(false);
         }
-
-        return data.reverse();
     }
 
     filteredWeights = computed(() => {
@@ -140,7 +110,9 @@ export class WeightPage implements OnInit {
     });
 
     chartData = computed(() => {
-        const filtered = this.filteredWeights();
+        const filtered = [...this.filteredWeights()].sort(
+            (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
 
         const labels = filtered.map((w) => {
             const date = new Date(w.createdAt);
@@ -156,10 +128,10 @@ export class WeightPage implements OnInit {
                     label: 'Peso',
                     data,
                     fill: true,
-                    borderColor: '#8B5CF6',
-                    backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                    borderColor: '#F97316',
+                    backgroundColor: 'rgba(249, 115, 22, 0.1)',
                     tension: 0.4,
-                    pointBackgroundColor: '#8B5CF6',
+                    pointBackgroundColor: '#F97316',
                     pointBorderColor: '#fff',
                     pointBorderWidth: 2,
                     pointRadius: 4,
@@ -209,7 +181,6 @@ export class WeightPage implements OnInit {
             this.showInputPanel.set(true);
             this.editingId = null;
             this.weightValue = null;
-            this.selectedDate = new Date();
         }
     }
 
@@ -217,7 +188,6 @@ export class WeightPage implements OnInit {
         this.showInputPanel.set(false);
         this.editingId = null;
         this.weightValue = null;
-        this.selectedDate = new Date();
     }
 
     formatDate(dateString: string): string {
@@ -237,50 +207,40 @@ export class WeightPage implements OnInit {
         });
     }
 
-    saveWeight() {
+    async saveWeight() {
         if (!this.weightValue || this.weightValue <= 0) {
             return;
         }
 
-        const newWeight: WeightRecord = {
-            id: this.editingId || Date.now().toString(),
-            valueInKg: this.weightValue.toFixed(1),
-            createdAt: this.selectedDate.toISOString(),
-            patientId: 'f44d17e5-e425-41ae-ab15-78289e2e23f3',
-            registeredBy: {
-                role: 'patient',
-                userId: 'f44d17e5-e425-41ae-ab15-78289e2e23f3',
-            },
-        };
-
-        if (this.editingId) {
-            this.weights.update((weights) =>
-                weights.map((w) => (w.id === this.editingId ? newWeight : w))
-            );
-        } else {
+        this.saving.set(true);
+        try {
+            const newWeight = await this.weightService.createOne(this.weightValue);
             this.weights.update((weights) => [newWeight, ...weights]);
+            this.closeInputPanel();
+        } catch (error) {
+            console.error('Failed to save weight:', error);
+        } finally {
+            this.saving.set(false);
         }
-
-        this.closeInputPanel();
     }
 
     editWeight(weight: WeightRecord) {
         this.editingId = weight.id;
         this.weightValue = parseFloat(weight.valueInKg);
-        this.selectedDate = new Date(weight.createdAt);
         this.showInputPanel.set(true);
     }
 
     confirmDelete(id: string) {
-        this.confirmationService.confirm({
-            message: 'Tem certeza que deseja excluir este registro?',
-            header: 'Confirmar Exclusão',
-            icon: 'pi pi-exclamation-triangle',
-            acceptLabel: 'Sim',
-            rejectLabel: 'Não',
-            accept: () => {
-                this.weights.update((weights) => weights.filter((w) => w.id !== id));
-            },
-        });
+        // this.confirmationService.confirm({
+        //     message: 'Tem certeza que deseja excluir este registro?',
+        //     header: 'Confirmar Exclusão',
+        //     icon: 'pi pi-exclamation-triangle',
+        //     acceptLabel: 'Sim',
+        //     rejectLabel: 'Não',
+        //     accept: () => {
+        //         // TODO: Implement delete API call when available
+        //         this.weights.update((weights) => weights.filter((w) => w.id !== id));
+        //     },
+        // });
     }
 }

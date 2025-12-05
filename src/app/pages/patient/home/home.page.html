@@ -1,0 +1,270 @@
+<div class="patient-home">
+    <!-- Header -->
+    <header class="home-header">
+        <div class="greeting-section">
+            <h1 class="greeting">{{ greeting() }}, <span class="user-name">{{ userName() }}</span>!</h1>
+            <p class="current-date">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                {{ currentDate() }}
+            </p>
+        </div>
+    </header>
+
+    @if (loading()) {
+    <!-- Loading State -->
+    <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <p>Carregando seu plano alimentar...</p>
+    </div>
+    } @else if (!dietPlan()) {
+    <!-- No Diet Plan -->
+    <div class="empty-state">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+        </svg>
+        <h2>Nenhuma dieta ativa</h2>
+        <p>Você ainda não possui um plano alimentar ativo. Entre em contato com seu nutricionista.</p>
+    </div>
+    } @else {
+    <!-- Main Content -->
+    <div class="home-content">
+        <!-- Daily Progress Card -->
+        <section class="progress-section">
+            <div class="progress-card">
+                <div class="progress-header">
+                    <h2>Progresso de Hoje</h2>
+                    <span class="progress-badge" [class]="dailyStats().completionPercentage === 100 ? 'complete' : ''">
+                        {{ dailyStats().completedMeals }}/{{ dailyStats().totalMeals }} refeições
+                    </span>
+                </div>
+
+                <!-- Progress Ring -->
+                <div class="progress-ring-container">
+                    <svg class="progress-ring" viewBox="0 0 120 120">
+                        <circle class="progress-ring-bg" cx="60" cy="60" r="52" />
+                        <circle 
+                            class="progress-ring-fill" 
+                            cx="60" 
+                            cy="60" 
+                            r="52"
+                            [style.strokeDasharray]="'326.73'"
+                            [style.strokeDashoffset]="326.73 - (326.73 * dailyStats().completionPercentage / 100)"
+                        />
+                    </svg>
+                    <div class="progress-ring-text">
+                        <span class="percentage">{{ dailyStats().completionPercentage }}%</span>
+                        <span class="label">concluído</span>
+                    </div>
+                </div>
+
+                <!-- Macros Summary -->
+                <div class="macros-summary">
+                    <div class="macro-item">
+                        <div class="macro-icon kcal">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                            </svg>
+                        </div>
+                        <div class="macro-info">
+                            <span class="macro-value">{{ dailyStats().consumedKcal | number:'1.0-0' }}</span>
+                            <span class="macro-total">/ {{ dailyStats().totalKcal | number:'1.0-0' }} kcal</span>
+                        </div>
+                        <div class="macro-bar">
+                            <div 
+                                class="macro-bar-fill kcal" 
+                                [style.width.%]="dailyStats().totalKcal > 0 ? (dailyStats().consumedKcal / dailyStats().totalKcal * 100) : 0"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <div class="macro-item">
+                        <div class="macro-icon carbs">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                <path d="M2 17l10 5 10-5"/>
+                                <path d="M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                        <div class="macro-info">
+                            <span class="macro-value">{{ dailyStats().consumedCarbs | number:'1.0-0' }}g</span>
+                            <span class="macro-total">/ {{ dailyStats().totalCarbs | number:'1.0-0' }}g carbs</span>
+                        </div>
+                        <div class="macro-bar">
+                            <div 
+                                class="macro-bar-fill carbs" 
+                                [style.width.%]="dailyStats().totalCarbs > 0 ? (dailyStats().consumedCarbs / dailyStats().totalCarbs * 100) : 0"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <div class="macro-item">
+                        <div class="macro-icon protein">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/>
+                                <line x1="16" y1="8" x2="2" y2="22"/>
+                                <line x1="17.5" y1="15" x2="9" y2="15"/>
+                            </svg>
+                        </div>
+                        <div class="macro-info">
+                            <span class="macro-value">{{ dailyStats().consumedProtein | number:'1.0-0' }}g</span>
+                            <span class="macro-total">/ {{ dailyStats().totalProtein | number:'1.0-0' }}g proteína</span>
+                        </div>
+                        <div class="macro-bar">
+                            <div 
+                                class="macro-bar-fill protein" 
+                                [style.width.%]="dailyStats().totalProtein > 0 ? (dailyStats().consumedProtein / dailyStats().totalProtein * 100) : 0"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <div class="macro-item">
+                        <div class="macro-icon fat">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                            </svg>
+                        </div>
+                        <div class="macro-info">
+                            <span class="macro-value">{{ dailyStats().consumedFat | number:'1.0-0' }}g</span>
+                            <span class="macro-total">/ {{ dailyStats().totalFat | number:'1.0-0' }}g gordura</span>
+                        </div>
+                        <div class="macro-bar">
+                            <div 
+                                class="macro-bar-fill fat" 
+                                [style.width.%]="dailyStats().totalFat > 0 ? (dailyStats().consumedFat / dailyStats().totalFat * 100) : 0"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Next Meal Highlight -->
+        @if (nextMeal()) {
+        <section class="next-meal-section">
+            <div class="next-meal-card" [class.late]="nextMeal()!.isLate">
+                <div class="next-meal-header">
+                    <span class="next-meal-label">
+                        @if (nextMeal()!.isLate) {
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                        Refeição atrasada
+                        } @else {
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12,6 12,12 16,14"/>
+                        </svg>
+                        Próxima refeição
+                        }
+                    </span>
+                    <span class="next-meal-time">{{ nextMeal()!.mealPlan.meal.hour }}</span>
+                </div>
+                <h3 class="next-meal-name">{{ nextMeal()!.mealPlan.meal.name }}</h3>
+                <p class="next-meal-foods">
+                    {{ nextMeal()!.mealPlan.meal.foods.length }} alimento(s)
+                </p>
+                <button 
+                    class="complete-meal-btn"
+                    (click)="recordMealCompletion(nextMeal()!)"
+                    [disabled]="recording() === nextMeal()!.mealPlan.meal.id"
+                >
+                    @if (recording() === nextMeal()!.mealPlan.meal.id) {
+                    <span class="btn-spinner"></span>
+                    Registrando...
+                    } @else {
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    Marcar como concluída
+                    }
+                </button>
+            </div>
+        </section>
+        }
+
+        <!-- Meals List -->
+        <section class="meals-section">
+            <div class="meals-header">
+                <h2>Refeições de Hoje</h2>
+                <span class="meals-count">{{ todayMeals().length }} refeições</span>
+            </div>
+
+            <div class="meals-list">
+                @for (meal of todayMeals(); track trackByMealId($index, meal)) {
+                <div class="meal-card" [class]="getMealStatusClass(meal)">
+                    <div class="meal-time-indicator">
+                        <span class="meal-time">{{ meal.mealPlan.meal.hour }}</span>
+                        <div class="meal-status-dot"></div>
+                    </div>
+
+                    <div class="meal-content">
+                        <div class="meal-header">
+                            <h3 class="meal-name">{{ meal.mealPlan.meal.name }}</h3>
+                            <span class="meal-status">{{ getMealStatusText(meal) }}</span>
+                        </div>
+
+                        <div class="meal-foods-preview">
+                            @if (meal.mealPlan.meal.foods.length > 0) {
+                            <ul class="foods-list">
+                                @for (food of meal.mealPlan.meal.foods.slice(0, 3); track food.id) {
+                                <li>
+                                    <span class="food-name">{{ food.aliment?.name || 'Alimento' }}</span>
+                                    <span class="food-portion">{{ food.quantity }} x {{ food.portion }}</span>
+                                </li>
+                                }
+                                @if (meal.mealPlan.meal.foods.length > 3) {
+                                <li class="more-foods">
+                                    +{{ meal.mealPlan.meal.foods.length - 3 }} mais
+                                </li>
+                                }
+                            </ul>
+                            } @else {
+                            <p class="no-foods">Nenhum alimento cadastrado</p>
+                            }
+                        </div>
+
+                        <div class="meal-actions">
+                            @if (meal.isCompleted) {
+                            <button 
+                                class="undo-btn"
+                                (click)="undoMealCompletion(meal)"
+                                [disabled]="recording() === meal.mealPlan.meal.id"
+                            >
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                                    <path d="M3 3v5h5"/>
+                                </svg>
+                                Desfazer
+                            </button>
+                            } @else {
+                            <button 
+                                class="complete-btn"
+                                (click)="recordMealCompletion(meal)"
+                                [disabled]="recording() === meal.mealPlan.meal.id"
+                            >
+                                @if (recording() === meal.mealPlan.meal.id) {
+                                <span class="btn-spinner small"></span>
+                                } @else {
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                                Concluir
+                                }
+                            </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </section>
+    </div>
+    }
+</div>

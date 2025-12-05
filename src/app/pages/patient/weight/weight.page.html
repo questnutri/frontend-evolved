@@ -32,47 +32,41 @@
                 class="add-weight-btn" 
                 [class.active]="showInputPanel()"
                 (click)="toggleInputPanel()"
+                [disabled]="saving()"
             >
                 <i class="pi" [class.pi-plus-circle]="!showInputPanel()" [class.pi-times-circle]="showInputPanel()"></i>
-                <span>{{ showInputPanel() ? 'Cancelar' : (editingId ? 'Editando...' : 'Adicionar Registro') }}</span>
+                <span>{{ showInputPanel() ? 'Cancelar' : 'Adicionar Registro' }}</span>
             </button>
 
             <!-- Input Panel -->
             @if(showInputPanel()) {
             <div class="input-panel">
-                <div class="input-row">
-                    <div class="input-field">
-                        <label>Peso (kg)</label>
-                        <p-inputNumber 
-                            [(ngModel)]="weightValue" 
-                            mode="decimal" 
-                            [minFractionDigits]="1" 
-                            [maxFractionDigits]="1"
-                            [min]="1"
-                            [max]="300"
-                            placeholder="Ex: 70.5"
-                            styleClass="w-full">
-                        </p-inputNumber>
-                    </div>
-                    <div class="input-field">
-                        <label>Data</label>
-                        <p-datepicker 
-                            [(ngModel)]="selectedDate" 
-                            dateFormat="dd/mm/yy"
-                            [maxDate]="today"
-                            [showIcon]="true"
-                            fluid
-                            styleClass="w-full">
-                        </p-datepicker>
-                    </div>
+                <div class="input-field-single">
+                    <label>Peso (kg)</label>
+                    <p-inputNumber 
+                        [(ngModel)]="weightValue" 
+                        mode="decimal" 
+                        [minFractionDigits]="1" 
+                        [maxFractionDigits]="1"
+                        [min]="1"
+                        [max]="300"
+                        placeholder="Ex: 70.5"
+                        [disabled]="saving()"
+                        styleClass="w-full">
+                    </p-inputNumber>
                 </div>
                 <button 
                     class="save-btn"
                     (click)="saveWeight()"
-                    [disabled]="!weightValue"
+                    [disabled]="!weightValue || saving()"
                 >
-                    <i class="pi pi-check"></i>
-                    {{ editingId ? 'Atualizar Registro' : 'Salvar Registro' }}
+                    @if(saving()) {
+                        <i class="pi pi-spin pi-spinner"></i>
+                        Salvando...
+                    } @else {
+                        <i class="pi pi-check"></i>
+                        Salvar Registro
+                    }
                 </button>
             </div>
             }
@@ -113,7 +107,14 @@
                         </p-selectButton>
                     </div>
                     <div class="chart-wrapper">
-                        <p-chart type="line" [data]="chartData()" [options]="chartOptions" height="300px"></p-chart>
+                        @if(loading()) {
+                            <div class="empty-state">
+                                <i class="pi pi-spin pi-spinner"></i>
+                                <p>Carregando dados...</p>
+                            </div>
+                        } @else {
+                            <p-chart type="line" [data]="chartData()" [options]="chartOptions" height="300px"></p-chart>
+                        }
                     </div>
                 </div>
                 }
@@ -121,7 +122,7 @@
                 <!-- History Tab Content -->
                 @if(activeTab() === 'history') {
                 <div class="history-section">
-                    @if(loading) {
+                    @if(loading()) {
                     <div class="empty-state">
                         <i class="pi pi-spin pi-spinner"></i>
                         <p>Carregando registros...</p>
@@ -145,15 +146,6 @@
                                     <i class="pi pi-calendar"></i>
                                     {{ formatDate(weight.createdAt) }}
                                 </div>
-                            </div>
-
-                            <div class="history-actions">
-                                <button class="action-btn edit" (click)="editWeight(weight)" title="Editar">
-                                    <i class="pi pi-pencil"></i>
-                                </button>
-                                <button class="action-btn delete" (click)="confirmDelete(weight.id)" title="Excluir">
-                                    <i class="pi pi-trash"></i>
-                                </button>
                             </div>
                         </div>
                         }

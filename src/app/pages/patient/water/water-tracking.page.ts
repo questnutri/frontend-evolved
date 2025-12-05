@@ -32,8 +32,12 @@ export class WaterTrackingPage implements OnInit {
     customAmount = signal<number | null>(null);
     showCustomInput = signal(false);
 
+    // Cached water data map
+    private waterByDateMap = new Map<string, { totalIntake: number; currentDailyWaterGoal: string; registers?: any[] }>();
+
     totalIntake = computed(() => this.waterData()?.totalIntake || 0);
     dailyGoal = computed(() => parseInt(this.waterData()?.currentDailyWaterGoal || '2000'));
+    
     progressPercentage = computed(() => {
         const goal = this.dailyGoal();
         const intake = this.totalIntake();
@@ -41,8 +45,9 @@ export class WaterTrackingPage implements OnInit {
     });
 
     registers = computed(() => {
-        const regs = this.waterData()?.registers || [];
-        return [...regs].sort((a, b) => 
+        const data = this.waterData();
+        if (!data?.registers) return [];
+        return [...data.registers].sort((a, b) => 
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
     });
@@ -51,7 +56,8 @@ export class WaterTrackingPage implements OnInit {
     weekAverage = computed(() => {
         const data = this.weekData();
         if (data.length === 0) return 0;
-        return data.reduce((acc, d) => acc + d.intake, 0) / 7 / 1000;
+        const total = data.reduce((acc, d) => acc + d.intake, 0);
+        return total / data.length;
     });
 
     weekCompletedDays = computed(() => {
@@ -59,85 +65,197 @@ export class WaterTrackingPage implements OnInit {
     });
 
     weekTotal = computed(() => {
-        return this.weekData().reduce((acc, d) => acc + d.intake, 0) / 1000;
+        return this.weekData().reduce((acc, d) => acc + d.intake, 0);
     });
 
     quickAddAmounts = [200, 250, 500, 1000];
 
     async ngOnInit() {
-        await this.loadWaterData();
-        await this.loadWeekData();
+        await this.loadAllWaterData();
     }
 
-    async loadWaterData() {
+    /**
+     * Load all water data in a SINGLE request and process for different views
+     */
+    async loadAllWaterData() {
         this.isLoading.set(true);
         try {
-            const data = await this.waterService.getWaterRecordsByDate(
-                this.selectedDate().toISOString().split('T')[0]
+            const today = new Date();
+            const startDate = new Date(today);
+            startDate.setDate(today.getDate() - 29); // Get 30 days of data
+
+            // SINGLE API CALL
+            const allWaterData = await this.waterService.getWaterRecordsByRange(
+                startDate.toISOString().split('T')[0],
+                today.toISOString().split('T')[0]
             );
-            this.waterData.set(data);
+
+            // Process the data for different views
+            this.processWaterData(allWaterData, today);
         } catch (error) {
-            console.error('Error loading water data:', error);
+            console.error('Failed to load water data:', error);
+            this.waterData.set(null);
+            this.weekData.set([]);
+            this.waterByDateMap.clear();
         } finally {
             this.isLoading.set(false);
         }
     }
 
-    async loadWeekData() {
-        const today = new Date();
+    /**
+     * Process API response and populate all signals
+     */
+    private processWaterData(data: any, today: Date) {
+        const todayStr = today.toISOString().split('T')[0];
+        const selectedStr = this.selectedDate().toISOString().split('T')[0];
         const dayOfWeek = today.getDay();
         const monday = new Date(today);
         monday.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
-
         const dayNames = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
-        const weekDays: WeekDay[] = [];
 
+        // Clear and rebuild the map
+        this.waterByDateMap.clear();
+
+        if (Array.isArray(data)) {
+            // API returns array of daily summaries
+            data.forEach((item: any) => {
+                const dateKey = item.relativeDate 
+                    ? new Date(item.relativeDate).toISOString().split('T')[0]
+                    : item.date;
+                this.waterByDateMap.set(dateKey, {
+                    totalIntake: item.totalIntake || 0,
+                    currentDailyWaterGoal: item.currentDailyWaterGoal || '2000',
+                    registers: item.registers || []
+                });
+            });
+        } else if (data?.items && Array.isArray(data.items)) {
+            // API returns { items: [...] } with individual records, aggregate by date
+            const aggregated = new Map<string, { total: number; goal: string; registers: any[] }>();
+            
+            (data.items as any[]).forEach((record: any) => {
+                const dateKey = record.relativeDate 
+                    ? new Date(record.relativeDate).toISOString().split('T')[0]
+                    : new Date(record.createdAt).toISOString().split('T')[0];
+                
+                let existing = aggregated.get(dateKey);
+                if (!existing) {
+                    existing = { 
+                        total: 0, 
+                        goal: record.currentDailyWaterGoal || '2000',
+                        registers: [] as any[]
+                    };
+                    aggregated.set(dateKey, existing);
+                }
+                
+                const amount = parseFloat(record.amountInMl) || 0;
+                
+                // Handle ADD/SUBTRACT operations
+                if (record.operation === 'SUB' || record.operation === 'SUBTRACT' || record.operation === 'subtract') {
+                    existing.total -= amount;
+                } else {
+                    existing.total += amount;
+                }
+                existing.total = Math.max(0, existing.total);
+                existing.registers.push(record);
+            });
+
+            aggregated.forEach((value, key) => {
+                this.waterByDateMap.set(key, {
+                    totalIntake: value.total,
+                    currentDailyWaterGoal: value.goal,
+                    registers: value.registers
+                });
+            });
+        } else if (data?.totalIntake !== undefined) {
+            // Single day response
+            this.waterByDateMap.set(todayStr, {
+                totalIntake: data.totalIntake || 0,
+                currentDailyWaterGoal: data.currentDailyWaterGoal || '2000',
+                registers: data.registers || []
+            });
+        }
+
+        // Set selected date's data (today by default)
+        this.updateSelectedDateData(selectedStr);
+
+        // Build week data
+        const weekDays: WeekDay[] = [];
         for (let i = 0; i < 7; i++) {
             const date = new Date(monday);
             date.setDate(monday.getDate() + i);
-            const isToday = date.toDateString() === today.toDateString();
+            const dateStr = date.toISOString().split('T')[0];
+            const isToday = dateStr === todayStr;
+            
+            const dayData = this.waterByDateMap.get(dateStr);
+            const intake = dayData?.totalIntake || 0;
+            const goal = parseInt(dayData?.currentDailyWaterGoal || '2000');
+            const percentage = goal > 0 ? Math.min(Math.round((intake / goal) * 100), 100) : 0;
 
-            try {
-                const data = await this.waterService.getWaterRecordsByDate(
-                    date.toISOString().split('T')[0]
-                );
-                const intake = data?.totalIntake || 0;
-                const goal = parseInt(data?.currentDailyWaterGoal || '2000');
-                const percentage = goal > 0 ? Math.min(Math.round((intake / goal) * 100), 100) : 0;
-
-                weekDays.push({
-                    date,
-                    dayName: isToday ? 'Hoje' : dayNames[i],
-                    intake,
-                    goal,
-                    percentage,
-                    isToday
-                });
-            } catch {
-                weekDays.push({
-                    date,
-                    dayName: isToday ? 'Hoje' : dayNames[i],
-                    intake: 0,
-                    goal: 2000,
-                    percentage: 0,
-                    isToday
-                });
-            }
+            weekDays.push({
+                date,
+                dayName: isToday ? 'Hoje' : dayNames[i],
+                intake,
+                goal,
+                percentage,
+                isToday
+            });
         }
-
         this.weekData.set(weekDays);
     }
 
-    getWeekDayColor(day: WeekDay): string {
-        if (day.percentage >= 100) {
-            return '#22C55E';
-        } else if (day.percentage >= 75) {
-            return '#EAB308';
-        } else if (day.percentage >= 50) {
-            return '#F97316';
+    /**
+     * Update selected date's water data from cached map (NO API CALL)
+     */
+    private updateSelectedDateData(dateStr: string) {
+        const dayData = this.waterByDateMap.get(dateStr);
+        if (dayData) {
+            this.waterData.set({
+                totalIntake: dayData.totalIntake,
+                currentDailyWaterGoal: dayData.currentDailyWaterGoal,
+                registers: dayData.registers || []
+            } as WaterDayResponse);
         } else {
-            return '#EF4444';
+            this.waterData.set({
+                totalIntake: 0,
+                currentDailyWaterGoal: '2000',
+                registers: []
+            } as WaterDayResponse);
         }
+    }
+
+    /**
+     * Change selected date - uses cached data, NO API CALL
+     */
+    changeDate(days: number) {
+        const newDate = new Date(this.selectedDate());
+        newDate.setDate(newDate.getDate() + days);
+        this.selectedDate.set(newDate);
+        
+        const dateStr = newDate.toISOString().split('T')[0];
+        this.updateSelectedDateData(dateStr);
+    }
+
+    /**
+     * Select a specific day from the week view - uses cached data, NO API CALL
+     */
+    selectDay(day: WeekDay) {
+        this.selectedDate.set(day.date);
+        const dateStr = day.date.toISOString().split('T')[0];
+        this.updateSelectedDateData(dateStr);
+        this.activeTab.set('history');
+    }
+
+    getWeekDayColor(day: WeekDay): string {
+        if (day.percentage >= 100) return '#22C55E';
+        if (day.percentage >= 75) return '#3B82F6';
+        if (day.percentage >= 50) return '#EAB308';
+        return '#EF4444';
+    }
+
+    getProgressRingStyle(percentage: number): string {
+        const color = this.getWeekDayColor({ percentage } as WeekDay);
+        const angle = Math.min(percentage, 100) * 3.6;
+        return `conic-gradient(${color} ${angle}deg, #e5e7eb ${angle}deg)`;
     }
 
     setActiveTab(tab: 'history' | 'week') {
@@ -166,8 +284,8 @@ export class WaterTrackingPage implements OnInit {
                 amountInMl: amountInMl.toString(),
                 operation: 'ADD'
             });
-            await this.loadWaterData();
-            await this.loadWeekData();
+            // Reload all data after adding
+            await this.loadAllWaterData();
         } catch (error) {
             console.error('Error adding water:', error);
         }
@@ -179,22 +297,23 @@ export class WaterTrackingPage implements OnInit {
                 amountInMl: amountInMl.toString(),
                 operation: 'SUB'
             });
-            await this.loadWaterData();
-            await this.loadWeekData();
+            // Reload all data after removing
+            await this.loadAllWaterData();
         } catch (error) {
             console.error('Error removing water:', error);
         }
     }
 
     formatTime(registerHour: string): string {
+        if (!registerHour) return '--:--';
         return registerHour.slice(0, 5);
     }
 
-    changeDate(days: number) {
-        const newDate = new Date(this.selectedDate());
-        newDate.setDate(newDate.getDate() + days);
-        this.selectedDate.set(newDate);
-        this.loadWaterData();
+    formatWaterMl(value: number): string {
+        if (value >= 1000) {
+            return `${(value / 1000).toFixed(1)}L`;
+        }
+        return `${value}ml`;
     }
 
     isToday(): boolean {

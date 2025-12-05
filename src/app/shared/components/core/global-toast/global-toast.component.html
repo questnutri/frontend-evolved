@@ -35,7 +35,14 @@
                 <!-- Animated Icon Container -->
                 <div class="coin-container">
                     <div class="coin" [attr.data-rarity]="message.data?.rarity || 'COMMON'">
-                        <div class="coin-face coin-front"></div>
+                        <div class="coin-face coin-front">
+                            <img
+                            width="35px"
+                                src="/logo/qn-fit.png" 
+                                alt="Achievement Icon" 
+                                class="coin-icon"
+                            />
+                        </div>
                         <div class="coin-face coin-back">
                             <span class="coin-icon">
                                 @switch (message.data?.rarity) {
