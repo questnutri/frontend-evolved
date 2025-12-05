@@ -6,17 +6,18 @@ import { Aliment, AlimentModel, MealModel } from '@qn/models';
 import { AccordionModule } from 'primeng/accordion';
 import { DatePicker } from "primeng/datepicker";
 import { DividerModule } from 'primeng/divider';
-import { Select } from "primeng/select";
+import { Select, SelectModule } from "primeng/select";
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from "primeng/table";
 import { CheckboxModule } from 'primeng/checkbox';
-import { AlimentService, MealService } from '@qn/services';
+import { AlimentService, FoodService, MealService, NotificationService } from '@qn/services';
 import { AlimentsTableComponent } from './aliments-table/aliments-table.component';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 @Component({
     selector: 'app-meal-panel',
-    templateUrl: './meal-panel.section.html',
-    styleUrls: ['./meal-panel.section.scss'],
+    standalone: true,
     imports: [
         DatePicker,
         FormsModule,
@@ -30,13 +31,19 @@ import { AlimentsTableComponent } from './aliments-table/aliments-table.componen
         DialogModule,
         TableModule,
         CheckboxModule,
-        AlimentsTableComponent // Adicionar aqui
+        AlimentsTableComponent,
+        ConfirmPopupModule,
+        SelectModule, // Adicionar este import
     ],
+    providers: [ConfirmationService],
+    templateUrl: './meal-panel.section.html',
+    styleUrl: './meal-panel.section.scss'
 })
-export class MealPanelSection implements OnInit {
-
+export class MealPanelSection {
     private readonly alimentService = inject(AlimentService);
+    private readonly foodService = inject(FoodService);
     private readonly mealService = inject(MealService);
+    private readonly notificationService = inject(NotificationService);
 
     // INPUTS / OUTPUTS
     meal = input.required<MealModel>();
@@ -68,7 +75,6 @@ export class MealPanelSection implements OnInit {
     editRepeatConfig = signal<boolean>(false);
 
 
-    aliments = signal<any[]>([{ nome: 'Maçã', calorias: 52, proteina: 7, carboidratos: 18, gorduras: 5 }, { nome: 'Banana', calorias: 89, proteina: 7, carboidratos: 18, gorduras: 5 }, { nome: 'Arroz', calorias: 130, proteina: 7, carboidratos: 18, gorduras: 5 }, { nome: 'Arroz', calorias: 130, proteina: 7, carboidratos: 18, gorduras: 5 }, { nome: 'Arroz', calorias: 130, proteina: 7, carboidratos: 18, gorduras: 5 }, { nome: 'Arroz', calorias: 130, proteina: 7, carboidratos: 18, gorduras: 5 }, { nome: 'Arroz', calorias: 130, proteina: 7, carboidratos: 18, gorduras: 5 }, { nome: 'Arroz', calorias: 130, proteina: 7, carboidratos: 18, gorduras: 5 }]);
     checked = signal<string | null>(null);
 
     weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -128,6 +134,13 @@ export class MealPanelSection implements OnInit {
 
     ngOnInit() {
     }
+
+    foods = computed(() => {
+
+        return (this.editMeal()?.foods || []).filter((f) => !f.endDate || f.endDate.split('T')[0] > this.currentRelativeDate().split('T')[0]);
+    })
+
+
     textFrequency = computed(() => {
         const type = this.valueRepeat();
         if (type === 'DAILY') return { value1: 'Repetir a cada', value2: 'dia(s)' };
@@ -364,5 +377,190 @@ export class MealPanelSection implements OnInit {
     async onAlimentAdded() {
         // Emite evento para o componente pai atualizar o diet plan
         this.mealUpdated.emit();
+    }
+
+    private confirmationService = inject(ConfirmationService);
+
+    // Signal para controlar qual alimento está em edição
+    editingFoodIndex = signal<number | null>(null);
+    editingQuantity = signal<number>(1);
+    editingPortion = signal<string>('100g');
+    editingQuantityType = signal<'grams' | 'units'>('grams');
+
+    // Computed para opções de porção do alimento em edição
+    editingPortionOptions = computed(() => {
+        const index = this.editingFoodIndex();
+        if (index === null) return [{ label: '100g', value: '100g' }];
+
+        const foods = this.editMeal()?.foods;
+        if (!foods || !foods[index]) return [{ label: '100g', value: '100g' }];
+
+        const food = foods[index];
+        const aliment = food.aliment;
+
+        if (!aliment || aliment.source === 'taco') {
+            return [{ label: '100g', value: '100g' }];
+        }
+
+        if (!aliment.availablePortions || aliment.availablePortions.length === 0) {
+            return [{ label: '100g', value: '100g' }];
+        }
+
+        return aliment.availablePortions.map((portionName: string) => {
+            const portionData = aliment.portions?.[portionName];
+            const proportion = portionData?.['proportion'] || '100';
+
+            if (portionName === '100g') {
+                return { label: portionName, value: portionName };
+            }
+            return {
+                label: `${portionName} (${proportion}g)`,
+                value: portionName
+            };
+        });
+    });
+
+    optionsTypeQuantity = [
+        { label: 'Gramas (g)', value: 'grams' },
+        { label: 'Unidades', value: 'units' }
+    ];
+
+    confirmDeleteFood(event: Event, food: any, index: number): void {
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: `Deseja realmente excluir "${food.aliment.name}"?`,
+            icon: 'pi pi-exclamation-triangle',
+            acceptLabel: 'Deletar',
+            rejectLabel: 'Cancelar',
+            acceptButtonStyleClass: 'p-button-danger p-button-sm',
+            rejectButtonStyleClass: 'p-button-secondary p-button-sm',
+            accept: () => {
+                this.deleteFood(food.id);
+            }
+        });
+    }
+
+    async deleteFood(foodId: string): Promise<void> {
+        try {
+            const response = await this.foodService.deleteFood(foodId)
+            console.log(response);
+
+            this.notificationService.add({ severity: 'success', summary: 'Sucesso', detail: 'Alimento removido com sucesso.' });
+
+        } catch (error) {
+            console.error('Error deleting food:', error);
+        } finally {
+            this.editingFoodIndex.set(null);
+            this.mealUpdated.emit();
+        }
+    }
+
+    startEditFood(index: number, food: any): void {
+        const currentQuantity = food.quantity;
+        const portion = food.portion || '100g';
+        const aliment = food.aliment;
+
+        this.editingFoodIndex.set(index);
+        this.editingPortion.set(portion);
+
+        // Determina se é porção 100g (sempre gramas) ou outra porção
+        if (portion === '100g') {
+            // Para 100g, o quantity representa múltiplos de 100g
+            // Ex: quantity = 3.5 significa 350g
+            const quantityNumber = parseFloat(currentQuantity) || 1;
+            this.editingQuantity.set(quantityNumber * 100);
+            this.editingQuantityType.set('grams');
+        } else {
+            // Para outras porções, verifica se é TACO ou medidas caseiras
+            if (aliment?.source === 'taco') {
+                const quantityNumber = parseFloat(currentQuantity) || 1;
+                this.editingQuantity.set(quantityNumber * 100);
+                this.editingQuantityType.set('grams');
+            } else {
+                // Medidas caseiras - pode ser gramas ou unidades
+                const quantityNumber = parseFloat(currentQuantity) || 1;
+                // Se quantity for inteiro, provavelmente é unidades
+                if (Number.isInteger(quantityNumber) && quantityNumber <= 10) {
+                    this.editingQuantity.set(quantityNumber);
+                    this.editingQuantityType.set('units');
+                } else {
+                    this.editingQuantity.set(quantityNumber * 100);
+                    this.editingQuantityType.set('grams');
+                }
+            }
+        }
+    }
+
+    onEditingPortionChange(newPortion: string): void {
+        this.editingPortion.set(newPortion);
+
+        // Reset quantity quando muda a porção
+        if (newPortion === '100g') {
+            this.editingQuantity.set(100);
+            this.editingQuantityType.set('grams');
+        } else {
+            this.editingQuantity.set(1);
+            this.editingQuantityType.set('units');
+        }
+    }
+
+    onEditingQuantityTypeChange(newType: 'grams' | 'units'): void {
+        const oldType = this.editingQuantityType();
+        if (oldType === newType) return;
+
+        this.editingQuantityType.set(newType);
+
+        if (newType === 'units') {
+            this.editingQuantity.set(1);
+        } else {
+            this.editingQuantity.set(100);
+        }
+    }
+
+    async saveEditFood(food: any, index: number): Promise<void> {
+        try {
+            const portion = this.editingPortion();
+            const quantityType = this.editingQuantityType();
+            const userQuantity = this.editingQuantity();
+
+            let quantity: number;
+
+            if (portion === '100g' || quantityType === 'grams') {
+                // Converte gramas para múltiplos de 100g
+                quantity = userQuantity / 100;
+            } else {
+                // Unidades - mantém o valor direto
+                quantity = userQuantity;
+            }
+
+            const updateData: any = {
+                quantity: quantity.toString(),
+                portion: portion
+            };
+
+            const result = await this.foodService.patchFood(this.meal().id, food.id, updateData);
+            console.log(result);
+
+            this.notificationService.add({
+                severity: 'success',
+                summary: 'Sucesso',
+                detail: 'Alimento atualizado com sucesso!'
+            });
+
+        } catch (error) {
+            console.error('Error updating food:', error);
+            this.notificationService.add({
+                severity: 'error',
+                summary: 'Erro',
+                detail: 'Erro ao atualizar alimento.'
+            });
+        } finally {
+            this.editingFoodIndex.set(null);
+            this.mealUpdated.emit();
+        }
+    }
+
+    cancelEditFood(): void {
+        this.editingFoodIndex.set(null);
     }
 }

@@ -116,7 +116,16 @@
     <span>Informações</span>
 </p-divider>
 
-<p-accordion [multiple]="true" style="margin-bottom: 1rem">
+<p-accordion
+    [multiple]="true"
+    style="
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        max-height: 100vh;
+    "
+>
     <p-accordion-panel value="0">
         <p-accordion-header (click)="showRepeatConfiguration()">
             <div class="header-repeat-configuration">
@@ -268,29 +277,69 @@
         </p-accordion-header>
         <p-accordion-content>
             <div class="foods-panel-wrapper">
-                <div class="add-food-action">
-                    <qn-button
-                        label="Adicionar Alimento"
-                        icon="pi pi-plus"
-                        class="w-full"
-                        (click)="showModalNewDiet()"
-                        [disabled]="!canEditMeal()"
-                    />
-                </div>
                 <div class="foods-content-wrapper">
                     @if (editMeal()?.foods?.length) {
                     <div class="foods-list">
-                        @for (food of editMeal()?.foods; track $index) {
+                        @for (food of foods(); track $index) {
                         <div class="food-card">
                             <div class="food-info">
                                 <span class="food-name"
                                     >{{ food.aliment.name }}</span
                                 >
                                 <div class="food-details">
+                                    @if (editingFoodIndex() === $index) {
+                                    <div class="edit-food-controls">
+                                        <!-- Seletor de Porção -->
+                                        <div class="edit-control-group">
+                                            <span class="edit-label"
+                                                >Porção:</span
+                                            >
+                                            <p-select
+                                                [options]="editingPortionOptions()"
+                                                [ngModel]="editingPortion()"
+                                                (ngModelChange)="onEditingPortionChange($event)"
+                                                class="portion-select-edit"
+                                                appendTo="body"
+                                            />
+                                        </div>
+
+                                        <!-- Tipo de Quantidade (só aparece se não for 100g) -->
+                                        @if (editingPortion() !== '100g' &&
+                                        food.aliment?.source !== 'taco') {
+                                        <div class="edit-control-group">
+                                            <span class="edit-label"
+                                                >Tipo:</span
+                                            >
+                                            <p-select
+                                                [options]="optionsTypeQuantity"
+                                                [ngModel]="editingQuantityType()"
+                                                (ngModelChange)="onEditingQuantityTypeChange($event)"
+                                                class="quantity-type-select-edit"
+                                                appendTo="body"
+                                            />
+                                        </div>
+                                        }
+
+                                        <!-- Input de Quantidade -->
+                                        <div class="edit-control-group">
+                                            <span class="edit-label">
+                                                Qtd {{ editingQuantityType() ===
+                                                'grams' ? '(g)' : '(un)' }}:
+                                            </span>
+                                            <qn-number-input
+                                                [min]="1"
+                                                [max]="10000"
+                                                [(value)]="editingQuantity"
+                                                class="quantity-input-edit"
+                                            />
+                                        </div>
+                                    </div>
+                                    } @else {
                                     <span class="food-quantity">
                                         {{calculateTotalPortion(food.portion,
                                         food.quantity)}}
                                     </span>
+                                    }
                                     <span class="food-macro"
                                         >Kcal:
                                         {{food.getTotal('kcal').toFixed(0)}}</span
@@ -310,12 +359,39 @@
                                 </div>
                             </div>
                             <div class="food-actions">
-                                <button class="icon-btn edit">
+                                @if (editingFoodIndex() === $index) {
+                                <button
+                                    class="icon-btn save"
+                                    (click)="saveEditFood(food, $index)"
+                                    title="Salvar"
+                                >
+                                    <i class="pi pi-check"></i>
+                                </button>
+                                <button
+                                    class="icon-btn cancel"
+                                    (click)="cancelEditFood()"
+                                    title="Cancelar"
+                                >
+                                    <i class="pi pi-times"></i>
+                                </button>
+                                } @else {
+                                <button
+                                    class="icon-btn edit"
+                                    (click)="startEditFood($index, food)"
+                                    [disabled]="!canEditMeal()"
+                                    title="Editar quantidade"
+                                >
                                     <i class="pi pi-pencil"></i>
                                 </button>
-                                <button class="icon-btn delete">
+                                <button
+                                    class="icon-btn delete"
+                                    (click)="confirmDeleteFood($event, food, $index)"
+                                    [disabled]="!canEditMeal()"
+                                    title="Remover alimento"
+                                >
                                     <i class="pi pi-trash"></i>
                                 </button>
+                                }
                             </div>
                         </div>
                         }
@@ -326,6 +402,15 @@
                         <span>Nenhum alimento adicionado ainda.</span>
                     </div>
                     }
+                </div>
+                <div class="add-food-action">
+                    <qn-button
+                        label="Adicionar Alimento"
+                        icon="pi pi-plus"
+                        class="w-full"
+                        (click)="showModalNewDiet()"
+                        [disabled]="!canEditMeal()"
+                    />
                 </div>
             </div>
         </p-accordion-content>
@@ -338,3 +423,4 @@
     (alimentAdded)="onAlimentAdded()"
 />
 }
+<p-confirmpopup />

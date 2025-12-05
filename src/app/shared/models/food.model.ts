@@ -8,8 +8,8 @@ export interface Food {
     quantity?: string;
     createdAt?: Date;
     updatedAt?: Date;
-    startDate: Date;
-    endDate?: Date | null;
+    startDate: string;
+    endDate?: string | null;
     aliment: AlimentModel;
 }
 
@@ -20,8 +20,8 @@ export class FoodModel implements Food, Calculable {
     quantity?: string;
     createdAt?: Date;
     updatedAt?: Date;
-    startDate!: Date;
-    endDate?: Date | null;
+    startDate!: string;
+    endDate?: string | null;
     aliment!: AlimentModel;
 
     static from(food: Food): FoodModel {

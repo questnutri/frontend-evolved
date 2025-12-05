@@ -30,4 +30,32 @@ export class FoodService {
             throw error;
         }
     }
+
+    async deleteFood(foodId: string): Promise<any> {
+        try {
+            const response = await firstValueFrom(
+                this.apiService.authenticated.delete<any>(`/diet/foods/${foodId}`)
+            );
+            console.log(response);
+
+            return response;
+        } catch (error) {
+            console.error('Error deleting food data:', error);
+            throw error;
+
+        }
+    }
+
+    async patchFood(mealId: string, foodId: string, foodData: Partial<FoodModel>): Promise<any> {
+        try {
+            const response = await firstValueFrom(
+                this.apiService.authenticated.put<any>(`/diet/foods/${foodId}`, foodData)
+            );
+            console.log(response);
+            return response;
+        } catch (error) {
+            console.error('Error updating food data:', error);
+            throw error;
+        }
+    }
 }

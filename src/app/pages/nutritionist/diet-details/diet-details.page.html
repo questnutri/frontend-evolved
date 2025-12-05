@@ -89,7 +89,7 @@
                 mealsDietRelativeDate(); track $index) {
                 <app-meal-display
                     [meal]="meal"
-                    [class.selected]="editingMeal() === meal"
+                    [class.editing]="editingMeal()?.id === meal.id"
                     (click)="openEditMeal(meal)"
                 >
                 </app-meal-display>

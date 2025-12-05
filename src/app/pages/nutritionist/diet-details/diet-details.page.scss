@@ -96,6 +96,7 @@
     height: calc(100dvh - 70px);
     width: 100%;
     overflow: hidden;
+    min-height: 0; // permite scroll interno
     transition: grid-template-columns 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -112,6 +113,7 @@
     background: var(--primary-background-color);
     border-radius: 0 0 var(--border-radius-input) 0;
     min-width: 0;
+    min-height: 0; // libera o flex child rolar
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -201,6 +203,7 @@
 .edit-meal {
     background: var(--primary-background-color);
     min-width: 0;
+    min-height: 0; // garante scroll interno
     overflow: hidden;
     opacity: 0;
     transform: translateX(30px);
@@ -520,7 +523,7 @@
         font-size: 1.3rem;
     }
 
-    .edit-meal.visible {
+    .edit_meal.visible {
         padding: 1rem 0.75rem;
     }
 
