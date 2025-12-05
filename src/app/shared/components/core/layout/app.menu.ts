@@ -41,19 +41,20 @@ export class AppMenu {
                 label: '',
                 items: [
                     {
-                        label: 'Perfil',
-                        icon: 'pi pi-fw pi-user',
-                        command: () => {
-                            this.router.navigate(['/nutritionist/profile']);
-                        }
-                    },
-                    {
-                        label: 'Seus pacientes',
+                        label: 'Home',
                         icon: 'pi pi-fw pi-users',
                         command: () => {
                             this.router.navigate(['/nutritionist/patients']);
                         }
                     },
+                    {
+                        label: 'Perfil',
+                        icon: 'pi pi-fw pi-user',
+                        command: () => {
+                            this.router.navigate(['/nutritionist/profile']);
+                        }
+                    }
+
                 ]
             };
         } else {

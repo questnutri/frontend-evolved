@@ -1,5 +1,5 @@
 /* ===========================================
-   BASE STYLES
+   BASE STYLES - REDESIGNED
    =========================================== */
 
 /* Patients Container */
@@ -8,22 +8,25 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    background-color: var(--secondary-background-color);
-    border-radius: var(--border-radius-input);
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+    border-radius: 16px;
     overflow: hidden;
     box-sizing: border-box;
-    gap: 10px;
+    padding: 1rem;
 }
 
 /* Patients Content */
 .patients-content {
     background: var(--primary-background-color);
-    border-radius: var(--border-radius-input);
+    border-radius: 16px;
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: 2rem;
+    padding: 1.5rem;
     flex: 1;
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 /* Patients Header */
@@ -32,41 +35,61 @@
     grid-template-columns: 1fr auto;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--secondary-background-color);
 }
 
 .patients-header h2 {
-    font-size: 2rem;
+    font-size: 2.25rem;
     font-weight: 700;
     color: var(--primary-font-color);
     margin: 0;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #4a9dd8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 /* Search Filter Bar */
 .search-filter-bar {
-    background: var(--secondary-background-color);
-    padding: 1rem;
+    background: linear-gradient(
+        135deg,
+        var(--secondary-background-color) 0%,
+        #f8f9fb 100%
+    );
+    padding: 1.25rem;
     display: grid;
-    grid-template-columns: 1fr minmax(150px, 20%);
+    grid-template-columns: 1fr;
     justify-content: space-between;
-    gap: 15px;
-    border-radius: var(--border-radius-input);
-    border: 1px solid var(--primary-border-color);
+    gap: 1rem;
+    border-radius: 12px;
     align-items: center;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.search-filter-bar:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
 }
 
 /* Table Wrapper */
 .table-wrapper {
     width: 100%;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     overflow-x: auto;
+    border-radius: 12px;
+    background: var(--primary-background-color);
+    justify-self: flex-start;
+    align-self: flex-start;
 }
 
 /* Patient Name Cell */
 .patient-name-cell {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 1rem;
 }
 
 .patient-name-cell strong {
@@ -75,657 +98,258 @@
     white-space: nowrap;
     color: var(--primary-font-color);
     font-weight: 600;
+    font-size: 0.9375rem;
 }
 
 /* Patient Avatar */
 .patient-avatar {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid var(--white-color);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border: 3px solid var(--primary-color);
+    box-shadow: 0 4px 8px rgba(87, 181, 251, 0.3);
     flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.patient-avatar:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(87, 181, 251, 0.4);
 }
 
 /* Action Icon */
 .action-icon {
     cursor: pointer;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     text-align: center;
     color: var(--secondary-font-color);
-    transition: all 0.2s ease;
-    padding: 0.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0.625rem;
+    border-radius: 8px;
 }
 
 .action-icon i {
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .action-icon:hover {
+    background: linear-gradient(
+        135deg,
+        rgba(87, 181, 251, 0.1) 0%,
+        rgba(74, 157, 216, 0.15) 100%
+    );
     color: var(--primary-color);
 }
 
 .action-icon i:hover {
     color: var(--primary-color);
-    transform: scale(1.5);
+    transform: scale(1.3);
 }
 
 /* Empty State */
 .empty-state-cell {
     text-align: center;
-    padding: 3rem;
+    padding: 4rem 2rem;
     color: var(--secondary-font-color);
 }
 
 .empty-state-icon {
-    font-size: 3rem;
-    opacity: 0.3;
-    margin-bottom: 1rem;
+    font-size: 4rem;
+    opacity: 0.2;
+    margin-bottom: 1.5rem;
     display: block;
+    color: var(--primary-color);
 }
 
 .empty-state-text {
-    margin: 1rem 0 1.5rem 0;
-    font-size: 1.1rem;
+    margin: 1.5rem 0 2rem 0;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--primary-font-color);
 }
 
 /* ===========================================
-   TABLE CUSTOMIZATION
+   TABLE CUSTOMIZATION - REDESIGNED
    =========================================== */
 ::ng-deep .p-datatable {
-    border-radius: var(--border-radius-input);
+    border-radius: 8px;
     overflow: hidden;
 }
 
 ::ng-deep .p-datatable .p-datatable-thead > tr > th {
-    background-color: var(--secondary-background-color);
+    background: linear-gradient(
+        135deg,
+        var(--secondary-background-color) 0%,
+        #f0f3f7 100%
+    );
     color: var(--primary-font-color);
-    font-weight: 600;
-    padding: 1rem;
-    border-bottom: 2px solid var(--primary-border-color);
+    font-weight: 700;
+    padding: 1.25rem 1rem;
     white-space: nowrap;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
-    padding: 1rem;
-    border-bottom: 1px solid var(--primary-border-color);
+    padding: 1.25rem 1rem;
     color: var(--primary-font-color);
+    transition: all 0.2s ease;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 ::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
-    background-color: var(--secondary-background-color);
-    transition: background-color 0.2s ease;
+    background: linear-gradient(
+        135deg,
+        rgba(87, 181, 251, 0.05) 0%,
+        rgba(74, 157, 216, 0.08) 100%
+    );
+    transform: translateX(4px);
+    box-shadow: -4px 0 0 var(--primary-color);
 }
 
 ::ng-deep .p-datatable .p-datatable-tbody > tr:last-child > td {
     border-bottom: none;
 }
 
+/* Striped rows with gradient */
+::ng-deep .p-datatable .p-datatable-tbody > tr.p-row-odd {
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.01) 0%,
+        rgba(0, 0, 0, 0.02) 100%
+    );
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr.p-row-odd:hover {
+    background: linear-gradient(
+        135deg,
+        rgba(87, 181, 251, 0.05) 0%,
+        rgba(74, 157, 216, 0.08) 100%
+    );
+}
+
 /* Paginator */
 ::ng-deep .p-paginator {
-    padding: 1rem;
-    background-color: var(--secondary-background-color);
-    border-top: 1px solid var(--primary-border-color);
+    padding: 1.25rem;
+    background: linear-gradient(
+        135deg,
+        var(--secondary-background-color) 0%,
+        #f8f9fb 100%
+    );
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
+    gap: 0.75rem;
 }
 
 ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
-    min-width: 2.5rem;
-    height: 2.5rem;
-    border-radius: var(--border-radius-input);
+    min-width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+::ng-deep .p-paginator .p-paginator-pages .p-paginator-page:hover {
+    background-color: rgba(87, 181, 251, 0.1);
+    transform: translateY(-2px);
 }
 
 ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, #4a9dd8 100%);
     color: var(--white-color);
+    box-shadow: 0 4px 8px rgba(87, 181, 251, 0.3);
 }
 
-/* ===========================================
-   RESPONSIVIDADE - DESKTOP LARGE (1200px+)
-   =========================================== */
-@media (min-width: 1200px) {
-    .patients-content {
-        padding: 2.5rem;
-    }
-
-    .search-filter-bar {
-        grid-template-columns: 1fr minmax(150px, 18%);
-    }
+::ng-deep .p-paginator .p-paginator-first,
+::ng-deep .p-paginator .p-paginator-prev,
+::ng-deep .p-paginator .p-paginator-next,
+::ng-deep .p-paginator .p-paginator-last {
+    min-width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
-/* ===========================================
-   RESPONSIVIDADE - TABLET (768px - 1024px)
-   =========================================== */
-@media (max-width: 1024px) {
-    .patients-content {
-        padding: 1.5rem;
-    }
-
-    .patients-header h2 {
-        font-size: 1.75rem;
-    }
-
-    .search-filter-bar {
-        grid-template-columns: 1fr minmax(150px, 30%);
-    }
-
-    /* Table adjustments */
-    ::ng-deep .p-datatable {
-        font-size: 0.9rem;
-    }
-
-    ::ng-deep .p-datatable .p-datatable-thead > tr > th,
-    ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
-        padding: 0.875rem;
-    }
-
-    .action-icon {
-        font-size: 1.25rem;
-    }
-}
-
-/* ===========================================
-   RESPONSIVIDADE - MOBILE (até 768px)
-   =========================================== */
-@media (max-width: 768px) {
-    /* Container */
-    .patients-container {
-        gap: 5px;
-    }
-
-    /* Content */
-    .patients-content {
-        padding: 1rem;
-    }
-
-    /* Header */
-    .patients-header {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    .patients-header h2 {
-        font-size: 1.5rem;
-    }
-
-    /* Search Filter Bar - Empilhado */
-    .search-filter-bar {
-        grid-template-columns: 1fr;
-        gap: 10px;
-        padding: 0.75rem;
-    }
-
-    /* Table Wrapper */
-    .table-wrapper {
-        margin-top: 1rem;
-    }
-
-    /* Patient Name Cell */
-    .patient-name-cell {
-        gap: 0.5rem;
-    }
-
-    .patient-name-cell strong {
-        font-size: 0.9rem;
-    }
-
-    /* Patient Avatar */
-    .patient-avatar {
-        width: 32px;
-        height: 32px;
-    }
-
-    /* Action Icon */
-    .action-icon {
-        font-size: 1.2rem;
-        padding: 0.4rem;
-    }
-
-    .action-icon i:hover {
-        transform: scale(1.3);
-    }
-
-    /* Actions Column */
-    .actions-column {
-        width: 80px;
-    }
-
-    /* Empty State */
-    .empty-state-cell {
-        padding: 2rem;
-    }
-
-    .empty-state-icon {
-        font-size: 2.5rem;
-    }
-
-    .empty-state-text {
-        font-size: 1rem;
-    }
-
-    /* Table Customization */
-    ::ng-deep .p-datatable {
-        font-size: 0.85rem;
-    }
-
-    ::ng-deep .p-datatable .p-datatable-thead > tr > th,
-    ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
-        padding: 0.625rem;
-    }
-
-    /* Largura mínima das colunas para scroll horizontal */
-    ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(1),
-    ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(1) {
-        min-width: 160px;
-    }
-
-    ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(2),
-    ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(2) {
-        min-width: 200px;
-    }
-
-    ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(3),
-    ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(3) {
-        min-width: 130px;
-    }
-
-    ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(4),
-    ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(4) {
-        min-width: 80px;
-    }
-
-    /* Paginator */
-    ::ng-deep .p-paginator {
-        padding: 0.75rem;
-        gap: 0.5rem;
-        justify-content: center;
-    }
-
-    ::ng-deep .p-paginator .p-dropdown {
-        margin-left: 0;
-        margin-top: 0.5rem;
-    }
-
-    ::ng-deep .p-paginator .p-paginator-first,
-    ::ng-deep .p-paginator .p-paginator-prev,
-    ::ng-deep .p-paginator .p-paginator-next,
-    ::ng-deep .p-paginator .p-paginator-last {
-        min-width: 2.25rem;
-        height: 2.25rem;
-    }
-
-    ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
-        min-width: 2.25rem;
-        height: 2.25rem;
-    }
-}
-
-/* ===========================================
-   RESPONSIVIDADE - MOBILE PEQUENO (até 480px)
-   =========================================== */
-@media (max-width: 480px) {
-    /* Content */
-    .patients-content {
-        padding: 0.75rem;
-    }
-
-    /* Header */
-    .patients-header {
-        margin-bottom: 0.75rem;
-    }
-
-    .patients-header h2 {
-        font-size: 1.25rem;
-    }
-
-    /* Search Filter Bar */
-    .search-filter-bar {
-        grid-template-columns: 1fr !important;
-        padding: 0.625rem;
-        gap: 8px;
-    }
-
-    /* Table Wrapper */
-    .table-wrapper {
-        margin-top: 0.75rem;
-    }
-
-    /* Patient Name Cell */
-    .patient-name-cell {
-        gap: 0.4rem;
-    }
-
-    .patient-name-cell strong {
-        font-size: 0.85rem;
-    }
-
-    /* Patient Avatar */
-    .patient-avatar {
-        width: 28px;
-        height: 28px;
-        border: 1px solid var(--white-color);
-    }
-
-    /* Action Icon */
-    .action-icon {
-        font-size: 1.1rem;
-        padding: 0.35rem;
-    }
-
-    .action-icon i:hover {
-        transform: scale(1.2);
-    }
-
-    /* Actions Column */
-    .actions-column {
-        width: 60px;
-    }
-
-    /* Empty State */
-    .empty-state-cell {
-        padding: 1.5rem;
-    }
-
-    .empty-state-icon {
-        font-size: 2rem;
-        margin-bottom: 0.75rem;
-    }
-
-    .empty-state-text {
-        font-size: 0.9rem;
-        margin: 0.75rem 0 1rem 0;
-    }
-
-    /* Table Customization */
-    ::ng-deep .p-datatable {
-        font-size: 0.8rem;
-    }
-
-    ::ng-deep .p-datatable .p-datatable-thead > tr > th,
-    ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
-        padding: 0.5rem;
-    }
-
-    /* Largura mínima das colunas */
-    ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(1),
-    ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(1) {
-        min-width: 140px;
-    }
-
-    ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(2),
-    ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(2) {
-        min-width: 180px;
-    }
-
-    ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(3),
-    ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(3) {
-        min-width: 110px;
-    }
-
-    ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(4),
-    ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(4) {
-        min-width: 60px;
-    }
-
-    /* Paginator */
-    ::ng-deep .p-paginator {
-        padding: 0.5rem;
-        font-size: 0.85rem;
-    }
-
-    ::ng-deep .p-paginator .p-paginator-first,
-    ::ng-deep .p-paginator .p-paginator-prev,
-    ::ng-deep .p-paginator .p-paginator-next,
-    ::ng-deep .p-paginator .p-paginator-last {
-        min-width: 2rem;
-        height: 2rem;
-        font-size: 0.85rem;
-    }
-
-    ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
-        min-width: 2rem;
-        height: 2rem;
-        font-size: 0.85rem;
-    }
-
-    /* Esconder alguns números de página em telas muito pequenas */
-    ::ng-deep
-        .p-paginator
-        .p-paginator-pages
-        .p-paginator-page:not(.p-highlight):not(:first-child):not(:last-child) {
-        display: none;
-    }
-}
-
-/* ===========================================
-   RESPONSIVIDADE - MOBILE EXTRA PEQUENO (até 360px)
-   =========================================== */
-@media (max-width: 360px) {
-    .patients-header h2 {
-        font-size: 1.125rem;
-    }
-
-    .patient-name-cell strong {
-        font-size: 0.8rem;
-    }
-
-    .patient-avatar {
-        width: 24px;
-        height: 24px;
-    }
-
-    .action-icon {
-        font-size: 1rem;
-    }
-
-    ::ng-deep .p-datatable {
-        font-size: 0.75rem;
-    }
-
-    ::ng-deep .p-datatable .p-datatable-thead > tr > th,
-    ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
-        padding: 0.4rem;
-    }
-}
-
-/* ===========================================
-   RESPONSIVIDADE - MODO PAISAGEM MOBILE
-   =========================================== */
-@media (max-height: 600px) and (orientation: landscape) {
-    .patients-content {
-        padding: 1rem;
-    }
-
-    .patients-header {
-        margin-bottom: 0.75rem;
-    }
-
-    .patients-header h2 {
-        font-size: 1.25rem;
-    }
-
-    .search-filter-bar {
-        padding: 0.625rem;
-        gap: 8px;
-    }
-
-    .table-wrapper {
-        margin-top: 0.75rem;
-    }
-
-    ::ng-deep .p-datatable .p-datatable-thead > tr > th,
-    ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
-        padding: 0.5rem;
-    }
-
-    .empty-state-cell {
-        padding: 1.5rem;
-    }
-
-    .empty-state-icon {
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
-    }
-}
-
-/* ===========================================
-   MELHORIAS DE ACESSIBILIDADE E UX
-   =========================================== */
-
-/* Touch targets maiores em mobile */
-@media (max-width: 768px) {
-    .action-icon {
-        min-width: 44px;
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
-
-/* Scroll suave */
-.table-wrapper {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-}
-
-/* Indicador visual de scroll horizontal */
-.table-wrapper::-webkit-scrollbar {
-    height: 8px;
-}
-
-.table-wrapper::-webkit-scrollbar-track {
-    background: var(--secondary-background-color);
-    border-radius: var(--border-radius-input);
-}
-
-.table-wrapper::-webkit-scrollbar-thumb {
-    background: var(--primary-border-color);
-    border-radius: var(--border-radius-input);
-}
-
-.table-wrapper::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-color);
-}
-
-/* Melhor visualização de focus para acessibilidade */
-::ng-deep .p-datatable .p-datatable-tbody > tr:focus,
-::ng-deep .p-paginator button:focus {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 2px;
-}
-
-/* Previne quebra de layout em textos muito longos */
-::ng-deep .p-datatable .p-datatable-tbody > tr > td {
-    word-break: break-word;
-    overflow-wrap: break-word;
-}
-
-/* Garante que o botão "Novo Paciente" não quebre em mobile */
-@media (max-width: 768px) {
-    .patients-header qn-button,
-    .patients-header button {
-        width: 100%;
-    }
-}
-
-/* Loading state melhorado */
-::ng-deep .p-datatable .p-datatable-loading-overlay {
-    background-color: rgba(255, 255, 255, 0.8);
-}
-
-::ng-deep .p-datatable .p-datatable-loading-icon {
-    color: var(--primary-color);
-}
-
-/* Hover state mais suave em dispositivos touch */
-@media (hover: none) {
-    .action-icon:hover {
-        background-color: var(--secondary-background-color);
-        border-radius: 50%;
-    }
-
-    ::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
-        background-color: transparent;
-    }
-
-    ::ng-deep .p-datatable .p-datatable-tbody > tr:active {
-        background-color: var(--secondary-background-color);
-    }
-}
-
-/* Estilo para rows selecionadas (se implementado) */
-::ng-deep .p-datatable .p-datatable-tbody > tr.p-highlight {
+::ng-deep .p-paginator .p-paginator-first:hover,
+::ng-deep .p-paginator .p-paginator-prev:hover,
+::ng-deep .p-paginator .p-paginator-next:hover,
+::ng-deep .p-paginator .p-paginator-last:hover {
     background-color: rgba(87, 181, 251, 0.1);
-    color: var(--primary-color);
-}
-
-/* Melhoria visual para striped rows */
-::ng-deep .p-datatable .p-datatable-tbody > tr.p-row-odd {
-    background-color: rgba(0, 0, 0, 0.02);
-}
-
-::ng-deep .p-datatable .p-datatable-tbody > tr.p-row-odd:hover {
-    background-color: var(--secondary-background-color);
+    transform: translateY(-2px);
 }
 
 /* ===========================================
-   NEW PATIENT DIALOG
+   NEW PATIENT DIALOG - REDESIGNED
    =========================================== */
 ::ng-deep .new-patient-dialog {
     &.p-dialog {
         border: none !important;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+        border-radius: 16px !important;
+        overflow: hidden;
     }
-    
+
     .p-dialog-header {
-        background: var(--primary-color);
+        background: linear-gradient(
+            135deg,
+            var(--primary-color) 0%,
+            #4a9dd8 100%
+        );
         color: white;
-        border-radius: var(--border-radius-input) var(--border-radius-input) 0 0;
-        padding: 1.25rem 1.5rem;
+        padding: 1.5rem 2rem;
         border: none !important;
-        
+
         .p-dialog-title {
-            font-weight: 600;
-            font-size: 1.25rem;
+            font-weight: 700;
+            font-size: 1.375rem;
+            letter-spacing: 0.3px;
         }
-        
+
         .p-dialog-header-icons {
             .p-dialog-header-close {
                 color: white;
-                
+                border-radius: 8px;
+                transition: all 0.3s ease;
+
                 &:hover {
-                    background: rgba(255, 255, 255, 0.1);
+                    background: rgba(255, 255, 255, 0.2);
+                    transform: rotate(90deg);
                 }
             }
         }
     }
-    
+
     .p-dialog-content {
         padding: 0;
         overflow: visible !important;
         border: none !important;
+        background: var(--primary-background-color);
     }
-    
+
     .p-dialog-footer {
         border-top: 1px solid var(--primary-border-color);
-        padding: 1rem 1.5rem;
-        background: var(--secondary-background-color);
-        border-radius: 0 0 var(--border-radius-input) var(--border-radius-input);
+        padding: 1.25rem 2rem;
+        background: linear-gradient(
+            135deg,
+            var(--secondary-background-color) 0%,
+            #f8f9fb 100%
+        );
     }
 }
 
 .dialog-content {
-    padding: 1.5rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    max-height: 60vh;
+    gap: 2rem;
+    max-height: 65vh;
     overflow-y: auto;
     overflow-x: visible;
 }
@@ -733,54 +357,72 @@
 .form-section {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    
-    .section-title {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--primary-color);
-        margin: 0;
-        padding-bottom: 0.5rem;
-        border-bottom: 2px solid var(--primary-border-color);
-        
-        i {
-            font-size: 1rem;
-        }
+    gap: 1.25rem;
+    padding: 1.5rem;
+    background: linear-gradient(
+        135deg,
+        rgba(87, 181, 251, 0.03) 0%,
+        rgba(74, 157, 216, 0.05) 100%
+    );
+    border-radius: 12px;
+    border: 1px solid rgba(87, 181, 251, 0.1);
+    transition: all 0.3s ease;
+}
+
+.form-section:hover {
+    border-color: rgba(87, 181, 251, 0.3);
+    box-shadow: 0 4px 6px -1px rgba(87, 181, 251, 0.1);
+}
+
+.form-section .section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--primary-color);
+
+    i {
+        font-size: 1.25rem;
+        background: linear-gradient(
+            135deg,
+            var(--primary-color) 0%,
+            #4a9dd8 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 }
 
 .form-row {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    gap: 1.25rem;
     align-items: end;
-    
-    @media (max-width: 500px) {
-        grid-template-columns: 1fr;
-    }
 }
 
 .form-field {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    
+    gap: 0.625rem;
+
     .field-label {
-        font-size: 0.875rem;
-        font-weight: 500;
+        font-size: 0.9375rem;
+        font-weight: 600;
         color: var(--primary-font-color);
-        line-height: 1.2;
-        min-height: 1.05rem;
+        line-height: 1.3;
+        min-height: 1.2rem;
     }
 }
 
 .dialog-footer {
     display: flex;
     justify-content: flex-end;
-    gap: 0.75rem;
+    gap: 1rem;
 }
 
 /* PrimeNG Input Customization for Dialog */
@@ -790,134 +432,482 @@
     .p-select {
         width: 100%;
     }
-    
+
     .p-inputnumber-input,
     .p-datepicker-input,
     .p-select-label {
         width: 100%;
-        padding: 0.75rem 1rem;
-        border: 1px solid var(--primary-border-color);
-        border-radius: var(--border-radius-input);
-        font-size: 0.875rem;
-        transition: all 0.2s ease;
-        height: 46px;
+        padding: 0.875rem 1.125rem;
+        border: 2px solid var(--primary-border-color);
+        border-radius: 10px;
+        font-size: 0.9375rem;
+        transition: all 0.3s ease;
+        height: 50px;
         box-sizing: border-box;
+        background: white;
     }
-    
+
     .p-select {
-        height: 46px;
-        
+        height: 50px;
+        border-radius: 10px;
+
         .p-select-label {
             display: flex;
             align-items: center;
-            padding: 0 1rem;
+            padding: 0 1.125rem;
             border: none;
             height: 100%;
         }
-        
+
         .p-select-dropdown {
             height: 100%;
             display: flex;
             align-items: center;
         }
     }
-    
+
     .p-inputnumber-input:focus,
     .p-datepicker-input:focus {
         border-color: var(--primary-color);
-        box-shadow: 0 0 0 2px rgba(87, 181, 251, 0.2);
+        box-shadow: 0 0 0 3px rgba(87, 181, 251, 0.15);
+        transform: translateY(-1px);
     }
-    
+
     .p-datepicker-trigger {
-        background: var(--secondary-background-color);
-        border: 1px solid var(--primary-border-color);
+        background: linear-gradient(
+            135deg,
+            var(--secondary-background-color) 0%,
+            #f0f3f7 100%
+        );
+        border: 2px solid var(--primary-border-color);
         border-left: none;
-        color: var(--secondary-font-color);
-        height: 46px;
-        
+        color: var(--primary-color);
+        height: 50px;
+        transition: all 0.3s ease;
+
         &:hover {
-            background: var(--primary-border-color);
+            background: linear-gradient(
+                135deg,
+                var(--primary-color) 0%,
+                #4a9dd8 100%
+            );
+            color: white;
         }
     }
-    
+
     .p-datepicker-input-icon-container {
-        height: 46px;
-        
+        height: 50px;
+
         .p-datepicker-input {
-            height: 46px;
+            height: 50px;
         }
     }
 }
 
-/* Scrollbar for dialog content */
-.dialog-content::-webkit-scrollbar {
-    width: 6px;
+/* ===========================================
+   RESPONSIVIDADE - DESKTOP LARGE (1200px+)
+   =========================================== */
+@media (min-width: 1200px) {
+    .patients-content {
+        padding: 3rem;
+    }
+
+    .search-filter-bar {
+        grid-template-columns: 1fr;
+    }
 }
 
-.dialog-content::-webkit-scrollbar-track {
-    background: var(--secondary-background-color);
-    border-radius: 3px;
+/* ===========================================
+   RESPONSIVIDADE - TABLET (768px - 1024px)
+   =========================================== */
+@media (max-width: 1024px) {
+    .patients-container {
+        padding: 1rem;
+    }
+
+    .patients-content {
+        padding: 2rem;
+    }
+
+    .patients-header h2 {
+        font-size: 2rem;
+    }
+
+    .search-filter-bar {
+        grid-template-columns: 1fr;
+    }
+
+    ::ng-deep .p-datatable {
+        font-size: 0.9375rem;
+    }
+
+    ::ng-deep .p-datatable .p-datatable-thead > tr > th,
+    ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+        padding: 1rem 0.875rem;
+    }
+
+    .action-icon {
+        font-size: 1.3rem;
+    }
 }
 
-.dialog-content::-webkit-scrollbar-thumb {
-    background: var(--primary-border-color);
-    border-radius: 3px;
-}
-
-.dialog-content::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-color);
-}
-
-/* Dialog Responsive */
+/* ===========================================
+   RESPONSIVIDADE - MOBILE (até 768px)
+   =========================================== */
 @media (max-width: 768px) {
+    .patients-container {
+        padding: 0.75rem;
+        border-radius: 12px;
+    }
+
+    .patients-content {
+        padding: 1.5rem;
+        border-radius: 12px;
+    }
+
+    .patients-header {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.25rem;
+    }
+
+    .patients-header h2 {
+        font-size: 1.75rem;
+    }
+
+    .search-filter-bar {
+        grid-template-columns: 1fr;
+        gap: 0.875rem;
+        padding: 1rem;
+    }
+
+    .table-wrapper {
+        margin-top: 1.5rem;
+        border-radius: 10px;
+    }
+
+    .patient-name-cell {
+        gap: 0.75rem;
+    }
+
+    .patient-name-cell strong {
+        font-size: 0.875rem;
+    }
+
+    .patient-avatar {
+        width: 36px;
+        height: 36px;
+        border-width: 2px;
+    }
+
+    .action-icon {
+        font-size: 1.25rem;
+        padding: 0.5rem;
+    }
+
+    .action-icon i:hover {
+        transform: scale(1.25);
+    }
+
+    .empty-state-cell {
+        padding: 3rem 1.5rem;
+    }
+
+    .empty-state-icon {
+        font-size: 3rem;
+    }
+
+    .empty-state-text {
+        font-size: 1rem;
+    }
+
+    ::ng-deep .p-datatable {
+        font-size: 0.875rem;
+    }
+
+    ::ng-deep .p-datatable .p-datatable-thead > tr > th,
+    ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+        padding: 0.875rem 0.625rem;
+    }
+
+    ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(1),
+    ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(1) {
+        min-width: 170px;
+    }
+
+    ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(2),
+    ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(2) {
+        min-width: 200px;
+    }
+
+    ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(3),
+    ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(3) {
+        min-width: 140px;
+    }
+
+    ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(4),
+    ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(4) {
+        min-width: 80px;
+    }
+
+    ::ng-deep .p-paginator {
+        padding: 1rem;
+        gap: 0.625rem;
+        justify-content: center;
+    }
+
+    ::ng-deep .p-paginator .p-dropdown {
+        margin-top: 0.625rem;
+    }
+
+    ::ng-deep .p-paginator .p-paginator-first,
+    ::ng-deep .p-paginator .p-paginator-prev,
+    ::ng-deep .p-paginator .p-paginator-next,
+    ::ng-deep .p-paginator .p-paginator-last {
+        min-width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
+        min-width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    /* Dialog Responsive */
     ::ng-deep .new-patient-dialog {
         &.p-dialog {
             width: 95vw !important;
-            margin: 0.5rem;
+            margin: 0.75rem;
+            border-radius: 12px !important;
         }
-        
+
         .p-dialog-header {
-            padding: 1rem;
-            
+            padding: 1.25rem 1.5rem;
+
             .p-dialog-title {
-                font-size: 1.125rem;
+                font-size: 1.25rem;
             }
         }
-        
+
         .p-dialog-footer {
-            padding: 0.75rem 1rem;
+            padding: 1rem 1.5rem;
         }
     }
-    
+
     .dialog-content {
-        padding: 1rem;
-        gap: 1.25rem;
+        padding: 1.5rem;
+        gap: 1.5rem;
+        max-height: 55vh;
     }
-    
+
+    .form-section {
+        padding: 1.25rem;
+        gap: 1rem;
+    }
+
     .form-section .section-title {
-        font-size: 0.9375rem;
+        font-size: 1rem;
     }
-    
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
     .dialog-footer {
         flex-direction: column-reverse;
-        
+        gap: 0.75rem;
+
         qn-button {
             width: 100%;
         }
     }
+
+    ::ng-deep .new-patient-dialog {
+        .p-inputnumber-input,
+        .p-datepicker-input,
+        .p-select-label {
+            height: 48px;
+            padding: 0.75rem 1rem;
+        }
+
+        .p-select {
+            height: 48px;
+        }
+
+        .p-datepicker-trigger {
+            height: 48px;
+        }
+
+        .p-datepicker-input-icon-container {
+            height: 48px;
+
+            .p-datepicker-input {
+                height: 48px;
+            }
+        }
+    }
 }
 
+/* ===========================================
+   RESPONSIVIDADE - MOBILE PEQUENO (até 480px)
+   =========================================== */
 @media (max-width: 480px) {
-    .dialog-content {
-        padding: 0.75rem;
-        max-height: 50vh;
+    .patients-container {
+        padding: 0.5rem;
     }
-    
-    .form-row {
+
+    .patients-content {
+        padding: 1rem;
+    }
+
+    .patients-header {
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    .patients-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .search-filter-bar {
+        padding: 0.875rem;
         gap: 0.75rem;
     }
-    
-    .form-field .field-label {
+
+    .table-wrapper {
+        margin-top: 1rem;
+    }
+
+    .patient-name-cell {
+        gap: 0.5rem;
+    }
+
+    .patient-name-cell strong {
         font-size: 0.8125rem;
+    }
+
+    .patient-avatar {
+        width: 32px;
+        height: 32px;
+    }
+
+    .action-icon {
+        font-size: 1.125rem;
+        padding: 0.375rem;
+    }
+
+    .empty-state-cell {
+        padding: 2rem 1rem;
+    }
+
+    .empty-state-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .empty-state-text {
+        font-size: 0.9375rem;
+        margin: 1rem 0 1.25rem 0;
+    }
+
+    ::ng-deep .p-datatable {
+        font-size: 0.8125rem;
+    }
+
+    ::ng-deep .p-datatable .p-datatable-thead > tr > th,
+    ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+        padding: 0.75rem 0.5rem;
+    }
+
+    ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(1),
+    ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(1) {
+        min-width: 150px;
+    }
+
+    ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(2),
+    ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(2) {
+        min-width: 180px;
+    }
+
+    ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(3),
+    ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(3) {
+        min-width: 120px;
+    }
+
+    ::ng-deep .p-datatable .p-datatable-thead > tr > th:nth-child(4),
+    ::ng-deep .p-datatable .p-datatable-tbody > tr > td:nth-child(4) {
+        min-width: 70px;
+    }
+
+    ::ng-deep .p-paginator {
+        padding: 0.75rem;
+        font-size: 0.875rem;
+    }
+
+    ::ng-deep .p-paginator .p-paginator-first,
+    ::ng-deep .p-paginator .p-paginator-prev,
+    ::ng-deep .p-paginator .p-paginator-next,
+    ::ng-deep .p-paginator .p-paginator-last {
+        min-width: 2.25rem;
+        height: 2.25rem;
+        font-size: 0.875rem;
+    }
+
+    ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
+        min-width: 2.25rem;
+        height: 2.25rem;
+        font-size: 0.875rem;
+    }
+
+    ::ng-deep
+        .p-paginator
+        .p-paginator-pages
+        .p-paginator-page:not(.p-highlight):not(:first-child):not(:last-child) {
+        display: none;
+    }
+
+    .dialog-content {
+        padding: 1rem;
+        gap: 1.25rem;
+    }
+
+    .form-section {
+        padding: 1rem;
+    }
+
+    .form-row {
+        gap: 0.875rem;
+    }
+
+    .form-field .field-label {
+        font-size: 0.875rem;
+    }
+
+    ::ng-deep .new-patient-dialog {
+        .p-inputnumber-input,
+        .p-datepicker-input,
+        .p-select-label {
+            height: 46px;
+            padding: 0.625rem 0.875rem;
+            font-size: 0.875rem;
+        }
+
+        .p-select {
+            height: 46px;
+        }
+
+        .p-datepicker-trigger {
+            height: 46px;
+        }
+
+        .p-datepicker-input-icon-container {
+            height: 46px;
+
+            .p-datepicker-input {
+                height: 46px;
+            }
+        }
     }
 }

@@ -15,7 +15,7 @@
         radius="var(--border-radius-input)"
         flex-column
         height="100%"
-        padding="2rem"
+        padding="1rem"
         [style.flex]="1"
     >
         <qn-div
@@ -26,9 +26,9 @@
             alignItems="center"
         >
             <h2>Meus Pacientes</h2>
-            <qn-button 
-                label="Novo Paciente" 
-                icon="pi pi-user-plus" 
+            <qn-button
+                label="Novo Paciente"
+                icon="pi pi-user-plus"
                 (click)="openNewPatientDialog()"
             />
         </qn-div>
@@ -38,12 +38,12 @@
             background="var(--secondary-background-color)"
             padding="1rem"
             grid
-            columns="1fr minmax(150px, 20%)"
+            columns="3fr 1fr"
             justifyContent="space-between"
             gap="15px"
             radius="var(--border-radius-input)"
-            border="1px solid var(--primary-border-color)"
             alignItems="center"
+            [style.width]="'100%'"
         >
             <qn-text-input
                 placeholder="Procurar paciente por nome, e-mail ou CPF..."
@@ -104,7 +104,10 @@
                                         object-fit: cover;
                                     "
                                 />
-                                <strong>{{ patient?.firstName }} {{ patient?.lastName }}</strong>
+                                <strong
+                                    >{{ patient?.firstName }} {{
+                                    patient?.lastName }}</strong
+                                >
                             </div>
                         </td>
                         <td>{{ patient.email }}</td>
@@ -176,7 +179,7 @@
                 <i class="pi pi-user"></i>
                 Informações Básicas
             </h4>
-            
+
             <div class="form-row">
                 <div class="form-field">
                     <qn-text-input
