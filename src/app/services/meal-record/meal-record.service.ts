@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { firstValueFrom } from 'rxjs';
+import { NotificationService } from '../notification/notification.service';
 
 export interface MealRecord {
     id: string;
@@ -48,6 +49,7 @@ export interface MealRecordResponse {
     providedIn: 'root'
 })
 export class MealRecordService {
+    private readonly notificationService = inject(NotificationService);
     private readonly apiService = inject(ApiService);
 
     async getByPatientAndRange(
@@ -82,5 +84,23 @@ export class MealRecordService {
             )
         );
         return response;
+    }
+
+    async createMealRecord(mealId?: string): Promise<{ success: boolean }> {
+        try {
+            const response = await firstValueFrom(
+                this.apiService.authenticated.post<MealRecord>(`/record/meal/${mealId}`, {
+                    mealId
+                })
+            );
+            if (response) {
+                this.notificationService.me();
+                return { success: true };
+            }
+            return { success: false };
+        } catch (error) {
+            this.notificationService.add({ summary: 'Erro', detail: 'Não foi possível criar o registro de refeição.', severity: 'error' });
+            return { success: false };
+        }
     }
 }

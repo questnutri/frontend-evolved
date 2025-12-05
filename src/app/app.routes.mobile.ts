@@ -1,28 +1,29 @@
-import { Routes } from '@angular/router';
-import { AuthGuard } from './guards/auth-guard';
-import { NutritionistHomePage } from './pages/nutritionist/home/home.page';
-import { ForgotPasswordPage } from './pages/not-logged/forgot-password/forgot-password.page';
-import { AppLayout } from '@qn/components/core';
-import { ResetPage } from './pages/not-logged/reset-password/reset-password.page';
-import { ResetGuard } from './guards/reset-guard';
-import { NotLoggedLayout } from './pages/not-logged/not-logged.page';
-import { LoginPage } from './pages/not-logged/login/login.page';
-import { NutritionistRegisterPage } from './pages/not-logged/nutritionist-register/nutritionist-register.page';
-import { RealLandingComponent } from './pages/real-landing/real-landing';
-import { NutritionistGuard } from './guards/nutritionist-guard';
-import { NutritionistProfilePage } from './pages/nutritionist/profile/profile.component';
-import { PatientHomePage } from './pages/patient/patient-home/patient-home.page';
-import { PatientGuard } from './guards/patient-guard';
-import { NutritionistPatientsPage } from './pages/nutritionist/patients-list/patients-list.page';
-import { NutritionistPatientDetailsPage } from './pages/nutritionist/patient-details/patient-details.page';
-import { NutritionistPatientInfoSection } from './pages/nutritionist/patient-details/sections/info/info.section';
-import { NutritionistPatientHealthSection } from './pages/nutritionist/patient-details/sections/health/health.section';
-import { NutritionistPatientDietsSection } from './pages/nutritionist/patient-details/sections/diets/diets.section';
-import { NutritionistPatientRecordsSection } from './pages/nutritionist/patient-details/sections/records/records.section';
-import { PatientDietDetailsPage } from './pages/nutritionist/diet-details/diet-details.page';
-import { AchievementsPage } from './pages/patient/achievements/achievements.page';
-import { WaterTrackingPage } from './pages/patient/water/water-tracking.page';
-import { WeightPage } from './pages/patient/weight/weight.page';
+import { Routes } from "@angular/router";
+import { AppLayout } from "@qn/components/core";
+import { AuthGuard } from "./guards/auth-guard";
+import { NutritionistGuard } from "./guards/nutritionist-guard";
+import { PatientGuard } from "./guards/patient-guard";
+import { ResetGuard } from "./guards/reset-guard";
+import { ForgotPasswordPage } from "./pages/not-logged/forgot-password/forgot-password.page";
+import { LoginPage } from "./pages/not-logged/login/login.page";
+import { NotLoggedLayout } from "./pages/not-logged/not-logged.page";
+import { NutritionistRegisterPage } from "./pages/not-logged/nutritionist-register/nutritionist-register.page";
+import { ResetPage } from "./pages/not-logged/reset-password/reset-password.page";
+import { PatientDietDetailsPage } from "./pages/nutritionist/diet-details/diet-details.page";
+import { NutritionistHomePage } from "./pages/nutritionist/home/home.page";
+import { NutritionistPatientDetailsPage } from "./pages/nutritionist/patient-details/patient-details.page";
+import { NutritionistPatientDietsSection } from "./pages/nutritionist/patient-details/sections/diets/diets.section";
+import { NutritionistPatientHealthSection } from "./pages/nutritionist/patient-details/sections/health/health.section";
+import { NutritionistPatientInfoSection } from "./pages/nutritionist/patient-details/sections/info/info.section";
+import { NutritionistPatientRecordsSection } from "./pages/nutritionist/patient-details/sections/records/records.section";
+import { NutritionistPatientsPage } from "./pages/nutritionist/patients-list/patients-list.page";
+import { NutritionistProfilePage } from "./pages/nutritionist/profile/profile.component";
+import { AchievementsPage } from "./pages/patient/achievements/achievements.page";
+import { PatientHomePage } from "./pages/patient/patient-home/patient-home.page";
+import { WaterTrackingPage } from "./pages/patient/water/water-tracking.page";
+import { WeightPage } from "./pages/patient/weight/weight.page";
+import { RealLandingComponent } from "./pages/real-landing/real-landing";
+
 
 export const routes: Routes = [
     {
@@ -146,10 +147,6 @@ export const routes: Routes = [
                 canActivate: [ResetGuard]
             }
         ]
-    },
-    {
-        path: 'landing',
-        component: RealLandingComponent,
     },
     {
         path: 'register',

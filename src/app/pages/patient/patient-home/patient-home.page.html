@@ -1,23 +1,99 @@
-<div
-    style="
-        font-family: system-ui, sans-serif;
-        margin: 0 auto;
-        width: 100%;
-        padding: 16px;
-        background-color: #f3f3f3;
-        width: 100%;
-        height: 90vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 16px;
-        box-sizing: border-box;
-        background-color: var(--primary-background-color);
-    "
->
-    <p>Olá, {{ patient()?.firstName }}!</p>
+<div style="overflow-y: auto; height: 100%;">
+    <div class="patient-home-container">
+        <!-- Header Section -->
+        <div class="header-section">
+            <h1 class="greeting">Olá, {{ patient()?.firstName }}!</h1>
+            
+            <!-- Date Navigation -->
+            <div class="date-navigation">
+                <button class="nav-arrow" (click)="goToPreviousDay()" aria-label="Dia anterior">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                </button>
+                
+                <div class="date-display" (click)="goToToday()">
+                    @if (relativeDay()) {
+                        <span class="relative-day">{{ relativeDay() }}</span>
+                    }
+                    <span class="full-date" [class.is-today]="isToday()">{{ formattedDate() }}</span>
+                </div>
+                
+                <button class="nav-arrow" (click)="goToNextDay()" aria-label="Próximo dia">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </button>
+            </div>
+            
+            @if (!isToday()) {
+                <button class="today-button" (click)="goToToday()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    Voltar para hoje
+                </button>
+            }
+        </div>
     
-    <!-- <app-meal-display [meal]=""/> -->
+        <!-- Progress Bar Section -->
+        @if (todayMealPlans().length > 0) {
+        <div class="progress-section">
+            <div class="progress-header">
+                <h2>Progresso do Dia</h2>
+                <span class="progress-count">
+                    {{ completedMeals() }} / {{ totalMeals() }} refeições
+                </span>
+            </div>
+            
+            <div class="progress-bar-container">
+                <div 
+                    class="progress-bar-fill" 
+                    [style.width.%]="progressPercentage()"
+                    [class.completed]="progressPercentage() === 100"
+                ></div>
+            </div>
+            
+            <p class="progress-percentage">{{ progressPercentage() }}% completo</p>
+        </div>
+        }
+    
+        <!-- Meals Section -->
+        <div class="meals-section">
+            @if (todayMealPlans().length === 0) {
+            <div class="empty-state">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 13h18M3 13v6a2 2 0 002 2h14a2 2 0 002-2v-6M3 13V7a2 2 0 012-2h14a2 2 0 012 2v6"/>
+                    <path d="M8 7v6M16 7v6"/>
+                </svg>
+                <h3>Nenhuma refeição para este dia</h3>
+                <p>Entre em contato com seu nutricionista para configurar seu plano alimentar.</p>
+            </div>
+            } @else {
+            <div class="meals-list">
+                @for (mealPlan of todayMealPlans(); track mealPlan.meal.id) {
+                <app-meal-display 
+                    [meal]="mealPlan.meal"
+                    [isCompleted]="mealPlan.mealRecords && mealPlan.mealRecords.length > 0 && mealPlan.mealRecords[0]?.isCompleted"
+                    (checkedChange)="onMealChecked(mealPlan, $event)"
+                    [relativeDate]="selectedDate()"
+                />
+                }
+            </div>
+            }
+        </div>
+    
+        <!-- Celebration -->
+        @if (progressPercentage() === 100 && isToday()) {
+        <div class="celebration">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <h3>Parabéns! 🎉</h3>
+            <p>Você completou todas as refeições de hoje!</p>
+        </div>
+        }
+    </div>
 </div>
-
-//TODO: BARRA DE PROGRESSO DAS MEALS - MEAL.RECORD !== NULL //TODO:

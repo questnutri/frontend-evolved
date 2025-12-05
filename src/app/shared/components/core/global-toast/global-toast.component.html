@@ -1,8 +1,10 @@
 <p-toast
     key="achievement"
     [style.width]="deviceService.isMobileSize() ? '90vw' : '360px'"
-    [position]="'top-right'"
-    [style]="{ top: deviceService.isMobileSize() ? '60px' : undefined }"
+    [position]="deviceService.isMobileSize() ? 'top-right': 'top-right'"
+    [style]="{ 
+        top: deviceService.isMobileSize() ? '60px' : '70px',
+    }"
 >
     <ng-template let-message #headless let-closeFn="closeFn">
         <section 

@@ -60,6 +60,7 @@ export class AuthService {
             const current = this.storageService.get<AuthPayload>('auth');
             if (auth && JSON.stringify(current) !== JSON.stringify(auth)) {
                 this.storageService.add({ auth });
+                this.notificationService.me();
             } else if (!auth && current) {
                 this.storageService.remove('auth');
             }

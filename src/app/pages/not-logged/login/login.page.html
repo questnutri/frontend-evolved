@@ -27,8 +27,7 @@
     flex-column
     gap="15px"
     justifyContent="space-between"
-    [style.box-sizing]="'border-box'"
-    style="width: 100%; height: 100%"
+    style="box-sizing: border-box;"
 >
     <h2 class="login-title">Login</h2>
 
@@ -37,11 +36,17 @@
         [(value)]="emailInput"
         qnLabel="E-mail"
         width="100%"
+        style="width: 100%; max-width: 100%;"
     />
 
-    <qn-password-input [(value)]="passwordInput" qnLabel="Senha" width="100%" />
+    <qn-password-input
+        [(value)]="passwordInput"
+        qnLabel="Senha"
+        width="100%"
+        style="width: 100%; max-width: 100%;"
+    />
 
-    <a href="/forgot-password" class="forgot-password"> Esqueci minha senha </a>
+    <a href="/forgot-password" class="forgot-password">Esqueci minha senha</a>
 
     <qn-button
         label="Login"

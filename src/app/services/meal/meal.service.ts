@@ -43,11 +43,9 @@ export class MealService {
             const response = await firstValueFrom(
                 this.apiService.authenticated.post<any>(`/diet/meals`, { createMealDto })
             );
-            console.log(response);
             return response;
         } catch (error) {
             console.error('Error creating meal:', error);
-            throw error;
             return false;
         }
     }

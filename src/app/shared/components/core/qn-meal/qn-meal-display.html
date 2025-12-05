@@ -20,32 +20,32 @@
         @if (meal().foods.length > 0) {
         <div class="macros-grid">
             <div class="macro">
-                <p class="label">kcal</p>
+                <p class="label">Kcal</p>
                 <p class="value">
-                    {{ meal().getTotal('kcal') | number: '1.0-0' }}
+                    {{ meal()?.getTotal('kcal') | number: '1.0-0' }}
                 </p>
             </div>
             <div class="macro">
-                <p class="label">Carbs</p>
+                <p class="label">Carb.</p>
                 <p class="value">
-                    {{ meal().getTotal('carb') | number: '1.0-1' }}g
+                    {{ meal()?.getTotal('carb') | number: '1.0-1' }}g
                 </p>
             </div>
             <div class="macro">
-                <p class="label">Protein</p>
+                <p class="label">Prot.</p>
                 <p class="value">
-                    {{ meal().getTotal('protein') | number: '1.0-1' }}g
+                    {{ meal()?.getTotal('protein') | number: '1.0-1' }}g
                 </p>
             </div>
             <div class="macro">
-                <p class="label">Fat</p>
+                <p class="label">Gord.</p>
                 <p class="value">
-                    {{ meal().getTotal('fat') | number: '1.0-1' }}g
+                    {{ meal()?.getTotal('fat') | number: '1.0-1' }}g
                 </p>
             </div>
         </div>
         } @else {
-        <div class="no-foods">No foods added</div>
+        <div class="no-foods">Nenhum alimento adicionado</div>
         }
 
         <!-- Expand Button -->
@@ -124,7 +124,7 @@
                         </p>
                     </div>
                     <div class="food-macro">
-                        <p>Carbs</p>
+                        <p>Carb.</p>
                         <p>
                             <strong
                                 >{{ Number(food.getTotal('carb')).toFixed(1)
@@ -133,7 +133,7 @@
                         </p>
                     </div>
                     <div class="food-macro">
-                        <p>Protein</p>
+                        <p>Prot.</p>
                         <p>
                             <strong
                                 >{{ Number(food.getTotal('protein')).toFixed(1)
@@ -142,7 +142,7 @@
                         </p>
                     </div>
                     <div class="food-macro">
-                        <p>Fat</p>
+                        <p>Gord.</p>
                         <p>
                             <strong
                                 >{{ Number(food.getTotal('fat')).toFixed(1)

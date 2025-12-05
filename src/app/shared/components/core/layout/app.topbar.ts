@@ -40,7 +40,7 @@ interface NotificationItem {
         DrawerModule
     ],
     template: `
-        <div class="layout-topbar" [style.background]="'var(--primary-background-color)'">
+        <div class="layout-topbar"  [style.background]="'var(--primary-background-color)'">
             <div class="layout-topbar-logo-container">
                 <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
                     <i class="pi pi-bars"></i>

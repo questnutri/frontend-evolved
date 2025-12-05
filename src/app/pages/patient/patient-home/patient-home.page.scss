@@ -1,0 +1,306 @@
+// Variables
+$border-color: var(--primary-border-color, #e5e7eb);
+$bg-primary: var(--primary-background-color, #fff);
+$bg-secondary: var(--secondary-background-color, #f8f9fa);
+$font-primary: var(--primary-font-color, #1e293b);
+$font-secondary: var(--secondary-font-color, #64748b);
+$accent-color: var(--primary-color, #F97316);
+$success-color: #22c55e;
+
+.patient-home-container {
+    padding: 24px;
+    margin: 0 auto;
+}
+
+// =============================
+// HEADER SECTION
+// =============================
+.header-section {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.greeting {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $font-primary;
+    margin: 0 0 20px 0;
+}
+
+// =============================
+// DATE NAVIGATION
+// =============================
+.date-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.nav-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid $border-color;
+    border-radius: 50%;
+    background: $bg-primary;
+    color: $font-secondary;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        border-color: $accent-color;
+        color: $accent-color;
+        background: rgba($accent-color, 0.05);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}
+
+.date-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+    min-width: 280px;
+
+    &:hover {
+        background: $bg-secondary;
+    }
+}
+
+.relative-day {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $accent-color;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.full-date {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: $font-primary;
+    text-transform: capitalize;
+
+    &.is-today {
+        color: $accent-color;
+        font-weight: 600;
+    }
+}
+
+.today-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: 1px solid $accent-color;
+    border-radius: 20px;
+    background: transparent;
+    color: $accent-color;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 8px;
+
+    &:hover {
+        background: $accent-color;
+        color: white;
+    }
+}
+
+// =============================
+// PROGRESS SECTION
+// =============================
+.progress-section {
+    background: $bg-primary;
+    border: 1px solid $border-color;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+
+    h2 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: $font-primary;
+        margin: 0;
+    }
+
+    .progress-count {
+        font-size: 0.875rem;
+        color: $font-secondary;
+        font-weight: 500;
+    }
+}
+
+.progress-bar-container {
+    height: 10px;
+    background: $bg-secondary;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: $accent-color;
+    border-radius: 5px;
+    transition: width 0.4s ease;
+
+    &.completed {
+        background: $success-color;
+    }
+}
+
+.progress-percentage {
+    font-size: 0.8125rem;
+    color: $font-secondary;
+    margin: 8px 0 0 0;
+    text-align: right;
+}
+
+// =============================
+// MEALS SECTION
+// =============================
+.meals-section {
+    margin-bottom: 24px;
+}
+
+.meals-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+// =============================
+// EMPTY STATE
+// =============================
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+    text-align: center;
+    background: $bg-primary;
+    border: 1px dashed $border-color;
+    border-radius: 12px;
+
+    svg {
+        color: $font-secondary;
+        opacity: 0.5;
+        margin-bottom: 16px;
+    }
+
+    h3 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: $font-primary;
+        margin: 0 0 8px 0;
+    }
+
+    p {
+        font-size: 0.9375rem;
+        color: $font-secondary;
+        margin: 0;
+        max-width: 300px;
+    }
+}
+
+// =============================
+// CELEBRATION
+// =============================
+.celebration {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    text-align: center;
+    background: linear-gradient(135deg, rgba($success-color, 0.1) 0%, rgba($accent-color, 0.1) 100%);
+    border: 1px solid rgba($success-color, 0.3);
+    border-radius: 12px;
+
+    svg {
+        color: $success-color;
+        margin-bottom: 12px;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: $font-primary;
+        margin: 0 0 4px 0;
+    }
+
+    p {
+        font-size: 0.9375rem;
+        color: $font-secondary;
+        margin: 0;
+    }
+}
+
+// =============================
+// RESPONSIVE
+// =============================
+@media (max-width: 640px) {
+    .patient-home-container {
+        padding: 16px;
+    }
+
+    .greeting {
+        font-size: 1.25rem;
+    }
+
+    .date-navigation {
+        gap: 8px;
+    }
+
+    .nav-arrow {
+        width: 40px;
+        height: 40px;
+    }
+
+    .date-display {
+        min-width: 200px;
+        padding: 8px 12px;
+    }
+
+    .full-date {
+        font-size: 1rem;
+    }
+
+    .relative-day {
+        font-size: 0.75rem;
+    }
+
+    .progress-section {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 400px) {
+    .date-display {
+        min-width: 160px;
+    }
+
+    .full-date {
+        font-size: 0.9rem;
+    }
+}

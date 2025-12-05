@@ -50,6 +50,21 @@ export class DietService {
         }
     }
 
+    async getDietPlanForCurrent() {
+        try {
+            const response = await firstValueFrom(
+                this.apiService.authenticated.get<any>(
+                    `/diet/current/plan?monthlyView=true&includeRecords=true`
+                )
+            );
+            console.log(response);
+            return response;
+        } catch (error) {
+            console.error('Error fetching diet plan:', error);
+            return null;
+        }
+    }
+
     async getDietPlan(dietId: string, date: Date) {
         try {
             const response = await firstValueFrom(

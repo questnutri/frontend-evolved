@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, input, signal, computed, output, OnInit, effect, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthService, DeviceService } from '@qn/services';
+import { AuthService, DeviceService, MealRecord, MealRecordService } from '@qn/services';
+import { today } from 'ionicons/icons';
 import { MealModel } from 'src/app/shared/models/meal.model';
 
 @Component({
@@ -14,23 +15,86 @@ import { MealModel } from 'src/app/shared/models/meal.model';
 export class MealDisplayComponent implements OnInit {
     readonly deviceService = inject(DeviceService);
     readonly authService = inject(AuthService);
-    meal = input.required<MealModel>();
+    private readonly mealRecordService = inject(MealRecordService); 
+
+    // Inputs
+    meal = model.required<MealModel>();
+    mealRecord = model<MealRecord>();
+    isCompleted = input<boolean>(false);
+    displayDate = input<Date | string | null>(null); // Add input for the displayed date
+    relativeDate = input<Date>();
+
+    treatedRelativeDate = computed(() => {
+        const extractDate = (date: Date) => {
+            const day = date.getDate();
+            const month = date.getMonth();
+            const year = date.getFullYear();
+            return `${year}-${month + 1}-${day}`;
+        }
+        const date = this.relativeDate();
+        if (date) {
+            return extractDate(date);
+        }
+
+        return extractDate(new Date());
+    })
+
+
+    // Output for checked state changes
+    checkedChange = output<boolean>();
+
+    // Component state
     expanded = signal<boolean>(false);
     checked = signal<boolean>(false);
-    Number = Number;
     food_expanded = signal<{ [key: string]: boolean }>({});
 
-    ngOnInit(): void {
-        console.log(this.meal());
+    Number = Number;
 
+    // Computed signal to determine if checkbox should be disabled
+    isCheckboxDisabled = computed(() => {
+        const userRole = this.authService.userRole();
+
+        // If user is not a patient, checkbox is always disabled
+        if (userRole !== 'patient') {
+            return true;
+        }
+
+        // If user is a patient, check if the displayed date is today
+        const displayDateValue = this.displayDate();
+        if (!displayDateValue) {
+            return false; // If no date provided, allow checking
+        }
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const compareDate = new Date(displayDateValue);
+        compareDate.setHours(0, 0, 0, 0);
+
+        // Disable if the date is NOT today
+        return compareDate.getTime() !== today.getTime();
+    });
+
+    // Effect to sync checked state with isCompleted input
+    constructor() {
+        effect(() => {
+            this.checked.set(this.isCompleted());
+            this.meal.update((meal: any) => MealModel.from({ ...meal }));
+        });
+    }
+
+    async ngOnInit(): Promise<void> {
+        const mealRecord = this.mealRecord();
+        if(mealRecord && mealRecord.isCompleted) {
+            this.checked.set(true);
+        }
     }
 
     isFoodVisible = (foodId: string) => computed(() => {
         const isMobile = this.deviceService.isMobileSize();
-
         if (!isMobile) return true;
         return this.food_expanded()[foodId] ?? false;
-    })
+    });
 
     toggleExpanded(): void {
         if (this.meal().foods.length > 0) {
@@ -38,19 +102,22 @@ export class MealDisplayComponent implements OnInit {
         }
     }
 
-    toggleChecked(): void {
-        console.log('1- Toggling checked state', this.checked());
+    async toggleChecked(): Promise<void> {
+        // Prevent toggling if checkbox is disabled
+        if (this.isCheckboxDisabled()) {
+            return;
+        }
 
-        this.checked.update(value => !value);
-        console.log('2- Toggling checked state', this.checked());
+        const newValue = !this.checked();
+        await this.mealRecordService.createMealRecord(this.meal().id);
+        this.checked.set(newValue);
+        this.checkedChange.emit(newValue);
     }
 
-    toggleFoodExpanded(foodId: string) {
+    toggleFoodExpanded(foodId: string): void {
         this.food_expanded.update(prev => ({
             ...prev,
-            [foodId]: !(prev[foodId] ?? false)  // garante que undefined = false
+            [foodId]: !(prev[foodId] ?? false)
         }));
-        console.log('Toggled food expanded for', foodId, this.food_expanded());
     }
-
 }

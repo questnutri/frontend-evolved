@@ -1,18 +1,30 @@
 .login-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    width: 35vw;
-    min-width: 400px;
-    max-width: 500px;
+    gap: 15px;
+    width: 100%;
     box-sizing: border-box;
+    padding: 0 24px;
 
-    @media (max-width: 768px) {
+    // Desktop
+    @media (min-width: 769px) {
+        width: 450px;
+        min-width: 450px;
+        padding: 0 40px;
     }
 
+    // Tablet
+    @media (max-width: 768px) {
+        width: 100%;
+        max-width: 400px;
+        padding: 0 24px;
+    }
+
+    // Mobile
     @media (max-width: 480px) {
-        min-width: 350px;
-        gap: 5px;
+        gap: 12px;
+        padding: 0 16px;
+        max-width: 100%;
     }
 }
 
@@ -23,10 +35,6 @@
     align-items: center;
     gap: 15px;
     width: 100%;
-
-    @media (max-width: 768px) {
-        max-width: 100%;
-    }
 
     @media (max-width: 480px) {
         gap: 12px;
@@ -58,6 +66,7 @@
     font-size: 1rem;
     width: 100%;
     text-align: center;
+    
     &:hover {
         text-decoration: underline;
         color: var(--primary-color);
@@ -70,13 +79,26 @@
 }
 
 .login-button {
-    width: 70%;
+    width: 100%;
 
-    @media (max-width: 768px) {
+    @media (min-width: 769px) {
         width: 80%;
     }
+}
 
-    @media (max-width: 480px) {
-        width: 100%;
+// Force inputs to respect container width
+:host ::ng-deep {
+    qn-text-input,
+    qn-password-input {
+        display: block;
+        width: 100% !important;
+        
+        input,
+        .p-inputtext,
+        .p-password,
+        .p-password-input {
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
     }
 }
