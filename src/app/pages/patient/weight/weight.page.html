@@ -1,4 +1,11 @@
-<div style="overflow-y: auto; height: 100%; padding: 30px">
+<div
+    style="
+        overflow-y: auto;
+        height: 100%;
+        padding: 30px;
+        background-color: var(--primary-background-color);
+    "
+>
     <div class="weight-container">
         <!-- Header -->
         <div class="header">
@@ -12,13 +19,17 @@
                 <div class="stats-main">
                     <p class="stats-label">Peso Atual</p>
                     <div class="stats-value-wrapper">
-                        <span class="stats-value">{{ latestWeight() ?? '--' }}</span>
+                        <span class="stats-value"
+                            >{{ latestWeight() ?? '--' }}</span
+                        >
                         <span class="stats-unit">kg</span>
                     </div>
                 </div>
                 @if(weightTrend()) {
                 <div class="trend-badge" [class]="weightTrend()!.direction">
-                    <i [class]="'pi ' + (weightTrend()!.direction === 'down' ? 'pi-arrow-down' : 'pi-arrow-up')"></i>
+                    <i
+                        [class]="'pi ' + (weightTrend()!.direction === 'down' ? 'pi-arrow-down' : 'pi-arrow-up')"
+                    ></i>
                     <span>{{ weightTrend()!.diff }} kg</span>
                 </div>
                 }
@@ -28,14 +39,21 @@
         <!-- Quick Add Section -->
         <div class="quick-add-section">
             <h3 class="section-title">Registrar Peso</h3>
-            <button 
-                class="add-weight-btn" 
+            <button
+                class="add-weight-btn"
                 [class.active]="showInputPanel()"
                 (click)="toggleInputPanel()"
                 [disabled]="saving()"
             >
-                <i class="pi" [class.pi-plus-circle]="!showInputPanel()" [class.pi-times-circle]="showInputPanel()"></i>
-                <span>{{ showInputPanel() ? 'Cancelar' : 'Adicionar Registro' }}</span>
+                <i
+                    class="pi"
+                    [class.pi-plus-circle]="!showInputPanel()"
+                    [class.pi-times-circle]="showInputPanel()"
+                ></i>
+                <span [style.color]="'var(--primary-font-color)'"
+                    >{{ showInputPanel() ? 'Cancelar' : 'Adicionar Registro'
+                    }}</span
+                >
             </button>
 
             <!-- Input Panel -->
@@ -43,30 +61,29 @@
             <div class="input-panel">
                 <div class="input-field-single">
                     <label>Peso (kg)</label>
-                    <p-inputNumber 
-                        [(ngModel)]="weightValue" 
-                        mode="decimal" 
-                        [minFractionDigits]="1" 
+                    <p-inputNumber
+                        [(ngModel)]="weightValue"
+                        mode="decimal"
+                        [minFractionDigits]="1"
                         [maxFractionDigits]="1"
                         [min]="1"
                         [max]="300"
                         placeholder="Ex: 70.5"
                         [disabled]="saving()"
-                        styleClass="w-full">
+                        styleClass="w-full"
+                    >
                     </p-inputNumber>
                 </div>
-                <button 
+                <button
                     class="save-btn"
                     (click)="saveWeight()"
                     [disabled]="!weightValue || saving()"
                 >
                     @if(saving()) {
-                        <i class="pi pi-spin pi-spinner"></i>
-                        Salvando...
-                    } @else {
-                        <i class="pi pi-check"></i>
-                        Salvar Registro
-                    }
+                    <i class="pi pi-spin pi-spinner"></i>
+                    Salvando... } @else {
+                    <i class="pi pi-check"></i>
+                    Salvar Registro }
                 </button>
             </div>
             }
@@ -75,16 +92,16 @@
         <!-- Tabs Section -->
         <div class="tabs-section">
             <div class="tabs-header">
-                <button 
-                    class="tab-btn" 
+                <button
+                    class="tab-btn"
                     [class.active]="activeTab() === 'chart'"
                     (click)="setActiveTab('chart')"
                 >
                     <i class="pi pi-chart-line"></i>
                     <span>Evolução</span>
                 </button>
-                <button 
-                    class="tab-btn" 
+                <button
+                    class="tab-btn"
                     [class.active]="activeTab() === 'history'"
                     (click)="setActiveTab('history')"
                 >
@@ -98,22 +115,28 @@
                 @if(activeTab() === 'chart') {
                 <div class="chart-section">
                     <div class="chart-header">
-                        <p-selectButton 
-                            [options]="timeRangeOptions" 
+                        <p-selectButton
+                            [options]="timeRangeOptions"
                             [(ngModel)]="selectedTimeRange"
-                            optionLabel="label" 
+                            optionLabel="label"
                             optionValue="value"
-                            styleClass="time-range-selector">
+                            styleClass="time-range-selector"
+                        >
                         </p-selectButton>
                     </div>
                     <div class="chart-wrapper">
                         @if(loading()) {
-                            <div class="empty-state">
-                                <i class="pi pi-spin pi-spinner"></i>
-                                <p>Carregando dados...</p>
-                            </div>
+                        <div class="empty-state">
+                            <i class="pi pi-spin pi-spinner"></i>
+                            <p>Carregando dados...</p>
+                        </div>
                         } @else {
-                            <p-chart type="line" [data]="chartData()" [options]="chartOptions" height="300px"></p-chart>
+                        <p-chart
+                            type="line"
+                            [data]="chartData()"
+                            [options]="chartOptions"
+                            height="300px"
+                        ></p-chart>
                         }
                     </div>
                 </div>
@@ -141,7 +164,9 @@
                             </div>
 
                             <div class="history-info">
-                                <div class="history-weight">{{ weight.valueInKg }} kg</div>
+                                <div class="history-weight">
+                                    {{ weight.valueInKg }} kg
+                                </div>
                                 <div class="history-date">
                                     <i class="pi pi-calendar"></i>
                                     {{ formatDate(weight.createdAt) }}

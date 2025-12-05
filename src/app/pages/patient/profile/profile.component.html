@@ -3,7 +3,9 @@
         <!-- Header -->
         <div class="header">
             <h1 class="title">Meu Perfil</h1>
-            <p class="subtitle">Gerencie suas informações pessoais e preferências</p>
+            <p class="subtitle">
+                Gerencie suas informações pessoais e preferências
+            </p>
         </div>
 
         <!-- Personal Information Card -->
@@ -21,13 +23,18 @@
                     <i class="pi pi-pencil"></i>
                 </button>
             </div>
-            <div class="card-content" [class.has-actions]="!personalInformation()">
+            <div
+                class="card-content"
+                [class.has-actions]="!personalInformation()"
+            >
                 <div class="form-grid">
                     <div class="profile-photo-section">
                         <div class="avatar-container">
                             <img
                                 id="avatarImage"
-                                src="https://ui-avatars.com/api/?name={{ patient()?.firstName }}&size=150&background=8B5CF6&color=fff"
+                                src="https://ui-avatars.com/api/?name={{
+                                    patient()?.firstName
+                                }}&size=150&background=8B5CF6&color=fff"
                                 alt="Foto de Perfil"
                                 class="avatar"
                             />
@@ -45,21 +52,25 @@
                             />
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <qn-text-input
                             qnLabel="Primeiro Nome"
-                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            [qnLabelStyle]="{
+                                color: 'var(--primary-font-color)',
+                            }"
                             id="firstName"
                             [value]="patient()?.firstName"
                             [disabled]="true"
                         />
                     </div>
-                    
+
                     <div class="form-group">
                         <qn-text-input
                             qnLabel="Sobrenome"
-                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            [qnLabelStyle]="{
+                                color: 'var(--primary-font-color)',
+                            }"
                             id="lastName"
                             [value]="patient()?.lastName"
                             [disabled]="true"
@@ -70,7 +81,9 @@
                         <qn-drop-down
                             [options]="optionsGender"
                             qnLabel="Gênero"
-                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            [qnLabelStyle]="{
+                                color: 'var(--primary-font-color)',
+                            }"
                             [value]="patient()?.gender"
                             [disabled]="true"
                         />
@@ -79,7 +92,9 @@
                     <div class="form-group">
                         <qn-text-input
                             qnLabel="E-mail"
-                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            [qnLabelStyle]="{
+                                color: 'var(--primary-font-color)',
+                            }"
                             id="email"
                             [value]="patient()?.email"
                             [disabled]="true"
@@ -89,7 +104,9 @@
                     <div class="form-group">
                         <qn-mask-input
                             qnLabel="Telefone"
-                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            [qnLabelStyle]="{
+                                color: 'var(--primary-font-color)',
+                            }"
                             id="phone"
                             [value]="patient()?.phone"
                             [disabled]="personalInformation()"
@@ -100,7 +117,9 @@
                     <div class="form-group">
                         <qn-mask-input
                             qnLabel="CPF"
-                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            [qnLabelStyle]="{
+                                color: 'var(--primary-font-color)',
+                            }"
                             mask="999.999.999-99"
                             [disabled]="true"
                             [value]="patient()?.documentNumber"
@@ -114,7 +133,9 @@
                                 [showIcon]="true"
                                 inputId="birthDate"
                                 qnLabel="Data de Nascimento"
-                                [qnLabelStyle]="{ color: '#1E293B' }"
+                                [qnLabelStyle]="{
+                                    color: 'var(--primary-font-color)',
+                                }"
                                 dateFormat="dd/mm/yy"
                                 placeholder="dd/mm/aa"
                                 [disabled]="true"
@@ -122,7 +143,7 @@
                         </p-fluid>
                     </div>
                 </div>
-                
+
                 @if (!personalInformation()) {
                     <div class="form-actions">
                         <qn-button
@@ -130,10 +151,7 @@
                             type="outline"
                             (click)="handleChangePersonalInformationMode()"
                         />
-                        <qn-button 
-                            label="Salvar" 
-                            (click)="handleSave()"
-                        />
+                        <qn-button label="Salvar" (click)="handleSave()" />
                     </div>
                 }
             </div>
@@ -159,7 +177,9 @@
                     <div class="form-group full-width">
                         <qn-password-input
                             qnLabel="Senha Atual"
-                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            [qnLabelStyle]="{
+                                color: 'var(--primary-font-color)',
+                            }"
                             id="current-password"
                             placeholder="Digite sua senha atual"
                             [disabled]="changePassword()"
@@ -170,7 +190,9 @@
                     <div class="form-group">
                         <qn-password-input
                             qnLabel="Nova Senha"
-                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            [qnLabelStyle]="{
+                                color: 'var(--primary-font-color)',
+                            }"
                             id="new-password"
                             placeholder="Digite a nova senha"
                             [disabled]="changePassword()"
@@ -181,7 +203,9 @@
                     <div class="form-group">
                         <qn-password-input
                             qnLabel="Confirmar Nova Senha"
-                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            [qnLabelStyle]="{
+                                color: 'var(--primary-font-color)',
+                            }"
                             id="confirm-password"
                             placeholder="Confirme a nova senha"
                             [disabled]="changePassword()"

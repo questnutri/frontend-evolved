@@ -1,4 +1,7 @@
-<div style="overflow-y: auto; height: 100%">
+<div
+    style="overflow-y: auto; height: 100%"
+    [style.background]="'var(--primary-background-color)'"
+>
     <div class="patient-home-container">
         <!-- Header Section -->
         <div class="header-section">
@@ -93,24 +96,6 @@
             <p class="progress-percentage">
                 {{ progressPercentage() }}% completo
             </p>
-
-            @if (progressPercentage() === 100 && isToday()) {
-            <div class="celebration">
-                <svg
-                    width="48"
-                    height="48"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                >
-                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
-                    <polyline points="22 4 12 14.01 9 11.01" />
-                </svg>
-                <h3>Parabéns! 🎉</h3>
-                <p>Você completou todas as refeições de hoje!</p>
-            </div>
-            }
         </div>
         }
 
@@ -152,5 +137,22 @@
         </div>
 
         <!-- Celebration -->
+        @if (progressPercentage() === 100 && isToday()) {
+        <div class="celebration">
+            <svg
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+            >
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+            <h3>Parabéns! 🎉</h3>
+            <p>Você completou todas as refeições de hoje!</p>
+        </div>
+        }
     </div>
 </div>

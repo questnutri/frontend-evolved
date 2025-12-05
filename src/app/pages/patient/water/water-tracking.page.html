@@ -1,4 +1,11 @@
-<div style="overflow-y: auto; height: 100%; padding: 30px">
+<div
+    style="
+        overflow-y: auto;
+        height: 100%;
+        padding: 30px;
+        background-color: var(--primary-background-color);
+    "
+>
     <div class="water-tracking-container">
         <!-- Header -->
         <div class="header">
@@ -87,26 +94,28 @@
                 @for(amount of quickAddAmounts; track amount) {
                 <button class="quick-add-btn" (click)="addWater(amount)">
                     <i class="pi pi-plus-circle"></i>
-                    <span>{{ amount }} ml</span>
+                    <span style="color: var(--primary-font-color)"
+                        >{{ amount }} ml</span
+                    >
                 </button>
                 }
                 <!-- Custom Amount Button -->
-                <button 
-                    class="quick-add-btn custom-btn" 
+                <button
+                    class="quick-add-btn custom-btn"
                     [class.active]="showCustomInput()"
                     (click)="toggleCustomInput()"
                 >
                     <i class="pi pi-pencil"></i>
-                    <span>Outro</span>
+                    <span style="color: var(--primary-font-color)">Outro</span>
                 </button>
             </div>
-            
+
             <!-- Custom Input Panel -->
             @if(showCustomInput()) {
             <div class="custom-input-panel">
                 <div class="custom-input-wrapper">
-                    <input 
-                        type="number" 
+                    <input
+                        type="number"
                         class="custom-input"
                         placeholder="Digite a quantidade"
                         [ngModel]="customAmount()"
@@ -117,7 +126,7 @@
                     />
                     <span class="input-suffix">ml</span>
                 </div>
-                <button 
+                <button
                     class="custom-add-btn"
                     [disabled]="!customAmount() || customAmount()! <= 0"
                     (click)="addCustomWater()"
@@ -132,16 +141,16 @@
         <!-- Tabs Section -->
         <div class="tabs-section">
             <div class="tabs-header">
-                <button 
-                    class="tab-btn" 
+                <button
+                    class="tab-btn"
                     [class.active]="activeTab() === 'history'"
                     (click)="setActiveTab('history')"
                 >
                     <i class="pi pi-list"></i>
                     <span>Histórico do Dia</span>
                 </button>
-                <button 
-                    class="tab-btn" 
+                <button
+                    class="tab-btn"
                     [class.active]="activeTab() === 'week'"
                     (click)="setActiveTab('week')"
                 >
@@ -174,7 +183,8 @@
 
                             <div class="history-info">
                                 <div class="history-amount">
-                                    {{ register.operation === 'ADD' ? '+' : '-' }}{{ register.amountInMl }} ml
+                                    {{ register.operation === 'ADD' ? '+' : '-'
+                                    }}{{ register.amountInMl }} ml
                                 </div>
                                 <div class="history-time">
                                     {{ formatTime(register.registerHour) }}
@@ -207,17 +217,31 @@
                             <div class="day-circle-container">
                                 <svg class="day-circle" viewBox="0 0 100 100">
                                     <defs>
-                                        <clipPath [attr.id]="'water-clip-' + day.date.getTime()">
-                                            <rect 
-                                                x="0" 
-                                                [attr.y]="100 - day.percentage" 
-                                                width="100" 
+                                        <clipPath
+                                            [attr.id]="'water-clip-' + day.date.getTime()"
+                                        >
+                                            <rect
+                                                x="0"
+                                                [attr.y]="100 - day.percentage"
+                                                width="100"
                                                 [attr.height]="day.percentage"
                                             />
                                         </clipPath>
-                                        <linearGradient [attr.id]="'water-gradient-' + day.date.getTime()" x1="0%" y1="100%" x2="0%" y2="0%">
-                                            <stop offset="0%" [attr.style]="'stop-color:' + getWeekDayColor(day) + ';stop-opacity:1'" />
-                                            <stop offset="100%" [attr.style]="'stop-color:' + getWeekDayColor(day) + ';stop-opacity:0.7'" />
+                                        <linearGradient
+                                            [attr.id]="'water-gradient-' + day.date.getTime()"
+                                            x1="0%"
+                                            y1="100%"
+                                            x2="0%"
+                                            y2="0%"
+                                        >
+                                            <stop
+                                                offset="0%"
+                                                [attr.style]="'stop-color:' + getWeekDayColor(day) + ';stop-opacity:1'"
+                                            />
+                                            <stop
+                                                offset="100%"
+                                                [attr.style]="'stop-color:' + getWeekDayColor(day) + ';stop-opacity:0.7'"
+                                            />
                                         </linearGradient>
                                     </defs>
                                     <!-- Background circle -->
@@ -236,7 +260,8 @@
                                         [attr.clip-path]="'url(#water-clip-' + day.date.getTime() + ')'"
                                     />
                                     <!-- Wave effect at water level -->
-                                    @if(day.percentage > 0 && day.percentage < 100) {
+                                    @if(day.percentage > 0 && day.percentage <
+                                    100) {
                                     <ellipse
                                         cx="50"
                                         [attr.cy]="100 - day.percentage"
@@ -248,24 +273,32 @@
                                     }
                                 </svg>
                             </div>
-                            <span class="day-intake">{{ (day.intake / 1000).toFixed(1) }}L</span>
+                            <span class="day-intake"
+                                >{{ (day.intake / 1000).toFixed(1) }}L</span
+                            >
                         </div>
                         }
                     </div>
-                    
+
                     <!-- Week Summary -->
                     <div class="week-summary">
                         <div class="summary-item">
                             <span class="summary-label">Média Diária</span>
-                            <span class="summary-value">{{ weekAverage().toFixed(1) }}L</span>
+                            <span class="summary-value"
+                                >{{ weekAverage().toFixed(1) }}L</span
+                            >
                         </div>
                         <div class="summary-item">
                             <span class="summary-label">Metas Completas</span>
-                            <span class="summary-value success">{{ weekCompletedDays() }}/7</span>
+                            <span class="summary-value success"
+                                >{{ weekCompletedDays() }}/7</span
+                            >
                         </div>
                         <div class="summary-item">
                             <span class="summary-label">Total Semanal</span>
-                            <span class="summary-value">{{ weekTotal().toFixed(1) }}L</span>
+                            <span class="summary-value"
+                                >{{ weekTotal().toFixed(1) }}L</span
+                            >
                         </div>
                     </div>
                 </div>

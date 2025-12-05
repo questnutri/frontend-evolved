@@ -1,11 +1,11 @@
 // Variables
-$border-color: #E2E8F0;
-$border-color-light: #F1F5F9;
+$border-color: #e2e8f0;
+$border-color-light: #f1f5f9;
 $bg-primary: var(--primary-background-color, #fff);
 $bg-secondary: var(--secondary-background-color, #f8f9fa);
 $font-primary: var(--primary-font-color, #1e293b);
 $font-secondary: var(--secondary-font-color, #64748b);
-$accent-color: var(--primary-color, #F97316);
+$accent-color: var(--primary-color, #f97316);
 $success-color: #22c55e;
 
 .patient-home-container {
@@ -148,7 +148,7 @@ $success-color: #22c55e;
 
     .progress-count {
         font-size: 0.875rem;
-        color: $font-secondary;
+        color: $font-primary;
         font-weight: 500;
     }
 }
@@ -238,7 +238,13 @@ $success-color: #22c55e;
     justify-content: center;
     padding: 32px 24px;
     text-align: center;
-    background: linear-gradient(135deg, rgba($success-color, 0.1) 0%, rgba($accent-color, 0.1) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba($success-color, 0.1) 0%,
+        rgba($accent-color, 0.1) 100%
+    );
+    border: 1px solid rgba($success-color, 0.3);
+    border-radius: 12px;
 
     svg {
         color: $success-color;
