@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
     selector: 'qn-mask-input',
     templateUrl: './qn-mask-input.component.html',
     styleUrls: ['./qn-mask-input.component.scss'],
-    imports: [QnDiv, InputMaskModule, FormsModule],
+    imports: [InputMaskModule, FormsModule],
 })
 export class QnMaskInputComponent extends QnInput {
 

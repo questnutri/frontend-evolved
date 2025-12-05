@@ -33,6 +33,7 @@
     "@ng-icons/heroicons": "^33.0.0",
     "@ng-icons/material-icons": "^32.5.0",
     "@ng-icons/remixicon": "^33.0.0",
+    "@ng-icons/tabler-icons": "^33.0.0",
     "@primeuix/themes": "^1.2.5",
     "@tailwindcss/postcss": "^4.1.11",
     "chart.js": "4.4.2",

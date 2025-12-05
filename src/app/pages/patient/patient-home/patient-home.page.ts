@@ -26,7 +26,8 @@ export class PatientHomePage implements OnInit {
     
     // Computed signals for progress tracking
     protected completedMeals = computed(() => {
-        return this.todayMealPlans().filter(mp => 
+        const meals = this.todayMealPlans();
+        return meals.filter(mp => 
             mp.mealRecords && mp.mealRecords.length > 0 && 
             mp.mealRecords.some((r: any) => r.isCompleted)
         ).length;
@@ -110,7 +111,13 @@ export class PatientHomePage implements OnInit {
         });
         
         if (dayPlan && dayPlan.mealPlans) {
-            this.todayMealPlans.set(dayPlan.mealPlans);
+            // Sort meals by hour ASC
+            const sortedMealPlans = [...dayPlan.mealPlans].sort((a: any, b: any) => {
+                const hourA = a.meal?.hour || '00:00';
+                const hourB = b.meal?.hour || '00:00';
+                return hourA.localeCompare(hourB);
+            });
+            this.todayMealPlans.set(sortedMealPlans);
         } else {
             this.todayMealPlans.set([]);
         }
@@ -146,17 +153,28 @@ export class PatientHomePage implements OnInit {
     protected onMealChecked(mealPlan: any, isChecked: boolean) {
         console.log('Meal checked:', mealPlan.meal.name, isChecked);
         
-        if (isChecked && (!mealPlan.mealRecords || mealPlan.mealRecords.length === 0)) {
-            mealPlan.mealRecords = [{
-                id: `temp-${Date.now()}`,
-                isCompleted: true,
-                conclusionHour: new Date().toTimeString().split(' ')[0],
-                createdAt: new Date().toISOString(),
-            }];
-        } else if (!isChecked && mealPlan.mealRecords && mealPlan.mealRecords.length > 0) {
-            mealPlan.mealRecords = [];
-        }
+        // Create a new array with updated meal plans (immutable update)
+        const updatedMealPlans = this.todayMealPlans().map(mp => {
+            if (mp === mealPlan) {
+                // Create a new object for the updated meal plan
+                const updatedMealPlan = { ...mp };
+                
+                if (isChecked) {
+                    updatedMealPlan.mealRecords = [{
+                        id: `temp-${Date.now()}`,
+                        isCompleted: true,
+                        conclusionHour: new Date().toTimeString().split(' ')[0],
+                        createdAt: new Date().toISOString(),
+                    }];
+                } else {
+                    updatedMealPlan.mealRecords = [];
+                }
+                
+                return updatedMealPlan;
+            }
+            return mp;
+        });
         
-        this.todayMealPlans.set([...this.todayMealPlans()]);
+        this.todayMealPlans.set(updatedMealPlans);
     }
 }

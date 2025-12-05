@@ -75,6 +75,20 @@ export class MealDisplayComponent implements OnInit {
         return compareDate.getTime() !== today.getTime();
     });
 
+    // Computed signal to check if relativeDate is today
+    isRelativeDateToday = computed(() => {
+        const relativeDate = this.relativeDate();
+        if (!relativeDate) return true; // Default to true if no date provided
+        
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        const compareDate = new Date(relativeDate);
+        compareDate.setHours(0, 0, 0, 0);
+        
+        return compareDate.getTime() === today.getTime();
+    });
+
     // Effect to sync checked state with isCompleted input
     constructor() {
         effect(() => {

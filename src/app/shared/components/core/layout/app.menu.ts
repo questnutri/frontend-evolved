@@ -61,15 +61,22 @@ export class AppMenu {
                 label: '',
                 items: [
                     {
-                        label: 'Home',
-                        icon: 'pi pi-fw pi-home',
+                        label: 'Dieta',
+                        icon: 'pi pi-fw pi-apple',
                         command: () => {
                             this.router.navigate(['/patient/home']);
                         }
                     },
                     {
+                        label: 'Perfil',
+                        ngIcon: 'tablerUserFill',
+                        command: () => {
+                            this.router.navigate(['/patient/profile']);
+                        }
+                    },
+                    {
                         label: 'Conquistas',
-                        icon: 'pi pi-fw pi-trophy',
+                        ngIcon: 'tablerTrophyFill',
                         command: () => {
                             this.router.navigate(['/patient/achievements']);
                         }
@@ -88,6 +95,7 @@ export class AppMenu {
                             this.router.navigate(['/patient/weight']);
                         }
                     },
+
                 ]
             };
         }

@@ -1,0 +1,209 @@
+<div class="profile-wrapper">
+    <div class="profile-container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">Meu Perfil</h1>
+            <p class="subtitle">Gerencie suas informações pessoais e preferências</p>
+        </div>
+
+        <!-- Personal Information Card -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="pi pi-user"></i>
+                    Informações Pessoais
+                </h2>
+                <button
+                    class="icon-btn"
+                    [class.active]="!personalInformation()"
+                    (click)="handleChangePersonalInformationMode()"
+                >
+                    <i class="pi pi-pencil"></i>
+                </button>
+            </div>
+            <div class="card-content" [class.has-actions]="!personalInformation()">
+                <div class="form-grid">
+                    <div class="profile-photo-section">
+                        <div class="avatar-container">
+                            <img
+                                id="avatarImage"
+                                src="https://ui-avatars.com/api/?name={{ patient()?.firstName }}&size=150&background=8B5CF6&color=fff"
+                                alt="Foto de Perfil"
+                                class="avatar"
+                            />
+                            <div
+                                class="avatar-overlay"
+                                (click)="photoInput.click()"
+                            >
+                                <i class="pi pi-camera"></i>
+                            </div>
+                            <input
+                                #photoInput
+                                type="file"
+                                id="photoInput"
+                                accept="image/*"
+                            />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <qn-text-input
+                            qnLabel="Primeiro Nome"
+                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            id="firstName"
+                            [value]="patient()?.firstName"
+                            [disabled]="true"
+                        />
+                    </div>
+                    
+                    <div class="form-group">
+                        <qn-text-input
+                            qnLabel="Sobrenome"
+                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            id="lastName"
+                            [value]="patient()?.lastName"
+                            [disabled]="true"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <qn-drop-down
+                            [options]="optionsGender"
+                            qnLabel="Gênero"
+                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            [value]="patient()?.gender"
+                            [disabled]="true"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <qn-text-input
+                            qnLabel="E-mail"
+                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            id="email"
+                            [value]="patient()?.email"
+                            [disabled]="true"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <qn-mask-input
+                            qnLabel="Telefone"
+                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            id="phone"
+                            [value]="patient()?.phone"
+                            [disabled]="personalInformation()"
+                            mask="(99) 99999-9999"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <qn-mask-input
+                            qnLabel="CPF"
+                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            mask="999.999.999-99"
+                            [disabled]="true"
+                            [value]="patient()?.documentNumber"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <p-fluid>
+                            <p-datepicker
+                                [iconDisplay]="'input'"
+                                [showIcon]="true"
+                                inputId="birthDate"
+                                qnLabel="Data de Nascimento"
+                                [qnLabelStyle]="{ color: '#1E293B' }"
+                                dateFormat="dd/mm/yy"
+                                placeholder="dd/mm/aa"
+                                [disabled]="true"
+                            />
+                        </p-fluid>
+                    </div>
+                </div>
+                
+                @if (!personalInformation()) {
+                    <div class="form-actions">
+                        <qn-button
+                            label="Cancelar"
+                            type="outline"
+                            (click)="handleChangePersonalInformationMode()"
+                        />
+                        <qn-button 
+                            label="Salvar" 
+                            (click)="handleSave()"
+                        />
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Change Password Card -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="pi pi-lock"></i>
+                    Alterar Senha
+                </h2>
+                <button
+                    class="icon-btn"
+                    [class.active]="!changePassword()"
+                    (click)="handleChangePasswordMode()"
+                >
+                    <i class="pi pi-key"></i>
+                </button>
+            </div>
+            <div class="card-content" [class.has-actions]="!changePassword()">
+                <div class="password-grid">
+                    <div class="form-group full-width">
+                        <qn-password-input
+                            qnLabel="Senha Atual"
+                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            id="current-password"
+                            placeholder="Digite sua senha atual"
+                            [disabled]="changePassword()"
+                            [(value)]="currentPassword"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <qn-password-input
+                            qnLabel="Nova Senha"
+                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            id="new-password"
+                            placeholder="Digite a nova senha"
+                            [disabled]="changePassword()"
+                            [(value)]="newPassword"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <qn-password-input
+                            qnLabel="Confirmar Nova Senha"
+                            [qnLabelStyle]="{ color: '#1E293B' }"
+                            id="confirm-password"
+                            placeholder="Confirme a nova senha"
+                            [disabled]="changePassword()"
+                            [(value)]="confirmNewPassword"
+                        />
+                    </div>
+                </div>
+
+                @if (!changePassword()) {
+                    <div class="form-actions">
+                        <qn-button
+                            label="Cancelar"
+                            type="outline"
+                            (click)="handleChangePasswordMode()"
+                        />
+                        <qn-button
+                            label="Salvar Senha"
+                            (click)="passwordChange()"
+                        />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

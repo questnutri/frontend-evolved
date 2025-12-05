@@ -12,6 +12,7 @@ import { provideIcons } from '@ng-icons/core';
 import { matWaterDrop } from '@ng-icons/material-icons/baseline';
 import { heroBellAlertSolid, heroBellSolid } from "@ng-icons/heroicons/solid";
 import { remixWeightFill } from "@ng-icons/remixicon";
+import { tablerUserFill, tablerTrophyFill } from "@ng-icons/tabler-icons/fill";
 
 @Component({
     selector: 'app-root',
@@ -27,7 +28,9 @@ import { remixWeightFill } from "@ng-icons/remixicon";
             matWaterDrop,
             heroBellSolid,
             heroBellAlertSolid,
-            remixWeightFill
+            remixWeightFill,
+            tablerUserFill,
+            tablerTrophyFill
         })
     ],
     providers: [MessageService]

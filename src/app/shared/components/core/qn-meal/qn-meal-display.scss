@@ -3,7 +3,7 @@
 // =============================
 
 .meal-card {
-    border-radius: 6px;
+    border-radius: 1rem;
     margin-bottom: 16px;
     width: 100%;
     background: transparent;
@@ -14,10 +14,17 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    border-radius: 6px;
-    transition: background 0.2s ease;
-    border: 1px solid var(--primary-border-color);
+    border-radius: 1rem;
+    transition: all 0.2s ease;
+    border: 2px solid #E2E8F0;
     background: var(--primary-background-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.meal-header:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .meal-header:hover .expand-btn {
@@ -36,8 +43,8 @@
     appearance: none;
     width: 25px;
     height: 25px;
-    border: 1px solid var(--primary-font-color);
-    border-radius: 4px;
+    border: 2px solid #CBD5E1;
+    border-radius: 6px;
     background: var(--primary-background-color);
     cursor: pointer;
     position: relative;
@@ -47,7 +54,8 @@
 }
 
 .custom-checkbox:hover {
-    border: 2px solid var(--primary-color);
+    border-color: var(--primary-color);
+    background: rgba(var(--primary-color-rgb), 0.05);
 }
 
 .custom-checkbox.checked,
@@ -92,9 +100,9 @@
 
 .meal-time {
     margin: 0;
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: var(--primary-font-color);
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 // =============================
@@ -124,7 +132,7 @@
     font-size: 0.775rem;
     color: var(--primary-font-color);
     letter-spacing: 0.05em;
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 .no-foods {
@@ -133,7 +141,7 @@
     font-size: 0.9rem;
     margin-left: auto;
     padding-left: 12px;
-    opacity: 0.7;
+    opacity: 0.6;
 }
 
 // =============================
@@ -143,14 +151,18 @@
 .expand-btn {
     background: none;
     border: none;
-    padding: 2px;
+    padding: 6px;
     cursor: pointer;
     border-radius: 8px;
-    transition: background 0.2s;
+    transition: all 0.2s;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.expand-btn:hover {
+    background: #F1F5F9;
 }
 
 .expand-btn .chevron {
@@ -169,7 +181,7 @@
 .expanded-details {
     padding: 0 12px;
     background: transparent;
-    border-radius: 0px 0px 6px 6px;
+    border-radius: 0px 0px 1rem 1rem;
     overflow: hidden;
     animation: slideDown 0.4s ease-out forwards;
 }
@@ -194,18 +206,20 @@
 // =============================
 
 .food-list {
-    border-left: 2px solid var(--primary-color);
+    border-left: 3px solid var(--primary-color);
     padding: 12px 16px;
+    background: #F8FAFC;
+    border-radius: 0 0.75rem 0.75rem 0;
 }
 
 .food-item {
     display: grid;
     align-items: center;
-    padding: 8px 0;
+    padding: 10px 0;
     gap: 12px;
     font-size: 0.9rem;
     color: var(--primary-font-color);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid #F1F5F9;
     grid-template-columns: 1fr auto auto auto;
     grid-template-areas: "name quantity macros details";
 }
@@ -271,6 +285,7 @@
     position: relative;
     overflow: hidden;
     text-align: center;
+    border-radius: 0.5rem;
 }
 
 .food-macro::before {
@@ -287,8 +302,8 @@
 
 .food-macro:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background: white;
 }
 
 .food-macro:hover::before {
@@ -303,7 +318,7 @@
     font-size: 0.775rem;
     color: var(--primary-font-color);
     letter-spacing: 0.05em;
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 .food-macro strong {
@@ -316,13 +331,18 @@
 
 .qty,
 .portion {
-    padding: 8px 4px;
+    padding: 8px 12px;
+    background: #F1F5F9;
+    border-radius: 0.5rem;
+    min-width: 70px;
 }
 
 .qty p:first-child,
 .portion p:first-child {
     font-size: 0.7rem;
-    opacity: 0.8;
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
 }
 
 .qty p:last-child,
@@ -348,7 +368,7 @@
 }
 
 .food-item .expand-btn:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: #E2E8F0;
 }
 
 .food-item .expand-btn.expanded .chevron {
@@ -418,7 +438,7 @@
     }
 
     .meal-time {
-        font-size: 0.775rem;
+        font-size:  1rem;
     }
 
     .no-foods {
@@ -430,17 +450,63 @@
 @media (max-width: 768px) {
     // Reorganiza grid dos alimentos para mobile
     .food-item {
-        grid-template-columns: 1fr auto auto;
+        grid-template-columns: 1fr auto;
         grid-template-areas:
-            "name quantity details"
-            "macros macros macros";
+            "name details"
+            "quantity quantity"
+            "macros macros";
         gap: 8px;
+        padding: 12px 0;
+    }
+
+    .food-quantity {
+        grid-area: quantity;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: stretch;
+        width: 100%;
+        margin-top: 4px;
+    }
+
+    .qty,
+    .portion {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 14px;
+        background: #F1F5F9;
+        border-radius: 0.5rem;
+        border: 1px solid #E2E8F0;
+    }
+
+    .qty p,
+    .portion p {
+        margin: 0;
+    }
+
+    .qty p:first-child,
+    .portion p:first-child {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: #64748B;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+
+    .qty p:last-child,
+    .portion p:last-child {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--primary-font-color);
     }
 
     .food-macro-grid {
         margin-top: 8px;
         padding-top: 8px;
-        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        border-top: 1px solid #E2E8F0;
         grid-template-columns: repeat(4, 1fr);
         gap: 8px;
         animation: fadeInMobile 0.25s ease-out forwards;
@@ -458,7 +524,7 @@
     }
 
     .food-macro-grid .food-macro {
-        border-right: 1px solid var(--primary-color);
+        border-right: 1px solid #E2E8F0;
         padding: 8px 4px;
     }
 
@@ -477,15 +543,6 @@
     // Mostra botão expandir no mobile
     .food-item .expand-btn {
         display: flex;
-    }
-
-    .food-quantity {
-        gap: 8px;
-    }
-
-    .food-quantity .qty p:last-child,
-    .food-quantity .portion p:last-child {
-        font-size: 0.8rem;
     }
 
     .food-list {
@@ -536,7 +593,7 @@
     }
 
     .meal-time {
-        font-size: 0.775rem;
+        font-size:  1rem;
         white-space: nowrap;
     }
 
@@ -574,12 +631,26 @@
 
     .food-item {
         gap: 6px;
+        padding: 10px 0;
     }
 
     .food-quantity {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
+        gap: 6px;
+    }
+
+    .qty,
+    .portion {
+        padding: 8px 12px;
+    }
+
+    .qty p:first-child,
+    .portion p:first-child {
+        font-size: 0.7rem;
+    }
+
+    .qty p:last-child,
+    .portion p:last-child {
+        font-size: 0.8rem;
     }
 }
 
@@ -587,12 +658,13 @@
 @media (max-width: 480px) {
     .meal-card {
         margin-bottom: 12px;
-        border-radius: 8px;
+        border-radius: 0.75rem;
     }
 
     .meal-header {
         padding: 10px;
         gap: 8px;
+        border-radius: 0.75rem;
     }
 
     .custom-checkbox {
@@ -614,7 +686,7 @@
     }
 
     .meal-time {
-        font-size: 0.75rem;
+        font-size:  1rem;
     }
 
     .macros-grid {
@@ -640,26 +712,31 @@
 
     .food-list {
         padding: 8px 10px;
-        border-left-width: 2px;
+        border-left-width: 3px;
     }
 
     .food-item {
-        padding: 6px 0;
+        padding: 8px 0;
         gap: 6px;
         font-size: 0.85rem;
     }
 
     .food-quantity {
-        gap: 4px;
+        gap: 6px;
     }
 
-    .food-quantity .qty p:first-child,
-    .food-quantity .portion p:first-child {
+    .qty,
+    .portion {
+        padding: 8px 10px;
+    }
+
+    .qty p:first-child,
+    .portion p:first-child {
         font-size: 0.65rem;
     }
 
-    .food-quantity .qty p:last-child,
-    .food-quantity .portion p:last-child {
+    .qty p:last-child,
+    .portion p:last-child {
         font-size: 0.75rem;
     }
 
@@ -708,7 +785,7 @@
     }
 
     .meal-time {
-        font-size: 0.7rem;
+        font-size:  1rem;
     }
 
     .macros-grid {
@@ -737,6 +814,25 @@
 
     .food-name-wrapper .food-name {
         font-size: 0.85rem;
+    }
+
+    .food-quantity {
+        gap: 4px;
+    }
+
+    .qty,
+    .portion {
+        padding: 6px 8px;
+    }
+
+    .qty p:first-child,
+    .portion p:first-child {
+        font-size: 0.6rem;
+    }
+
+    .qty p:last-child,
+    .portion p:last-child {
+        font-size: 0.7rem;
     }
 
     .food-macro-grid {
@@ -778,7 +874,7 @@
     }
 
     .meal-time {
-        font-size: 0.65rem;
+        font-size:  1rem;
     }
 
     .macros-grid {

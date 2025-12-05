@@ -1,0 +1,210 @@
+<div class="profile-wrapper">
+    <div class="patient-layout">
+        <div class="header">
+            <h1 class="title">Configurações de Perfil</h1>
+            <p class="subtitle">
+                Gerencie suas informações pessoais e preferências
+            </p>
+        </div>
+
+        <div class="content-scroll">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Informações Pessoais</h2>
+                    <span class="icon" (click)="handleChangePersonalInformationMode()">
+                        <i class="pi pi-pencil" style="font-size: 1rem"></i>
+                    </span>
+                </div>
+                <div class="card-content" [class.has-actions]="!personalInformation()">
+                    <div class="form-grid">
+                        <div class="profile-photo-section">
+                            <div class="avatar-container">
+                                <img
+                                    id="avatarImage"
+                                    src="https://ui-avatars.com/api/?name=Paciente&size=150&background=0380dc&color=fff"
+                                    alt="Foto de Perfil"
+                                    class="avatar"
+                                />
+                                <div class="avatar-overlay" (click)="uploadPhoto()">
+                                    <i class="pi pi-camera"></i>
+                                </div>
+                                <input
+                                    type="file"
+                                    id="photoInput"
+                                    accept="image/*"
+                                    (change)="handlePhotoUpload($event)"
+                                    hidden
+                                />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <qn-text-input
+                                qnLabel="Primeiro Nome"
+                                [value]="patient?.firstName"
+                                [disabled]="personalInformation()"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <qn-text-input
+                                qnLabel="Sobrenome"
+                                [value]="patient?.lastName"
+                                [disabled]="personalInformation()"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <qn-text-input
+                                qnLabel="E-mail"
+                                [value]="patient?.email"
+                                [disabled]="true"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <qn-mask-input
+                                qnLabel="Telefone"
+                                [value]="patient?.phone"
+                                [disabled]="personalInformation()"
+                                mask="(99) 99999-9999"
+                            />
+                        </div>
+                    </div>
+                    <div *ngIf="!personalInformation()" class="form-actions">
+                        <qn-button
+                            label="Cancelar"
+                            type="outline"
+                            (click)="handleChangePersonalInformationMode()"
+                        />
+                        <qn-button label="Salvar" (click)="handleSave()" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Endereços</h2>
+                    <span class="icon" (click)="handleChangePersonalAddressMode()">
+                        <i class="pi pi-plus" style="font-size: 1.1rem"></i>
+                    </span>
+                </div>
+                <div *ngIf="patient?.addresses?.length; else emptyState">
+                    <div class="addresses-container">
+                        <div class="addresses-sidebar">
+                            <div
+                                class="address-item"
+                                *ngFor="let address of patient?.addresses"
+                                [class.selected]="addressSelected?.id === address.id"
+                                (click)="handleChangeAddressSelected(address.id)"
+                            >
+                                <div class="address-item-content">
+                                    <span class="address-name">{{ address.name || 'Endereço sem nome' }}</span>
+                                    <span class="address-info">{{ address.street }}, {{ address.number }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="address-detail">
+                            <div class="form-grid address-form">
+                                <div class="form-group full">
+                                    <qn-text-input
+                                        qnLabel="Nome do Endereço"
+                                        [value]="addressSelected?.name"
+                                        [disabled]="personalAddress()"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <qn-mask-input
+                                        qnLabel="CEP"
+                                        mask="99999-999"
+                                        [value]="addressSelected?.zipCode"
+                                        [disabled]="personalAddress()"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <qn-text-input
+                                        qnLabel="Rua"
+                                        [value]="addressSelected?.street"
+                                        [disabled]="personalAddress()"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <qn-text-input
+                                        qnLabel="Número"
+                                        [value]="addressSelected?.number"
+                                        [disabled]="personalAddress()"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <qn-text-input
+                                        qnLabel="Complemento"
+                                        [value]="addressSelected?.complement"
+                                        [disabled]="personalAddress()"
+                                    />
+                                </div>
+                            </div>
+                            <div *ngIf="!personalAddress()" class="form-actions">
+                                <qn-button
+                                    label="Cancelar"
+                                    type="outline"
+                                    (click)="handleChangePersonalAddressMode()"
+                                />
+                                <qn-button label="Salvar Alterações" (click)="saveAddress()" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ng-template #emptyState>
+                    <div class="empty-state">
+                        <div class="empty-state-icon">
+                            <i class="pi pi-home"></i>
+                        </div>
+                        <h3>Nenhum endereço cadastrado</h3>
+                        <p>Adicione seu primeiro endereço para começar</p>
+                        <qn-button
+                            label="Adicionar Endereço"
+                            (click)="handleChangePersonalAddressMode()"
+                        />
+                    </div>
+                </ng-template>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Alterar Senha</h2>
+                    <span class="icon" (click)="handleChangePasswordMode()">
+                        <i class="pi pi-key" style="font-size: 1rem"></i>
+                    </span>
+                </div>
+                <div class="card-content" [class.has-actions]="!changePassword()">
+                    <div class="form-grid password-grid">
+                        <div class="form-group full-width">
+                            <qn-password-input
+                                qnLabel="Senha Atual"
+                                [disabled]="changePassword()"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <qn-password-input
+                                qnLabel="Nova Senha"
+                                [disabled]="changePassword()"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <qn-password-input
+                                qnLabel="Confirmar Nova Senha"
+                                [disabled]="changePassword()"
+                            />
+                        </div>
+                    </div>
+                    <div *ngIf="!changePassword()" class="form-actions">
+                        <qn-button
+                            label="Cancelar"
+                            (click)="handleChangePasswordMode()"
+                        />
+                        <qn-button
+                            label="Salvar Senha"
+                            (click)="passwordChange()"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

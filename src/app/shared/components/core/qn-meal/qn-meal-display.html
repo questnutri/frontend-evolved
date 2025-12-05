@@ -1,10 +1,11 @@
 <div class="meal-card">
     <div class="meal-header">
-        <!-- Checkbox -->
-        @if(this.authService.userRole() === 'patient'){
+        <!-- Checkbox - only show for patients AND when relativeDate is today -->
+        @if (authService.userRole() === 'patient' && isRelativeDateToday()) {
         <input
             type="checkbox"
             class="custom-checkbox"
+            [class.checked]="checked()"
             [checked]="checked()"
             (click)="toggleChecked()"
         />
@@ -87,71 +88,6 @@
                     <p class="food-name">{{ food.aliment.name }}</p>
                 </div>
 
-                <!-- Quantidade + Porção -->
-                <div class="food-quantity">
-                    <div
-                        class="food-macro qty"
-                        [style]="'border: none; background: transparent;'"
-                    >
-                        <p>Quantidade</p>
-                        <p>
-                            <strong
-                                >{{ Number(food.quantity).toFixed(2) }}</strong
-                            >
-                        </p>
-                    </div>
-                    <div
-                        class="food-macro portion"
-                        [style]="'border: none; background: transparent;'"
-                    >
-                        <p>Porção</p>
-                        <p><strong>{{ food.portion }}</strong></p>
-                    </div>
-                </div>
-
-                <!-- Macros (só visíveis em desktop ou quando expandido em mobile) -->
-                <div
-                    class="food-macro-grid"
-                    [style.display]="isFoodVisible(food.id)() ? 'grid' : 'none'"
-                >
-                    <div class="food-macro">
-                        <p>Kcal</p>
-                        <p>
-                            <strong
-                                >{{ Number(food.getTotal('kcal')).toFixed(0)
-                                }}</strong
-                            >
-                        </p>
-                    </div>
-                    <div class="food-macro">
-                        <p>Carb.</p>
-                        <p>
-                            <strong
-                                >{{ Number(food.getTotal('carb')).toFixed(1)
-                                }}g</strong
-                            >
-                        </p>
-                    </div>
-                    <div class="food-macro">
-                        <p>Prot.</p>
-                        <p>
-                            <strong
-                                >{{ Number(food.getTotal('protein')).toFixed(1)
-                                }}g</strong
-                            >
-                        </p>
-                    </div>
-                    <div class="food-macro">
-                        <p>Gord.</p>
-                        <p>
-                            <strong
-                                >{{ Number(food.getTotal('fat')).toFixed(1)
-                                }}g</strong
-                            >
-                        </p>
-                    </div>
-                </div>
-
                 <!-- Botão expandir (só mobile) -->
                 <div class="food-details">
                     <button
@@ -175,6 +111,49 @@
                             />
                         </svg>
                     </button>
+                </div>
+
+                <!-- Quantidade + Porção -->
+                <div class="food-quantity">
+                    <div class="qty">
+                        <p>Qtd.</p>
+                        <p><strong>{{ Number(food.quantity).toFixed(2) }}</strong></p>
+                    </div>
+                    <div class="portion">
+                        <p>Porção</p>
+                        <p><strong>{{ food.portion }}</strong></p>
+                    </div>
+                </div>
+
+                <!-- Macros (só visíveis em desktop ou quando expandido em mobile) -->
+                <div
+                    class="food-macro-grid"
+                    [style.display]="isFoodVisible(food.id)() ? 'grid' : 'none'"
+                >
+                    <div class="food-macro">
+                        <p>Kcal</p>
+                        <p>
+                            <strong>{{ Number(food.getTotal('kcal')).toFixed(0) }}</strong>
+                        </p>
+                    </div>
+                    <div class="food-macro">
+                        <p>Carb.</p>
+                        <p>
+                            <strong>{{ Number(food.getTotal('carb')).toFixed(1) }}g</strong>
+                        </p>
+                    </div>
+                    <div class="food-macro">
+                        <p>Prot.</p>
+                        <p>
+                            <strong>{{ Number(food.getTotal('protein')).toFixed(1) }}g</strong>
+                        </p>
+                    </div>
+                    <div class="food-macro">
+                        <p>Gord.</p>
+                        <p>
+                            <strong>{{ Number(food.getTotal('fat')).toFixed(1) }}g</strong>
+                        </p>
+                    </div>
                 </div>
             </div>
             }

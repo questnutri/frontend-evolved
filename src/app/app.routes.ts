@@ -23,6 +23,7 @@ import { PatientDietDetailsPage } from './pages/nutritionist/diet-details/diet-d
 import { AchievementsPage } from './pages/patient/achievements/achievements.page';
 import { WaterTrackingPage } from './pages/patient/water/water-tracking.page';
 import { WeightPage } from './pages/patient/weight/weight.page';
+import { PatientProfilePage } from './pages/patient/profile/profile.component';
 
 export const routes: Routes = [
     {
@@ -119,10 +120,10 @@ export const routes: Routes = [
                         component: WeightPage
                     }
                     ,
-                    // {
-                    //     path: 'profile',
-                    //     component: NutritionistProfilePage
-                    // }
+                    {
+                        path: 'profile',
+                        component: PatientProfilePage
+                    }
                 ],
             },
         ],
