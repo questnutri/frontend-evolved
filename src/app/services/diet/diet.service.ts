@@ -57,7 +57,7 @@ export class DietService {
                     `/diet/${dietId}/plan?monthlyView=true&date=${date.toISOString().split("T")[0]}`
                 )
             );
-
+            console.log(response);
             return response;
         } catch (error) {
             console.error('Error fetching diet plan:', error);

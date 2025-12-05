@@ -27,7 +27,13 @@ export class FoodModel implements Food, Calculable {
     static from(food: Food): FoodModel {
         const model = new FoodModel();
         Object.assign(model, food);
-        model.aliment = AlimentModel.from(food.aliment);
+        try {
+            model.aliment = AlimentModel.from(food.aliment);
+        } catch (error) {
+            console.error(error)
+        }
+        console.log('model', model);
+
         return model;
     }
 

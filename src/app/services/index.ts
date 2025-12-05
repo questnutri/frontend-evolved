@@ -9,3 +9,4 @@ export * from './storage/storage.service';
 export * from './diet/diet.service';
 export * from './achievement/achievement.service';
 export * from './aliment/aliment.service';
+export * from './food/food.service';

@@ -1,39 +1,432 @@
 .simple-new-food-dialog {
     ::ng-deep .p-dialog {
-        max-width: 92vw;
+        max-width: 95vw;
         width: fit-content;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+
+        .p-dialog-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+            .p-dialog-title {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: var(--primary-font-color);
+            }
+        }
+
+        .p-dialog-content {
+            padding: 1rem;
+            overflow: hidden;
+        }
     }
 }
+
 .aliment-body-table {
     display: grid;
-    grid-template-columns: 2fr auto 1fr;
-    gap: 2rem;
-    padding: 2rem 2rem 3rem 2rem;
+    grid-template-columns: 1.8fr auto 1.2fr;
+    gap: 1rem;
+    padding: 2rem;
+    min-height: 400px;
+
+    @media (max-width: 1250px) {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+        overflow-y: auto;
+        max-height: calc(85vh - 180px); // Subtrai header e footer do dialog
+    }
+
+    @media (max-width: 768px) {
+        padding: 1rem;
+        gap: 1rem;
+    }
 }
 
 .divider-modal-aliments {
     width: 2px;
-    height: 100%;
-    background-color: var(--primary-color);
+    height: auto;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        var(--primary-color) 10%,
+        var(--primary-color) 90%,
+        transparent
+    );
+    border-radius: 2px;
+
+    @media (max-width: 1250px) {
+        display: none;
+    }
 }
 
 .dialog-content {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1rem;
+
+    .search-section {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        align-items: center;
+        gap: 1rem;
+
+        ::ng-deep qn-text-input {
+            width: 100%;
+        }
+    }
+}
+
+.table-wrapper {
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+
+    ::ng-deep .aliments-table {
+        .p-datatable-header {
+            background: var(--primary-background-color);
+            padding: 1rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .p-datatable-thead > tr > th {
+            background: var(--surface-100);
+            color: var(--text-color);
+            font-weight: 600;
+            padding: 1rem 0.75rem;
+            border-bottom: 2px solid var(--primary-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+
+            &.checkbox-col {
+                text-align: center;
+                padding: 1rem 0.5rem;
+            }
+
+            &.name-col {
+                font-size: 0.95rem;
+                color: var(--primary-font-color);
+            }
+
+            &.nutrient-col {
+                text-align: center;
+                color: var(--primary-font-color);
+            }
+        }
+
+        .p-datatable-tbody > tr {
+            transition: all 0.2s ease;
+
+            &:hover {
+                background: var(--surface-50);
+            }
+
+            &.selected-row {
+                background: rgba(var(--primary-color-rgb), 0.08);
+
+                &:hover {
+                    background: rgba(var(--primary-color-rgb), 0.12);
+                }
+            }
+
+            > td {
+                padding: 0.875rem 0.75rem;
+                border-bottom: 1px solid var(--surface-border);
+
+                &.checkbox-col {
+                    text-align: center;
+                    padding: 0.875rem 0.5rem;
+                }
+
+                &.name-col {
+                    font-weight: 500;
+                    color: var(--primary-font-color);
+                }
+
+                &.nutrient-col {
+                    text-align: center;
+                    font-size: 0.9rem;
+
+                    .nutrient-value {
+                        font-weight: 600;
+                        color: var(--primary-font-color);
+                    }
+
+                    .nutrient-unit {
+                        color: var(--primary-font-color-secondary);
+                        margin-left: 0.25rem;
+                        font-size: 0.85rem;
+                    }
+                }
+            }
+        }
+
+        .p-paginator {
+            padding: 1rem;
+            border-top: 1px solid var(--surface-border);
+            background: var(--surface-50);
+        }
+    }
+}
+
+.aliment-selected {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    // @media (max-width: 1400px) {
+    //     order: -1;
+    // }
+}
+
+.nutrition-info-wrapper {
+    background: var(--surface-50);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    height: 100%;
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+        padding: 1rem;
+    }
+}
+
+.nutrition-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-font-color);
+    margin: 0 0 0.5rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    i {
+        color: var(--primary-color);
+        font-size: 1.3rem;
+    }
+}
+.aliment-name-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.diet-chip {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.6rem;
+    font-weight: 500;
+    background-color: var(--primary-color);
+}
+
+.name-aliment-selected {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--primary-font-color);
+    width: fit-content;
+    margin: 0;
+}
+
+.nutrition-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+
+    .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        &.quantity-group {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.75rem;
+            align-items: end;
+
+            @media (max-width: 768px) {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .control-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-color-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            i {
+                font-size: 0.875rem;
+                color: var(--primary-color);
+            }
+        }
+    }
+
+    .quantity-type-wrapper,
+    .quantity-input-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .quantity-type-select {
+        min-width: 140px;
+    }
+
+    .quantity-input-wrapper {
+        flex: 1;
+    }
+}
+
+.nutrition-table-content {
+    overflow-y: auto;
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    flex: 1;
+    max-height: 400px;
+}
+
+.custom-nutrition-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    thead {
+        background: var(--primary-background-color);
+        color: var(--primary-font-color);
+
+        tr th {
+            padding: 1rem;
+            font-weight: 600;
+            text-align: left;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+
+            &.per-100g,
+            &.per-selected {
+                text-align: center;
+                white-space: nowrap;
+                color: var(--primary-font-color);
+            }
+
+            @media (max-width: 768px) {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.75rem;
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            transition: background 0.2s ease;
+
+            &:nth-child(even) {
+                background: var(--surface-50);
+            }
+
+            &:hover {
+                background: rgba(var(--primary-color-rgb), 0.05);
+            }
+
+            &.highlight-row {
+                background: rgba(var(--primary-color-rgb), 0.08);
+                font-weight: 500;
+
+                &:hover {
+                    background: rgba(var(--primary-color-rgb), 0.12);
+                }
+
+                td {
+                    color: black;
+                }
+            }
+
+            td {
+                padding: 0.5rem;
+                border-bottom: 1px solid var(--surface-border);
+
+                &.nutrient-name {
+                    font-weight: 500;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    color: black;
+
+                    i {
+                        opacity: 0.7;
+                        font-size: 0.9rem;
+                    }
+                }
+
+                &.per-100g,
+                &.per-selected {
+                    text-align: center;
+                    font-weight: 600;
+                    color: black;
+                    white-space: nowrap;
+                }
+
+                &.per-selected {
+                    color: black;
+                }
+
+                @media (max-width: 768px) {
+                    padding: 0.75rem 0.5rem;
+                    font-size: 0.85rem;
+                }
+            }
+        }
+    }
 }
 
 .dialog-footer {
     display: flex;
     justify-content: flex-end;
     gap: 0.75rem;
-    padding: 1rem 0rem;
+    // padding: 1.5rem 2rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    background: var(--surface-50);
 
-    .create-btn {
+    @media (max-width: 768px) {
+        padding: 1rem;
+    }
+
+    ::ng-deep .add-button {
+        min-width: 200px;
+        padding: 0.875rem 1.5rem;
         font-weight: 600;
-        min-width: 120px;
+        font-size: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(var(--primary-color-rgb), 0.25);
+        transition: all 0.2s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(var(--primary-color-rgb), 0.35);
+        }
+
+        @media (max-width: 768px) {
+            min-width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+        }
     }
 }
+
+// Estilos para popover (mantidos do original)
 ::ng-deep .diet-actions-popover {
     .p-popover-content {
         padding: 0.5rem 0;
@@ -55,10 +448,11 @@
 .food-menu-trigger {
     cursor: pointer;
     font-size: 1.25rem;
-    color: var(--text-color-secondary);
-    transition: color 0.2s;
-}
+    color: var(--primary-font-color);
+    transition: all 0.2s ease;
 
-.food-menu-trigger:hover {
-    color: var(--primary-color);
+    &:hover {
+        color: var(--primary-color);
+        transform: scale(1.1);
+    }
 }

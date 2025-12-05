@@ -1,15 +1,10 @@
 <div class="section-title" style="padding: 1rem 0; margin-bottom: 0.5rem">
     <span>Refeição</span>
+    <span>{{editMeal()?.id}}</span>
     <button class="close-edit-btn" (click)="closeEditMeal.emit()">
         <i class="pi pi-times icon-save"></i>
     </button>
 </div>
-<qn-button
-    label="Salvar"
-    icon="pi pi-check"
-    class="save-repeat-btn close-edit-btn"
-    (click)="handleSave()"
-/>
 
 @if(editMeal()){
 <div class="meal-infos-section">
@@ -20,6 +15,7 @@
             [qnLabelStyle]="{
                     color: 'var(--primary-font-color)'
                 }"
+            [disabled]="!editInfos()"
         />
         <p-datepicker
             inputId="calendar-timeonly"
@@ -32,6 +28,7 @@
             [qnLabelStyle]="{
                     color: 'var(--primary-font-color)'
                 }"
+            [disabled]="!editInfos()"
         />
     </div>
 
@@ -42,6 +39,7 @@
                 color: 'var(--primary-font-color)'
             }"
         placeholder="Nenhuma descrição adicionada"
+        [disabled]="!editInfos()"
     />
     <div class="meal-infos-content">
         <p-datepicker
@@ -55,6 +53,7 @@
                     color: 'var(--primary-font-color)'
                 }"
             [autofocus]="false"
+            [disabled]="!editInfos()"
         />
         <p-datepicker
             [(ngModel)]="formEndDate"
@@ -68,8 +67,28 @@
             [qnLabelStyle]="{
                     color: 'var(--primary-font-color)'
                 }"
+            [disabled]="!editInfos()"
         />
     </div>
+
+    @if (editInfos()){
+    <div style="width: fit-content; margin-left: auto">
+        <qn-button
+            label="Salvar"
+            icon="pi pi-check"
+            class="save-repeat-btn close-edit-btn"
+            (click)="handleSave()"
+        />
+    </div>
+    }@else{
+    <qn-button
+        label="Editar"
+        icon="pi pi-pencil"
+        class="save-repeat-btn close-edit-btn"
+        (click)="handleClickEditInfo()"
+        colorStyle="gray"
+    />
+    }
 </div>
 
 <p-divider align="center" type="solid" class="divider-title">
@@ -257,10 +276,9 @@
         </p-accordion-content>
     </p-accordion-panel>
 </p-accordion>
-
-@if(modalAlimentsVisible()){
+} @if(modalAlimentsVisible()){
 <app-aliments-table
     [(modalAlimentsVisible)]="modalAlimentsVisible"
     [mealId]="editMeal()?.id || ''"
 />
-} }
+}

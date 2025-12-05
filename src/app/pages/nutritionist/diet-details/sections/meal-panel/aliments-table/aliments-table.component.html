@@ -6,240 +6,374 @@
     [dismissableMask]="true"
     class="simple-new-food-dialog"
     appendTo="body"
+    [style]="{ width: '95vw', maxWidth: '1600px', height: '85vh' }"
+    [contentStyle]="{
+        padding: '0',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+    }"
 >
     <div class="aliment-body-table">
         <div class="dialog-content">
-            <qn-text-input
-                qnLabel-white="Pesquisar Alimento"
-                icon="pi pi-search"
-            />
-            <p-table
-                [value]="aliments()"
-                [tableStyle]="{ 'max-width': '45rem' }"
-                [paginator]="true"
-                [rows]="20"
-                [scrollable]="true"
-                scrollHeight="350px"
-            >
-                <ng-template #header>
-                    <tr>
-                        <th width="5%" pFrozenColumn></th>
-                        <th width="35%">Nome</th>
-                        <th width="15%">Kcal</th>
-                        <th width="15%">Proteína</th>
-                        <th width="15%">Carboidrato</th>
-                        <th width="15%" pFrozenColumn>Gorduras</th>
-                    </tr>
-                </ng-template>
-                <ng-template #body let-aliment>
-                    <tr>
-                        <td>
-                            <p-checkbox
-                                [ngModel]="isSelected(aliment)"
-                                (ngModelChange)="
-                                    toggleSelection(aliment, $event)
-                                "
-                                [binary]="true"
-                            />
-                        </td>
-                        <td>{{ aliment.name }}</td>
-                        <td>
-                            {{
-                                getNumericValue(
-                                    aliment.getPortion(
-                                        aliment.availablePortions
-                                    ).kcal
-                                ) | number: "1.0-2"
-                            }}
-                            kcal
-                        </td>
-                        <td>
-                            {{
-                                getNumericValue(
-                                    aliment.getPortion(
-                                        aliment.availablePortions
-                                    ).protein
-                                ) | number: "1.0-2"
-                            }}g
-                        </td>
-                        <td>
-                            {{
-                                getNumericValue(
-                                    aliment.getPortion(
-                                        aliment.availablePortions
-                                    ).carb
-                                ) | number: "1.0-2"
-                            }}g
-                        </td>
-                        <td>
-                            {{
-                                getNumericValue(
-                                    aliment.getPortion(
-                                        aliment.availablePortions
-                                    ).fat
-                                ) | number: "1.0-2"
-                            }}g
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
+            <div class="search-section">
+                <p-select
+                    [options]="optionsSource"
+                    [(ngModel)]="sourceSelected"
+                    style="align-self: flex-end"
+                />
+
+                <qn-text-input
+                    icon="pi pi-search"
+                    qnLabel="Procurar Alimento"
+                    placeholder="Digite o nome de um alimento..."
+                    [qnLabelStyle]="{
+                        color: 'var(--primary-font-color)',
+                    }"
+                    [(value)]="searchAliment"
+                />
+            </div>
+
+            <div class="table-wrapper">
+                <p-table
+                    [value]="aliments()"
+                    [lazy]="true"
+                    (onLazyLoad)="loadAliments($event)"
+                    [paginator]="true"
+                    [rows]="20"
+                    [totalRecords]="totalRecords()"
+                    [loading]="loading()"
+                    [rowHover]="true"
+                    [scrollable]="true"
+                    scrollHeight="400px"
+                    [first]="firstRow()"
+                    class="aliments-table"
+                >
+                    <ng-template #header>
+                        <tr>
+                            <th
+                                width="5%"
+                                pFrozenColumn
+                                class="checkbox-col"
+                            ></th>
+                            <th width="35%" class="name-col">Nome</th>
+                            <th width="15%" class="nutrient-col">Kcal</th>
+                            <th width="15%" class="nutrient-col">Proteína</th>
+                            <th width="15%" class="nutrient-col">
+                                Carboidrato
+                            </th>
+                            <th width="15%" class="nutrient-col">Gorduras</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template #body let-aliment>
+                        <tr [class.selected-row]="isSelected(aliment)">
+                            <td class="checkbox-col">
+                                <p-checkbox
+                                    [ngModel]="isSelected(aliment)"
+                                    (ngModelChange)="
+                                        toggleSelection(aliment, $event)
+                                    "
+                                    [binary]="true"
+                                />
+                            </td>
+                            <td class="name-col">{{ aliment.name }}</td>
+                            <td class="nutrient-col">
+                                <span class="nutrient-value">
+                                    {{
+                                        getNumericValue(
+                                            aliment.getPortion(
+                                                aliment.availablePortions[0]
+                                            )?.kcal
+                                        ) | number: "1.0-2"
+                                    }}
+                                </span>
+                                <span class="nutrient-unit">kcal</span>
+                            </td>
+                            <td class="nutrient-col">
+                                <span class="nutrient-value">
+                                    {{
+                                        getNumericValue(
+                                            aliment.getPortion(
+                                                aliment.availablePortions[0]
+                                            )?.protein
+                                        ) | number: "1.0-2"
+                                    }}
+                                </span>
+                                <span class="nutrient-unit">g</span>
+                            </td>
+                            <td class="nutrient-col">
+                                <span class="nutrient-value">
+                                    {{
+                                        getNumericValue(
+                                            aliment.getPortion(
+                                                aliment.availablePortions[0]
+                                            )?.carb
+                                        ) | number: "1.0-2"
+                                    }}
+                                </span>
+                                <span class="nutrient-unit">g</span>
+                            </td>
+                            <td class="nutrient-col">
+                                <span class="nutrient-value">
+                                    {{
+                                        getNumericValue(
+                                            aliment.getPortion(
+                                                aliment.availablePortions[0]
+                                            )?.fat
+                                        ) | number: "1.0-2"
+                                    }}
+                                </span>
+                                <span class="nutrient-unit">g</span>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
         </div>
+
         <div class="divider-modal-aliments"></div>
+
         <div class="aliment-selected">
-            <p-table
-                [value]="alimentSelected()"
-                [tableStyle]="{ 'min-width': '15rem' }"
-                showGridlines
-            >
-                <ng-template #header>
-                    <tr>
-                        <th colspan="3">Informações Nutricionais</th>
-                    </tr>
-                    <tr>
-                        <th colspan="3"><qn-text-input /></th>
-                    </tr>
-                </ng-template>
-                <ng-template #body let-aliment>
-                    <tr>
-                        <td></td>
-                        <td>100g</td>
-                        <td>200g</td>
-                    </tr>
-                    <tr>
-                        <td>Valor energetico (kcal)</td>
-                        <td>
-                            {{
-                                getNumericValue(
-                                    aliment.getPortion(
-                                        aliment.availablePortions
-                                    ).kcal
-                                ) | number: "1.0-2"
-                            }}
-                        </td>
-                        <td>
-                            {{
-                                getNumericValue(
-                                    aliment.getPortion(
-                                        aliment.availablePortions
-                                    ).kcal
-                                ) * 2 | number: "1.0-2"
-                            }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Carboidratos (g)</td>
-                        <td>
-                            {{
-                                getNumericValue(
-                                    aliment.getPortion(
-                                        aliment.availablePortions
-                                    ).carb
-                                ) | number: "1.0-2"
-                            }}
-                        </td>
-                        <td>
-                            {{
-                                getNumericValue(
-                                    aliment.getPortion(
-                                        aliment.availablePortions
-                                    ).carb
-                                ) * 2 | number: "1.0-2"
-                            }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Proteínas (g)</td>
-                        <td>
-                            {{
-                                getNumericValue(
-                                    aliment.getPortion(
-                                        aliment.availablePortions
-                                    ).protein
-                                ) | number: "1.0-2"
-                            }}
-                        </td>
-                        <td>
-                            {{
-                                getNumericValue(
-                                    aliment.getPortion(
-                                        aliment.availablePortions
-                                    ).protein
-                                ) * 2 | number: "1.0-2"
-                            }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Gordura (g)</td>
-                        <td>
-                            {{
-                                getNumericValue(
-                                    aliment.getPortion(
-                                        aliment.availablePortions
-                                    ).fat
-                                ) | number: "1.0-2"
-                            }}
-                        </td>
-                        <td>
-                            {{
-                                getNumericValue(
-                                    aliment.getPortion(
-                                        aliment.availablePortions
-                                    ).fat
-                                ) * 2 | number: "1.0-2"
-                            }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Fibras (g)</td>
-                        <td>
-                            {{
-                                getNumericValue(
-                                    aliment.getPortion(
-                                        aliment.availablePortions
-                                    ).dietaryFiber
-                                ) | number: "1.0-2"
-                            }}
-                        </td>
-                        <td>
-                            {{
-                                getNumericValue(
-                                    aliment.getPortion(
-                                        aliment.availablePortions
-                                    ).dietaryFiber
-                                ) * 2 | number: "1.0-2"
-                            }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Sodio (g)</td>
-                        <td>
-                            {{
-                                getNumericValue(
-                                    aliment.getPortion(
-                                        aliment.availablePortions
-                                    ).sodium
-                                ) | number: "1.0-2"
-                            }}
-                        </td>
-                        <td>
-                            {{
-                                getNumericValue(
-                                    aliment.getPortion(
-                                        aliment.availablePortions
-                                    ).sodium
-                                ) * 2 | number: "1.0-2"
-                            }}
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
+            <div class="nutrition-info-wrapper">
+                <h3 class="nutrition-title">
+                    <i class="pi pi-chart-bar"></i>
+                    Informações Nutricionais
+                </h3>
+                <div class="aliment-name-wrapper">
+                    <h5 class="name-aliment-selected">
+                        {{
+                            alimentSelected().length > 0 &&
+                            alimentSelected()[0]._id !==
+                                "placeholder-no-selection"
+                                ? alimentSelected()[0].name
+                                : "Nenhum alimento selecionado"
+                        }}
+                    </h5>
+                    <p-chip
+                        [label]="sourceAlimentSelectedNormalized()"
+                        class="diet-chip"
+                        [style.color]="'white'"
+                    />
+                </div>
+
+                <p-table
+                    [value]="alimentSelected()"
+                    class="nutrition-table"
+                    [showGridlines]="true"
+                >
+                    <ng-template #body let-aliment>
+                        <div class="nutrition-controls">
+                            <div class="control-group">
+                                <label class="control-label">
+                                    <i class="pi pi-list"></i>
+                                    Selecionar porção
+                                </label>
+                                <p-select
+                                    [options]="
+                                        avaliablePortionsOfSelectedAliment()
+                                    "
+                                    [(ngModel)]="selectedPortion"
+                                    placeholder="Selecione uma porção"
+                                    class="portion-select"
+                                />
+                            </div>
+
+                            <div class="control-group quantity-group">
+                                @if (selectedPortion() !== "100g") {
+                                    <div class="quantity-type-wrapper">
+                                        <label class="control-label">
+                                            <i class="pi pi-sliders-h"></i>
+                                            Tipo
+                                        </label>
+                                        <p-select
+                                            [options]="optionsTypeQuantity"
+                                            [ngModel]="selectedQuantityType()"
+                                            (ngModelChange)="
+                                                onQuantityTypeChange($event)
+                                            "
+                                            placeholder="Tipo"
+                                            class="quantity-type-select"
+                                        />
+                                    </div>
+                                }
+
+                                <div class="quantity-input-wrapper">
+                                    <label class="control-label">
+                                        <i class="pi pi-calculator"></i>
+                                        Quantidade
+                                        {{
+                                            selectedPortion() === "100g"
+                                                ? "(g)"
+                                                : ""
+                                        }}
+                                    </label>
+                                    <qn-number-input
+                                        [value]="selectedQuantity()"
+                                        (valueChange)="
+                                            onQuantityChange($event ?? 1)
+                                        "
+                                        [min]="1"
+                                        class="quantity-input"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="nutrition-table-content">
+                            <table class="custom-nutrition-table">
+                                <thead>
+                                    <tr>
+                                        <th class="nutrient-name">Nutriente</th>
+                                        <th class="per-100g">Por 100g</th>
+                                        <th class="per-selected">
+                                            Por {{ selectedQuantity()
+                                            }}{{
+                                                selectedQuantityType() ===
+                                                "grams"
+                                                    ? "g"
+                                                    : " unidade(s)"
+                                            }}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="highlight-row">
+                                        <td class="nutrient-name">
+                                            Valor energético
+                                        </td>
+                                        <td class="per-100g">
+                                            {{
+                                                nutrientsPer100g().kcal
+                                                    | number: "1.0-2"
+                                            }}
+                                            kcal
+                                        </td>
+                                        <td class="per-selected">
+                                            {{
+                                                calculateNutrientForSelectedQuantity(
+                                                    nutrientsPer100g().kcal
+                                                ) | number: "1.0-2"
+                                            }}
+                                            kcal
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="nutrient-name">
+                                            Carboidratos
+                                        </td>
+                                        <td class="per-100g">
+                                            {{
+                                                nutrientsPer100g().carb
+                                                    | number: "1.0-2"
+                                            }}
+                                            g
+                                        </td>
+                                        <td class="per-selected">
+                                            {{
+                                                calculateNutrientForSelectedQuantity(
+                                                    nutrientsPer100g().carb
+                                                ) | number: "1.0-2"
+                                            }}
+                                            g
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="nutrient-name">Proteínas</td>
+                                        <td class="per-100g">
+                                            {{
+                                                nutrientsPer100g().protein
+                                                    | number: "1.0-2"
+                                            }}
+                                            g
+                                        </td>
+                                        <td class="per-selected">
+                                            {{
+                                                calculateNutrientForSelectedQuantity(
+                                                    nutrientsPer100g().protein
+                                                ) | number: "1.0-2"
+                                            }}
+                                            g
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="nutrient-name">Gorduras</td>
+                                        <td class="per-100g">
+                                            {{
+                                                nutrientsPer100g().fat
+                                                    | number: "1.0-2"
+                                            }}
+                                            g
+                                        </td>
+                                        <td class="per-selected">
+                                            {{
+                                                calculateNutrientForSelectedQuantity(
+                                                    nutrientsPer100g().fat
+                                                ) | number: "1.0-2"
+                                            }}
+                                            g
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="nutrient-name">Fibras</td>
+                                        <td class="per-100g">
+                                            {{
+                                                nutrientsPer100g().dietaryFiber
+                                                    | number: "1.0-2"
+                                            }}
+                                            g
+                                        </td>
+                                        <td class="per-selected">
+                                            {{
+                                                calculateNutrientForSelectedQuantity(
+                                                    nutrientsPer100g()
+                                                        .dietaryFiber
+                                                ) | number: "1.0-2"
+                                            }}
+                                            g
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="nutrient-name">Sódio</td>
+                                        <td class="per-100g">
+                                            {{
+                                                nutrientsPer100g().sodium
+                                                    | number: "1.0-2"
+                                            }}
+                                            g
+                                        </td>
+                                        <td class="per-selected">
+                                            {{
+                                                calculateNutrientForSelectedQuantity(
+                                                    nutrientsPer100g().sodium
+                                                ) | number: "1.0-2"
+                                            }}
+                                            g
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </ng-template>
+                </p-table>
+            </div>
         </div>
     </div>
+
     <ng-template pTemplate="footer">
         <div class="dialog-footer">
             <qn-button
-                label="Adicionar Selecionados ({{ alimentSelected().length }})"
+                label="Adicionar Alimento ({{
+                    alimentSelected().length > 0 &&
+                    alimentSelected()[0]._id !== 'placeholder-no-selection'
+                        ? alimentSelected().length
+                        : 0
+                }})"
                 icon="pi pi-check"
+                class="add-button"
+                [disabled]="
+                    alimentSelected()[0]._id === 'placeholder-no-selection'
+                "
+                (click)="addAlimentToMeal()"
             />
         </div>
     </ng-template>

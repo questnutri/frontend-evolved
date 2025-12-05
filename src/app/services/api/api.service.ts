@@ -41,7 +41,7 @@ export class ApiService {
     }
 
     post<T>(url: string, body?: any, options: object = {}): Observable<any> {
-        this.notificationService.me();
+
         return this.request<T>(HttpMethod.POST, url, body, options)
     }
 

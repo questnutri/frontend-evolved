@@ -132,14 +132,15 @@
 
     .config-row {
         display: flex;
-        flex-direction: column;
         gap: 1px;
-
+        align-items: center;
         .label {
             font-size: 12px;
             font-weight: 500;
             color: var(--primary-font-color);
             opacity: 1;
+            width: fit-content;
+            min-width: 70px;
         }
     }
 

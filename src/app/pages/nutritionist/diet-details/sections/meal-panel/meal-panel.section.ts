@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { QnButtonComponent, QnNumberInputComponent, QnTextInputComponent } from "@qn/components/basic";
 import { QnLabelDirective } from "@qn/directives";
@@ -33,7 +33,7 @@ import { AlimentsTableComponent } from './aliments-table/aliments-table.componen
         AlimentsTableComponent // Adicionar aqui
     ],
 })
-export class MealPanelSection {
+export class MealPanelSection implements OnInit {
 
     private readonly alimentService = inject(AlimentService);
 
@@ -61,6 +61,9 @@ export class MealPanelSection {
     showRepeatConfig = signal<boolean>(false);
     minViewDate = signal<Date>(new Date(2024, 11, 1));
     maxViewDate = signal<Date>(new Date(2025, 0, 1));
+    editInfos = signal<boolean>(false);
+
+
 
     aliments = signal<any[]>([{ nome: 'Maçã', calorias: 52, proteina: 7, carboidratos: 18, gorduras: 5 }, { nome: 'Banana', calorias: 89, proteina: 7, carboidratos: 18, gorduras: 5 }, { nome: 'Arroz', calorias: 130, proteina: 7, carboidratos: 18, gorduras: 5 }, { nome: 'Arroz', calorias: 130, proteina: 7, carboidratos: 18, gorduras: 5 }, { nome: 'Arroz', calorias: 130, proteina: 7, carboidratos: 18, gorduras: 5 }, { nome: 'Arroz', calorias: 130, proteina: 7, carboidratos: 18, gorduras: 5 }, { nome: 'Arroz', calorias: 130, proteina: 7, carboidratos: 18, gorduras: 5 }, { nome: 'Arroz', calorias: 130, proteina: 7, carboidratos: 18, gorduras: 5 }]);
     checked = signal<string | null>(null);
@@ -78,11 +81,12 @@ export class MealPanelSection {
     constructor() {
         effect(() => {
             const originalMeal = this.meal();
-            console.log(originalMeal);
 
             if (originalMeal) {
+
                 const copy = MealModel.from(originalMeal);
                 this.editMeal.set(copy);
+                console.log(this.editMeal());
 
                 this.formDate.set(copy.startDate ? new Date(copy.startDate) : new Date());
                 this.formEndDate.set(copy.endDate ? new Date(copy.endDate) : null);
@@ -120,7 +124,9 @@ export class MealPanelSection {
     }
 
 
-
+    ngOnInit() {
+        console.log(this.meal())
+    }
     textFrequency = computed(() => {
         const type = this.valueRepeat();
         if (type === 'DAILY') return { value1: 'Repetir a cada', value2: 'dia(s)' };
@@ -226,6 +232,12 @@ export class MealPanelSection {
         delete (currentEdit as any).updatedAt;
         delete (currentEdit as any).foods;
         console.log('Salvando refeição editada:', currentEdit);
+        this.editInfos.update(edit => !edit);
+
+    }
+
+    handleClickEditInfo() {
+        this.editInfos.update(edit => !edit);
     }
 
     showModalNewDiet() {

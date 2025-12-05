@@ -105,7 +105,11 @@ export class PatientDietDetailsPage {
                     this.dietId(),
                     fetchRelativeDate
                 );
-                this.dietPlan.set(DietPlanModel.from(response));
+                if (this.dietPlan()) {
+                    this.dietPlan()!.merge(DietPlanModel.from(response));
+                } else {
+                    this.dietPlan.set(DietPlanModel.from(response));
+                }
             }
         });
 

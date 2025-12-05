@@ -35,6 +35,7 @@ export class MealModel implements Meal, Calculable {
     description?: string;
 
     static from(meal: Meal): MealModel {
+        console.log('Meal model: ', meal)
         const model = new MealModel();
         Object.assign(model, meal);
         model.foods = meal.foods.map(food => FoodModel.from(food));
