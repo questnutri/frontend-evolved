@@ -1,67 +1,105 @@
 <div class="diets-section">
     <div class="diets-section-container">
         <div class="diets-content-scroll">
+            <!-- Header -->
             <div class="diets-section-header">
                 <h2 class="diets-section-header-title">Dietas</h2>
                 <qn-button
-                    label="Adicionar Dieta"
+                    label="Nova Dieta"
                     icon="pi pi-plus"
                     (click)="showModalNewDiet()"
                 />
             </div>
 
-            @if (diets().length > 0) { @for (diet of diets(); track diet.id) {
-            <div
-                class="diets-card"
-                [class.diet-card-active]="diet.status === 'ACTIVE'"
-            >
-                <div class="diet-card-title">
-                    <span class="diet-card-name">{{ diet.name }}</span>
-                    <p-chip
-                        [label]="(diet.status | dietStatus).value"
-                        class="diet-chip"
-                        [style.backgroundColor]="(diet.status | dietStatus).color"
+            <!-- Diet Cards -->
+            @if (diets().length > 0) { 
+                @for (diet of diets(); track diet.id) {
+                    <div
+                        class="diets-card"
+                        [class.diet-card-active]="diet.status === 'ACTIVE'"
+                    >
+                        <!-- Header with title and menu -->
+                        <div class="diet-card-header">
+                            <div class="diet-card-title">
+                                <h3 class="diet-card-name">{{ diet.name }}</h3>
+                                <p-chip
+                                    [label]="(diet.status | dietStatus).value"
+                                    class="diet-chip"
+                                    [style.backgroundColor]="(diet.status | dietStatus).color"
+                                />
+                            </div>
+                            <div class="diet-card-icon" (click)="popover.toggle($event)">
+                                <i class="pi pi-ellipsis-v"></i>
+                            </div>
+                        </div>
+
+                        <!-- Info row with date and progress -->
+                        <div class="diet-card-info">
+                            <span class="diet-card-date">
+                                <i class="pi pi-calendar"></i>
+                                {{ dateFormat(diet.startDate) }} — {{ dateFormat(diet.endDate) || 'Sem fim' }}
+                            </span>
+                        </div>
+
+                        <!-- View button -->
+                        <qn-button
+                            label="Ver Dieta"
+                            class="view-diet-button"
+                            colorStyle="white"
+                            icon="pi pi-arrow-right"
+                            iconPos="right"
+                            (click)="doOnSeeDiet(diet.id)"
+                        />
+                    </div>
+                } 
+            } @else {
+                <!-- Empty State -->
+                <div class="empty-diets-state">
+                    <svg 
+                        class="empty-icon"
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M3 13h18M3 13v6a2 2 0 002 2h14a2 2 0 002-2v-6M3 13V7a2 2 0 012-2h14a2 2 0 012 2v6"/>
+                        <path d="M8 7v6M16 7v6"/>
+                    </svg>
+                    <h3>Nenhuma dieta cadastrada</h3>
+                    <p>Crie a primeira dieta para este paciente começar seu acompanhamento nutricional.</p>
+                    <qn-button
+                        label="Criar Primeira Dieta"
+                        icon="pi pi-plus"
+                        class="empty-state-button"
+                        (click)="showModalNewDiet()"
                     />
                 </div>
-
-                <p class="diet-card-icon">
-                    <i class="pi pi-ellipsis-v"></i>
-                </p>
-
-                <span class="diet-card-date">
-                    {{ dateFormat(diet.startDate) }} até {{
-                    dateFormat(diet.endDate) }}
-                </span>
-
-                <span class="diet-card-progress">85%</span>
-
-                <qn-button
-                    label="Ver Dieta"
-                    class="view-diet-button"
-                    colorStyle="white"
-                    icon="pi pi-calendar"
-                    (click)="doOnSeeDiet(diet.id)"
-                />
-            </div>
-            } } @else {
-            <div class="empty-diets-state">
-                <i class="pi pi-file-o empty-icon"></i>
-                <h3>Nenhuma dieta cadastrada</h3>
-                <p>
-                    Clique em "Adicionar Dieta" para criar a primeira dieta do
-                    paciente.
-                </p>
-                <qn-button
-                    label="Adicionar Primeira Dieta"
-                    icon="pi pi-plus"
-                    class="empty-state-button"
-                    (click)="showModalNewDiet()"
-                />
-            </div>
             }
         </div>
     </div>
 </div>
+
+<!-- Popover Menu -->
+<p-popover #dietMenu styleClass="diet-actions-popover">
+    <div class="popover-content">
+        <qn-button
+            label="Ativar Dieta"
+            icon="pi pi-check-circle"
+            colorStyle="white"
+            (click)="activateDiet('')"
+        />
+        <qn-button
+            label="Editar Dieta"
+            icon="pi pi-pencil"
+            colorStyle="white"
+            (click)="editDietSelected(null)"
+        />
+    </div>
+</p-popover>
+
+<!-- New Diet Dialog -->
 <p-dialog
     header="Nova Dieta"
     [(visible)]="visible"
@@ -119,7 +157,16 @@
 
     <ng-template pTemplate="footer">
         <div class="dialog-footer">
-            <qn-button label="Criar dieta" (click)="createDiet()" />
+            <qn-button 
+                label="Cancelar" 
+                colorStyle="white"
+                (click)="visible.set(false)" 
+            />
+            <qn-button 
+                label="Criar Dieta" 
+                class="create-btn"
+                (click)="createDiet()" 
+            />
         </div>
     </ng-template>
 </p-dialog>

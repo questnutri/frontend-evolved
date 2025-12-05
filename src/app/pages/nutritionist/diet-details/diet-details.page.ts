@@ -192,11 +192,18 @@ export class PatientDietDetailsPage {
             return compareDay === day.relativeDate.split("T")[0];
         });
 
-        return foundPlan?.mealPlans
+        const meals = foundPlan?.mealPlans
             .map(mp => mp.meal)
             .filter(meal => !meal.endDate
                 || meal.endDate.split('T')[0] > compareDay
             ) || [];
+
+        // Sort meals by hour ASC
+        return [...meals].sort((a, b) => {
+            const hourA = a.hour || '00:00';
+            const hourB = b.hour || '00:00';
+            return hourA.localeCompare(hourB);
+        });
     });
 
     protected currentMonthFirstDay = computed(() => {

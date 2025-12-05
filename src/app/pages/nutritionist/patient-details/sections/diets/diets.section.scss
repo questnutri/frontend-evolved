@@ -1,179 +1,281 @@
+// Variables (matching patient-home)
+$border-color: #E2E8F0;
+$border-color-light: #F1F5F9;
+$bg-primary: var(--primary-background-color, #fff);
+$bg-secondary: var(--secondary-background-color, #f8f9fa);
+$font-primary: var(--primary-font-color, #1e293b);
+$font-secondary: var(--secondary-font-color, #64748b);
+$accent-color: var(--primary-color, #F97316);
+$success-color: #22c55e;
+
 .diets-section {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    background-color: var(--secondary-background-color);
-    border-radius: var(--border-radius-input);
+    background-color: $bg-secondary;
+    border-radius: 1rem;
     box-sizing: border-box;
     overflow: hidden;
 }
+
 .diets-section-container {
-    background-color: var(--primary-background-color);
-    border-radius: var(--border-radius-input);
+    background-color: $bg-primary;
+    border-radius: 1rem;
     display: flex;
     flex-direction: column;
     height: 100%;
     overflow: hidden;
 }
+
 .diets-content-scroll {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 2rem;
-    min-height: 0; // Importante para o flex funcionar
+    padding: 24px;
+    min-height: 0;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 16px;
 }
 
+// =============================
+// HEADER SECTION
+// =============================
 .diets-section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 8px;
 }
+
 .diets-section-header-title {
     font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary-font-color);
+    font-weight: 600;
+    color: $font-primary;
     margin: 0;
 }
-// Estado vazio – centralizado e bonito
+
+// =============================
+// DIET CARDS
+// =============================
+.diets-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: $bg-primary;
+    border: 2px solid $border-color;
+    border-radius: 1rem;
+    padding: 16px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+        border-color: $accent-color;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    &.diet-card-active {
+        border-color: $success-color;
+        background: linear-gradient(135deg, rgba($success-color, 0.02) 0%, transparent 100%);
+    }
+}
+
+.diet-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.diet-card-title {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.diet-card-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: $font-primary;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.diet-chip {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    color: $font-primary;
+    font-weight: 500;
+    border-radius: 20px;
+    width: fit-content;
+}
+
+.diet-card-icon {
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    color: $font-secondary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        background: $border-color-light;
+        color: $accent-color;
+    }
+
+    i {
+        font-size: 1.1rem;
+    }
+}
+
+// =============================
+// DIET INFO GRID
+// =============================
+.diet-card-info {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: center;
+    padding: 12px;
+    background: $border-color-light;
+    border-radius: 0.75rem;
+}
+
+.diet-card-date {
+    font-size: 0.875rem;
+    color: $font-secondary;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    i {
+        font-size: 0.875rem;
+        color: $accent-color;
+    }
+}
+
+.diet-card-progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.progress-bar-mini {
+    width: 60px;
+    height: 6px;
+    background: $border-color;
+    border-radius: 3px;
+    overflow: hidden;
+
+    .progress-fill {
+        height: 100%;
+        background: $accent-color;
+        border-radius: 3px;
+        transition: width 0.3s ease;
+
+        &.completed {
+            background: $success-color;
+        }
+    }
+}
+
+.progress-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $accent-color;
+    min-width: 36px;
+    text-align: right;
+}
+
+// =============================
+// VIEW BUTTON
+// =============================
+.view-diet-button {
+    width: 100%;
+    margin-top: 4px;
+}
+
+// =============================
+// EMPTY STATE
+// =============================
 .empty-diets-state {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 3rem 2rem;
-    color: var(--secondary-font-color);
+    padding: 60px 24px;
+    background: $bg-primary;
+    border: 2px dashed $border-color;
+    border-radius: 1rem;
     flex: 1;
 
     .empty-icon {
-        font-size: 4rem;
-        margin-bottom: 1.5rem;
-        opacity: 0.4;
+        width: 64px;
+        height: 64px;
+        color: $font-secondary;
+        opacity: 0.5;
+        margin-bottom: 16px;
     }
 
     h3 {
-        font-size: 1.5rem;
+        font-size: 1.125rem;
         font-weight: 600;
-        color: var(--primary-font-color);
-        margin: 0 0 0.5rem 0;
+        color: $font-primary;
+        margin: 0 0 8px 0;
     }
 
     p {
-        font-size: 1rem;
-        margin: 0 0 2rem 0;
-        max-width: 420px;
-        opacity: 0.8;
+        font-size: 0.9375rem;
+        color: $font-secondary;
+        margin: 0 0 24px 0;
+        max-width: 300px;
     }
 
     .empty-state-button {
-        min-width: 280px;
+        min-width: 240px;
     }
 }
 
-.diets-card {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto auto;
-    align-items: center;
-    border: 2px solid var(--primary-border-color);
-    border-radius: var(--border-radius-input);
-    padding: 1.5rem;
-    gap: 1rem;
-
-    .diet-card-title {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .diet-card-icon {
-        justify-self: end;
-        cursor: pointer;
-        font-size: 1.2rem;
-        color: var(--secondary-font-color);
-
-        &:hover {
-            color: var(--primary-color);
-        }
-    }
-
-    .diet-card-date {
-        grid-column: 1 / 2;
-        font-size: 0.9rem;
-        color: var(--grey-color);
-    }
-    .diet-chip {
-        font-size: 0.9rem;
-        padding: 0.4rem 0.6rem;
-        color: var(--primary-font-color);
-        font-weight: 500;
-    }
-
-    .diet-card-progress {
-        justify-self: end;
-        font-weight: 600;
-        color: var(--primary-color);
-    }
-
-    .view-diet-button {
-        grid-column: 1 / -1;
-        justify-self: stretch;
-    }
-}
-
-@media (max-width: 640px) {
-    .diets-content-scroll {
-        padding: 1.5rem;
-    }
-
-    .diets-card {
-        padding: 1.2rem;
-        gap: 0.8rem;
-    }
-
-    .diet-card-name {
-        font-size: 1.1rem;
-        font-weight: 500;
-        margin-bottom: 0;
-    }
-
-    .empty-diets-state {
-        padding: 2rem 1rem;
-
-        .empty-icon {
-            font-size: 3.5rem;
-        }
-        h3 {
-            font-size: 1.3rem;
-        }
-        .empty-state-button {
-            min-width: 100%;
-        }
-    }
-}
-
+// =============================
+// DIALOG STYLES
+// =============================
 .simple-new-diet-dialog {
     ::ng-deep .p-dialog {
         max-width: 92vw;
-        width: fit-content;
+        width: 480px;
+        border-radius: 1rem;
+    }
+
+    ::ng-deep .p-dialog-header {
+        padding: 20px 24px;
+        border-bottom: 1px solid $border-color;
+    }
+
+    ::ng-deep .p-dialog-content {
+        padding: 0;
     }
 }
 
 .dialog-content {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
-    padding: 1.5rem;
+    gap: 16px;
+    padding: 24px;
 }
 
 .dates-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 12px;
     align-items: flex-end;
 
     @media screen and (max-width: 400px) {
@@ -188,39 +290,113 @@
 .dialog-footer {
     display: flex;
     justify-content: flex-end;
-    gap: 0.75rem;
-    padding: 1rem 0rem;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid $border-color;
+    background: $border-color-light;
 
     .create-btn {
         font-weight: 600;
         min-width: 120px;
     }
 }
+
+// =============================
+// POPOVER STYLES
+// =============================
 ::ng-deep .diet-actions-popover {
     .p-popover-content {
-        padding: 0.5rem 0;
+        padding: 8px 0;
+        border-radius: 0.75rem;
     }
 
     .popover-content {
         display: flex;
         flex-direction: column;
-        gap: 0.25rem;
+        gap: 4px;
     }
 
     .p-button {
         justify-content: flex-start;
         width: 100%;
         text-align: left;
+        border-radius: 0;
+
+        &:hover {
+            background: $border-color-light;
+        }
     }
 }
 
-.diet-menu-trigger {
-    cursor: pointer;
-    font-size: 1.25rem;
-    color: var(--text-color-secondary);
-    transition: color 0.2s;
+// =============================
+// RESPONSIVE
+// =============================
+@media (max-width: 640px) {
+    .diets-content-scroll {
+        padding: 16px;
+        gap: 14px;
+    }
+
+    .diets-section-header-title {
+        font-size: 1.25rem;
+    }
+
+    .diets-card {
+        padding: 14px;
+        gap: 10px;
+    }
+
+    .diet-card-name {
+        font-size: 0.95rem;
+    }
+
+    .diet-card-info {
+        padding: 10px;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .diet-card-progress {
+        justify-content: flex-start;
+    }
+
+    .progress-bar-mini {
+        flex: 1;
+        max-width: 120px;
+    }
+
+    .empty-diets-state {
+        padding: 40px 16px;
+
+        .empty-icon {
+            width: 48px;
+            height: 48px;
+        }
+
+        h3 {
+            font-size: 1rem;
+        }
+
+        p {
+            font-size: 0.875rem;
+        }
+
+        .empty-state-button {
+            min-width: 100%;
+        }
+    }
 }
 
-.diet-menu-trigger:hover {
-    color: var(--primary-color);
+@media (max-width: 400px) {
+    .diets-content-scroll {
+        padding: 12px;
+    }
+
+    .diets-card {
+        padding: 12px;
+    }
+
+    .diet-card-date {
+        font-size: 0.8125rem;
+    }
 }
