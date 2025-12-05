@@ -1,0 +1,169 @@
+<div style="overflow-y: auto; height: 100%; padding: 30px">
+    <div class="weight-container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">Controle de Peso</h1>
+            <p class="subtitle">Acompanhe sua evolução de peso</p>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-overview">
+            <div class="stats-content">
+                <div class="stats-main">
+                    <p class="stats-label">Peso Atual</p>
+                    <div class="stats-value-wrapper">
+                        <span class="stats-value">{{ latestWeight() ?? '--' }}</span>
+                        <span class="stats-unit">kg</span>
+                    </div>
+                </div>
+                @if(weightTrend()) {
+                <div class="trend-badge" [class]="weightTrend()!.direction">
+                    <i [class]="'pi ' + (weightTrend()!.direction === 'down' ? 'pi-arrow-down' : 'pi-arrow-up')"></i>
+                    <span>{{ weightTrend()!.diff }} kg</span>
+                </div>
+                }
+            </div>
+        </div>
+
+        <!-- Quick Add Section -->
+        <div class="quick-add-section">
+            <h3 class="section-title">Registrar Peso</h3>
+            <button 
+                class="add-weight-btn" 
+                [class.active]="showInputPanel()"
+                (click)="toggleInputPanel()"
+            >
+                <i class="pi" [class.pi-plus-circle]="!showInputPanel()" [class.pi-times-circle]="showInputPanel()"></i>
+                <span>{{ showInputPanel() ? 'Cancelar' : (editingId ? 'Editando...' : 'Adicionar Registro') }}</span>
+            </button>
+
+            <!-- Input Panel -->
+            @if(showInputPanel()) {
+            <div class="input-panel">
+                <div class="input-row">
+                    <div class="input-field">
+                        <label>Peso (kg)</label>
+                        <p-inputNumber 
+                            [(ngModel)]="weightValue" 
+                            mode="decimal" 
+                            [minFractionDigits]="1" 
+                            [maxFractionDigits]="1"
+                            [min]="1"
+                            [max]="300"
+                            placeholder="Ex: 70.5"
+                            styleClass="w-full">
+                        </p-inputNumber>
+                    </div>
+                    <div class="input-field">
+                        <label>Data</label>
+                        <p-datepicker 
+                            [(ngModel)]="selectedDate" 
+                            dateFormat="dd/mm/yy"
+                            [maxDate]="today"
+                            [showIcon]="true"
+                            fluid
+                            styleClass="w-full">
+                        </p-datepicker>
+                    </div>
+                </div>
+                <button 
+                    class="save-btn"
+                    (click)="saveWeight()"
+                    [disabled]="!weightValue"
+                >
+                    <i class="pi pi-check"></i>
+                    {{ editingId ? 'Atualizar Registro' : 'Salvar Registro' }}
+                </button>
+            </div>
+            }
+        </div>
+
+        <!-- Tabs Section -->
+        <div class="tabs-section">
+            <div class="tabs-header">
+                <button 
+                    class="tab-btn" 
+                    [class.active]="activeTab() === 'chart'"
+                    (click)="setActiveTab('chart')"
+                >
+                    <i class="pi pi-chart-line"></i>
+                    <span>Evolução</span>
+                </button>
+                <button 
+                    class="tab-btn" 
+                    [class.active]="activeTab() === 'history'"
+                    (click)="setActiveTab('history')"
+                >
+                    <i class="pi pi-list"></i>
+                    <span>Histórico</span>
+                </button>
+            </div>
+
+            <div class="tabs-content">
+                <!-- Chart Tab Content -->
+                @if(activeTab() === 'chart') {
+                <div class="chart-section">
+                    <div class="chart-header">
+                        <p-selectButton 
+                            [options]="timeRangeOptions" 
+                            [(ngModel)]="selectedTimeRange"
+                            optionLabel="label" 
+                            optionValue="value"
+                            styleClass="time-range-selector">
+                        </p-selectButton>
+                    </div>
+                    <div class="chart-wrapper">
+                        <p-chart type="line" [data]="chartData()" [options]="chartOptions" height="300px"></p-chart>
+                    </div>
+                </div>
+                }
+
+                <!-- History Tab Content -->
+                @if(activeTab() === 'history') {
+                <div class="history-section">
+                    @if(loading) {
+                    <div class="empty-state">
+                        <i class="pi pi-spin pi-spinner"></i>
+                        <p>Carregando registros...</p>
+                    </div>
+                    } @else if(weights().length === 0) {
+                    <div class="empty-state">
+                        <i class="pi pi-chart-line"></i>
+                        <p>Nenhum registro ainda</p>
+                    </div>
+                    } @else {
+                    <div class="history-list">
+                        @for(weight of recentWeights(); track weight.id) {
+                        <div class="history-item">
+                            <div class="history-icon">
+                                <i class="pi pi-chart-line"></i>
+                            </div>
+
+                            <div class="history-info">
+                                <div class="history-weight">{{ weight.valueInKg }} kg</div>
+                                <div class="history-date">
+                                    <i class="pi pi-calendar"></i>
+                                    {{ formatDate(weight.createdAt) }}
+                                </div>
+                            </div>
+
+                            <div class="history-actions">
+                                <button class="action-btn edit" (click)="editWeight(weight)" title="Editar">
+                                    <i class="pi pi-pencil"></i>
+                                </button>
+                                <button class="action-btn delete" (click)="confirmDelete(weight.id)" title="Excluir">
+                                    <i class="pi pi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                    }
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <p-confirmDialog></p-confirmDialog>
+</div>

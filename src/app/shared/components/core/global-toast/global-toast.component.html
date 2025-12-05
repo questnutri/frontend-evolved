@@ -1,43 +1,68 @@
 <p-toast
     key="achievement"
-    [style.width]="deviceService.isMobileSize() ? '90vw' : '320px'"
+    [style.width]="deviceService.isMobileSize() ? '90vw' : '360px'"
     [position]="'top-right'"
     [style]="{ top: deviceService.isMobileSize() ? '60px' : undefined }"
 >
     <ng-template let-message #headless let-closeFn="closeFn">
-        <section class="flex flex-col gap-3 p-4 w-full rounded-lg bg-(--primary-color) backdrop-blur-md shadow-lg">
+        <section 
+            class="achievement-toast flex flex-col gap-3 p-4 w-full rounded-xl border shadow-xl backdrop-blur-md"
+            [attr.data-rarity]="message.data?.rarity || 'COMMON'"
+        >
+            <!-- Header with rarity badge -->
             <div class="flex items-center justify-between">
-                <span class="text-xs font-medium text-white/70 dark:text-black/70 uppercase tracking-wide">
-                    Nova conquista desbloqueada
-                </span>
+                <div class="flex items-center gap-2">
+                    <span 
+                        class="rarity-badge px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider"
+                        [attr.data-rarity]="message.data?.rarity || 'COMMON'"
+                    >
+                        {{ getRarityLabel(message.data?.rarity) }}
+                    </span>
+                    <span class="text-xs font-medium opacity-80 uppercase tracking-wide">
+                        Conquista desbloqueada!
+                    </span>
+                </div>
                 <button 
                     (click)="closeFn($event)" 
-                    class="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors text-white dark:text-black"
+                    class="close-btn flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full transition-colors"
                     aria-label="Close"
                 >
                     ×
                 </button>
             </div>
 
-            <div class="flex items-start gap-3">
+            <div class="flex items-center gap-4">
+                <!-- Animated Icon Container -->
                 <div class="coin-container">
-                <div class="coin">
-                    <div class="coin-face coin-front"></div>
-                    <div class="coin-face coin-back">
-                        <span class="coin-icon">🏆</span>
+                    <div class="coin" [attr.data-rarity]="message.data?.rarity || 'COMMON'">
+                        <div class="coin-face coin-front"></div>
+                        <div class="coin-face coin-back">
+                            <span class="coin-icon">
+                                @switch (message.data?.rarity) {
+                                    @case ('LEGENDARY') { 👑 }
+                                    @case ('EPIC') { 💎 }
+                                    @case ('RARE') { ⭐ }
+                                    @case ('QUESTNUTRI_MASTER') { 🏆 }
+                                    @default { 🎖️ }
+                                }
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-                <div class="flex-1 flex flex-col gap-0.5 min-w-0">
-                    <span class="text-base font-semibold text-white dark:text-black leading-tight">
+                <!-- Content -->
+                <div class="flex-1 flex flex-col gap-1 min-w-0">
+                    <span class="text-base font-bold leading-tight">
                         {{ message.data?.title }}
                     </span>
-                    <span class="text-xs text-white/80 dark:text-black/80 leading-snug">
+                    <span class="text-sm opacity-90 leading-snug">
                         {{ message.data?.message }}
                     </span>
                 </div>
             </div>
+
+            <!-- Shine effect overlay -->
+            <div class="shine-overlay"></div>
         </section>
     </ng-template>
 </p-toast>

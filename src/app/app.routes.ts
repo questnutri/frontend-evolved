@@ -21,6 +21,8 @@ import { NutritionistPatientDietsSection } from './pages/nutritionist/patient-de
 import { NutritionistPatientRecordsSection } from './pages/nutritionist/patient-details/sections/records/records.section';
 import { PatientDietDetailsPage } from './pages/nutritionist/diet-details/diet-details.page';
 import { AchievementsPage } from './pages/patient/achievements/achievements.page';
+import { WaterTrackingPage } from './pages/patient/water/water-tracking.page';
+import { WeightPage } from './pages/patient/weight/weight.page';
 
 export const routes: Routes = [
     {
@@ -107,6 +109,14 @@ export const routes: Routes = [
                     {
                         path: 'achievements',
                         component: AchievementsPage
+                    },
+                    {
+                        path: 'water',
+                        component: WaterTrackingPage
+                    },
+                    {
+                        path: 'weight',
+                        component: WeightPage
                     }
                     ,
                     // {

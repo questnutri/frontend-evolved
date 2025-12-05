@@ -7,16 +7,27 @@ import { CommonModule } from '@angular/common';
 import { RippleModule } from 'primeng/ripple';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from '@qn/services';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { matWaterDrop } from '@ng-icons/material-icons/baseline';
 
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector
     selector: '[app-menuitem]',
-    imports: [CommonModule, RouterModule, RippleModule],
+    imports: [
+        CommonModule,
+        RouterModule,
+        RippleModule,
+        NgIcon
+    ],
     template: `
         <ng-container>
             <div *ngIf="root && item.visible !== false" class="layout-menuitem-root-text">{{ item.label }}</div>
             <a *ngIf="(!item.routerLink || item.items) && item.visible !== false" [attr.href]="item.url" (click)="itemClick($event)" [ngClass]="item.styleClass" [attr.target]="item.target" tabindex="0" pRipple>
+            @if(item['ngIcon']) {
+                <ng-icon [name]="item['ngIcon']" class="layout-menuitem-icon"></ng-icon>
+            } @else {
                 <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
+            } 
                 <span class="layout-menuitem-text">{{ item.label }}</span>
                 <i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items"></i>
             </a>

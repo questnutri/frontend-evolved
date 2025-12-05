@@ -8,7 +8,10 @@ import { MessageService } from 'primeng/api';
 import { AuthService } from './services/auth/auth.service';
 
 import { QnGlobalToastComponent } from '@qn/components/core';
-
+import { provideIcons } from '@ng-icons/core';
+import { matWaterDrop } from '@ng-icons/material-icons/baseline';
+import { heroBellAlertSolid, heroBellSolid } from "@ng-icons/heroicons/solid";
+import { remixWeightFill } from "@ng-icons/remixicon";
 
 @Component({
     selector: 'app-root',
@@ -18,6 +21,14 @@ import { QnGlobalToastComponent } from '@qn/components/core';
         QnGlobalToastComponent,
         RouterOutlet,
         QnGlobalToastComponent
+    ],
+    viewProviders: [
+        provideIcons({
+            matWaterDrop,
+            heroBellSolid,
+            heroBellAlertSolid,
+            remixWeightFill
+        })
     ],
     providers: [MessageService]
 })

@@ -14,7 +14,7 @@
     align-items: center;
 
     .layout-topbar-logo-container {
-        width: 20rem;
+        width: fit-content;
         display: flex;
         align-items: center;
     }
@@ -102,7 +102,7 @@
         padding: 0 2rem;
         
         .layout-topbar-logo-container {
-            width: auto;
+            width: fit-content;
         }
         
         .layout-menu-button {

@@ -68,14 +68,28 @@ export class AppMenu {
                         }
                     },
                     {
-                        label: 'Suas conquistas',
+                        label: 'Conquistas',
                         icon: 'pi pi-fw pi-trophy',
                         command: () => {
                             this.router.navigate(['/patient/achievements']);
                         }
-                    }
+                    },
+                    {
+                        label: 'Hidratação',
+                        ngIcon: 'matWaterDrop',
+                        command: () => {
+                            this.router.navigate(['/patient/water']);
+                        }
+                    },
+                    {
+                        label: 'Peso',
+                        ngIcon: 'remixWeightFill',
+                        command: () => {
+                            this.router.navigate(['/patient/weight']);
+                        }
+                    },
                 ]
-            }
+            };
         }
 
         this.addMenuOption(mainOption);

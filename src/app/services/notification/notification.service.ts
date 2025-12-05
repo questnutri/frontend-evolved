@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable, OnDestroy, signal } from '@angular/core';
 import { ToastMessageOptions } from 'primeng/api';
 import { Subject, Observable, firstValueFrom, interval, Subscription } from 'rxjs';
@@ -70,23 +70,97 @@ export class NotificationService implements OnDestroy {
     }
 
     async me() {
-        const headers = new HttpHeaders();
         const token = this.storageService.get<AuthPayload>('auth')?.accessToken;
         if (token) {
-            headers.set('Authorization', `Bearer ${token}`);
+            const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
             const fullUrl = `${this.BACKEND_GATEWAY_URL}/notification/me`;
-            const notifications = await firstValueFrom(this.http.get<any[]>(fullUrl, { headers }));
-            if (notifications.length > 0) {
-                const notification = notifications[0].i18n['pt-BR'];
-                console.log('Notification received:', notification);
-                this.add({
-                    key: 'achievement',
-                    data: { title: notification?.title || '', message: notification.message, icon: notification.icon },
-                    life: 3000
-                })
+            try {
+                const notifications = await firstValueFrom(this.http.get<any[]>(fullUrl, { headers }));
+                if (notifications.length > 0) {
+                    for (const notificationData of notifications) {
+                        if(notificationData.type !== 'ACHIEVEMENT') continue;
+                        const notification = notificationData.i18n['pt-BR'];
+                        const rarity = notificationData.additionalData?.achievement?.rarity || 'COMMON';
+
+                        this.add({
+                            key: 'achievement',
+                            data: {
+                                title: notification?.title || '',
+                                message: notification.message,
+                                icon: notificationData.additionalData?.achievement?.icon,
+                                rarity: rarity
+                            },
+                            life: 5000
+                        })
+                    }
+                }
+            } catch (error) {
+                if (error instanceof HttpErrorResponse && error.status === 401) {
+                    console.log('Unauthorized - stopping polling');
+                    this.stopPolling();
+                    return;
+                }
+                console.log(error);
             }
         }
+    }
 
+    async getAll() {
+        const token = this.storageService.get<AuthPayload>('auth')?.accessToken;
+        if (token) {
+            const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+            const fullUrl = `${this.BACKEND_GATEWAY_URL}/notification/me/all`;
+            try {
+                const notifications = await firstValueFrom(this.http.get<any[]>(fullUrl, { headers }));
+                return notifications;
+            } catch (error) {
+                if (error instanceof HttpErrorResponse && error.status === 401) {
+                    console.log('Unauthorized - stopping polling');
+                    this.stopPolling();
+                    return [];
+                }
+                console.log(error);
+            }
+        }
+        return [];
+    }
+
+    async ack(notificationId: string): Promise<void> {
+        const token = this.storageService.get<AuthPayload>('auth')?.accessToken;
+        if (token) {
+            const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+            const fullUrl = `${this.BACKEND_GATEWAY_URL}/notification/ack`;
+            try {
+                await firstValueFrom(
+                    this.http.post(fullUrl, { ids: [notificationId] }, { headers })
+                );
+            } catch (error) {
+                if (error instanceof HttpErrorResponse && error.status === 401) {
+                    console.log('Unauthorized - stopping polling');
+                    this.stopPolling();
+                }
+                console.log(error);
+            }
+        }
+    }
+
+    async ackAll(): Promise<void> {
+        const token = this.storageService.get<AuthPayload>('auth')?.accessToken;
+        if (token) {
+            const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+            const fullUrl = `${this.BACKEND_GATEWAY_URL}/notification/ack/all`;
+            try {
+                await firstValueFrom(
+                    this.http.post(fullUrl, {}, { headers })
+                );
+            } catch (error) {
+                if (error instanceof HttpErrorResponse && error.status === 401) {
+                    console.log('Unauthorized - stopping polling');
+                    this.stopPolling();
+                }
+                console.log(error);
+            }
+        }
     }
 
 }

@@ -1,0 +1,276 @@
+<div style="overflow-y: auto; height: 100%; padding: 30px">
+    <div class="water-tracking-container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">Hidratação</h1>
+            <p class="subtitle">Acompanhe sua ingestão diária de água</p>
+        </div>
+
+        <!-- Date Selector -->
+        <div class="date-selector">
+            <button (click)="changeDate(-1)" class="date-nav-btn">
+                <i class="pi pi-chevron-left"></i>
+            </button>
+            <div class="date-display">{{ formatDate() }}</div>
+            <button
+                (click)="changeDate(1)"
+                class="date-nav-btn"
+                [disabled]="isToday()"
+            >
+                <i class="pi pi-chevron-right"></i>
+            </button>
+        </div>
+
+        <!-- Progress Circle -->
+        <div class="progress-section">
+            <div class="progress-circle-container">
+                <svg class="progress-circle" viewBox="0 0 200 200">
+                    <!-- Background circle -->
+                    <circle
+                        cx="100"
+                        cy="100"
+                        r="85"
+                        fill="none"
+                        stroke="#E5E7EB"
+                        stroke-width="12"
+                    />
+                    <!-- Progress circle -->
+                    <circle
+                        cx="100"
+                        cy="100"
+                        r="85"
+                        fill="none"
+                        stroke="url(#waterGradient)"
+                        stroke-width="12"
+                        stroke-linecap="round"
+                        [attr.stroke-dasharray]="534"
+                        [attr.stroke-dashoffset]="534 - (534 * progressPercentage() / 100)"
+                        class="progress-stroke"
+                    />
+                    <!-- Gradient definition -->
+                    <defs>
+                        <linearGradient
+                            id="waterGradient"
+                            x1="0%"
+                            y1="0%"
+                            x2="0%"
+                            y2="100%"
+                        >
+                            <stop
+                                offset="0%"
+                                style="stop-color: #06b6d4; stop-opacity: 1"
+                            />
+                            <stop
+                                offset="100%"
+                                style="stop-color: #0891b2; stop-opacity: 1"
+                            />
+                        </linearGradient>
+                    </defs>
+                </svg>
+
+                <div class="progress-content">
+                    <div class="intake-amount">{{ totalIntake() / 1000 }}L</div>
+                    <div class="intake-percentage">
+                        {{ progressPercentage() }}%
+                    </div>
+                    <div class="intake-goal">
+                        Meta: {{ dailyGoal() / 1000 }}L
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Add Buttons -->
+        <div class="quick-add-section">
+            <h3 class="section-title">Adicionar Rapidamente</h3>
+            <div class="quick-add-grid">
+                @for(amount of quickAddAmounts; track amount) {
+                <button class="quick-add-btn" (click)="addWater(amount)">
+                    <i class="pi pi-plus-circle"></i>
+                    <span>{{ amount }} ml</span>
+                </button>
+                }
+                <!-- Custom Amount Button -->
+                <button 
+                    class="quick-add-btn custom-btn" 
+                    [class.active]="showCustomInput()"
+                    (click)="toggleCustomInput()"
+                >
+                    <i class="pi pi-pencil"></i>
+                    <span>Outro</span>
+                </button>
+            </div>
+            
+            <!-- Custom Input Panel -->
+            @if(showCustomInput()) {
+            <div class="custom-input-panel">
+                <div class="custom-input-wrapper">
+                    <input 
+                        type="number" 
+                        class="custom-input"
+                        placeholder="Digite a quantidade"
+                        [ngModel]="customAmount()"
+                        (ngModelChange)="customAmount.set($event)"
+                        (keyup.enter)="addCustomWater()"
+                        min="1"
+                        max="5000"
+                    />
+                    <span class="input-suffix">ml</span>
+                </div>
+                <button 
+                    class="custom-add-btn"
+                    [disabled]="!customAmount() || customAmount()! <= 0"
+                    (click)="addCustomWater()"
+                >
+                    <i class="pi pi-plus"></i>
+                    Adicionar
+                </button>
+            </div>
+            }
+        </div>
+
+        <!-- Tabs Section -->
+        <div class="tabs-section">
+            <div class="tabs-header">
+                <button 
+                    class="tab-btn" 
+                    [class.active]="activeTab() === 'history'"
+                    (click)="setActiveTab('history')"
+                >
+                    <i class="pi pi-list"></i>
+                    <span>Histórico do Dia</span>
+                </button>
+                <button 
+                    class="tab-btn" 
+                    [class.active]="activeTab() === 'week'"
+                    (click)="setActiveTab('week')"
+                >
+                    <i class="pi pi-calendar"></i>
+                    <span>Visão Semanal</span>
+                </button>
+            </div>
+
+            <div class="tabs-content">
+                <!-- History Tab Content -->
+                @if(activeTab() === 'history') {
+                <div class="history-section">
+                    @if(registers().length === 0) {
+                    <div class="empty-state">
+                        <i class="pi pi-info-circle"></i>
+                        <p>Nenhum registro ainda hoje</p>
+                    </div>
+                    } @else {
+                    <div class="history-list">
+                        @for(register of registers(); track register.id) {
+                        <div class="history-item">
+                            <div
+                                class="history-icon"
+                                [class.subtract]="register.operation === 'SUB'"
+                            >
+                                <i
+                                    [class]="register.operation === 'ADD' ? 'pi pi-plus' : 'pi pi-minus'"
+                                ></i>
+                            </div>
+
+                            <div class="history-info">
+                                <div class="history-amount">
+                                    {{ register.operation === 'ADD' ? '+' : '-' }}{{ register.amountInMl }} ml
+                                </div>
+                                <div class="history-time">
+                                    {{ formatTime(register.registerHour) }}
+                                </div>
+                            </div>
+
+                            @if(register.operation === 'ADD') {
+                            <button
+                                class="undo-btn"
+                                (click)="removeWater(parseInt(register.amountInMl))"
+                                title="Desfazer"
+                            >
+                                <i class="pi pi-undo"></i>
+                            </button>
+                            }
+                        </div>
+                        }
+                    </div>
+                    }
+                </div>
+                }
+
+                <!-- Week Tab Content -->
+                @if(activeTab() === 'week') {
+                <div class="week-calendar-section">
+                    <div class="week-calendar">
+                        @for(day of weekData(); track day.date.toISOString()) {
+                        <div class="week-day" [class.today]="day.isToday">
+                            <span class="day-name">{{ day.dayName }}</span>
+                            <div class="day-circle-container">
+                                <svg class="day-circle" viewBox="0 0 100 100">
+                                    <defs>
+                                        <clipPath [attr.id]="'water-clip-' + day.date.getTime()">
+                                            <rect 
+                                                x="0" 
+                                                [attr.y]="100 - day.percentage" 
+                                                width="100" 
+                                                [attr.height]="day.percentage"
+                                            />
+                                        </clipPath>
+                                        <linearGradient [attr.id]="'water-gradient-' + day.date.getTime()" x1="0%" y1="100%" x2="0%" y2="0%">
+                                            <stop offset="0%" [attr.style]="'stop-color:' + getWeekDayColor(day) + ';stop-opacity:1'" />
+                                            <stop offset="100%" [attr.style]="'stop-color:' + getWeekDayColor(day) + ';stop-opacity:0.7'" />
+                                        </linearGradient>
+                                    </defs>
+                                    <!-- Background circle -->
+                                    <circle
+                                        cx="50"
+                                        cy="50"
+                                        r="45"
+                                        fill="#E5E7EB"
+                                    />
+                                    <!-- Water fill -->
+                                    <circle
+                                        cx="50"
+                                        cy="50"
+                                        r="45"
+                                        [attr.fill]="'url(#water-gradient-' + day.date.getTime() + ')'"
+                                        [attr.clip-path]="'url(#water-clip-' + day.date.getTime() + ')'"
+                                    />
+                                    <!-- Wave effect at water level -->
+                                    @if(day.percentage > 0 && day.percentage < 100) {
+                                    <ellipse
+                                        cx="50"
+                                        [attr.cy]="100 - day.percentage"
+                                        rx="45"
+                                        ry="3"
+                                        [attr.fill]="getWeekDayColor(day)"
+                                        opacity="0.6"
+                                    />
+                                    }
+                                </svg>
+                            </div>
+                            <span class="day-intake">{{ (day.intake / 1000).toFixed(1) }}L</span>
+                        </div>
+                        }
+                    </div>
+                    
+                    <!-- Week Summary -->
+                    <div class="week-summary">
+                        <div class="summary-item">
+                            <span class="summary-label">Média Diária</span>
+                            <span class="summary-value">{{ weekAverage().toFixed(1) }}L</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Metas Completas</span>
+                            <span class="summary-value success">{{ weekCompletedDays() }}/7</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Total Semanal</span>
+                            <span class="summary-value">{{ weekTotal().toFixed(1) }}L</span>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -24,4 +24,15 @@ export class QnGlobalToastComponent {
             }
         });
     }
+
+    getRarityLabel(rarity: string | undefined): string {
+        switch (rarity) {
+            case 'COMMON': return 'Comum';
+            case 'RARE': return 'Raro';
+            case 'EPIC': return 'Épico';
+            case 'LEGENDARY': return 'Lendário';
+            case 'QUESTNUTRI_MASTER': return 'Mestre';
+            default: return 'Comum';
+        }
+    }
 }
