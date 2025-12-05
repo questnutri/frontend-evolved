@@ -2,11 +2,12 @@ import { Component, computed, effect, inject, input, output, signal } from '@ang
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DietModel, Patient } from '@qn/models';
-import { DietService, PatientService } from '@qn/services';
+import { DietService, NotificationService, PatientService } from '@qn/services';
 import { Chip } from "primeng/chip";
 import { DatePicker } from "primeng/datepicker";
 import { BackButtonComponent } from "src/app/shared/components/core/back-button/back-button.component";
 import { DietStatusPipe } from 'src/app/shared/pipes/diet-status-pipe';
+import { QnButtonComponent } from "@qn/components/basic";
 
 @Component({
     selector: 'app-patient-diet-details-header',
@@ -17,13 +18,15 @@ import { DietStatusPipe } from 'src/app/shared/pipes/diet-status-pipe';
         DatePicker,
         FormsModule,
         Chip,
-        DietStatusPipe
+        DietStatusPipe,
+        QnButtonComponent
     ],
 })
 export class PatientDietDetailsHeaderSection {
     private readonly router = inject(Router);
     private readonly patientService = inject(PatientService);
     private readonly dietService = inject(DietService);
+    private readonly notificationService = inject(NotificationService);
 
     patientId = input.required<string>();
     diet = input.required<DietModel>();
@@ -168,6 +171,20 @@ export class PatientDietDetailsHeaderSection {
         const d = new Date(date);
         d.setHours(0, 0, 0, 0);
         return d;
+    }
+
+    async activeDiet() {
+        try {
+            await this.dietService.activetDiet(this.diet().id);
+            this.notificationService.add({
+                severity: 'success',
+                summary: 'Sucesso',
+                detail: 'Dieta ativada com sucesso!'
+            });
+            this.dietUpdated.emit();
+        } catch (error) {
+            console.error("Erro ao ativar dieta:", error);
+        }
     }
 
     //TODO: FIX THE STARTDATE OF DIET

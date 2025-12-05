@@ -42,5 +42,8 @@
                 [showClear]="true"
             />
         </span>
+        @if(diet().status === 'DEFINITION') {
+        <qn-button label="Ativar dieta" (click)="activeDiet()" />
+        }
     </div>
 </div>

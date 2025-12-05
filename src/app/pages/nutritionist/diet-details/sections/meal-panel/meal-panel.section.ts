@@ -1,8 +1,8 @@
-import { Component, computed, effect, inject, input, OnInit, output, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, OnInit, output, signal, untracked } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { QnButtonComponent, QnNumberInputComponent, QnTextInputComponent } from "@qn/components/basic";
 import { QnLabelDirective } from "@qn/directives";
-import { Aliment, AlimentModel, MealModel } from '@qn/models';
+import { Aliment, AlimentModel, FoodModel, MealModel } from '@qn/models';
 import { AccordionModule } from 'primeng/accordion';
 import { DatePicker } from "primeng/datepicker";
 import { DividerModule } from 'primeng/divider';
@@ -33,7 +33,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
         CheckboxModule,
         AlimentsTableComponent,
         ConfirmPopupModule,
-        SelectModule, // Adicionar este import
+        SelectModule,
     ],
     providers: [ConfirmationService],
     templateUrl: './meal-panel.section.html',
@@ -44,18 +44,19 @@ export class MealPanelSection {
     private readonly foodService = inject(FoodService);
     private readonly mealService = inject(MealService);
     private readonly notificationService = inject(NotificationService);
+    private readonly confirmationService = inject(ConfirmationService);
 
     // INPUTS / OUTPUTS
     meal = input.required<MealModel>();
-    currentRelativeDate = input.required<string>(); // Novo input
+    currentRelativeDate = input.required<string>();
     closeEditMeal = output<void>();
     saveMeal = output<MealModel>();
-    mealUpdated = output<void>(); // Novo output para notificar atualização
+    mealUpdated = output<void>();
 
     // FORM DATA (Cópia editável)
     editMeal = signal<MealModel | null>(null);
 
-    // CONTROLADORES DE UI (Para o PrimeNG funcionar com Dates vs Strings)
+    // CONTROLADORES DE UI
     formDate = signal<Date | null>(null);
     formEndDate = signal<Date | null>(null);
     formHour = signal<Date | null>(null);
@@ -65,7 +66,7 @@ export class MealPanelSection {
     interval = signal<number>(1);
     selectedDays = signal<number[]>([]);
     selectedMonthDates = signal<Date[]>([]);
-    modalAlimentsVisible = signal<boolean>(false); // Renomear para evitar conflito
+    modalAlimentsVisible = signal<boolean>(false);
 
     // CONFIGURAÇÕES VISUAIS
     showRepeatConfig = signal<boolean>(false);
@@ -74,8 +75,13 @@ export class MealPanelSection {
     editInfos = signal<boolean>(false);
     editRepeatConfig = signal<boolean>(false);
 
-
     checked = signal<string | null>(null);
+
+    // Controle de edição de alimentos
+    editingFoodIndex = signal<number | null>(null);
+    editingQuantity = signal<number>(1);
+    editingPortion = signal<string>('100g');
+    editingQuantityType = signal<'grams' | 'units'>('grams');
 
     weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
     optionRepeatConfiguration = [
@@ -85,61 +91,100 @@ export class MealPanelSection {
         { label: 'Mensalmente', value: 'MONTHLY' },
     ];
 
-
+    optionsTypeQuantity = [
+        { label: 'Gramas (g)', value: 'grams' },
+        { label: 'Unidades', value: 'units' }
+    ];
 
     constructor() {
+        // Effect simplificado - só observa meal() e usa untracked para setar
         effect(() => {
             const originalMeal = this.meal();
 
             if (originalMeal) {
-
-                const copy = MealModel.from(originalMeal);
-                this.editMeal.set(copy);
-
-                this.formDate.set(copy.startDate ? new Date(copy.startDate) : new Date());
-                this.formEndDate.set(copy.endDate ? new Date(copy.endDate) : null);
-                if (copy.hour) {
-                    const [h, m] = copy.hour.split(':').map(Number);
-                    const timeDate = new Date();
-                    timeDate.setHours(h, m, 0);
-                    this.formHour.set(timeDate);
-                }
-
-                const config = copy.repeatConfiguration;
-
-                this.valueRepeat.set(config?.type || 'ONCE');
-                this.interval.set(config?.repeatTarget || 1);
-
-                if (config?.type === 'WEEKLY' && config?.daysOfWeek) {
-                    this.selectedDays.set(config.daysOfWeek);
-                } else {
-                    this.selectedDays.set([]);
-                }
-
-
-                if (config?.type === 'MONTHLY' && config?.daysOfMonth) {
-                    const baseDate = this.minViewDate();
-                    const dates = config.daysOfMonth.map(day => {
-                        return new Date(baseDate.getFullYear(), baseDate.getMonth(), day);
-                    });
-                    this.selectedMonthDates.set(dates);
-                } else {
-                    this.selectedMonthDates.set([new Date(this.minViewDate().getFullYear(), this.minViewDate().getMonth(), 1)]);
-                }
+                // Usa untracked para evitar criar dependência circular
+                untracked(() => {
+                    this.initializeEditMeal(originalMeal);
+                });
             }
         });
-
     }
 
+    private initializeEditMeal(originalMeal: MealModel): void {
+        const copy = MealModel.from(originalMeal);
+        this.editMeal.set(copy);
+
+        this.formDate.set(copy.startDate ? new Date(copy.startDate) : new Date());
+        this.formEndDate.set(copy.endDate ? new Date(copy.endDate) : null);
+
+        if (copy.hour) {
+            const [h, m] = copy.hour.split(':').map(Number);
+            const timeDate = new Date();
+            timeDate.setHours(h, m, 0);
+            this.formHour.set(timeDate);
+        }
+
+        const config = copy.repeatConfiguration;
+        this.valueRepeat.set(config?.type || 'ONCE');
+        this.interval.set(config?.repeatTarget || 1);
+
+        if (config?.type === 'WEEKLY' && config?.daysOfWeek) {
+            this.selectedDays.set(config.daysOfWeek);
+        } else {
+            this.selectedDays.set([]);
+        }
+
+        if (config?.type === 'MONTHLY' && config?.daysOfMonth) {
+            const baseDate = this.minViewDate();
+            const dates = config.daysOfMonth.map(day => {
+                return new Date(baseDate.getFullYear(), baseDate.getMonth(), day);
+            });
+            this.selectedMonthDates.set(dates);
+        } else {
+            this.selectedMonthDates.set([new Date(this.minViewDate().getFullYear(), this.minViewDate().getMonth(), 1)]);
+        }
+    }
 
     ngOnInit() {
     }
 
     foods = computed(() => {
+        return (this.editMeal()?.foods || []).filter((f) =>
+            !f.endDate || f.endDate.split('T')[0] > this.currentRelativeDate().split('T')[0]
+        );
+    });
 
-        return (this.editMeal()?.foods || []).filter((f) => !f.endDate || f.endDate.split('T')[0] > this.currentRelativeDate().split('T')[0]);
-    })
+    editingPortionOptions = computed(() => {
+        const index = this.editingFoodIndex();
+        if (index === null) return [{ label: '100g', value: '100g' }];
 
+        const foodsList = this.foods();
+        if (!foodsList || !foodsList[index]) return [{ label: '100g', value: '100g' }];
+
+        const food = foodsList[index];
+        const aliment = food.aliment;
+
+        if (!aliment || aliment.source === 'taco') {
+            return [{ label: '100g', value: '100g' }];
+        }
+
+        if (!aliment.availablePortions || aliment.availablePortions.length === 0) {
+            return [{ label: '100g', value: '100g' }];
+        }
+
+        return aliment.availablePortions.map((portionName: string) => {
+            const portionData = aliment.portions?.[portionName];
+            const proportion = portionData?.['proportion'] || '100';
+
+            if (portionName === '100g') {
+                return { label: portionName, value: portionName };
+            }
+            return {
+                label: `${portionName} (${proportion}g)`,
+                value: portionName
+            };
+        });
+    });
 
     textFrequency = computed(() => {
         const type = this.valueRepeat();
@@ -266,7 +311,7 @@ export class MealPanelSection {
 
             if (result) {
                 this.saveMeal.emit(currentEdit);
-                this.mealUpdated.emit(); // Emite evento de atualização
+                this.mealUpdated.emit();
             }
         } catch (error) {
             console.error('Error updating meal:', error);
@@ -281,7 +326,6 @@ export class MealPanelSection {
             this.editRepeatConfig.update(edit => !edit);
             return;
         } else {
-
             this.editInfos.update(edit => !edit);
         }
     }
@@ -296,18 +340,15 @@ export class MealPanelSection {
 
     handleCancelEdit(field: string) {
         if (field === 'infos') {
-            // Reseta os dados de informações
             const originalMeal = this.meal();
             this.editMeal.set(MealModel.from(originalMeal));
 
-            // Reseta os campos de formulário
             this.formDate.set(originalMeal.startDate ? new Date(originalMeal.startDate) : null);
             this.formEndDate.set(originalMeal.endDate ? new Date(originalMeal.endDate) : null);
             this.formHour.set(originalMeal.hour ? this.parseHourToDate(originalMeal.hour) : null);
 
             this.editInfos.set(false);
         } else if (field === 'repeat') {
-            // Reseta os dados de repetição
             const originalMeal = this.meal();
             const config = originalMeal.repeatConfiguration;
 
@@ -347,12 +388,10 @@ export class MealPanelSection {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        // Converte o relativeDate para Date
         const [year, month, day] = relativeDate.split('-').map(Number);
         const currentDate = new Date(year, month - 1, day);
         currentDate.setHours(0, 0, 0, 0);
 
-        // Permite editar apenas se a data relativa for hoje ou no futuro
         return currentDate >= today;
     });
 
@@ -366,7 +405,6 @@ export class MealPanelSection {
         const mealStartDate = new Date(meal.startDate);
         mealStartDate.setHours(0, 0, 0, 0);
 
-        // Só pode editar a data de início se ela for maior que hoje
         return mealStartDate > today;
     });
 
@@ -375,60 +413,13 @@ export class MealPanelSection {
     });
 
     async onAlimentAdded() {
-        // Emite evento para o componente pai atualizar o diet plan
         this.mealUpdated.emit();
     }
-
-    private confirmationService = inject(ConfirmationService);
-
-    // Signal para controlar qual alimento está em edição
-    editingFoodIndex = signal<number | null>(null);
-    editingQuantity = signal<number>(1);
-    editingPortion = signal<string>('100g');
-    editingQuantityType = signal<'grams' | 'units'>('grams');
-
-    // Computed para opções de porção do alimento em edição
-    editingPortionOptions = computed(() => {
-        const index = this.editingFoodIndex();
-        if (index === null) return [{ label: '100g', value: '100g' }];
-
-        const foods = this.editMeal()?.foods;
-        if (!foods || !foods[index]) return [{ label: '100g', value: '100g' }];
-
-        const food = foods[index];
-        const aliment = food.aliment;
-
-        if (!aliment || aliment.source === 'taco') {
-            return [{ label: '100g', value: '100g' }];
-        }
-
-        if (!aliment.availablePortions || aliment.availablePortions.length === 0) {
-            return [{ label: '100g', value: '100g' }];
-        }
-
-        return aliment.availablePortions.map((portionName: string) => {
-            const portionData = aliment.portions?.[portionName];
-            const proportion = portionData?.['proportion'] || '100';
-
-            if (portionName === '100g') {
-                return { label: portionName, value: portionName };
-            }
-            return {
-                label: `${portionName} (${proportion}g)`,
-                value: portionName
-            };
-        });
-    });
-
-    optionsTypeQuantity = [
-        { label: 'Gramas (g)', value: 'grams' },
-        { label: 'Unidades', value: 'units' }
-    ];
 
     confirmDeleteFood(event: Event, food: any, index: number): void {
         this.confirmationService.confirm({
             target: event.target as EventTarget,
-            message: `Deseja realmente excluir "${food.aliment.name}"?`,
+            message: `Deseja realmente excluir "${food.aliment?.name || 'este alimento'}"?`,
             icon: 'pi pi-exclamation-triangle',
             acceptLabel: 'Deletar',
             rejectLabel: 'Cancelar',
@@ -442,15 +433,24 @@ export class MealPanelSection {
 
     async deleteFood(foodId: string): Promise<void> {
         try {
-            const response = await this.foodService.deleteFood(foodId)
-            console.log(response);
+            await this.foodService.deleteFood(foodId);
 
-            this.notificationService.add({ severity: 'success', summary: 'Sucesso', detail: 'Alimento removido com sucesso.' });
+            this.notificationService.add({
+                severity: 'success',
+                summary: 'Sucesso',
+                detail: 'Alimento removido com sucesso.'
+            });
 
         } catch (error) {
             console.error('Error deleting food:', error);
+            this.notificationService.add({
+                severity: 'error',
+                summary: 'Erro',
+                detail: 'Erro ao remover alimento.'
+            });
         } finally {
             this.editingFoodIndex.set(null);
+            // Emite para o pai buscar dados atualizados do backend
             this.mealUpdated.emit();
         }
     }
@@ -463,23 +463,17 @@ export class MealPanelSection {
         this.editingFoodIndex.set(index);
         this.editingPortion.set(portion);
 
-        // Determina se é porção 100g (sempre gramas) ou outra porção
         if (portion === '100g') {
-            // Para 100g, o quantity representa múltiplos de 100g
-            // Ex: quantity = 3.5 significa 350g
             const quantityNumber = parseFloat(currentQuantity) || 1;
             this.editingQuantity.set(quantityNumber * 100);
             this.editingQuantityType.set('grams');
         } else {
-            // Para outras porções, verifica se é TACO ou medidas caseiras
             if (aliment?.source === 'taco') {
                 const quantityNumber = parseFloat(currentQuantity) || 1;
                 this.editingQuantity.set(quantityNumber * 100);
                 this.editingQuantityType.set('grams');
             } else {
-                // Medidas caseiras - pode ser gramas ou unidades
                 const quantityNumber = parseFloat(currentQuantity) || 1;
-                // Se quantity for inteiro, provavelmente é unidades
                 if (Number.isInteger(quantityNumber) && quantityNumber <= 10) {
                     this.editingQuantity.set(quantityNumber);
                     this.editingQuantityType.set('units');
@@ -494,7 +488,6 @@ export class MealPanelSection {
     onEditingPortionChange(newPortion: string): void {
         this.editingPortion.set(newPortion);
 
-        // Reset quantity quando muda a porção
         if (newPortion === '100g') {
             this.editingQuantity.set(100);
             this.editingQuantityType.set('grams');
@@ -526,10 +519,8 @@ export class MealPanelSection {
             let quantity: number;
 
             if (portion === '100g' || quantityType === 'grams') {
-                // Converte gramas para múltiplos de 100g
                 quantity = userQuantity / 100;
             } else {
-                // Unidades - mantém o valor direto
                 quantity = userQuantity;
             }
 
@@ -538,8 +529,7 @@ export class MealPanelSection {
                 portion: portion
             };
 
-            const result = await this.foodService.patchFood(this.meal().id, food.id, updateData);
-            console.log(result);
+            await this.foodService.patchFood(this.meal().id, food.id, updateData);
 
             this.notificationService.add({
                 severity: 'success',
@@ -556,6 +546,7 @@ export class MealPanelSection {
             });
         } finally {
             this.editingFoodIndex.set(null);
+            // Emite para o pai buscar dados atualizados do backend
             this.mealUpdated.emit();
         }
     }

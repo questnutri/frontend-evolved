@@ -111,4 +111,19 @@ export class DietService {
             return null;
         }
     }
+
+    async activetDiet(dietId: string): Promise<boolean> {
+        try {
+            const result = await firstValueFrom(
+                this.apiService.authenticated.post<Diet>(
+                    `/diet/${dietId}/activate`,
+                    {}
+                )
+            );
+            return true;
+        } catch (error) {
+            console.error('Error activating diet:', error);
+            return false;
+        }
+    }
 }
