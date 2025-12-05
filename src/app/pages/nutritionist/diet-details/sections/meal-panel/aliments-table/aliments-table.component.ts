@@ -1,9 +1,9 @@
-import { Component, inject, model, input, OnInit, signal, computed, effect } from '@angular/core';
+import { Component, inject, model, input, OnInit, signal, computed, effect, output } from '@angular/core';
 import { Dialog } from "primeng/dialog";
 import { QnTextInputComponent, QnButtonComponent, QnNumberInputComponent } from "@qn/components/basic";
 import { TableLazyLoadEvent, TableModule } from "primeng/table";
 import { Checkbox } from "primeng/checkbox";
-import { AlimentService, FoodService } from '@qn/services';
+import { AlimentService, FoodService, NotificationService } from '@qn/services';
 import { FormsModule } from '@angular/forms';
 import { AlimentModel } from '@qn/models';
 import { CommonModule } from '@angular/common';
@@ -11,23 +11,27 @@ import { SelectModule } from 'primeng/select';
 import { PaginatorModule } from 'primeng/paginator';
 import { QnLabelDirective } from "@qn/directives";
 import { Chip } from "primeng/chip";
+import { DatePicker } from "primeng/datepicker";
 
 @Component({
     selector: 'app-aliments-table',
     templateUrl: './aliments-table.component.html',
     styleUrls: ['./aliments-table.component.scss'],
-    imports: [Dialog, QnTextInputComponent, TableModule, Checkbox, QnButtonComponent, FormsModule, CommonModule, SelectModule, QnNumberInputComponent, PaginatorModule, QnLabelDirective, Chip],
+    imports: [Dialog, QnTextInputComponent, TableModule, Checkbox, QnButtonComponent, FormsModule, CommonModule, SelectModule, QnNumberInputComponent, PaginatorModule, QnLabelDirective, Chip, DatePicker],
 })
 export class AlimentsTableComponent {
     private readonly alimentService = inject(AlimentService);
     private readonly foodService = inject(FoodService);
+    private readonly notificationService = inject(NotificationService);
 
     modalAlimentsVisible = model.required<boolean>();
     mealId = input.required<string>();
+    alimentAdded = output<void>(); // Novo output para notificar que alimento foi adicionado
 
     selectedPortion = signal<string>('100g');
     selectedQuantity = signal<number>(100);
     selectedQuantityType = signal<'grams' | 'units'>('grams');
+    selectedDateRange = signal<Date[] | null>(null);
 
     private readonly placeholderAliment = AlimentModel.from({
         _id: 'placeholder-no-selection',
@@ -61,7 +65,6 @@ export class AlimentsTableComponent {
     constructor() {
         let debounceTimer: any;
 
-        // Effect para busca de alimentos
         effect(() => {
             const query = this.searchAliment();
 
@@ -72,7 +75,6 @@ export class AlimentsTableComponent {
             }, 500);
         });
 
-        // Effect para resetar valores quando alimento é selecionado
         effect(() => {
             const currentAliment = this.alimentSelected()[0];
             if (currentAliment) {
@@ -101,7 +103,6 @@ export class AlimentsTableComponent {
     nutrientsPer100g = computed(() => {
         const aliment = this.alimentSelected()[0];
 
-        // Sempre buscar os valores de 100g
         const portionData = aliment.portions ? aliment.portions['100g'] : null;
 
         if (!portionData) {
@@ -126,12 +127,10 @@ export class AlimentsTableComponent {
 
         if (quantity <= 0) return 0;
 
-        // Se a porção selecionada for 100g, sempre calcula em gramas
         if (portion === '100g') {
             return (valuePerUnit / 100) * quantity;
         }
 
-        // Para outras porções, precisa buscar a proporção
         const portionData = aliment.portions ? aliment.portions[portion] : null;
 
         if (!portionData || !portionData['proportion']) {
@@ -140,13 +139,10 @@ export class AlimentsTableComponent {
 
         const proportion = this.getNumericValue(portionData['proportion']);
 
-        // Se o tipo for 'gramas', calcula direto em gramas
         if (quantityType === 'grams') {
             return (valuePerUnit / 100) * quantity;
         }
 
-        // Se o tipo for 'units', multiplica pela proporção da porção
-        // Ex: Se COL S CH PICADO = 45g, e usuario digita 2 unidades, então 2 * 45g = 90g
         const totalGrams = proportion * quantity;
 
         return (valuePerUnit / 100) * totalGrams;
@@ -260,7 +256,6 @@ export class AlimentsTableComponent {
 
         this.selectedQuantityType.set(newType);
 
-        // Ajusta o valor da quantidade baseado no novo tipo
         if (newType === 'units') {
             this.selectedQuantity.set(1);
         } else if (newType === 'grams') {
@@ -269,17 +264,20 @@ export class AlimentsTableComponent {
     }
 
     onQuantityChange(newQuantity: number | null) {
-        // Garante que nunca seja menor que 0.1 e permite decimais
         const validQuantity = Math.max(0.1, newQuantity ?? 0.1);
         this.selectedQuantity.set(validQuantity);
     }
 
-    addAlimentToMeal() {
+    async addAlimentToMeal() {
         const selectedAliment = this.alimentSelected()[0];
 
         // Validação
         if (!selectedAliment || selectedAliment._id === 'placeholder-no-selection') {
-            console.error('Nenhum alimento selecionado');
+            this.notificationService.add({
+                severity: 'error',
+                summary: 'Erro',
+                detail: 'Nenhum alimento selecionado'
+            });
             return;
         }
 
@@ -287,29 +285,58 @@ export class AlimentsTableComponent {
         const quantityType = this.selectedQuantityType();
         const userQuantity = this.selectedQuantity();
 
+        const dateRange = this.selectedDateRange();
         let quantity: number;
 
-        // Se for 100g ou tipo gramas, divide por 100
         if (portion === '100g' || quantityType === 'grams') {
             quantity = userQuantity / 100;
         } else {
-            // Se for unidades, usa o valor direto
             quantity = userQuantity;
         }
 
-        const payload = {
-            mealId: this.mealId(),
-            alimentId: selectedAliment._id,
-            quantity: quantity.toString(),
-            portion: portion,
-            description: '' // Pode adicionar um campo de descrição no formulário se necessário
-        };
+        const startDate = dateRange?.[0] ? dateRange[0].toISOString() : null;
+        const endDate = dateRange?.[1] ? dateRange[1].toISOString() : null;
 
-        this.foodService.postFood(payload);
+        try {
+            const foodData = {
+                mealId: this.mealId(),
+                alimentId: selectedAliment._id,
+                quantity: quantity.toString(),
+                portion: portion,
+                description: '',
+                startDate: startDate,
+                endDate: endDate
+            };
 
-        console.log('Payload para enviar ao backend:', payload);
+            await this.foodService.postFood(foodData);
 
+            // Reseta os campos
+            this.alimentSelected.set([this.placeholderAliment]);
+            this.selectedDateRange.set(null);
+            this.selectedQuantity.set(100);
+            this.selectedQuantityType.set('grams');
+            this.selectedPortion.set('100g');
 
-        return payload;
+            // Fecha o modal
+            this.modalAlimentsVisible.set(false);
+
+            // Notifica sucesso
+            this.notificationService.add({
+                severity: 'success',
+                summary: 'Sucesso',
+                detail: 'Alimento adicionado com sucesso!'
+            });
+
+            // Emite evento para atualizar a meal
+            this.alimentAdded.emit();
+
+        } catch (error) {
+            console.error('Erro ao adicionar alimento:', error);
+            this.notificationService.add({
+                severity: 'error',
+                summary: 'Erro',
+                detail: 'Erro ao adicionar alimento'
+            });
+        }
     }
 }

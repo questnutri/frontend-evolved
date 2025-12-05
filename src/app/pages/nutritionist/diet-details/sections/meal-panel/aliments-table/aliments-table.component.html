@@ -216,6 +216,22 @@
                                         class="quantity-input"
                                     />
                                 </div>
+
+                                <div class="date-range-wrapper">
+                                    <label class="control-label">
+                                        <i class="pi pi-calendar"></i>
+                                        Período
+                                    </label>
+                                    <p-datepicker
+                                        [(ngModel)]="selectedDateRange"
+                                        selectionMode="range"
+                                        [showIcon]="true"
+                                        dateFormat="dd/mm/yy"
+                                        placeholder="Selecione o período"
+                                        class="date-range-picker"
+                                        [readonlyInput]="true"
+                                    />
+                                </div>
                             </div>
                         </div>
 

@@ -32,7 +32,6 @@ export class FoodModel implements Food, Calculable {
         } catch (error) {
             console.error(error)
         }
-        console.log('model', model);
 
         return model;
     }

@@ -15,7 +15,7 @@
             [qnLabelStyle]="{
                     color: 'var(--primary-font-color)'
                 }"
-            [disabled]="!editInfos()"
+            [disabled]="!editInfos() || !canEditMeal()"
         />
         <p-datepicker
             inputId="calendar-timeonly"
@@ -28,7 +28,7 @@
             [qnLabelStyle]="{
                     color: 'var(--primary-font-color)'
                 }"
-            [disabled]="!editInfos()"
+            [disabled]="!editInfos() || !canEditMeal()"
         />
     </div>
 
@@ -39,7 +39,7 @@
                 color: 'var(--primary-font-color)'
             }"
         placeholder="Nenhuma descrição adicionada"
-        [disabled]="!editInfos()"
+        [disabled]="!editInfos() || !canEditMeal()"
     />
     <div class="meal-infos-content">
         <p-datepicker
@@ -50,10 +50,10 @@
             class="day-picker"
             qnLabel="Data de Início"
             [qnLabelStyle]="{
-                    color: 'var(--primary-font-color)'
-                }"
+            color: 'var(--primary-font-color)'
+        }"
             [autofocus]="false"
-            [disabled]="!editInfos()"
+            [disabled]="!editInfos() || !canEditMeal() || !canEditStartDate()"
         />
         <p-datepicker
             [(ngModel)]="formEndDate"
@@ -65,29 +65,50 @@
             qnLabel="Data Fim"
             [autofocus]="false"
             [qnLabelStyle]="{
-                    color: 'var(--primary-font-color)'
-                }"
-            [disabled]="!editInfos()"
+            color: 'var(--primary-font-color)'
+        }"
+            [disabled]="!editInfos() || !canEditMeal()"
         />
     </div>
 
-    @if (editInfos()){
-    <div style="width: fit-content; margin-left: auto">
+    @if (canEditMeal()) { @if(editInfos()){
+    <div
+        style="
+            display: flex;
+            gap: 0.5rem;
+            width: fit-content;
+            margin-left: auto;
+        "
+    >
+        <qn-button
+            label="Cancelar"
+            icon="pi pi-times"
+            class="cancel-btn"
+            (click)="handleCancelEdit('infos')"
+            colorStyle="gray"
+        />
         <qn-button
             label="Salvar"
             icon="pi pi-check"
             class="save-repeat-btn close-edit-btn"
-            (click)="handleSave()"
+            (click)="handleSave(true, false)"
         />
     </div>
     }@else{
-    <qn-button
-        label="Editar"
-        icon="pi pi-pencil"
-        class="save-repeat-btn close-edit-btn"
-        (click)="handleClickEditInfo()"
-        colorStyle="gray"
-    />
+    <div style="width: fit-content; margin-left: auto">
+        <qn-button
+            label="Editar"
+            icon="pi pi-pencil"
+            class="save-repeat-btn close-edit-btn"
+            (click)="handleClickEdit('infos')"
+            colorStyle="gray"
+        />
+    </div>
+    } }@else {
+    <div class="warning-message" style="margin-top: 0.5rem">
+        <i class="pi pi-exclamation-triangle"></i>
+        <span>Não é possível editar refeições de datas passadas.</span>
+    </div>
     }
 </div>
 
@@ -131,9 +152,10 @@
                         class="frequency-select"
                         qnLabel="Repetir"
                         style="width: 100%"
+                        [disabled]="!editRepeatConfig() || !canEditMeal()"
                         [qnLabelStyle]="{
-                    color: 'var(--primary-font-color)'
-                }"
+        color: 'var(--primary-font-color)'
+    }"
                     />
 
                     @if (valueRepeat() !== 'ONCE') {
@@ -145,6 +167,7 @@
                                 [max]="52"
                                 [(value)]="interval"
                                 class="interval-input"
+                                [disabled]="!editRepeatConfig() || !canEditMeal()"
                             />
                             <span class="suffix"
                                 >{{ textFrequency().value2 }}</span
@@ -162,10 +185,12 @@
                         <div
                             (click)="toggleDayOfWeeks(i)"
                             [class.active]="selectedDays().includes(i)"
+                            [class.disabled]="!editRepeatConfig() || !canEditMeal()"
                             class="day-item"
                             role="button"
                             tabindex="0"
                             [attr.aria-pressed]="selectedDays().includes(i)"
+                            [attr.aria-disabled]="!editRepeatConfig() || !canEditMeal()"
                         >
                             {{ day }}
                         </div>
@@ -185,9 +210,41 @@
                         dateFormat="dd"
                         [minDate]="minViewDate()"
                         [maxDate]="maxViewDate()"
+                        [disabled]="!editRepeatConfig() || !canEditMeal()"
                     />
                 </div>
-                }
+                } @if (canEditMeal()) { @if (editRepeatConfig()){
+                <div
+                    style="
+                        display: flex;
+                        gap: 0.5rem;
+                        width: fit-content;
+                        margin-left: auto;
+                    "
+                >
+                    <qn-button
+                        label="Cancelar"
+                        icon="pi pi-times"
+                        class="cancel-btn"
+                        (click)="handleCancelEdit('repeat')"
+                        colorStyle="gray"
+                    />
+                    <qn-button
+                        label="Salvar"
+                        icon="pi pi-check"
+                        class="save-repeat-btn close-edit-btn"
+                        (click)="handleSave(false, true)"
+                    />
+                </div>
+                }@else{
+                <qn-button
+                    label="Editar"
+                    icon="pi pi-pencil"
+                    class="save-repeat-btn close-edit-btn"
+                    (click)="handleClickEdit('repeat')"
+                    colorStyle="gray"
+                />
+                } }
             </div>
         </p-accordion-content>
     </p-accordion-panel>
@@ -203,7 +260,6 @@
                 </div>
                 <div class="summary-repeat-configuration">
                     <span class="text-summary">
-                        <!-- Exemplo de resumo: Quantidade de itens ou calorias totais -->
                         {{ editMeal()?.foods?.length || 0 }} item(s)
                         adicionado(s)
                     </span>
@@ -211,66 +267,65 @@
             </div>
         </p-accordion-header>
         <p-accordion-content>
-            <div class="foods-content-wrapper">
-                @if (editMeal()?.foods?.length) {
-                <div class="foods-list">
-                    @for (food of editMeal()?.foods; track $index) {
-                    <div class="food-card">
-                        <div class="food-info">
-                            <span class="food-name"
-                                >{{ food.aliment.name}}</span
-                            >
-                            <div class="food-details">
-                                <span class="food-quantity">
-                                    {{calculateTotalPortion(food.portion,
-                                    food.quantity)}}
-                                </span>
-
-                                <span class="food-macro"
-                                    >Kcal:
-                                    {{food.getTotal('kcal').toFixed(0)}}</span
-                                >
-                                <span class="food-macro"
-                                    >Carboidratos:
-                                    {{food.getTotal('carb').toFixed(0)}}g
-                                </span>
-                                <span class="food-macro"
-                                    >Proteínas:
-                                    {{food.getTotal('protein').toFixed(0)}}g
-                                </span>
-                                <span class="food-macro"
-                                    >Gorduras:
-                                    {{food.getTotal('fat').toFixed(0)}}g</span
-                                >
-                            </div>
-                        </div>
-                        <div class="food-actions">
-                            <button class="icon-btn edit">
-                                <i class="pi pi-pencil"></i>
-                            </button>
-                            <button class="icon-btn delete">
-                                <i class="pi pi-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                    }
-                </div>
-                } @else { -->
-                <!-- ESTADO VAZIO -->
-                <div class="empty-state">
-                    <i class="pi pi-apple empty-icon"></i>
-                    <span>Nenhum alimento adicionado ainda.</span>
-                </div>
-                }
-
-                <!-- BOTÃO ADICIONAR -->
+            <div class="foods-panel-wrapper">
                 <div class="add-food-action">
                     <qn-button
                         label="Adicionar Alimento"
                         icon="pi pi-plus"
                         class="w-full"
                         (click)="showModalNewDiet()"
+                        [disabled]="!canEditMeal()"
                     />
+                </div>
+                <div class="foods-content-wrapper">
+                    @if (editMeal()?.foods?.length) {
+                    <div class="foods-list">
+                        @for (food of editMeal()?.foods; track $index) {
+                        <div class="food-card">
+                            <div class="food-info">
+                                <span class="food-name"
+                                    >{{ food.aliment.name }}</span
+                                >
+                                <div class="food-details">
+                                    <span class="food-quantity">
+                                        {{calculateTotalPortion(food.portion,
+                                        food.quantity)}}
+                                    </span>
+                                    <span class="food-macro"
+                                        >Kcal:
+                                        {{food.getTotal('kcal').toFixed(0)}}</span
+                                    >
+                                    <span class="food-macro"
+                                        >Carboidratos:
+                                        {{food.getTotal('carb').toFixed(0)}}g</span
+                                    >
+                                    <span class="food-macro"
+                                        >Proteínas:
+                                        {{food.getTotal('protein').toFixed(0)}}g</span
+                                    >
+                                    <span class="food-macro"
+                                        >Gorduras:
+                                        {{food.getTotal('fat').toFixed(0)}}g</span
+                                    >
+                                </div>
+                            </div>
+                            <div class="food-actions">
+                                <button class="icon-btn edit">
+                                    <i class="pi pi-pencil"></i>
+                                </button>
+                                <button class="icon-btn delete">
+                                    <i class="pi pi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                    } @else {
+                    <div class="empty-state">
+                        <i class="pi pi-apple empty-icon"></i>
+                        <span>Nenhum alimento adicionado ainda.</span>
+                    </div>
+                    }
                 </div>
             </div>
         </p-accordion-content>
@@ -280,5 +335,6 @@
 <app-aliments-table
     [(modalAlimentsVisible)]="modalAlimentsVisible"
     [mealId]="editMeal()?.id || ''"
+    (alimentAdded)="onAlimentAdded()"
 />
 }

@@ -24,7 +24,6 @@ export class NutritionistPatientInfoSection {
             if (this.patientId()) {
                 const foundPatient = await this.patientService.getById(this.patientId());
                 this.patient.set(foundPatient);
-                console.log(foundPatient);
 
             }
         })

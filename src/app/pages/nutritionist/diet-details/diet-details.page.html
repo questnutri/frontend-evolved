@@ -19,10 +19,10 @@
                 [(ngModel)]="date"
                 (onMonthChange)="doOnMonthChange($event)"
                 [selectOtherMonths]="true"
-                [minDate]="dietStartDate()"
-                [maxDate]="dietEndDate()"
                 class="date"
                 [showIcon]="deviceService.isMobileSize()"
+                [minDate]="dietStartDate()"
+                [maxDate]="dietEndDate()"
                 fluid
             >
                 <ng-template pTemplate="header" let-api="api">
@@ -56,16 +56,33 @@
         [ngClass]="{'edit-open': editingMeal()}"
     >
         <div class="diet-details-content">
-            <div class="diet-details-content-header">
-                <span class="diet-details-content-header-date"
-                    >{{ dateFormat() }}</span
-                >
-                <div class="diet-details-content-header-total-kcals">
-                    <span>Total</span>
-                    <span class="diet-details-content-header-total-kcals-value">
-                        {{ totalKcalMealsRelativeDate() }} kcal
-                    </span>
+            <div
+                style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0 1rem;
+                "
+            >
+                <div class="diet-details-content-header">
+                    <span class="diet-details-content-header-date"
+                        >{{ dateFormat() }}</span
+                    >
+                    <div class="diet-details-content-header-total-kcals">
+                        <span>Total</span>
+                        <span
+                            class="diet-details-content-header-total-kcals-value"
+                        >
+                            {{ totalKcalMealsRelativeDate() }} kcal
+                        </span>
+                    </div>
                 </div>
+                <qn-button
+                    label="Adicionar Refeição"
+                    icon="pi pi-plus"
+                    class="add-meal-button"
+                    (click)="showModalNewDiet()"
+                ></qn-button>
             </div>
             <div class="diet-details-content-meals-list">
                 @if (mealsDietRelativeDate().length > 0) { @for (meal of
@@ -82,11 +99,68 @@
         @if(editingMeal()) {
         <div class="edit-meal" [ngClass]="{visible: editingMeal()}">
             <app-meal-panel
-                (closeEditMeal)="closeEditMeal()"
                 [meal]="editingMeal()!"
+                [currentRelativeDate]="currentRelativeDate()"
+                (closeEditMeal)="closeEditMeal()"
+                (mealUpdated)="onMealUpdated()"
             />
         </div>
         }
     </div>
     }
 </div>
+<p-dialog
+    header="Nova Refeição"
+    [(visible)]="visible"
+    [modal]="true"
+    [closeOnEscape]="true"
+    [dismissableMask]="true"
+    [contentStyle]="{ padding: '0' }"
+    class="simple-new-diet-dialog"
+    appendTo="body"
+>
+    <div class="dialog-content">
+        <qn-text-input
+            qnLabel="Nome da Refeição"
+            placeholder="Ex: Almoço"
+            [(value)]="mealName"
+            [qnLabelStyle]="{
+                color: 'var(--primary-font-color)'
+            }"
+        />
+
+        <qn-text-input
+            qnLabel="Descrição (opcional)"
+            placeholder="Ex: Refeição rica em proteínas"
+            [(value)]="mealDescription"
+            [qnLabelStyle]="{
+                color: 'var(--primary-font-color)'
+            }"
+        />
+
+        <p-datepicker
+            inputId="calendar-timeonly"
+            [timeOnly]="true"
+            qnLabel="Hora"
+            style="align-self: flex-end; width: 100%"
+            class="day-picker"
+            [autofocus]="false"
+            [qnLabelStyle]="{
+                color: 'var(--primary-font-color)'
+            }"
+            [appendTo]="'body'"
+            [(ngModel)]="formHour"
+        />
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="dialog-footer">
+            <qn-button
+                label="Cancelar"
+                (click)="visible.set(false)"
+                colorStyle="gray"
+            />
+            <qn-button label="Criar Refeição" (click)="addMeal()" />
+        </div>
+    </ng-template>
+</p-dialog>

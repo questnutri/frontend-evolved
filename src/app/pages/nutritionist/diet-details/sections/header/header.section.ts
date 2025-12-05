@@ -53,9 +53,9 @@ export class PatientDietDetailsHeaderSection {
             if (diet.status === 'DEFINITION' && dietStart.getTime() < todayNormalized.getTime()) {
                 this.startDate.set(todayNormalized);
                 this.endDate.set(dietEnd);
-
                 this.patchDietDates(todayNormalized, dietEnd);
-            } else {
+            }
+            else {
                 this.startDate.set(dietStart);
                 this.endDate.set(dietEnd);
             }
@@ -64,7 +64,10 @@ export class PatientDietDetailsHeaderSection {
     }
 
     minDateStartPicker = computed(() => {
-        return this.getMidnight(new Date());
+        if (this.diet().status === 'DEFINITION') {
+            return this.getMidnight(new Date());
+        }
+        return this.startDate();
     });
 
     maxDateStartPicker = computed(() => {
@@ -166,4 +169,6 @@ export class PatientDietDetailsHeaderSection {
         d.setHours(0, 0, 0, 0);
         return d;
     }
+
+    //TODO: FIX THE STARTDATE OF DIET
 }
